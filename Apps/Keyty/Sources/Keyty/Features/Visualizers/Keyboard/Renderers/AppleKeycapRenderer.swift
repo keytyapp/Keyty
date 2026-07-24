@@ -44,17 +44,6 @@ struct AppleKeycapRenderer: KeycapRendering {
         path.lineWidth = StrokeWidth.standard
         path.stroke()
 
-        if !item.isPressed {
-            let highlightRect = NSRect(
-                x: keycapRect.minX + 4,
-                y: keycapRect.maxY - 2,
-                width: keycapRect.width - 8,
-                height: 1
-            )
-            NSColor(white: 1, alpha: 0.08).setFill()
-            NSBezierPath(rect: highlightRect).fill()
-        }
-
         legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
     }
 }

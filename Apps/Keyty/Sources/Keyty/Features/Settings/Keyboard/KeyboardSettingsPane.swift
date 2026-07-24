@@ -348,8 +348,7 @@ struct KeyboardSettingsPane: View {
                 .tag(KeyboardVisualizerStackAxis.horizontal)
         }
         .labelsHidden()
-        .pickerStyle(.segmented)
-        .frame(width: Spacing.grid(34))
+        .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
     }
 
 }

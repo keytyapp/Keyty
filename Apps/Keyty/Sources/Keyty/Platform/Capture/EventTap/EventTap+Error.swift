@@ -16,15 +16,9 @@ extension EventTap {
         var errorDescription: String? {
             switch self {
             case .keyTapCreationFailed:
-                return NSLocalizedString(
-                    "Could not create key event tap. Accessibility permission is required.",
-                    comment: "Shown when the key event tap cannot be installed"
-                )
+                return L10n.EventTap.keyTapCreationFailed
             case .mouseAndFlagsTapCreationFailed:
-                return NSLocalizedString(
-                    "Could not create mouse and modifiers event tap.",
-                    comment: "Shown when the mouse/flags event tap cannot be installed"
-                )
+                return L10n.EventTap.mouseAndFlagsTapCreationFailed
             }
         }
     }

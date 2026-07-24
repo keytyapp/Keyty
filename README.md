@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://github.com/esphynox/Keyty">
+  <a href="https://keyty.app">
     <img src="Assets/Application/AppIcon/AppIcon.png" alt="Keyty app logo" width="128">
     <br />
     <strong>Keyty</strong>

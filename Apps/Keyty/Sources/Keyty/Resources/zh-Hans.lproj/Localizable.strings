@@ -1,0 +1,229 @@
+/* Main menu */
+"main_menu.about" = "关于 %@";
+"main_menu.settings" = "设置…";
+"main_menu.quit" = "退出 %@";
+
+/* About window */
+"about.version" = "版本 %@（%@）";
+"about.tab.license" = "许可证";
+"about.tab.contributors" = "贡献者";
+"about.tab.credits" = "致谢";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3-Clause 许可证";
+"about.contributors.title" = "贡献者";
+"about.contributors.subtitle" = "帮助改进 Keyty 的贡献者。";
+"about.credits.sparkle_subtitle" = "MIT 许可证";
+"about.credits.app_mover_subtitle" = "MIT 许可证";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "无法加载许可证文本。";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "设置";
+"settings.sidebar_version" = "版本 %@（%@）";
+"settings.pane.general" = "通用";
+"settings.pane.keyboard" = "键盘";
+"settings.pane.mouse" = "鼠标";
+"settings.pane.displays" = "显示器";
+"settings.pane.permissions" = "权限";
+"settings.pane.update" = "更新";
+"settings.pane.info" = "信息";
+
+/* Anchor labels */
+"anchor.left" = "左侧";
+"anchor.center" = "居中";
+"anchor.right" = "右侧";
+"anchor.top" = "顶部";
+"anchor.vertical_center" = "居中";
+"anchor.bottom" = "底部";
+
+/* Displays settings pane */
+"displays.display_label" = "显示器";
+"displays.display_subtitle" = "用于显示键盘叠加层的显示器";
+"displays.anchor_label" = "锚点";
+"displays.anchor_subtitle" = "键盘叠加层的锚点位置";
+"displays.margin_label" = "屏幕边距";
+"displays.margin_subtitle" = "叠加层与所选屏幕边缘之间的距离。";
+
+/* General settings pane */
+"general.appearance_section_title" = "应用";
+"general.shortcut_section_title" = "快捷键";
+"general.toggle_capturing_label" = "切换输入显示";
+"general.toggle_capturing_subtitle" = "用于在任意位置开始或停止输入显示的全局快捷键。";
+"general.shortcut_validation_fallback" = "无法使用此快捷键。";
+"general.start_capturing" = "启用";
+"general.stop_capturing" = "停用";
+"general.show_settings_at_launch" = "启动时显示设置";
+"general.show_settings_at_launch_subtitle" = "Keyty 启动时自动重新打开设置窗口。";
+
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "无法开始监测键盘输入。需要“辅助功能”权限。";
+"event_tap.mouse_and_flags_tap_creation_failed" = "无法开始监测鼠标和修饰键输入。";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "网站";
+"info.email_label" = "电子邮件";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "实时预览";
+"keyboard_visualizer.live_overlay_section_subtitle" = "此预览使用当前的键盘可视化设置进行实际渲染。";
+"keyboard_visualizer.style_section_title" = "样式";
+"keyboard_visualizer.style_section_subtitle" = "选择按键的整体结构和表面效果。";
+"keyboard_visualizer.theme_section_title" = "主题";
+"keyboard_visualizer.theme_section_subtitle" = "为每种按键类型设置专属的调色板。";
+"keyboard_visualizer.layout_section_title" = "布局";
+"keyboard_visualizer.layout_section_subtitle" = "设置屏幕锚点以及叠加层占用的空间。";
+"keyboard_visualizer.history_section_title" = "历史记录";
+"keyboard_visualizer.history_section_subtitle" = "设置可见按键的数量以及连续按键组的堆叠方式。";
+"keyboard_visualizer.timing_section_title" = "时间";
+"keyboard_visualizer.timing_section_subtitle" = "设置按键保持可见的时间和淡出的速度。";
+"keyboard_visualizer.filter_section_title" = "筛选";
+"keyboard_visualizer.filter_section_subtitle" = "选择要在叠加层中显示的键盘事件。";
+"keyboard_visualizer.axis_label" = "方向";
+"keyboard_visualizer.axis_subtitle" = "连续按键组的堆叠方向。";
+"keyboard_visualizer.anchor_label" = "位置";
+"keyboard_visualizer.anchor_subtitle" = "叠加层固定到的屏幕边缘。";
+"keyboard_visualizer.axis.vertical" = "垂直";
+"keyboard_visualizer.axis.horizontal" = "水平";
+"keyboard_visualizer.max_count_label" = "最大数量";
+"keyboard_visualizer.max_count_subtitle" = "堆叠中可见按键的最大数量。";
+"keyboard_visualizer.size_label" = "大小";
+"keyboard_visualizer.size_subtitle" = "所渲染按键的整体缩放比例。";
+"keyboard_visualizer.style_label" = "样式";
+"keyboard_visualizer.style_subtitle" = "按键的整体结构和表面效果。";
+"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "极简";
+"keyboard_visualizer.style.retro" = "复古";
+"keyboard_visualizer.linger_time_label" = "显示时间";
+"keyboard_visualizer.linger_time_subtitle" = "按键在淡出前保持完全可见的时间。";
+"keyboard_visualizer.linger_time.short" = "短";
+"keyboard_visualizer.linger_time.long" = "长";
+"keyboard_visualizer.fade_duration_label" = "淡出时长";
+"keyboard_visualizer.fade_duration_subtitle" = "按键开始淡出后的消失速度。";
+"keyboard_visualizer.fade_duration.fast" = "快";
+"keyboard_visualizer.fade_duration.slow" = "慢";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "仅显示组合键";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "仅显示与 Command、Control、Option 或 Shift 同时按下的按键。";
+"keyboard_visualizer.show_special_keys_label" = "特殊按键";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab、Return、箭头、fn、功能键及类似按键。";
+"keyboard_visualizer.show_media_key_buttons_label" = "媒体按键";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "播放、音量、亮度及类似的媒体按键。";
+"keyboard_visualizer.show_mouse_events_label" = "鼠标事件";
+"keyboard_visualizer.show_mouse_events_subtitle" = "鼠标点击和滚轮事件。";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "主题";
+"keyboard_visualizer.theme_subtitle" = "应用于所选按键样式的调色板。";
+"keyboard_visualizer.legend_color_label" = "标识颜色";
+"keyboard_visualizer.legend_color_subtitle" = "按键上的文本、符号和鼠标图标所使用的颜色。";
+"keyboard_visualizer.choose_color" = "选择颜色…";
+"keyboard_visualizer.theme_custom" = "自定义…";
+"keyboard_visualizer.regular_theme_label" = "普通按键";
+"keyboard_visualizer.regular_theme_subtitle" = "字母、数字和其他文本按键的主题。";
+"keyboard_visualizer.modifier_theme_label" = "修饰键";
+"keyboard_visualizer.modifier_theme_subtitle" = "Command、Shift、Option、Control 和 fn 的主题。";
+"keyboard_visualizer.special_theme_label" = "特殊按键";
+"keyboard_visualizer.special_theme_subtitle" = "Tab、Return、箭头、功能键及其他非文本按键的主题。";
+"keyboard_visualizer.media_theme_label" = "媒体按键";
+"keyboard_visualizer.media_theme_subtitle" = "播放和亮度控制按键的主题。";
+"keyboard_visualizer.mouse_theme_label" = "鼠标事件";
+"keyboard_visualizer.mouse_theme_subtitle" = "鼠标点击和滚轮事件的主题。";
+"keyboard_visualizer.group_background_theme_label" = "按键组背景";
+"keyboard_visualizer.group_background_theme_subtitle" = "每组按键背后面板的主题。";
+"keyboard_visualizer.theme.citrus" = "柑橘";
+"keyboard_visualizer.theme.blue" = "蓝色";
+"keyboard_visualizer.theme.green" = "绿色";
+"keyboard_visualizer.theme.white" = "白色";
+"keyboard_visualizer.theme.dark" = "深色";
+"keyboard_visualizer.theme.red" = "红色";
+"keyboard_visualizer.theme.indigo" = "靛蓝色";
+"keyboard_visualizer.theme.rose" = "玫瑰色";
+"keyboard_visualizer.theme.purple" = "紫色";
+"keyboard_visualizer.theme.yellow" = "黄色";
+"keyboard_visualizer.theme.orange" = "橙色";
+"keyboard_visualizer.theme.pink" = "粉色";
+"keyboard_visualizer.color.automatic" = "自动";
+"keyboard_visualizer.color.red" = "红色";
+"keyboard_visualizer.color.orange" = "橙色";
+"keyboard_visualizer.color.yellow" = "黄色";
+"keyboard_visualizer.color.green" = "绿色";
+"keyboard_visualizer.color.blue" = "蓝色";
+"keyboard_visualizer.color.purple" = "紫色";
+"keyboard_visualizer.color.pink" = "粉色";
+"keyboard_visualizer.color.white" = "白色";
+"keyboard_visualizer.color.black" = "黑色";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "圆环";
+"mouse.tab_icon" = "图标";
+"mouse.pointer_ring_label" = "指针圆环";
+"mouse.enabled" = "启用";
+"mouse.enabled_subtitle" = "指针圆环的可见状态。";
+"mouse.always_visible_label" = "始终显示";
+"mouse.always_visible_subtitle" = "指针闲置时圆环仍保持可见。";
+"mouse.ring_color_label" = "颜色";
+"mouse.ring_color_subtitle" = "指针圆环的预设或自定义颜色。";
+"mouse.ring_size_label" = "大小";
+"mouse.ring_size_subtitle" = "指针圆环的直径。";
+"mouse.ring_thickness_label" = "粗细";
+"mouse.ring_thickness_subtitle" = "指针圆环的线条粗细。";
+"mouse.ring_shape_label" = "形状";
+"mouse.ring_shape_subtitle" = "指针圆环的轮廓形状。";
+"mouse.pointer_icon_label" = "指针图标";
+"mouse.pointer_icon_enabled" = "启用";
+"mouse.pointer_icon_enabled_subtitle" = "指针图标叠加层的可见状态。";
+"mouse.pointer_icon_always_visible_label" = "始终显示";
+"mouse.pointer_icon_always_visible_subtitle" = "未按下鼠标按钮时图标仍保持可见。";
+"mouse.pointer_icon_anchor_label" = "锚点";
+"mouse.pointer_icon_anchor_subtitle" = "用作图标锚点的指针边缘。";
+"mouse.pointer_icon_offset_label" = "偏移";
+"mouse.pointer_icon_offset_subtitle" = "指针与图标叠加层之间的距离。";
+"mouse.icon_size_label" = "图标大小";
+"mouse.icon_size_subtitle" = "指针图标叠加层的缩放比例。";
+"mouse.icon_background_label" = "背景颜色";
+"mouse.icon_background_subtitle" = "指针图标背后的填充颜色。";
+"mouse.icon_tint_label" = "图标颜色";
+"mouse.icon_tint_subtitle" = "指针图标的前景颜色。";
+"mouse.choose_color" = "选择颜色…";
+"mouse.color.automatic" = "自动";
+"mouse.color.red" = "红色";
+"mouse.color.orange" = "橙色";
+"mouse.color.yellow" = "黄色";
+"mouse.color.green" = "绿色";
+"mouse.color.blue" = "蓝色";
+"mouse.color.purple" = "紫色";
+"mouse.color.pink" = "粉色";
+"mouse.color.graphite" = "石墨色";
+"mouse.color.white" = "白色";
+"mouse.color.black" = "黑色";
+"mouse.shape.circle" = "圆形";
+"mouse.shape.rhomb" = "菱形";
+"mouse.shape.squircle" = "圆角方形";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "辅助功能";
+"permissions.section_subtitle" = "Keyty 需要“辅助功能”权限才能监测并显示输入事件。";
+"permissions.status.granted" = "已授权";
+"permissions.status.not_granted" = "未授权";
+"permissions.grant_access_button" = "授权…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "设置 Keyty";
+"permissions_onboarding.subtitle" = "要启用键盘和鼠标可视化，\n请授予 macOS“辅助功能”权限。";
+"permissions_onboarding.accessibility.title" = "辅助功能";
+"permissions_onboarding.accessibility.detail" = "用于显示键盘和鼠标输入。";
+"permissions_onboarding.accessibility.grant_button" = "授权…";
+"permissions_onboarding.privacy" = "所有输入都在本机 Mac 上处理，不会上传或存储任何内容。";
+"permissions_onboarding.learn_more" = "了解更多";
+"permissions_onboarding.continue" = "继续";
+"permissions_onboarding.continue_hint" = "授予“辅助功能”权限后继续。";
+
+/* Update settings pane */
+"update.check_at_startup" = "启动时检查更新";
+"update.check_at_startup_subtitle" = "Sparkle 将定期检查新版本。";
+"update.include_system_profile" = "包含匿名系统概况";
+"update.include_system_profile_subtitle" = "检查更新时发送基本的硬件概况。";
+"update.last_checked_label" = "上次检查";
+"update.never" = "从不";
+"update.check_now_button" = "检查更新";

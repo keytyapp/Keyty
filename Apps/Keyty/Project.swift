@@ -171,7 +171,7 @@ let project = Project(
     name: "Keyty",
     organizationName: "Keyty",
     options: .options(
-        defaultKnownRegions: ["de", "en", "es", "uk"],
+        defaultKnownRegions: ["de", "en", "es", "ja", "uk"],
         developmentRegion: "en"
     ),
     packages: [

@@ -1,0 +1,229 @@
+/* Main menu */
+"main_menu.about" = "%@について";
+"main_menu.settings" = "設定…";
+"main_menu.quit" = "%@を終了";
+
+/* About window */
+"about.version" = "バージョン%@（%@）";
+"about.tab.license" = "ライセンス";
+"about.tab.contributors" = "貢献者";
+"about.tab.credits" = "クレジット";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3条項ライセンス";
+"about.contributors.title" = "貢献者";
+"about.contributors.subtitle" = "Keytyの改善に貢献した方々です。";
+"about.credits.sparkle_subtitle" = "MITライセンス";
+"about.credits.app_mover_subtitle" = "MITライセンス";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "ライセンス本文を読み込めませんでした。";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "設定";
+"settings.sidebar_version" = "バージョン%@（%@）";
+"settings.pane.general" = "一般";
+"settings.pane.keyboard" = "キーボード";
+"settings.pane.mouse" = "マウス";
+"settings.pane.displays" = "ディスプレイ";
+"settings.pane.permissions" = "アクセス権";
+"settings.pane.update" = "アップデート";
+"settings.pane.info" = "情報";
+
+/* Anchor labels */
+"anchor.left" = "左";
+"anchor.center" = "中央";
+"anchor.right" = "右";
+"anchor.top" = "上";
+"anchor.vertical_center" = "中央";
+"anchor.bottom" = "下";
+
+/* Displays settings pane */
+"displays.display_label" = "ディスプレイ";
+"displays.display_subtitle" = "キーボードオーバーレイを表示するディスプレイ";
+"displays.anchor_label" = "基準位置";
+"displays.anchor_subtitle" = "キーボードオーバーレイの基準位置";
+"displays.margin_label" = "画面端からの余白";
+"displays.margin_subtitle" = "オーバーレイと選択した画面端との間隔です。";
+
+/* General settings pane */
+"general.appearance_section_title" = "アプリ";
+"general.shortcut_section_title" = "ショートカット";
+"general.toggle_capturing_label" = "入力表示の切り替え";
+"general.toggle_capturing_subtitle" = "どこからでも入力表示を開始または停止できるグローバルショートカットです。";
+"general.shortcut_validation_fallback" = "このショートカットは使用できません。";
+"general.start_capturing" = "有効にする";
+"general.stop_capturing" = "無効にする";
+"general.show_settings_at_launch" = "起動時に設定を表示";
+"general.show_settings_at_launch_subtitle" = "Keytyの起動時に設定ウインドウを自動的に開きます。";
+
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "キーボード入力の検出を開始できませんでした。アクセシビリティへのアクセス権が必要です。";
+"event_tap.mouse_and_flags_tap_creation_failed" = "マウスと修飾キーの入力検出を開始できませんでした。";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "Webサイト";
+"info.email_label" = "メール";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "ライブプレビュー";
+"keyboard_visualizer.live_overlay_section_subtitle" = "現在のキーボード表示設定を使用した実際の表示例です。";
+"keyboard_visualizer.style_section_title" = "スタイル";
+"keyboard_visualizer.style_section_subtitle" = "キーの全体的な形状と仕上げを選択します。";
+"keyboard_visualizer.theme_section_title" = "テーマ";
+"keyboard_visualizer.theme_section_subtitle" = "キーの種類ごとにカラーパレットを設定します。";
+"keyboard_visualizer.layout_section_title" = "レイアウト";
+"keyboard_visualizer.layout_section_subtitle" = "画面上の基準位置とオーバーレイの大きさを設定します。";
+"keyboard_visualizer.history_section_title" = "履歴";
+"keyboard_visualizer.history_section_subtitle" = "表示するキーの数と、連続するグループの並び方を設定します。";
+"keyboard_visualizer.timing_section_title" = "表示時間";
+"keyboard_visualizer.timing_section_subtitle" = "キーを表示する時間とフェードアウトの速さを設定します。";
+"keyboard_visualizer.filter_section_title" = "フィルタ";
+"keyboard_visualizer.filter_section_subtitle" = "オーバーレイに表示するキーボードイベントを選択します。";
+"keyboard_visualizer.axis_label" = "方向";
+"keyboard_visualizer.axis_subtitle" = "連続するキーグループを並べる方向です。";
+"keyboard_visualizer.anchor_label" = "位置";
+"keyboard_visualizer.anchor_subtitle" = "オーバーレイを固定する画面端です。";
+"keyboard_visualizer.axis.vertical" = "縦";
+"keyboard_visualizer.axis.horizontal" = "横";
+"keyboard_visualizer.max_count_label" = "最大表示数";
+"keyboard_visualizer.max_count_subtitle" = "同時に表示するキーの最大数です。";
+"keyboard_visualizer.size_label" = "サイズ";
+"keyboard_visualizer.size_subtitle" = "表示するキー全体の大きさです。";
+"keyboard_visualizer.style_label" = "スタイル";
+"keyboard_visualizer.style_subtitle" = "キーの全体的な形状と表面の仕上げです。";
+"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "ミニマル";
+"keyboard_visualizer.style.retro" = "レトロ";
+"keyboard_visualizer.linger_time_label" = "表示時間";
+"keyboard_visualizer.linger_time_subtitle" = "フェードアウトが始まるまでキーを完全に表示する時間です。";
+"keyboard_visualizer.linger_time.short" = "短い";
+"keyboard_visualizer.linger_time.long" = "長い";
+"keyboard_visualizer.fade_duration_label" = "フェード時間";
+"keyboard_visualizer.fade_duration_subtitle" = "フェードアウトの開始後にキーが消える速さです。";
+"keyboard_visualizer.fade_duration.fast" = "速い";
+"keyboard_visualizer.fade_duration.slow" = "遅い";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "キーの組み合わせのみ表示";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Command、Control、Option、Shiftのいずれかと同時に押したキーのみ表示します。";
+"keyboard_visualizer.show_special_keys_label" = "特殊キー";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab、Return、矢印、fn、ファンクションキーなどを表示します。";
+"keyboard_visualizer.show_media_key_buttons_label" = "メディアキー";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "再生、音量、画面の明るさなどのメディアキーを表示します。";
+"keyboard_visualizer.show_mouse_events_label" = "マウスイベント";
+"keyboard_visualizer.show_mouse_events_subtitle" = "マウスクリックとホイール操作を表示します。";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "テーマ";
+"keyboard_visualizer.theme_subtitle" = "選択したキースタイルに適用するカラーパレットです。";
+"keyboard_visualizer.legend_color_label" = "文字色";
+"keyboard_visualizer.legend_color_subtitle" = "キー上のテキスト、記号、マウスアイコンに使用する色です。";
+"keyboard_visualizer.choose_color" = "カラーを選択…";
+"keyboard_visualizer.theme_custom" = "カスタム…";
+"keyboard_visualizer.regular_theme_label" = "通常キー";
+"keyboard_visualizer.regular_theme_subtitle" = "文字、数字、その他のテキストキーのテーマです。";
+"keyboard_visualizer.modifier_theme_label" = "修飾キー";
+"keyboard_visualizer.modifier_theme_subtitle" = "Command、Shift、Option、Control、fnのテーマです。";
+"keyboard_visualizer.special_theme_label" = "特殊キー";
+"keyboard_visualizer.special_theme_subtitle" = "Tab、Return、矢印、ファンクションキーなどのテーマです。";
+"keyboard_visualizer.media_theme_label" = "メディアキー";
+"keyboard_visualizer.media_theme_subtitle" = "再生と画面の明るさを操作するキーのテーマです。";
+"keyboard_visualizer.mouse_theme_label" = "マウスイベント";
+"keyboard_visualizer.mouse_theme_subtitle" = "マウスクリックとホイール操作のテーマです。";
+"keyboard_visualizer.group_background_theme_label" = "グループの背景";
+"keyboard_visualizer.group_background_theme_subtitle" = "キーグループの背後に表示するパネルのテーマです。";
+"keyboard_visualizer.theme.citrus" = "シトラス";
+"keyboard_visualizer.theme.blue" = "ブルー";
+"keyboard_visualizer.theme.green" = "グリーン";
+"keyboard_visualizer.theme.white" = "ホワイト";
+"keyboard_visualizer.theme.dark" = "ダーク";
+"keyboard_visualizer.theme.red" = "レッド";
+"keyboard_visualizer.theme.indigo" = "インディゴ";
+"keyboard_visualizer.theme.rose" = "ローズ";
+"keyboard_visualizer.theme.purple" = "パープル";
+"keyboard_visualizer.theme.yellow" = "イエロー";
+"keyboard_visualizer.theme.orange" = "オレンジ";
+"keyboard_visualizer.theme.pink" = "ピンク";
+"keyboard_visualizer.color.automatic" = "自動";
+"keyboard_visualizer.color.red" = "赤";
+"keyboard_visualizer.color.orange" = "オレンジ";
+"keyboard_visualizer.color.yellow" = "黄";
+"keyboard_visualizer.color.green" = "緑";
+"keyboard_visualizer.color.blue" = "青";
+"keyboard_visualizer.color.purple" = "紫";
+"keyboard_visualizer.color.pink" = "ピンク";
+"keyboard_visualizer.color.white" = "白";
+"keyboard_visualizer.color.black" = "黒";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "リング";
+"mouse.tab_icon" = "アイコン";
+"mouse.pointer_ring_label" = "ポインタリング";
+"mouse.enabled" = "有効";
+"mouse.enabled_subtitle" = "ポインタリングの表示状態です。";
+"mouse.always_visible_label" = "常に表示";
+"mouse.always_visible_subtitle" = "ポインタを操作していない間もリングを表示します。";
+"mouse.ring_color_label" = "カラー";
+"mouse.ring_color_subtitle" = "ポインタリングのプリセットカラーまたはカスタムカラーです。";
+"mouse.ring_size_label" = "サイズ";
+"mouse.ring_size_subtitle" = "ポインタリングの直径です。";
+"mouse.ring_thickness_label" = "太さ";
+"mouse.ring_thickness_subtitle" = "ポインタリングの線の太さです。";
+"mouse.ring_shape_label" = "形状";
+"mouse.ring_shape_subtitle" = "ポインタリングの輪郭の形状です。";
+"mouse.pointer_icon_label" = "ポインタアイコン";
+"mouse.pointer_icon_enabled" = "有効";
+"mouse.pointer_icon_enabled_subtitle" = "ポインタアイコンオーバーレイの表示状態です。";
+"mouse.pointer_icon_always_visible_label" = "常に表示";
+"mouse.pointer_icon_always_visible_subtitle" = "マウスボタンを押していない間もアイコンを表示します。";
+"mouse.pointer_icon_anchor_label" = "基準位置";
+"mouse.pointer_icon_anchor_subtitle" = "アイコンの基準にするポインタの端です。";
+"mouse.pointer_icon_offset_label" = "オフセット";
+"mouse.pointer_icon_offset_subtitle" = "ポインタとアイコンオーバーレイの間隔です。";
+"mouse.icon_size_label" = "アイコンサイズ";
+"mouse.icon_size_subtitle" = "ポインタアイコンオーバーレイの大きさです。";
+"mouse.icon_background_label" = "背景色";
+"mouse.icon_background_subtitle" = "ポインタアイコンの背後に使用する色です。";
+"mouse.icon_tint_label" = "アイコンの色";
+"mouse.icon_tint_subtitle" = "ポインタアイコンの前面に使用する色です。";
+"mouse.choose_color" = "カラーを選択…";
+"mouse.color.automatic" = "自動";
+"mouse.color.red" = "赤";
+"mouse.color.orange" = "オレンジ";
+"mouse.color.yellow" = "黄";
+"mouse.color.green" = "緑";
+"mouse.color.blue" = "青";
+"mouse.color.purple" = "紫";
+"mouse.color.pink" = "ピンク";
+"mouse.color.graphite" = "グラファイト";
+"mouse.color.white" = "白";
+"mouse.color.black" = "黒";
+"mouse.shape.circle" = "円";
+"mouse.shape.rhomb" = "ひし形";
+"mouse.shape.squircle" = "角丸四角形";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "アクセシビリティ";
+"permissions.section_subtitle" = "入力操作を検出して表示するには、Keytyにアクセシビリティへのアクセス権が必要です。";
+"permissions.status.granted" = "許可済み";
+"permissions.status.not_granted" = "未許可";
+"permissions.grant_access_button" = "許可…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Keytyを設定";
+"permissions_onboarding.subtitle" = "キーボードとマウスの入力を表示するには、\nmacOSのアクセシビリティへのアクセスを許可してください。";
+"permissions_onboarding.accessibility.title" = "アクセシビリティ";
+"permissions_onboarding.accessibility.detail" = "キーボードとマウスの入力を表示するために必要です。";
+"permissions_onboarding.accessibility.grant_button" = "許可…";
+"permissions_onboarding.privacy" = "すべての入力はMac上でローカルに処理されます。アップロードや保存は行われません。";
+"permissions_onboarding.learn_more" = "詳しい情報";
+"permissions_onboarding.continue" = "続ける";
+"permissions_onboarding.continue_hint" = "アクセシビリティへのアクセスを許可してから続けてください。";
+
+/* Update settings pane */
+"update.check_at_startup" = "起動時にアップデートを確認";
+"update.check_at_startup_subtitle" = "Sparkleが新しいバージョンを定期的に確認します。";
+"update.include_system_profile" = "匿名のシステムプロファイルを含める";
+"update.include_system_profile_subtitle" = "アップデートの確認時に基本的なハードウェア情報を送信します。";
+"update.last_checked_label" = "前回の確認";
+"update.never" = "なし";
+"update.check_now_button" = "アップデートを確認";

@@ -1,0 +1,229 @@
+/* Main menu */
+"main_menu.about" = "Über %@";
+"main_menu.settings" = "Einstellungen…";
+"main_menu.quit" = "%@ beenden";
+
+/* About window */
+"about.version" = "Version %@ (%@)";
+"about.tab.license" = "Lizenz";
+"about.tab.contributors" = "Mitwirkende";
+"about.tab.credits" = "Danksagungen";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD-3-Klausel-Lizenz";
+"about.contributors.title" = "Mitwirkende";
+"about.contributors.subtitle" = "Personen, die dazu beigetragen haben, Keyty zu verbessern.";
+"about.credits.sparkle_subtitle" = "MIT-Lizenz";
+"about.credits.app_mover_subtitle" = "MIT-Lizenz";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "Der Lizenztext konnte nicht geladen werden.";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "Einstellungen";
+"settings.sidebar_version" = "Version %@ (%@)";
+"settings.pane.general" = "Allgemein";
+"settings.pane.keyboard" = "Tastatur";
+"settings.pane.mouse" = "Maus";
+"settings.pane.displays" = "Bildschirme";
+"settings.pane.permissions" = "Berechtigungen";
+"settings.pane.update" = "Aktualisierung";
+"settings.pane.info" = "Informationen";
+
+/* Anchor labels */
+"anchor.left" = "Links";
+"anchor.center" = "Mitte";
+"anchor.right" = "Rechts";
+"anchor.top" = "Oben";
+"anchor.vertical_center" = "Mitte";
+"anchor.bottom" = "Unten";
+
+/* Displays settings pane */
+"displays.display_label" = "Bildschirm";
+"displays.display_subtitle" = "Bildschirm für die Tastatureinblendung";
+"displays.anchor_label" = "Verankerung";
+"displays.anchor_subtitle" = "Position der Tastatureinblendung";
+"displays.margin_label" = "Bildschirmabstand";
+"displays.margin_subtitle" = "Abstand zwischen der Einblendung und dem ausgewählten Bildschirmrand.";
+
+/* General settings pane */
+"general.appearance_section_title" = "App";
+"general.shortcut_section_title" = "Tastaturkurzbefehl";
+"general.toggle_capturing_label" = "Erfassung ein-/ausschalten";
+"general.toggle_capturing_subtitle" = "Globaler Tastaturkurzbefehl zum Starten oder Stoppen der Erfassung.";
+"general.shortcut_validation_fallback" = "Dieser Tastaturkurzbefehl kann nicht verwendet werden.";
+"general.start_capturing" = "Aktivieren";
+"general.stop_capturing" = "Deaktivieren";
+"general.show_settings_at_launch" = "Einstellungen beim Start anzeigen";
+"general.show_settings_at_launch_subtitle" = "Das Einstellungsfenster beim Start von Keyty automatisch wieder öffnen.";
+
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "Die Tastaturerfassung konnte nicht gestartet werden. Die Berechtigung für Bedienungshilfen ist erforderlich.";
+"event_tap.mouse_and_flags_tap_creation_failed" = "Die Erfassung von Maus und Sondertasten konnte nicht gestartet werden.";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "Website";
+"info.email_label" = "E-Mail";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "Vorschau";
+"keyboard_visualizer.live_overlay_section_subtitle" = "Diese Vorschau verwendet die aktuellen Einstellungen der Tastaturvisualisierung.";
+"keyboard_visualizer.style_section_title" = "Stil";
+"keyboard_visualizer.style_section_subtitle" = "Wähle die allgemeine Form und Oberfläche der Tastenkappen.";
+"keyboard_visualizer.theme_section_title" = "Thema";
+"keyboard_visualizer.theme_section_subtitle" = "Weise jedem Tastentyp eine eigene Farbpalette zu.";
+"keyboard_visualizer.layout_section_title" = "Layout";
+"keyboard_visualizer.layout_section_subtitle" = "Lege die Bildschirmposition und Größe der Einblendung fest.";
+"keyboard_visualizer.history_section_title" = "Verlauf";
+"keyboard_visualizer.history_section_subtitle" = "Lege fest, wie viele Tastenkappen sichtbar bleiben und wie aufeinanderfolgende Gruppen gestapelt werden.";
+"keyboard_visualizer.timing_section_title" = "Zeitverhalten";
+"keyboard_visualizer.timing_section_subtitle" = "Lege fest, wie lange Tasten sichtbar bleiben und wie schnell sie ausgeblendet werden.";
+"keyboard_visualizer.filter_section_title" = "Filter";
+"keyboard_visualizer.filter_section_subtitle" = "Wähle aus, welche Tastaturereignisse in der Einblendung erscheinen.";
+"keyboard_visualizer.axis_label" = "Achse";
+"keyboard_visualizer.axis_subtitle" = "Richtung, in der aufeinanderfolgende Tastengruppen gestapelt werden.";
+"keyboard_visualizer.anchor_label" = "Position";
+"keyboard_visualizer.anchor_subtitle" = "Bildschirmrand, an dem die Einblendung verankert wird.";
+"keyboard_visualizer.axis.vertical" = "Vertikal";
+"keyboard_visualizer.axis.horizontal" = "Horizontal";
+"keyboard_visualizer.max_count_label" = "Maximale Anzahl";
+"keyboard_visualizer.max_count_subtitle" = "Maximale Anzahl sichtbarer Tastenkappen im Stapel.";
+"keyboard_visualizer.size_label" = "Größe";
+"keyboard_visualizer.size_subtitle" = "Gesamtskalierung der dargestellten Tastenkappen.";
+"keyboard_visualizer.style_label" = "Stil";
+"keyboard_visualizer.style_subtitle" = "Allgemeine Form und Oberflächenbehandlung der Tastenkappen.";
+"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "Minimal";
+"keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.linger_time_label" = "Anzeigedauer";
+"keyboard_visualizer.linger_time_subtitle" = "Dauer, für die Tastenkappen vor dem Ausblenden vollständig sichtbar bleiben.";
+"keyboard_visualizer.linger_time.short" = "Kurz";
+"keyboard_visualizer.linger_time.long" = "Lang";
+"keyboard_visualizer.fade_duration_label" = "Ausblenddauer";
+"keyboard_visualizer.fade_duration_subtitle" = "Geschwindigkeit, mit der Tastenkappen nach Beginn des Ausblendens verschwinden.";
+"keyboard_visualizer.fade_duration.fast" = "Schnell";
+"keyboard_visualizer.fade_duration.slow" = "Langsam";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "Nur Tastenkombinationen anzeigen";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Nur Tasten anzeigen, die mit Befehl, Control, Wahltaste oder Umschalttaste gedrückt werden.";
+"keyboard_visualizer.show_special_keys_label" = "Sondertasten";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tabulator, Eingabetaste, Pfeile, fn, Funktionstasten und ähnliche Tasten.";
+"keyboard_visualizer.show_media_key_buttons_label" = "Medientasten";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "Tasten für Wiedergabe, Lautstärke, Helligkeit und ähnliche Medienfunktionen.";
+"keyboard_visualizer.show_mouse_events_label" = "Mausereignisse";
+"keyboard_visualizer.show_mouse_events_subtitle" = "Mausklicks und Mausradereignisse.";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "Thema";
+"keyboard_visualizer.theme_subtitle" = "Farbpalette für den ausgewählten Tastenkappenstil.";
+"keyboard_visualizer.legend_color_label" = "Beschriftungsfarbe";
+"keyboard_visualizer.legend_color_subtitle" = "Farbe für Texte, Symbole und Maussymbole auf den Tastenkappen.";
+"keyboard_visualizer.choose_color" = "Farbe auswählen…";
+"keyboard_visualizer.theme_custom" = "Eigene…";
+"keyboard_visualizer.regular_theme_label" = "Normale Tasten";
+"keyboard_visualizer.regular_theme_subtitle" = "Thema für Buchstaben, Zahlen und andere Texttasten.";
+"keyboard_visualizer.modifier_theme_label" = "Sondertasten";
+"keyboard_visualizer.modifier_theme_subtitle" = "Thema für Befehl, Umschalttaste, Wahltaste, Control und fn.";
+"keyboard_visualizer.special_theme_label" = "Spezialtasten";
+"keyboard_visualizer.special_theme_subtitle" = "Thema für Tabulator, Eingabetaste, Pfeile, Funktionstasten und andere Nicht-Text-Tasten.";
+"keyboard_visualizer.media_theme_label" = "Medientasten";
+"keyboard_visualizer.media_theme_subtitle" = "Thema für Wiedergabe- und Helligkeitssteuerungen.";
+"keyboard_visualizer.mouse_theme_label" = "Mausereignisse";
+"keyboard_visualizer.mouse_theme_subtitle" = "Thema für Mausklicks und Mausradereignisse.";
+"keyboard_visualizer.group_background_theme_label" = "Gruppenhintergrund";
+"keyboard_visualizer.group_background_theme_subtitle" = "Thema für die Fläche hinter jeder Tastengruppe.";
+"keyboard_visualizer.theme.citrus" = "Zitrus";
+"keyboard_visualizer.theme.blue" = "Blau";
+"keyboard_visualizer.theme.green" = "Grün";
+"keyboard_visualizer.theme.white" = "Weiß";
+"keyboard_visualizer.theme.dark" = "Dunkel";
+"keyboard_visualizer.theme.red" = "Rot";
+"keyboard_visualizer.theme.indigo" = "Indigo";
+"keyboard_visualizer.theme.rose" = "Rosa";
+"keyboard_visualizer.theme.purple" = "Violett";
+"keyboard_visualizer.theme.yellow" = "Gelb";
+"keyboard_visualizer.theme.orange" = "Orange";
+"keyboard_visualizer.theme.pink" = "Pink";
+"keyboard_visualizer.color.automatic" = "Automatisch";
+"keyboard_visualizer.color.red" = "Rot";
+"keyboard_visualizer.color.orange" = "Orange";
+"keyboard_visualizer.color.yellow" = "Gelb";
+"keyboard_visualizer.color.green" = "Grün";
+"keyboard_visualizer.color.blue" = "Blau";
+"keyboard_visualizer.color.purple" = "Violett";
+"keyboard_visualizer.color.pink" = "Pink";
+"keyboard_visualizer.color.white" = "Weiß";
+"keyboard_visualizer.color.black" = "Schwarz";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "Ring";
+"mouse.tab_icon" = "Symbol";
+"mouse.pointer_ring_label" = "Zeigerring";
+"mouse.enabled" = "Aktiviert";
+"mouse.enabled_subtitle" = "Sichtbarkeit des Zeigerrings.";
+"mouse.always_visible_label" = "Immer sichtbar";
+"mouse.always_visible_subtitle" = "Der Ring bleibt sichtbar, wenn der Zeiger nicht bewegt wird.";
+"mouse.ring_color_label" = "Farbe";
+"mouse.ring_color_subtitle" = "Voreingestellte oder eigene Farbe des Zeigerrings.";
+"mouse.ring_size_label" = "Größe";
+"mouse.ring_size_subtitle" = "Durchmesser des Zeigerrings.";
+"mouse.ring_thickness_label" = "Stärke";
+"mouse.ring_thickness_subtitle" = "Linienstärke des Zeigerrings.";
+"mouse.ring_shape_label" = "Form";
+"mouse.ring_shape_subtitle" = "Form der Umrandung des Zeigerrings.";
+"mouse.pointer_icon_label" = "Zeigersymbol";
+"mouse.pointer_icon_enabled" = "Aktiviert";
+"mouse.pointer_icon_enabled_subtitle" = "Sichtbarkeit der Zeigersymboleinblendung.";
+"mouse.pointer_icon_always_visible_label" = "Immer sichtbar";
+"mouse.pointer_icon_always_visible_subtitle" = "Das Symbol bleibt sichtbar, wenn keine Maustaste gedrückt wird.";
+"mouse.pointer_icon_anchor_label" = "Verankerung";
+"mouse.pointer_icon_anchor_subtitle" = "Zeigerrand, an dem das Symbol verankert wird.";
+"mouse.pointer_icon_offset_label" = "Versatz";
+"mouse.pointer_icon_offset_subtitle" = "Abstand zwischen dem Zeiger und seiner Symboleinblendung.";
+"mouse.icon_size_label" = "Symbolgröße";
+"mouse.icon_size_subtitle" = "Skalierung der Zeigersymboleinblendung.";
+"mouse.icon_background_label" = "Hintergrundfarbe";
+"mouse.icon_background_subtitle" = "Füllfarbe hinter dem Zeigersymbol.";
+"mouse.icon_tint_label" = "Symbolfarbe";
+"mouse.icon_tint_subtitle" = "Vordergrundfarbe des Zeigersymbols.";
+"mouse.choose_color" = "Farbe auswählen…";
+"mouse.color.automatic" = "Automatisch";
+"mouse.color.red" = "Rot";
+"mouse.color.orange" = "Orange";
+"mouse.color.yellow" = "Gelb";
+"mouse.color.green" = "Grün";
+"mouse.color.blue" = "Blau";
+"mouse.color.purple" = "Violett";
+"mouse.color.pink" = "Pink";
+"mouse.color.graphite" = "Graphit";
+"mouse.color.white" = "Weiß";
+"mouse.color.black" = "Schwarz";
+"mouse.shape.circle" = "Kreis";
+"mouse.shape.rhomb" = "Raute";
+"mouse.shape.squircle" = "Abgerundetes Quadrat";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "Bedienungshilfen";
+"permissions.section_subtitle" = "Keyty benötigt die Berechtigung für Bedienungshilfen, um deine Eingaben zu erfassen und anzuzeigen.";
+"permissions.status.granted" = "Erteilt";
+"permissions.status.not_granted" = "Nicht erteilt";
+"permissions.grant_access_button" = "Erteilen…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Keyty einrichten";
+"permissions_onboarding.subtitle" = "Erteile Keyty in macOS die Berechtigung für Bedienungshilfen,\num Tastatur und Maus zu visualisieren.";
+"permissions_onboarding.accessibility.title" = "Bedienungshilfen";
+"permissions_onboarding.accessibility.detail" = "Erforderlich, um Tastatur- und Mauseingaben anzuzeigen.";
+"permissions_onboarding.accessibility.grant_button" = "Erteilen…";
+"permissions_onboarding.privacy" = "Alle Eingaben werden lokal auf deinem Mac verarbeitet. Es werden keine Daten hochgeladen oder gespeichert.";
+"permissions_onboarding.learn_more" = "Weitere Informationen";
+"permissions_onboarding.continue" = "Fortfahren";
+"permissions_onboarding.continue_hint" = "Fahre fort, sobald die Berechtigung für Bedienungshilfen erteilt wurde.";
+
+/* Update settings pane */
+"update.check_at_startup" = "Beim Start nach Aktualisierungen suchen";
+"update.check_at_startup_subtitle" = "Sparkle sucht regelmäßig nach neuen Versionen.";
+"update.include_system_profile" = "Anonymes Systemprofil einschließen";
+"update.include_system_profile_subtitle" = "Beim Suchen nach Aktualisierungen ein grundlegendes Hardwareprofil senden.";
+"update.last_checked_label" = "Zuletzt geprüft";
+"update.never" = "Nie";
+"update.check_now_button" = "Nach Aktualisierungen suchen";

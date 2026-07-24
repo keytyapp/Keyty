@@ -59,6 +59,10 @@
 "general.show_settings_at_launch" = "Show settings at launch";
 "general.show_settings_at_launch_subtitle" = "Reopen the settings window automatically when Keyty starts.";
 
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "Could not create key event tap. Accessibility permission is required.";
+"event_tap.mouse_and_flags_tap_creation_failed" = "Could not create mouse and modifiers event tap.";
+
 /* Info settings pane */
 "info.github_label" = "GitHub";
 "info.website_label" = "Website";

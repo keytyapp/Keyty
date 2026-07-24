@@ -21,10 +21,9 @@ extension ShortcutValidator: ShortcutValidating {
             try self.validate(shortcut: shortcut)
             return nil
         } catch {
-            return error.localizedDescription.isEmpty ? NSLocalizedString(
-                "general.shortcut_validation_fallback",
-                comment: "Fallback shortcut validation failure message"
-            ) : error.localizedDescription
+            return error.localizedDescription.isEmpty
+                ? L10n.General.shortcutValidationFallback
+                : error.localizedDescription
         }
     }
 }

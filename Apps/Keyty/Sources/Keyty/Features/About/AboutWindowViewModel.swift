@@ -21,15 +21,14 @@ final class AboutWindowViewModel: ObservableObject {
 
     init(bundle: Bundle = .main) {
         self.appName = AppConstants.appName
-        self.versionString = String(
-            format: NSLocalizedString("about.version", comment: "About version"),
+        self.versionString = L10n.About.version(
             bundle.appVersionString,
             bundle.appBuildString
         )
         self.license = [
             Section(
-                title: NSLocalizedString("about.license.keyty_title", comment: "Keyty license heading"),
-                subtitle: NSLocalizedString("about.license.keyty_subtitle", comment: "Keyty license subtitle"),
+                title: L10n.About.License.keytyTitle,
+                subtitle: L10n.About.License.keytySubtitle,
                 links: [
                     LinkItem(title: "GitHub", url: AppConstants.githubURL),
                     LinkItem(title: "Website", url: AppConstants.websiteURL)
@@ -50,20 +49,20 @@ final class AboutWindowViewModel: ObservableObject {
         ]
         self.contributors = [
             Section(
-                title: NSLocalizedString("about.contributors.title", comment: "Contributors heading"),
-                subtitle: NSLocalizedString("about.contributors.subtitle", comment: "Contributors subtitle"),
+                title: L10n.About.Contributors.title,
+                subtitle: L10n.About.Contributors.subtitle,
                 listItems: [
                     ListItem(
-                        title: NSLocalizedString("about.contributors.serhii_bykov", comment: "Serhii Bykov contributor name")
+                        title: L10n.About.Contributors.serhiiBykov
                     ),
                     ListItem(
-                        title: NSLocalizedString("about.contributors.yullia_babichuk", comment: "Yullia Babichuk contributor name")
+                        title: L10n.About.Contributors.yulliaBabichuk
                     ),
                     ListItem(
-                        title: NSLocalizedString("about.contributors.oleksii_petruk", comment: "Oleksii Petruk contributor name")
+                        title: L10n.About.Contributors.oleksiiPetruk
                     ),
                     ListItem(
-                        title: NSLocalizedString("about.contributors.serhii_butenko", comment: "Serhii Butenko contributor name")
+                        title: L10n.About.Contributors.serhiiButenko
                     )
                 ]
             )
@@ -71,7 +70,7 @@ final class AboutWindowViewModel: ObservableObject {
         self.credits = [
             Section(
                 title: "Sparkle",
-                subtitle: NSLocalizedString("about.credits.sparkle_subtitle", comment: "Sparkle subtitle"),
+                subtitle: L10n.About.Credits.sparkleSubtitle,
                 body: LicenseLoader.text(
                     named: "Sparkle",
                     trimmingLeadingLines: [
@@ -82,7 +81,7 @@ final class AboutWindowViewModel: ObservableObject {
             ),
             Section(
                 title: "AppMover",
-                subtitle: NSLocalizedString("about.credits.app_mover_subtitle", comment: "AppMover subtitle"),
+                subtitle: L10n.About.Credits.appMoverSubtitle,
                 body: LicenseLoader.text(
                     named: "AppMover",
                     trimmingLeadingLines: [
@@ -92,7 +91,7 @@ final class AboutWindowViewModel: ObservableObject {
             ),
             Section(
                 title: "ShortcutRecorder",
-                subtitle: NSLocalizedString("about.credits.shortcut_recorder_subtitle", comment: "ShortcutRecorder subtitle"),
+                subtitle: L10n.About.Credits.shortcutRecorderSubtitle,
                 body: LicenseLoader.text(
                     named: "ShortcutRecorder",
                     trimmingLeadingLines: [
@@ -147,11 +146,11 @@ extension AboutWindowViewModel {
         var title: String {
             switch self {
             case .license:
-                NSLocalizedString("about.tab.license", comment: "License tab")
+                L10n.About.Tab.license
             case .contributors:
-                NSLocalizedString("about.tab.contributors", comment: "Contributors tab")
+                L10n.About.Tab.contributors
             case .credits:
-                NSLocalizedString("about.tab.credits", comment: "Credits tab")
+                L10n.About.Tab.credits
             }
         }
     }
@@ -176,7 +175,7 @@ extension AboutWindowViewModel {
             }
         }
 
-        return NSLocalizedString("about.credits.license_missing", comment: "Missing bundled license fallback")
+        return L10n.About.Credits.licenseMissing
     }
 
     private static func sanitized(_ text: String, trimmingLeadingLines linesToTrim: [String]) -> String {

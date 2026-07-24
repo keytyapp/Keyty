@@ -53,16 +53,16 @@ final class AboutWindowViewModel: ObservableObject {
                 subtitle: L10n.About.Contributors.subtitle,
                 listItems: [
                     ListItem(
-                        title: L10n.About.Contributors.serhiiBykov
+                        title: "Serhii Bykov"
                     ),
                     ListItem(
-                        title: L10n.About.Contributors.yulliaBabichuk
+                        title: "Yullia Babichuk"
                     ),
                     ListItem(
-                        title: L10n.About.Contributors.oleksiiPetruk
+                        title: "Oleksii Petruk"
                     ),
                     ListItem(
-                        title: L10n.About.Contributors.serhiiButenko
+                        title: "Serhii Butenko"
                     )
                 ]
             )

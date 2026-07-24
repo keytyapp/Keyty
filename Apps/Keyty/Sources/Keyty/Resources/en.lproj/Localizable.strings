@@ -12,10 +12,6 @@
 "about.license.keyty_subtitle" = "BSD 3-Clause License";
 "about.contributors.title" = "Contributors";
 "about.contributors.subtitle" = "People who helped make Keyty better.";
-"about.contributors.serhii_bykov" = "Serhii Bykov";
-"about.contributors.yullia_babichuk" = "Yullia Babichuk";
-"about.contributors.oleksii_petruk" = "Oleksii Petruk";
-"about.contributors.serhii_butenko" = "Serhii Butenko";
 "about.credits.sparkle_subtitle" = "MIT License";
 "about.credits.app_mover_subtitle" = "MIT License";
 "about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";

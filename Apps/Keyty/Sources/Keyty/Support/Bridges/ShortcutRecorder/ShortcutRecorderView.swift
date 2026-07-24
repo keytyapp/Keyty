@@ -14,6 +14,7 @@ struct ShortcutRecorderView: NSViewRepresentable {
 
     func makeNSView(context: Context) -> RecorderControl {
         let recorder = RecorderControl(frame: .zero)
+        recorder.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         shortcutManager.configureToggleShortcutRecorder(recorder)
         return recorder
     }

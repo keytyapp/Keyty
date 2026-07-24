@@ -170,6 +170,10 @@ let projectSettings = Settings.settings(
 let project = Project(
     name: "Keyty",
     organizationName: "Keyty",
+    options: .options(
+        defaultKnownRegions: ["en", "uk"],
+        developmentRegion: "en"
+    ),
     packages: [
         .remote(
             url: "https://github.com/Kentzo/ShortcutRecorder",

@@ -1,0 +1,229 @@
+/* Main menu */
+"main_menu.about" = "Про %@";
+"main_menu.settings" = "Параметри…";
+"main_menu.quit" = "Завершити роботу %@";
+
+/* About window */
+"about.version" = "Версія %@ (%@)";
+"about.tab.license" = "Ліцензія";
+"about.tab.contributors" = "Учасники";
+"about.tab.credits" = "Подяки";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "Ліцензія BSD 3-Clause";
+"about.contributors.title" = "Учасники";
+"about.contributors.subtitle" = "Люди, які допомогли зробити Keyty кращим.";
+"about.credits.sparkle_subtitle" = "Ліцензія MIT";
+"about.credits.app_mover_subtitle" = "Ліцензія MIT";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "Не вдалося завантажити текст ліцензії.";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "Параметри";
+"settings.sidebar_version" = "версія %@ (%@)";
+"settings.pane.general" = "Загальні";
+"settings.pane.keyboard" = "Клавіатура";
+"settings.pane.mouse" = "Миша";
+"settings.pane.displays" = "Дисплеї";
+"settings.pane.permissions" = "Дозволи";
+"settings.pane.update" = "Оновлення";
+"settings.pane.info" = "Інформація";
+
+/* Anchor labels */
+"anchor.left" = "Ліворуч";
+"anchor.center" = "По центру";
+"anchor.right" = "Праворуч";
+"anchor.top" = "Вгорі";
+"anchor.vertical_center" = "По центру";
+"anchor.bottom" = "Внизу";
+
+/* Displays settings pane */
+"displays.display_label" = "Дисплей";
+"displays.display_subtitle" = "Дисплей, на якому показуватиметься накладка клавіатури";
+"displays.anchor_label" = "Прив’язка";
+"displays.anchor_subtitle" = "Положення накладки клавіатури";
+"displays.margin_label" = "Відступ від краю";
+"displays.margin_subtitle" = "Відстань між накладкою та вибраним краєм екрана.";
+
+/* General settings pane */
+"general.appearance_section_title" = "Програма";
+"general.shortcut_section_title" = "Клавіатурне скорочення";
+"general.toggle_capturing_label" = "Увімкнення відстеження";
+"general.toggle_capturing_subtitle" = "Глобальне клавіатурне скорочення для запуску або зупинки відстеження.";
+"general.shortcut_validation_fallback" = "Це клавіатурне скорочення не можна використовувати.";
+"general.start_capturing" = "Увімкнути";
+"general.stop_capturing" = "Вимкнути";
+"general.show_settings_at_launch" = "Показувати параметри після запуску";
+"general.show_settings_at_launch_subtitle" = "Автоматично відкривати вікно параметрів після запуску Keyty.";
+
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "Не вдалося почати відстеження клавіатури. Потрібен дозвіл «Доступність».";
+"event_tap.mouse_and_flags_tap_creation_failed" = "Не вдалося почати відстеження миші та клавіш-модифікаторів.";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "Вебсайт";
+"info.email_label" = "Електронна пошта";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "Попередній перегляд";
+"keyboard_visualizer.live_overlay_section_subtitle" = "Приклад відображення з поточними параметрами візуалізації клавіатури.";
+"keyboard_visualizer.style_section_title" = "Стиль";
+"keyboard_visualizer.style_section_subtitle" = "Виберіть загальний вигляд і оздоблення клавіш.";
+"keyboard_visualizer.theme_section_title" = "Тема";
+"keyboard_visualizer.theme_section_subtitle" = "Призначте власну палітру кольорів кожному типу клавіш.";
+"keyboard_visualizer.layout_section_title" = "Розташування";
+"keyboard_visualizer.layout_section_subtitle" = "Налаштуйте прив’язку до екрана та розмір накладки.";
+"keyboard_visualizer.history_section_title" = "Історія";
+"keyboard_visualizer.history_section_subtitle" = "Налаштуйте кількість видимих клавіш і розміщення послідовних груп.";
+"keyboard_visualizer.timing_section_title" = "Тривалість";
+"keyboard_visualizer.timing_section_subtitle" = "Налаштуйте час відображення клавіш і швидкість їх зникнення.";
+"keyboard_visualizer.filter_section_title" = "Фільтр";
+"keyboard_visualizer.filter_section_subtitle" = "Виберіть події клавіатури, які з’являтимуться в накладці.";
+"keyboard_visualizer.axis_label" = "Вісь";
+"keyboard_visualizer.axis_subtitle" = "Напрямок розміщення послідовних груп клавіш.";
+"keyboard_visualizer.anchor_label" = "Положення";
+"keyboard_visualizer.anchor_subtitle" = "Край екрана, до якого прив’язано накладку.";
+"keyboard_visualizer.axis.vertical" = "Вертикально";
+"keyboard_visualizer.axis.horizontal" = "Горизонтально";
+"keyboard_visualizer.max_count_label" = "Максимальна кількість";
+"keyboard_visualizer.max_count_subtitle" = "Максимальна кількість видимих клавіш у стосі.";
+"keyboard_visualizer.size_label" = "Розмір";
+"keyboard_visualizer.size_subtitle" = "Загальний масштаб відображуваних клавіш.";
+"keyboard_visualizer.style_label" = "Стиль";
+"keyboard_visualizer.style_subtitle" = "Загальний вигляд і оздоблення клавіш.";
+"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "Мінімалізм";
+"keyboard_visualizer.style.retro" = "Ретро";
+"keyboard_visualizer.linger_time_label" = "Час відображення";
+"keyboard_visualizer.linger_time_subtitle" = "Як довго клавіші залишаються повністю видимими перед зникненням.";
+"keyboard_visualizer.linger_time.short" = "Короткий";
+"keyboard_visualizer.linger_time.long" = "Довгий";
+"keyboard_visualizer.fade_duration_label" = "Тривалість зникнення";
+"keyboard_visualizer.fade_duration_subtitle" = "Як швидко клавіші зникають після початку згасання.";
+"keyboard_visualizer.fade_duration.fast" = "Швидко";
+"keyboard_visualizer.fade_duration.slow" = "Повільно";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "Лише комбінації клавіш";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Показувати лише клавіші, натиснуті разом із Command, Control, Option або Shift.";
+"keyboard_visualizer.show_special_keys_label" = "Спеціальні клавіші";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, стрілки, fn, функціональні та подібні клавіші.";
+"keyboard_visualizer.show_media_key_buttons_label" = "Мультимедійні клавіші";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "Клавіші відтворення, гучності, яскравості та інші мультимедійні клавіші.";
+"keyboard_visualizer.show_mouse_events_label" = "Події миші";
+"keyboard_visualizer.show_mouse_events_subtitle" = "Клацання кнопок і прокручування коліщатка миші.";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "Тема";
+"keyboard_visualizer.theme_subtitle" = "Палітра кольорів для вибраного стилю клавіш.";
+"keyboard_visualizer.legend_color_label" = "Колір позначень";
+"keyboard_visualizer.legend_color_subtitle" = "Колір тексту, символів і піктограм миші на клавішах.";
+"keyboard_visualizer.choose_color" = "Вибрати колір…";
+"keyboard_visualizer.theme_custom" = "Власна…";
+"keyboard_visualizer.regular_theme_label" = "Звичайні клавіші";
+"keyboard_visualizer.regular_theme_subtitle" = "Тема для літер, цифр та інших текстових клавіш.";
+"keyboard_visualizer.modifier_theme_label" = "Клавіші-модифікатори";
+"keyboard_visualizer.modifier_theme_subtitle" = "Тема для Command, Shift, Option, Control і fn.";
+"keyboard_visualizer.special_theme_label" = "Спеціальні клавіші";
+"keyboard_visualizer.special_theme_subtitle" = "Тема для Tab, Return, стрілок, функціональних та інших нетекстових клавіш.";
+"keyboard_visualizer.media_theme_label" = "Мультимедійні клавіші";
+"keyboard_visualizer.media_theme_subtitle" = "Тема для елементів керування відтворенням і яскравістю.";
+"keyboard_visualizer.mouse_theme_label" = "Події миші";
+"keyboard_visualizer.mouse_theme_subtitle" = "Тема для клацань і прокручування коліщатка миші.";
+"keyboard_visualizer.group_background_theme_label" = "Тло групи";
+"keyboard_visualizer.group_background_theme_subtitle" = "Тема панелі позаду кожної групи клавіш.";
+"keyboard_visualizer.theme.citrus" = "Цитрус";
+"keyboard_visualizer.theme.blue" = "Синя";
+"keyboard_visualizer.theme.green" = "Зелена";
+"keyboard_visualizer.theme.white" = "Біла";
+"keyboard_visualizer.theme.dark" = "Темна";
+"keyboard_visualizer.theme.red" = "Червона";
+"keyboard_visualizer.theme.indigo" = "Індиго";
+"keyboard_visualizer.theme.rose" = "Трояндова";
+"keyboard_visualizer.theme.purple" = "Фіолетова";
+"keyboard_visualizer.theme.yellow" = "Жовта";
+"keyboard_visualizer.theme.orange" = "Помаранчева";
+"keyboard_visualizer.theme.pink" = "Рожева";
+"keyboard_visualizer.color.automatic" = "Автоматично";
+"keyboard_visualizer.color.red" = "Червоний";
+"keyboard_visualizer.color.orange" = "Помаранчевий";
+"keyboard_visualizer.color.yellow" = "Жовтий";
+"keyboard_visualizer.color.green" = "Зелений";
+"keyboard_visualizer.color.blue" = "Синій";
+"keyboard_visualizer.color.purple" = "Фіолетовий";
+"keyboard_visualizer.color.pink" = "Рожевий";
+"keyboard_visualizer.color.white" = "Білий";
+"keyboard_visualizer.color.black" = "Чорний";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "Кільце";
+"mouse.tab_icon" = "Піктограма";
+"mouse.pointer_ring_label" = "Кільце вказівника";
+"mouse.enabled" = "Увімкнено";
+"mouse.enabled_subtitle" = "Видимість кільця вказівника.";
+"mouse.always_visible_label" = "Завжди показувати";
+"mouse.always_visible_subtitle" = "Кільце залишається видимим, коли вказівник не рухається.";
+"mouse.ring_color_label" = "Колір";
+"mouse.ring_color_subtitle" = "Готовий або власний колір кільця вказівника.";
+"mouse.ring_size_label" = "Розмір";
+"mouse.ring_size_subtitle" = "Діаметр кільця вказівника.";
+"mouse.ring_thickness_label" = "Товщина";
+"mouse.ring_thickness_subtitle" = "Товщина контуру кільця вказівника.";
+"mouse.ring_shape_label" = "Форма";
+"mouse.ring_shape_subtitle" = "Форма контуру кільця вказівника.";
+"mouse.pointer_icon_label" = "Піктограма вказівника";
+"mouse.pointer_icon_enabled" = "Увімкнено";
+"mouse.pointer_icon_enabled_subtitle" = "Видимість піктограми вказівника.";
+"mouse.pointer_icon_always_visible_label" = "Завжди показувати";
+"mouse.pointer_icon_always_visible_subtitle" = "Піктограма залишається видимою, коли кнопки миші не натиснуто.";
+"mouse.pointer_icon_anchor_label" = "Прив’язка";
+"mouse.pointer_icon_anchor_subtitle" = "Край вказівника, до якого прив’язано піктограму.";
+"mouse.pointer_icon_offset_label" = "Зсув";
+"mouse.pointer_icon_offset_subtitle" = "Відстань між вказівником і його піктограмою.";
+"mouse.icon_size_label" = "Розмір піктограми";
+"mouse.icon_size_subtitle" = "Масштаб піктограми вказівника.";
+"mouse.icon_background_label" = "Колір тла";
+"mouse.icon_background_subtitle" = "Колір заливки позаду піктограми вказівника.";
+"mouse.icon_tint_label" = "Колір піктограми";
+"mouse.icon_tint_subtitle" = "Колір переднього плану піктограми вказівника.";
+"mouse.choose_color" = "Вибрати колір…";
+"mouse.color.automatic" = "Автоматично";
+"mouse.color.red" = "Червоний";
+"mouse.color.orange" = "Помаранчевий";
+"mouse.color.yellow" = "Жовтий";
+"mouse.color.green" = "Зелений";
+"mouse.color.blue" = "Синій";
+"mouse.color.purple" = "Фіолетовий";
+"mouse.color.pink" = "Рожевий";
+"mouse.color.graphite" = "Графітовий";
+"mouse.color.white" = "Білий";
+"mouse.color.black" = "Чорний";
+"mouse.shape.circle" = "Коло";
+"mouse.shape.rhomb" = "Ромб";
+"mouse.shape.squircle" = "Скруглений квадрат";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "Доступність";
+"permissions.section_subtitle" = "Keyty потрібен дозвіл «Доступність», щоб відстежувати й показувати події вводу.";
+"permissions.status.granted" = "Надано";
+"permissions.status.not_granted" = "Не надано";
+"permissions.grant_access_button" = "Надати…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Налаштування Keyty";
+"permissions_onboarding.subtitle" = "Щоб увімкнути візуалізацію клавіатури та миші,\nнадайте Keyty дозвіл «Доступність» у macOS.";
+"permissions_onboarding.accessibility.title" = "Доступність";
+"permissions_onboarding.accessibility.detail" = "Потрібен для показу вводу з клавіатури та миші.";
+"permissions_onboarding.accessibility.grant_button" = "Надати…";
+"permissions_onboarding.privacy" = "Усі дані вводу обробляються локально на вашому Mac. Нічого не надсилається та не зберігається.";
+"permissions_onboarding.learn_more" = "Докладніше";
+"permissions_onboarding.continue" = "Продовжити";
+"permissions_onboarding.continue_hint" = "Продовжте після надання дозволу «Доступність».";
+
+/* Update settings pane */
+"update.check_at_startup" = "Перевіряти оновлення після запуску";
+"update.check_at_startup_subtitle" = "Sparkle періодично перевірятиме наявність нових версій.";
+"update.include_system_profile" = "Додавати анонімний профіль системи";
+"update.include_system_profile_subtitle" = "Надсилати основні відомості про обладнання під час перевірки оновлень.";
+"update.last_checked_label" = "Остання перевірка";
+"update.never" = "Ніколи";
+"update.check_now_button" = "Перевірити оновлення";

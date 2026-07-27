@@ -12,7 +12,7 @@ let appSettings: SettingsDictionary = [
     "ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS": "YES",
     "CLANG_ENABLE_OBJC_WEAK": "YES",
     "CODE_SIGN_ENTITLEMENTS": "Sources/Keyty/Resources/Keyty.entitlements",
-    "CURRENT_PROJECT_VERSION": "87",
+    "CURRENT_PROJECT_VERSION": "100",
     "DEAD_CODE_STRIPPING": "YES",
     "ENABLE_HARDENED_RUNTIME": "YES",
     "FRAMEWORK_SEARCH_PATHS": [
@@ -28,7 +28,7 @@ let appSettings: SettingsDictionary = [
         "$(inherited)",
         "@executable_path/../Frameworks",
     ],
-    "MARKETING_VERSION": "0.8.7",
+    "MARKETING_VERSION": "1.0.0",
     "PRODUCT_BUNDLE_IDENTIFIER": "app.keyty.Keyty",
     "PRODUCT_NAME": "Keyty",
     "PROVISIONING_PROFILE_SPECIFIER": "",

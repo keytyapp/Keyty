@@ -9,7 +9,7 @@
 import Foundation
 
 enum AppConstants {
-    private static let repositoryBaseURL = "https://github.com/esphynox/Keyty"
+    private static let repositoryBaseURL = "https://github.com/keytyapp/Keyty"
 
     static var appName: String {
         Bundle.main.displayName ?? Bundle.main.name ?? "Keyty"

@@ -13,7 +13,7 @@ This guide covers the local contributor workflow for building, running, testing,
 Clone the repository and open the Xcode project:
 
 ```bash
-git clone https://github.com/esphynox/Keyty.git
+git clone https://github.com/keytyapp/Keyty.git
 cd Keyty
 brew install tuist
 cd Apps/Keyty

@@ -52,9 +52,15 @@ Keyty can be tuned from Settings to match your workflow and presentation style:
 
 ## Installation
 
-### Github
+### GitHub
 
 Download the latest release from [GitHub](https://github.com/keytyapp/Keyty/releases)
+
+### Homebrew
+
+```bash
+brew install --cask keytyapp/tap/keyty
+```
 
 ### Build from Source
 

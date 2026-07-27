@@ -8,10 +8,10 @@
 </h1>
 
 <div>
-   <img src="https://img.shields.io/github/v/release/esphynox/Keyty?style=flat-square" alt="Releases">
-   <img src="https://img.shields.io/github/downloads/esphynox/Keyty/total?style=flat-square" alt="Downloads">
-   <img src="https://img.shields.io/github/stars/esphynox/Keyty?style=flat-square" alt="Stars">
-   <img src="https://img.shields.io/github/license/esphynox/Keyty?style=flat-square" alt="License">
+   <img src="https://img.shields.io/github/v/release/keytyapp/Keyty?style=flat-square" alt="Releases">
+   <img src="https://img.shields.io/github/downloads/keytyapp/Keyty/total?style=flat-square" alt="Downloads">
+   <img src="https://img.shields.io/github/stars/keytyapp/Keyty?style=flat-square" alt="Stars">
+   <img src="https://img.shields.io/github/license/keytyapp/Keyty?style=flat-square" alt="License">
    <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=flat-square" alt="Platform Support">
 </div>
 
@@ -54,7 +54,7 @@ Keyty can be tuned from Settings to match your workflow and presentation style:
 
 ### Github
 
-Download the latest release from [GitHub](https://github.com/esphynox/Keyty/releases)
+Download the latest release from [GitHub](https://github.com/keytyapp/Keyty/releases)
 
 ### Build from Source
 

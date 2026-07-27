@@ -10,7 +10,7 @@
 ## Cloning
 
 ```bash
-git clone https://github.com/esphynox/Keyty.git
+git clone https://github.com/keytyapp/Keyty.git
 cd Keyty
 ```
 

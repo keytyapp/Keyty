@@ -56,7 +56,7 @@ Optionally configure these repository variables:
 
 | Variable | Description |
 |---|---|
-| `APPCAST_DOWNLOAD_PREFIX` | Sparkle enclosure URL prefix. By default, the release lane uses the current GitHub release asset URL, such as `https://github.com/esphynox/Keyty/releases/download/v0.8.0/` |
+| `APPCAST_DOWNLOAD_PREFIX` | Sparkle enclosure URL prefix. By default, the release lane uses the current GitHub release asset URL, such as `https://github.com/keytyapp/Keyty/releases/download/v0.8.0/` |
 | `STAGING_APPCAST_URL` | Feed URL compiled into staging builds, default `https://keyty.app/staging/appcast.xml` |
 | `STAGING_APPCAST_DOWNLOAD_PREFIX` | Staging Sparkle enclosure URL prefix. By default, the staging lane uses the current GitHub prerelease asset URL |
 | `KEYTY_RELEASE_TEAM_ID` | Developer ID team, default `NEVA4MAZBL` |
@@ -76,7 +76,7 @@ other fetch failures stop the lane before creating the GitHub release.
 
 - `Keyty.zip` is the Sparkle update archive and the input to appcast generation.
 - `Keyty.dmg` is the manual-download artifact attached to the GitHub release.
-- The stable artifact names support GitHub's latest-release download URLs, for example `https://github.com/esphynox/Keyty/releases/latest/download/Keyty.dmg`.
+- The stable artifact names support GitHub's latest-release download URLs, for example `https://github.com/keytyapp/Keyty/releases/latest/download/Keyty.dmg`.
 - Appcast generation reads the zip from an appcast-only directory so the DMG is
   not scanned as a duplicate update.
 - Production and staging appcasts are cumulative. Previous appcast items keep
@@ -156,7 +156,7 @@ the GitHub prerelease asset. The updated staging appcast will include both the
 `0.9.0` and `0.9.1` staging items until you reset it:
 
 ```text
-https://github.com/esphynox/Keyty/releases/download/v0.9.1-test/Keyty.zip
+https://github.com/keytyapp/Keyty/releases/download/v0.9.1-test/Keyty.zip
 ```
 
 After testing, delete the staging prereleases and tags:
@@ -205,8 +205,8 @@ git push --tags
 7. Download the `appcast-artifacts` workflow artifact and publish `appcast.xml` through the Vercel-hosted site.
 8. Verify the published appcast artifacts are available at the feed host:
    - `https://keyty.app/appcast.xml`
-   - `https://github.com/esphynox/Keyty/releases/download/v<NEW_VERSION>/Keyty.zip`
-   - `https://github.com/esphynox/Keyty/releases/latest/download/Keyty.dmg`
+   - `https://github.com/keytyapp/Keyty/releases/download/v<NEW_VERSION>/Keyty.zip`
+   - `https://github.com/keytyapp/Keyty/releases/latest/download/Keyty.dmg`
 9. Inspect the `appcast-artifacts` workflow artifact if you need to verify the exact files generated:
    - `appcast/Keyty.zip` for Sparkle
    - `Keyty.dmg` for GitHub Releases/manual downloads

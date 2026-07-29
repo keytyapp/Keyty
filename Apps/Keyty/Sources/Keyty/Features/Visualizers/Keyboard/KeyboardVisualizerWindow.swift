@@ -15,6 +15,7 @@ final class KeyboardVisualizerWindow: NSWindow {
     private let rootView = NSView()
     private var groupViews: [KeyboardVisualizerGroupView] = []
     private var cancellables = Set<AnyCancellable>()
+    var onGroupRemoved: ((KeyboardVisualizerGroupView) -> Void)?
 
     init(
         settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
@@ -75,6 +76,7 @@ final class KeyboardVisualizerWindow: NSWindow {
             guard let self, let groupView else { return }
             self.groupViews.removeAll { $0 === groupView }
             groupView.removeFromSuperview()
+            self.onGroupRemoved?(groupView)
             self.layoutGroups()
         }
     }
@@ -84,6 +86,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         while self.groupViews.count > maxCount {
             let view = self.groupViews.removeFirst()
             view.removeFromSuperview()
+            self.onGroupRemoved?(view)
         }
     }
 

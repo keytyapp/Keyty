@@ -46,10 +46,16 @@ jobs:
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO
 
+      - name: Collect Snapshot Failures
+        if: failure()
+        run: |
+          mkdir -p snapshot-failures
+          cp "$TMPDIR"/KeyboardVisualizerGroupViewSnapshotTests/*.png snapshot-failures/ || true
+
       - name: Upload Snapshot Failures
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: snapshot-failures
-          path: /var/folders/**/T/KeyboardVisualizerGroupViewSnapshotTests/*.png
+          path: snapshot-failures/*.png
           if-no-files-found: ignore

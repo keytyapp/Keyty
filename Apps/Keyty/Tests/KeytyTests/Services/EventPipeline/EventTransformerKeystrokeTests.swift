@@ -132,12 +132,12 @@ extension EventTransformerKeystrokeTests {
 extension EventTransformerKeystrokeTests {
     func test_KCKeystroke_convertsEisuKey() {
         self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.eisu.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), "英数")
+        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.eisu.displayText)
     }
 
     func test_KCKeystroke_convertsKanaKey() {
         self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.kana.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), "かな")
+        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.kana.displayText)
     }
 }
 

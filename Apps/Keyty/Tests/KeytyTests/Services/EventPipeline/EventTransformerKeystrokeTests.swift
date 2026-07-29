@@ -46,96 +46,96 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     // MARK: - Numbers
 
     func test_KCKeystroke_convertsCtrlNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 262401), characters: "7", charactersIgnoringModifiers: "7")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.control, characters: "7", charactersIgnoringModifiers: "7")
         XCTAssertEqual(transform(keystroke), "⌃7")
     }
 
     func test_KCKeystroke_convertsShiftNumberToShiftNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 131330), characters: "&", charactersIgnoringModifiers: "&")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.shift, characters: "&", charactersIgnoringModifiers: "&")
         XCTAssertEqual(transform(keystroke), "⇧7")
     }
 
     func test_KCKeystroke_convertsCtrlShiftNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 393475), characters: "7", charactersIgnoringModifiers: "&")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.controlShift, characters: "7", charactersIgnoringModifiers: "&")
         XCTAssertEqual(transform(keystroke), "⌃⇧7")
     }
 
     func test_KCKeystroke_convertsCmdNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1048840), characters: "7", charactersIgnoringModifiers: "7")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.command, characters: "7", charactersIgnoringModifiers: "7")
         XCTAssertEqual(transform(keystroke), "⌘7")
     }
 
     func test_KCKeystroke_convertsCmdShiftNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1179914), characters: "7", charactersIgnoringModifiers: "&")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandShift, characters: "7", charactersIgnoringModifiers: "&")
         XCTAssertEqual(transform(keystroke), "⇧⌘7")
     }
 
     func test_KCKeystroke_convertsCmdOptNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1573160), characters: "¶", charactersIgnoringModifiers: "7")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOption, characters: "¶", charactersIgnoringModifiers: "7")
         XCTAssertEqual(transform(keystroke), "⌥⌘7")
     }
 
     func test_KCKeystroke_convertsShiftOptionNumberToNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 655650), characters: "»", charactersIgnoringModifiers: "7")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
         XCTAssertEqual(transform(keystroke), "⌥⇧7")
     }
 
     func test_KCKeystroke_convertsCmdOptShiftNumberToShiftedNumber() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1704234), characters: "‡", charactersIgnoringModifiers: "&")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOptionShift, characters: "‡", charactersIgnoringModifiers: "&")
         XCTAssertEqual(transform(keystroke), "⌥⇧⌘7")
     }
 
     // MARK: - Letters
 
     func test_KCKeystroke_convertsCtrlLetterToUppercaseLetter() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 262401), characters: "^A", charactersIgnoringModifiers: "a")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.control, characters: "^A", charactersIgnoringModifiers: "a")
         XCTAssertEqual(transform(keystroke), "⌃A")
     }
 
     func test_KCKeystroke_convertsCtrlShiftLetterToLetter() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 393475), characters: "^A", charactersIgnoringModifiers: "a")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlShift, characters: "^A", charactersIgnoringModifiers: "a")
         XCTAssertEqual(transform(keystroke), "⌃⇧A")
     }
 
     func test_KCKeystroke_convertsCtrlShiftCmdLetterToLetter() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1442059), characters: "^A", charactersIgnoringModifiers: "A")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlCommandShift, characters: "^A", charactersIgnoringModifiers: "A")
         XCTAssertEqual(transform(keystroke), "⌃⇧⌘A")
     }
 
     func test_KCKeystroke_convertsCtrlOptLetterToUppercaseLetter() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 786721), characters: "^A", charactersIgnoringModifiers: "a")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOption, characters: "^A", charactersIgnoringModifiers: "a")
         XCTAssertEqual(transform(keystroke), "⌃⌥A")
     }
 
     func test_KCKeystroke_convertsCtrlOptShiftLetterToLetter() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 917795), characters: "^A", charactersIgnoringModifiers: "A")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOptionShift, characters: "^A", charactersIgnoringModifiers: "A")
         XCTAssertEqual(transform(keystroke), "⌃⌥⇧A")
     }
 
     func test_KCKeystroke_displaysOptLetterByDefault() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.u.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 524576), characters: "", charactersIgnoringModifiers: "u")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
         XCTAssertEqual(transform(keystroke), "⌥U")
     }
 
     // MARK: - Function Row
 
     func test_KCKeystroke_convertsFnF1ToBrightnessDecrease() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.brightnessDown.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 8388864), characters: "", charactersIgnoringModifiers: "")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.brightnessDown.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
         XCTAssertEqual(transform(keystroke), "🔅")
     }
 
     func test_KCKeystroke_convertsFnF2ToBrightnessIncrease() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.brightnessUp.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 8388864), characters: "", charactersIgnoringModifiers: "")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.brightnessUp.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
         XCTAssertEqual(transform(keystroke), "🔆")
     }
 
     func test_KCKeystroke_convertsFnF3ToMissionControl() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.missionControl.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 8388864), characters: "", charactersIgnoringModifiers: "")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.missionControl.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
         XCTAssertEqual(transform(keystroke), "🖥")
     }
 
     func test_KCKeystroke_convertsFnF4ToLauncher() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.launchpad.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 8388864), characters: "", charactersIgnoringModifiers: "")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.launchpad.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
         XCTAssertEqual(transform(keystroke), "🚀")
     }
 
@@ -154,21 +154,21 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     // MARK: - Option-modified characters
 
     func test_optionShiftNumberDisplaysExplicitModifiers() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 655650), characters: "»", charactersIgnoringModifiers: "7")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
         XCTAssertEqual(transform(keystroke), "⌥⇧7")
     }
 
     // MARK: - Special Cases
 
     func test_tabKey() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 256), characters: "\t", charactersIgnoringModifiers: "\t")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.none, characters: "\t", charactersIgnoringModifiers: "\t")
         XCTAssertEqual(transform(keystroke), "⇥")
     }
 
     func test_returnAndKeypadEnterUseDifferentSymbols() {
         keystroke = makeKeystroke(
             keyCode: KeyboardKeyCode.returnKey.rawValue,
-            modifiers: NSEvent.ModifierFlags(rawValue: 256),
+            modifiers: TestModifierFlags.none,
             characters: "\r",
             charactersIgnoringModifiers: "\r"
         )
@@ -176,7 +176,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
         keystroke = makeKeystroke(
             keyCode: KeyboardKeyCode.keypadEnter.rawValue,
-            modifiers: NSEvent.ModifierFlags(rawValue: 256),
+            modifiers: TestModifierFlags.none,
             characters: "\r",
             charactersIgnoringModifiers: "\r"
         )
@@ -186,7 +186,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     func test_deleteAndForwardDeleteUseDifferentSymbols() {
         keystroke = makeKeystroke(
             keyCode: KeyboardKeyCode.delete.rawValue,
-            modifiers: NSEvent.ModifierFlags(rawValue: 256),
+            modifiers: TestModifierFlags.none,
             characters: UnicodeToken.delete.string,
             charactersIgnoringModifiers: UnicodeToken.delete.string
         )
@@ -194,7 +194,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
         keystroke = makeKeystroke(
             keyCode: KeyboardKeyCode.forwardDelete.rawValue,
-            modifiers: NSEvent.ModifierFlags(rawValue: 256),
+            modifiers: TestModifierFlags.none,
             characters: UnicodeToken.forwardDelete.string,
             charactersIgnoringModifiers: UnicodeToken.forwardDelete.string
         )
@@ -203,7 +203,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
     func test_shiftTab() {
         let ch = String(UnicodeScalar(0x19)!)
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 131330), characters: ch, charactersIgnoringModifiers: ch)
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.shift, characters: ch, charactersIgnoringModifiers: ch)
         XCTAssertEqual(transform(keystroke), "⇤")
     }
 
@@ -218,7 +218,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
         for (keyCode, expected) in cases {
             keystroke = makeKeystroke(
                 keyCode: keyCode.rawValue,
-                modifiers: NSEvent.ModifierFlags(rawValue: 256),
+                modifiers: TestModifierFlags.none,
                 characters: expected,
                 charactersIgnoringModifiers: expected
             )
@@ -247,30 +247,30 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
     func test_optionShiftUp() {
         let ch = String(format: "%lu", UInt64(0x00006000002f5c00))
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 11141410), characters: ch, charactersIgnoringModifiers: ch)
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: TestModifierFlags.functionOptionShiftNumericPad, characters: ch, charactersIgnoringModifiers: ch)
 
         XCTAssertEqual(transform(keystroke), "⌥⇧▲")
     }
 
     func test_optionUSpecialCase() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.u.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 524576), characters: "", charactersIgnoringModifiers: "u")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
         XCTAssertEqual(transform(keystroke), "⌥U")
     }
 
     func test_optionESpecialCase() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.e.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 524576), characters: "", charactersIgnoringModifiers: "e")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.e.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "e")
         XCTAssertEqual(transform(keystroke), "⌥E")
     }
 
     func test_optionBacktickSpecialCase() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.grave.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 524576), characters: "", charactersIgnoringModifiers: "`")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.grave.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "`")
         XCTAssertEqual(transform(keystroke), "⌥`")
     }
 
     // MARK: - German - Special Case
 
     func test_commandßDisplaysCommandß() {
-        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.minus.rawValue, modifiers: NSEvent.ModifierFlags(rawValue: 1048840), characters: "ß", charactersIgnoringModifiers: "ß")
+        keystroke = makeKeystroke(keyCode: KeyboardKeyCode.minus.rawValue, modifiers: TestModifierFlags.command, characters: "ß", charactersIgnoringModifiers: "ß")
         XCTAssertEqual(transform(keystroke), "⌘ß")
     }
 

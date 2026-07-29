@@ -12,9 +12,8 @@ import XCTest
 
 final class KeycapItemFactoryTests: XCTestCase {
     func testKeyboardModifierKeysDecodeLocationSpecificFlags() {
-        let flags = NSEvent.ModifierFlags(
-            .command,
-            deviceMasks: UInt(NX_DEVICELCMDKEYMASK),
+        let flags = NSEvent.ModifierFlags.command.addingRawMasks(
+            UInt(NX_DEVICELCMDKEYMASK),
             UInt(NX_DEVICERCMDKEYMASK)
         )
 
@@ -37,9 +36,8 @@ final class KeycapItemFactoryTests: XCTestCase {
 
     func testModifierItemsUseLocationSpecificModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
-            currentFlags: NSEvent.ModifierFlags(
-                .command,
-                deviceMasks: UInt(NX_DEVICELCMDKEYMASK),
+            currentFlags: NSEvent.ModifierFlags.command.addingRawMasks(
+                UInt(NX_DEVICELCMDKEYMASK),
                 UInt(NX_DEVICERCMDKEYMASK)
             ),
             releasedFlags: [],
@@ -55,9 +53,8 @@ final class KeycapItemFactoryTests: XCTestCase {
 
     func testModifierItemsUseInwardAlignmentForNonCommandModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
-            currentFlags: NSEvent.ModifierFlags(
-                .shift,
-                deviceMasks: UInt(NX_DEVICELSHIFTKEYMASK),
+            currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(
+                UInt(NX_DEVICELSHIFTKEYMASK),
                 UInt(NX_DEVICERSHIFTKEYMASK)
             ),
             releasedFlags: [],

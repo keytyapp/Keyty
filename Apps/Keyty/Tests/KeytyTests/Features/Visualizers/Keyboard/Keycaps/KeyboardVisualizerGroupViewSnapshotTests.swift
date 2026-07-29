@@ -114,11 +114,12 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
     }
 
     func snapshotImage(for view: NSView) -> NSImage {
+        let scale = 2.0
         let size = view.bounds.size
         let bitmap = NSBitmapImageRep(
             bitmapDataPlanes: nil,
-            pixelsWide: max(1, Int(size.width.rounded())),
-            pixelsHigh: max(1, Int(size.height.rounded())),
+            pixelsWide: max(1, Int((size.width * scale).rounded())),
+            pixelsHigh: max(1, Int((size.height * scale).rounded())),
             bitsPerSample: 8,
             samplesPerPixel: 4,
             hasAlpha: true,

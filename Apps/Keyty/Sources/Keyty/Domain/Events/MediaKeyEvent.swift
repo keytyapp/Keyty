@@ -45,7 +45,7 @@ public struct MediaKeyEvent {
     public let modifierFlags: NSEvent.ModifierFlags
     public let kind: Kind
     /// `true` for a press (`NX_KEYDOWN`, state `0xA`), `false` for the release.
-    public let isDown: Bool
+    public let isPressed: Bool
 
     /// `false` for aux-control events that are not media keys (caps lock, power,
     /// num lock, …) and so should not be displayed — caps lock in particular is
@@ -63,7 +63,7 @@ public struct MediaKeyEvent {
         let keyCode = (data1 & 0xFFFF0000) >> 16
         let keyState = (data1 & 0xFF00) >> 8
         self.kind = Kind(keyCode: keyCode)
-        self.isDown = keyState == 0x0A
+        self.isPressed = keyState == 0x0A
     }
 
     public var inputEvent: InputEvent {

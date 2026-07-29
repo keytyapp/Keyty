@@ -193,7 +193,7 @@ extension CaptureController: EventTapDelegate {
     }
 
     func eventTap(_ tap: EventTap, noteMediaKey mediaKey: MediaKeyEvent) {
-        guard self.isCapturing, mediaKey.isDown, mediaKey.isRecognized else { return }
+        guard self.isCapturing, mediaKey.isPressed, mediaKey.isRecognized else { return }
         self.eventProcessor.noteMediaKey(mediaKey)
     }
 

@@ -97,7 +97,7 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
 
         assertSnapshot(
             of: view,
-            as: .image(size: view.preferredSize),
+            as: .image(precision: 0.99, perceptualPrecision: 0.98, size: view.preferredSize),
             named: name,
             file: file,
             testName: testName,

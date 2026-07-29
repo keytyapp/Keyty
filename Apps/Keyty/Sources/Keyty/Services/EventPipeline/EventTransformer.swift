@@ -37,18 +37,14 @@ public final class EventTransformer {
     private func shouldReturnOriginalCharacters(keyCode: UInt16, characters: String?) -> Bool {
         keyCode == KeyboardKeyCode.minus.rawValue && characters == "ß"
     }
-}
 
-private extension EventTransformer {
-    func transform(_ keystroke: StandardKeyEvent) -> String {
-        if let glyph = InputEventGlyphMapper.glyph(for: keystroke.inputEvent) {
-            return glyph
-        }
-
-        let modifiers = keystroke.modifierFlags
+    private func modifierPrefix(
+        for modifiers: NSEvent.ModifierFlags,
+        includesDeferredShift: Bool = true
+    ) -> String {
         let hasOptionModifier = modifiers.contains(.option)
         let hasShiftModifier = modifiers.contains(.shift)
-        let isCommand = !modifiers.intersection([.control, .command]).isEmpty
+        let usesShortcutStyle = !modifiers.intersection([.control, .command]).isEmpty
         var needsShiftGlyph = false
         var response = ""
 
@@ -61,9 +57,7 @@ private extension EventTransformer {
         }
 
         if hasShiftModifier {
-            if isCommand {
-                response += KeyboardGlyphCatalog.shift
-            } else if hasOptionModifier {
+            if usesShortcutStyle || hasOptionModifier {
                 response += KeyboardGlyphCatalog.shift
             } else {
                 needsShiftGlyph = true
@@ -78,12 +72,32 @@ private extension EventTransformer {
             response += KeyboardGlyphCatalog.command
         }
 
+        if needsShiftGlyph && includesDeferredShift {
+            response += KeyboardGlyphCatalog.shift
+        }
+
+        return response
+    }
+}
+
+private extension EventTransformer {
+    func transform(_ keystroke: StandardKeyEvent) -> String {
+        if let glyph = InputEventGlyphMapper.glyph(for: keystroke.inputEvent) {
+            return glyph
+        }
+
+        let modifiers = keystroke.modifierFlags
+        let hasOptionModifier = modifiers.contains(.option)
+        let hasShiftModifier = modifiers.contains(.shift)
+        let isCommand = !modifiers.intersection([.control, .command]).isEmpty
+        var response = self.modifierPrefix(for: modifiers, includesDeferredShift: false)
+
         if hasShiftModifier && !keystroke.isCommand && !hasOptionModifier && keystroke.keyCode == KeyboardKeyCode.tab.rawValue {
             response += KeyboardGlyphCatalog.backTab
             return response
         }
 
-        if needsShiftGlyph {
+        if hasShiftModifier && !isCommand && !hasOptionModifier {
             response += KeyboardGlyphCatalog.shift
         }
 
@@ -109,41 +123,7 @@ private extension EventTransformer {
     }
 
     func transform(_ mouseEvent: MouseEvent) -> String {
-        let modifiers = mouseEvent.modifierFlags
-        let hasOptionModifier = modifiers.contains(.option)
-        let hasShiftModifier = modifiers.contains(.shift)
-        let isCommand = !modifiers.intersection([.control, .command]).isEmpty
-        var needsShiftGlyph = false
-        var response = ""
-
-        if modifiers.contains(.control) {
-            response += KeyboardGlyphCatalog.control
-        }
-
-        if hasOptionModifier {
-            response += KeyboardGlyphCatalog.option
-        }
-
-        if hasShiftModifier {
-            if isCommand || hasOptionModifier {
-                response += KeyboardGlyphCatalog.shift
-            } else {
-                needsShiftGlyph = true
-            }
-        }
-
-        if modifiers.contains(.command) {
-            if needsShiftGlyph {
-                response += KeyboardGlyphCatalog.shift
-                needsShiftGlyph = false
-            }
-            response += KeyboardGlyphCatalog.command
-        }
-
-        if needsShiftGlyph {
-            response += KeyboardGlyphCatalog.shift
-        }
-
+        var response = self.modifierPrefix(for: mouseEvent.modifierFlags)
         response += InputEventGlyphMapper.mouseDisplayText(for: mouseEvent.kind)
         return response
     }

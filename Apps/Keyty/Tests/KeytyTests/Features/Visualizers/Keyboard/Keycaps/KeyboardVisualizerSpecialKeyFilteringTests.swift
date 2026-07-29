@@ -34,7 +34,7 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
 
     func testResolverClassifiesInsertFunctionKeyAsSpecial() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
-        let event = Self.makeKeystroke(
+        let event = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.help.rawValue,
             characters: ch,
             charactersIgnoringModifiers: ch
@@ -44,33 +44,13 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
     }
 
     func testResolverClassifiesPrintableLetterAsNonSpecial() {
-        let event = Self.makeKeystroke(
+        let event = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.a.rawValue,
             characters: "a",
             charactersIgnoringModifiers: "a"
         )
 
         XCTAssertFalse(KeyboardSpecialKeyResolver.isSpecial(event))
-    }
-
-    private static func makeKeystroke(
-        keyCode: UInt16,
-        characters: String,
-        charactersIgnoringModifiers: String
-    ) -> StandardKeyEvent {
-        let event = NSEvent.keyEvent(
-            with: .keyDown,
-            location: .zero,
-            modifierFlags: [],
-            timestamp: NSDate.timeIntervalSinceReferenceDate,
-            windowNumber: 0,
-            context: nil,
-            characters: characters,
-            charactersIgnoringModifiers: charactersIgnoringModifiers,
-            isARepeat: false,
-            keyCode: keyCode
-        )!
-        return StandardKeyEvent(nsEvent: event)
     }
 
 }

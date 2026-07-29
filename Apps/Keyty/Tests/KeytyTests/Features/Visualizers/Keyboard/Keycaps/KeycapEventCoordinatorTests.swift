@@ -419,6 +419,130 @@ final class KeycapEventCoordinatorTests: XCTestCase {
         XCTAssertEqual(updatedGroups[1].first(where: { $0.identity == .mouse(.leftButton) })?.isPressed, false)
     }
 
+    func testRemoveGroupClearsTrackedKeyState() {
+        let coordinator = KeycapEventCoordinator<TestGroupView, TestItem>()
+        let removedGroup = TestGroupView()
+        var appendedGroups: [[TestItem]] = []
+        var updatedGroups: [[TestItem]] = []
+
+        coordinator.handleTrackedKey(
+            keyCode: 8,
+            isKeyDown: true,
+            items: [TestItem(identity: .keyCode(8), isPressed: true)],
+            appendGroup: {
+                appendedGroups.append($0)
+                return removedGroup
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        coordinator.removeGroup(removedGroup)
+
+        coordinator.handleTrackedKey(
+            keyCode: 8,
+            isKeyDown: false,
+            items: [TestItem(identity: .keyCode(8), isPressed: false)],
+            appendGroup: {
+                appendedGroups.append($0)
+                return TestGroupView()
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        XCTAssertEqual(appendedGroups.count, 2)
+        XCTAssertTrue(updatedGroups.isEmpty)
+        XCTAssertEqual(appendedGroups[1].map(\.identity), [.keyCode(8)])
+        XCTAssertEqual(appendedGroups[1].first?.isPressed, false)
+    }
+
+    func testRemoveGroupClearsTrackedMouseState() {
+        let coordinator = KeycapEventCoordinator<TestGroupView, TestItem>()
+        let removedGroup = TestGroupView()
+        var appendedGroups: [[TestItem]] = []
+        var updatedGroups: [[TestItem]] = []
+
+        coordinator.handleMouseButton(
+            kind: .leftButton,
+            isPressed: true,
+            items: [TestItem(identity: .mouse(.leftButton), isPressed: true)],
+            appendGroup: {
+                appendedGroups.append($0)
+                return removedGroup
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        coordinator.removeGroup(removedGroup)
+
+        coordinator.handleMouseButton(
+            kind: .leftButton,
+            isPressed: false,
+            items: [TestItem(identity: .mouse(.leftButton), isPressed: false)],
+            appendGroup: {
+                appendedGroups.append($0)
+                return TestGroupView()
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        XCTAssertEqual(appendedGroups.count, 2)
+        XCTAssertTrue(updatedGroups.isEmpty)
+        XCTAssertEqual(appendedGroups[1].map(\.identity), [.mouse(.leftButton)])
+        XCTAssertEqual(appendedGroups[1].first?.isPressed, false)
+    }
+
+    func testRemoveGroupClearsPendingModifierState() {
+        let coordinator = KeycapEventCoordinator<TestGroupView, TestItem>()
+        let removedGroup = TestGroupView()
+        var appendedGroups: [[TestItem]] = []
+        var updatedGroups: [[TestItem]] = []
+
+        coordinator.handleFlagsChanged(
+            currentTrackedFlags: [.command],
+            releasedTrackedFlags: [],
+            buildItems: { currentFlags, releasedFlags in
+                Self.modifierItems(currentFlags: currentFlags, releasedFlags: releasedFlags)
+            },
+            appendGroup: {
+                appendedGroups.append($0)
+                return removedGroup
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        coordinator.removeGroup(removedGroup)
+
+        coordinator.handleTrackedKey(
+            keyCode: 8,
+            isKeyDown: true,
+            items: [
+                TestItem(identity: .modifier(.leftCommand), isPressed: true),
+                TestItem(identity: .keyCode(8), isPressed: true)
+            ],
+            appendGroup: {
+                appendedGroups.append($0)
+                return TestGroupView()
+            },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        XCTAssertEqual(appendedGroups.count, 2)
+        XCTAssertTrue(updatedGroups.isEmpty)
+        XCTAssertEqual(appendedGroups[1].map(\.identity), [.modifier(.leftCommand), .keyCode(8)])
+    }
+
     private static func modifierItems(
         currentFlags: NSEvent.ModifierFlags,
         releasedFlags: NSEvent.ModifierFlags

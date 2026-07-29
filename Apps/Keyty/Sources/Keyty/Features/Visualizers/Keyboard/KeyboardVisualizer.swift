@@ -26,6 +26,9 @@ final class KeyboardVisualizer {
         let settings = KeyboardVisualizerSettings(store: store)
         self.visualizerSettings = settings
         self.visualizerWindow = KeyboardVisualizerWindow(settings: settings)
+        self.visualizerWindow.onGroupRemoved = { [weak self] group in
+            self?.eventCoordinator.removeGroup(group)
+        }
     }
 
     func activate() {

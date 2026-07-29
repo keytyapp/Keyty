@@ -15,9 +15,9 @@ extension MouseSettingsPane {
         private static let idleDuration: TimeInterval = 0.82
 
         @ObservedObject var model: MouseSettingsPaneViewModel
-        @State private var ringPreviewAnimationID = UUID()
+        @State private var ringPreviewTask: Task<Void, Never>?
         @State private var ringPreviewAnimationState = PointerRingAnimation.VisualState.idle(alwaysVisible: false)
-        @State private var iconPreviewAnimationID = UUID()
+        @State private var iconPreviewTask: Task<Void, Never>?
         @State private var iconPreviewVisualState = PointerIconContentView.VisualState.idle
 
         var body: some View {
@@ -207,46 +207,39 @@ private extension MouseSettingsPane.PreviewCard {
     }
 
     func startRingPreviewAnimation() {
-        let animationID = UUID()
-        self.ringPreviewAnimationID = animationID
+        self.ringPreviewTask?.cancel()
         self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.ringAlwaysVisible)
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.idleDuration / 2) {
-            self.runRingPreviewAnimationCycle(animationID)
+        self.ringPreviewTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
+            await self.runRingPreviewAnimationLoop()
         }
     }
 
     func stopRingPreviewAnimation() {
-        self.ringPreviewAnimationID = UUID()
+        self.ringPreviewTask?.cancel()
+        self.ringPreviewTask = nil
         self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.ringAlwaysVisible)
     }
 
-    func runRingPreviewAnimationCycle(_ animationID: UUID) {
-        guard self.canContinueRingPreviewAnimation(animationID) else {
-            return
-        }
-
-        withAnimation(.easeOut(duration: PointerRingAnimation.pressAnimationDuration)) {
-            self.ringPreviewAnimationState = .pressed
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.holdDuration) {
-            guard self.canContinueRingPreviewAnimation(animationID) else {
-                return
+    func runRingPreviewAnimationLoop() async {
+        while self.canContinueRingPreviewAnimation {
+            withAnimation(.easeOut(duration: PointerRingAnimation.pressAnimationDuration)) {
+                self.ringPreviewAnimationState = .pressed
             }
+
+            try? await Task.sleep(nanoseconds: Self.holdDuration.nanoseconds)
+            guard self.canContinueRingPreviewAnimation else { return }
 
             withAnimation(.easeOut(duration: PointerRingAnimation.releaseAnimationDuration)) {
                 self.ringPreviewAnimationState = .released(alwaysVisible: self.model.ringAlwaysVisible)
             }
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + Self.idleDuration) {
-                self.runRingPreviewAnimationCycle(animationID)
-            }
+            try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
         }
     }
 
-    func canContinueRingPreviewAnimation(_ animationID: UUID) -> Bool {
-        self.ringPreviewAnimationID == animationID && self.model.selectedSettingsTab == .ring
+    var canContinueRingPreviewAnimation: Bool {
+        !Task.isCancelled && self.model.selectedSettingsTab == .ring
     }
 
     func updateIconPreviewAnimation() {
@@ -258,55 +251,40 @@ private extension MouseSettingsPane.PreviewCard {
     }
 
     func startIconPreviewAnimation() {
-        let animationID = UUID()
-        self.iconPreviewAnimationID = animationID
+        self.iconPreviewTask?.cancel()
         self.iconPreviewVisualState = .idle
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + Self.idleDuration / 2) {
-            self.runIconPreviewAnimationCycle(animationID)
+        self.iconPreviewTask = Task { @MainActor in
+            try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
+            await self.runIconPreviewAnimationLoop()
         }
     }
 
     func stopIconPreviewAnimation() {
-        self.iconPreviewAnimationID = UUID()
+        self.iconPreviewTask?.cancel()
+        self.iconPreviewTask = nil
         self.iconPreviewVisualState = .idle
     }
 
-    func runIconPreviewAnimationCycle(_ animationID: UUID) {
-        self.runIconPreviewEvent(at: 0, animationID: animationID)
-    }
+    func runIconPreviewAnimationLoop() async {
+        while self.canContinueIconPreviewAnimation {
+            for event in PreviewIconEvent.allCases {
+                guard self.canContinueIconPreviewAnimation else { return }
+                self.iconPreviewVisualState = event.visualState
 
-    func runIconPreviewEvent(at index: Int, animationID: UUID) {
-        guard self.canContinueIconPreviewAnimation(animationID) else {
-            return
-        }
+                try? await Task.sleep(nanoseconds: event.duration.nanoseconds)
+                guard self.canContinueIconPreviewAnimation else { return }
 
-        guard index < PreviewIconEvent.allCases.count else {
+                self.iconPreviewVisualState = .idle
+
+                try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
+            }
             self.iconPreviewVisualState = .idle
-            DispatchQueue.main.asyncAfter(deadline: .now() + Self.idleDuration) {
-                self.runIconPreviewAnimationCycle(animationID)
-            }
-            return
-        }
-
-        let event = PreviewIconEvent.allCases[index]
-        self.iconPreviewVisualState = event.visualState
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + event.duration) {
-            guard self.canContinueIconPreviewAnimation(animationID) else {
-                return
-            }
-
-            self.iconPreviewVisualState = .idle
-
-            DispatchQueue.main.asyncAfter(deadline: .now() + Self.idleDuration) {
-                self.runIconPreviewEvent(at: index + 1, animationID: animationID)
-            }
+            try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
         }
     }
 
-    func canContinueIconPreviewAnimation(_ animationID: UUID) -> Bool {
-        self.iconPreviewAnimationID == animationID && self.model.selectedSettingsTab == .icon
+    var canContinueIconPreviewAnimation: Bool {
+        !Task.isCancelled && self.model.selectedSettingsTab == .icon
     }
 }
 

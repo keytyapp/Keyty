@@ -39,6 +39,7 @@ struct DisplaysSettingsPane: View {
                         }
                     }
                     .labelsHidden()
+                    .accessibilityLabel(L10n.Displays.displayLabel)
                     .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                 }
 
@@ -48,7 +49,10 @@ struct DisplaysSettingsPane: View {
                     title: L10n.Displays.anchorLabel,
                     subtitle: L10n.Displays.anchorSubtitle
                 ) {
-                    KeyboardVisualizerAnchorPicker(selection: $model.selectedAnchor)
+                    KeyboardVisualizerAnchorPicker(
+                        selection: $model.selectedAnchor,
+                        accessibilityLabel: L10n.Displays.anchorLabel
+                    )
                 }
 
                 Divider()
@@ -60,7 +64,8 @@ struct DisplaysSettingsPane: View {
                     SettingsSliderControl(
                         value: $model.windowPadding,
                         range: model.paddingRange,
-                        step: model.paddingStep
+                        step: model.paddingStep,
+                        accessibilityLabel: L10n.Displays.marginLabel
                     )
                 }
             }

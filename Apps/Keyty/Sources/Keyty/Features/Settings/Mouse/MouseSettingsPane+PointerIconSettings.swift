@@ -15,6 +15,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.pointerIconEnabledSubtitle) {
                 Toggle("", isOn: self.$model.iconEnabled)
                     .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.enabled)
                     .toggleStyle(.switch)
                     .controlSize(.small)
             }
@@ -24,6 +25,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.pointerIconAlwaysVisibleLabel, subtitle: L10n.Mouse.pointerIconAlwaysVisibleSubtitle) {
                 Toggle("", isOn: self.$model.iconAlwaysVisible)
                     .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.pointerIconAlwaysVisibleLabel)
                     .toggleStyle(.switch)
                     .controlSize(.small)
                     .disabled(!self.model.iconEnabled)
@@ -38,6 +40,7 @@ extension MouseSettingsPane {
                     }
                 }
                 .labelsHidden()
+                .accessibilityLabel(L10n.Mouse.pointerIconAnchorLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                 .disabled(!self.model.iconEnabled)
             }
@@ -47,6 +50,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.pointerIconOffsetLabel, subtitle: L10n.Mouse.pointerIconOffsetSubtitle) {
                 Slider(value: self.$model.iconOffset, in: 0...80)
                     .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.pointerIconOffsetLabel)
                     .disabled(!self.model.iconEnabled)
             }
 
@@ -55,6 +59,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.iconSizeLabel, subtitle: L10n.Mouse.iconSizeSubtitle) {
                 Slider(value: self.$model.iconSizeIndex, in: 0...9, step: 1)
                     .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.iconSizeLabel)
                     .disabled(!self.model.iconEnabled)
             }
 
@@ -90,7 +95,8 @@ extension MouseSettingsPane {
             ),
             sections: MouseSettingsPaneViewModel.ColorPreset.iconBackgroundColorSections,
             currentColor: self.model.iconBackgroundColor,
-            customSelectionID: MouseSettingsPaneViewModel.customIconBackgroundColorSelectionID
+            customSelectionID: MouseSettingsPaneViewModel.customIconBackgroundColorSelectionID,
+            accessibilityLabel: L10n.Mouse.iconBackgroundLabel
         )
     }
 
@@ -110,7 +116,8 @@ extension MouseSettingsPane {
             ),
             sections: MouseSettingsPaneViewModel.ColorPreset.iconTintColorSections,
             currentColor: self.model.iconTintColor,
-            customSelectionID: MouseSettingsPaneViewModel.customIconTintColorSelectionID
+            customSelectionID: MouseSettingsPaneViewModel.customIconTintColorSelectionID,
+            accessibilityLabel: L10n.Mouse.iconTintLabel
         )
     }
 
@@ -118,7 +125,8 @@ extension MouseSettingsPane {
         selection: Binding<String>,
         sections: [[MouseSettingsPaneViewModel.ColorPreset]],
         currentColor: NSColor,
-        customSelectionID: String
+        customSelectionID: String,
+        accessibilityLabel: String
     ) -> some View {
         Picker("", selection: selection) {
             ForEach(Array(sections.enumerated()), id: \.offset) { index, section in
@@ -144,6 +152,7 @@ extension MouseSettingsPane {
             )
         }
         .labelsHidden()
+        .accessibilityLabel(accessibilityLabel)
         .pickerStyle(.menu)
         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
     }

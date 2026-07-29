@@ -51,11 +51,11 @@ final class EventTransformerMouseTests: XCTestCase {
 
     func test_MouseEvent_commandLeftClickShowsCommandLMB() {
         let event = TestMouseEvents.make(type: .leftMouseDown, buttonNumber: 0, modifiers: .command)
-        XCTAssertEqual(transform(event), "⌘LMB")
+        XCTAssertEqual(transform(event), KeyboardGlyphCatalog.command + "LMB")
     }
 
     func test_MouseEvent_optionShiftRightClickShowsModifiersWithRMB() {
         let event = TestMouseEvents.make(type: .rightMouseDown, buttonNumber: 1, modifiers: [.option, .shift])
-        XCTAssertEqual(transform(event), "⌥⇧RMB")
+        XCTAssertEqual(transform(event), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "RMB")
     }
 }

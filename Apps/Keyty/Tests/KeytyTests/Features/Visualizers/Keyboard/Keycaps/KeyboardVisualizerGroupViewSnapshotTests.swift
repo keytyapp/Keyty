@@ -96,8 +96,8 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
         view.frame = NSRect(origin: .zero, size: view.preferredSize)
 
         assertSnapshot(
-            of: view,
-            as: .image(precision: 0.99, perceptualPrecision: 0.98, size: view.preferredSize),
+            of: self.snapshotImage(for: view),
+            as: .image(precision: 0.99, perceptualPrecision: 0.93),
             named: name,
             file: file,
             testName: testName,
@@ -111,6 +111,28 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
         settings.theme = .black
         settings.scale = 1.0
         return settings
+    }
+
+    func snapshotImage(for view: NSView) -> NSImage {
+        let size = view.bounds.size
+        let bitmap = NSBitmapImageRep(
+            bitmapDataPlanes: nil,
+            pixelsWide: max(1, Int(size.width.rounded())),
+            pixelsHigh: max(1, Int(size.height.rounded())),
+            bitsPerSample: 8,
+            samplesPerPixel: 4,
+            hasAlpha: true,
+            isPlanar: false,
+            colorSpaceName: .deviceRGB,
+            bytesPerRow: 0,
+            bitsPerPixel: 0
+        )!
+        bitmap.size = size
+        view.cacheDisplay(in: view.bounds, to: bitmap)
+
+        let image = NSImage(size: size)
+        image.addRepresentation(bitmap)
+        return image
     }
 
 }

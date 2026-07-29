@@ -49,6 +49,7 @@ Run `tuist generate` after changing `Project.swift`, dependencies, build setting
 - New Swift source files should use the existing file header with BSD-3-Clause SPDX metadata.
 - Keep app composition under `App/Composition`; keep platform APIs under `Platform`; keep transformation, formatting, settings, shortcuts, and presence logic under `Services`; keep domain models under `Domain`.
 - Prefer existing helpers and extensions before adding new abstractions.
+- For reusable helpers on Apple types that are not project-specific, prefer shared Foundation/AppKit extensions, such as `TimeInterval.nanoseconds`, instead of private helpers in feature views.
 - Avoid broad refactors unless they are necessary for the requested change.
 
 ## UI and Presentation

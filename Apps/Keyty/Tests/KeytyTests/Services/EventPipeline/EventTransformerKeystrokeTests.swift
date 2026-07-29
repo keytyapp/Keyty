@@ -202,7 +202,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     }
 
     func test_shiftTab() {
-        let ch = String(UnicodeScalar(0x19)!)
+        let ch = TestKeyboardCharacters.backTab
         keystroke = makeKeystroke(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.shift, characters: ch, charactersIgnoringModifiers: ch)
         XCTAssertEqual(transform(keystroke), KeyboardGlyphCatalog.backTab)
     }
@@ -227,13 +227,13 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     }
 
     func test_insertFunctionKeyDisplaysInsertForHelpKeyCode() {
-        let ch = Self.appKitFunctionKey(NSInsertFunctionKey)
+        let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
         keystroke = makeKeystroke(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
         XCTAssertEqual(transform(keystroke), "ins")
     }
 
     func test_helpFunctionKeyDisplaysHelpForHelpKeyCode() {
-        let ch = Self.appKitFunctionKey(NSHelpFunctionKey)
+        let ch = TestKeyboardCharacters.functionKeyCharacter(NSHelpFunctionKey)
         keystroke = makeKeystroke(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
         XCTAssertEqual(transform(keystroke), UnicodeToken.questionMark.string + UnicodeToken.enclosingCircle.string)
     }
@@ -246,7 +246,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     // MARK: - US English - Special Cases with Modifiers
 
     func test_optionShiftUp() {
-        let ch = Self.appKitFunctionKey(NSUpArrowFunctionKey)
+        let ch = TestKeyboardCharacters.functionKeyCharacter(NSUpArrowFunctionKey)
         keystroke = makeKeystroke(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: TestModifierFlags.functionOptionShiftNumericPad, characters: ch, charactersIgnoringModifiers: ch)
 
         XCTAssertEqual(
@@ -277,7 +277,4 @@ final class EventTransformerKeystrokeTests: XCTestCase {
         XCTAssertEqual(transform(keystroke), KeyboardGlyphCatalog.command + "ß")
     }
 
-    private static func appKitFunctionKey(_ key: Int) -> String {
-        String(UnicodeScalar(key)!)
-    }
 }

@@ -33,7 +33,7 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
     }
 
     func testResolverClassifiesInsertFunctionKeyAsSpecial() {
-        let ch = Self.appKitFunctionKey(NSInsertFunctionKey)
+        let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
         let event = Self.makeKeystroke(
             keyCode: KeyboardKeyCode.help.rawValue,
             characters: ch,
@@ -73,7 +73,4 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
         return StandardKeyEvent(nsEvent: event)
     }
 
-    private static func appKitFunctionKey(_ key: Int) -> String {
-        String(UnicodeScalar(key)!)
-    }
 }

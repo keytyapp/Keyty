@@ -246,7 +246,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
     // MARK: - US English - Special Cases with Modifiers
 
     func test_optionShiftUp() {
-        let ch = String(format: "%lu", UInt64(0x00006000002f5c00))
+        let ch = Self.appKitFunctionKey(NSUpArrowFunctionKey)
         keystroke = makeKeystroke(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: TestModifierFlags.functionOptionShiftNumericPad, characters: ch, charactersIgnoringModifiers: ch)
 
         XCTAssertEqual(

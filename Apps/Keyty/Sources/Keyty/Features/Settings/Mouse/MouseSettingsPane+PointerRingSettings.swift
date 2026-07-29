@@ -14,6 +14,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.enabledSubtitle) {
                 Toggle("", isOn: self.$model.ringEnabled)
                     .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.enabled)
                     .toggleStyle(.switch)
                     .controlSize(.small)
             }
@@ -23,6 +24,7 @@ extension MouseSettingsPane {
             SettingsControlRow(title: L10n.Mouse.alwaysVisibleLabel, subtitle: L10n.Mouse.alwaysVisibleSubtitle) {
                 Toggle("", isOn: self.$model.ringAlwaysVisible)
                     .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.alwaysVisibleLabel)
                     .toggleStyle(.switch)
                     .controlSize(.small)
                     .disabled(!self.model.ringEnabled)
@@ -37,6 +39,7 @@ extension MouseSettingsPane {
                     }
                 }
                 .labelsHidden()
+                .accessibilityLabel(L10n.Mouse.ringShapeLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                 .disabled(!self.model.ringEnabled)
             }
@@ -57,6 +60,7 @@ extension MouseSettingsPane {
                     step: MouseSettingsPaneViewModel.ringSizeStep
                 )
                     .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.ringSizeLabel)
                     .disabled(!self.model.ringEnabled)
             }
 
@@ -69,6 +73,7 @@ extension MouseSettingsPane {
                     step: MouseSettingsPaneViewModel.ringThicknessStep
                 )
                     .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
                     .disabled(!self.model.ringEnabled)
             }
         }
@@ -117,6 +122,7 @@ extension MouseSettingsPane {
             }
         }
         .labelsHidden()
+        .accessibilityLabel(L10n.Mouse.ringColorLabel)
         .pickerStyle(.menu)
         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         .onAppear {

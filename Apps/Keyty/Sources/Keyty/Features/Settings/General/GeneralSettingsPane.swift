@@ -27,6 +27,7 @@ struct GeneralSettingsPane: View {
                 ) {
                     Toggle("", isOn: $model.visibleAtLaunch)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.General.showSettingsAtLaunch)
                         .toggleStyle(.switch)
                         .controlSize(.small)
                 }

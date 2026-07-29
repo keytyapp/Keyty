@@ -101,19 +101,22 @@ struct SettingsSliderControl: View {
     let step: Double?
     let width: CGFloat
     let edgeLabels: SettingsSliderEdgeLabels?
+    let accessibilityLabel: String
 
     init(
         value: Binding<Double>,
         range: ClosedRange<Double>,
         step: Double? = nil,
         width: CGFloat = Spacing.grid(44),
-        edgeLabels: SettingsSliderEdgeLabels? = nil
+        edgeLabels: SettingsSliderEdgeLabels? = nil,
+        accessibilityLabel: String
     ) {
         self._value = value
         self.range = range
         self.step = step
         self.width = width
         self.edgeLabels = edgeLabels
+        self.accessibilityLabel = accessibilityLabel
     }
 
     var body: some View {
@@ -126,6 +129,7 @@ struct SettingsSliderControl: View {
                 }
             }
             .frame(width: self.width)
+            .accessibilityLabel(self.accessibilityLabel)
 
             if let edgeLabels = self.edgeLabels {
                 HStack(spacing: Spacing.none) {

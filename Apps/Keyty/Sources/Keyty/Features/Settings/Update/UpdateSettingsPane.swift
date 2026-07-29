@@ -25,6 +25,7 @@ struct UpdateSettingsPane: View {
                 ) {
                     Toggle("", isOn: $model.automaticallyChecksForUpdates)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.Update.checkAtStartup)
                         .toggleStyle(.switch)
                         .controlSize(.small)
                 }
@@ -37,6 +38,7 @@ struct UpdateSettingsPane: View {
                 ) {
                     Toggle("", isOn: $model.sendsSystemProfile)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.Update.includeSystemProfile)
                         .toggleStyle(.switch)
                         .controlSize(.small)
                         .disabled(!model.automaticallyChecksForUpdates)

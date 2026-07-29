@@ -103,6 +103,7 @@ struct KeyboardSettingsPane: View {
                 ) {
                     Toggle("", isOn: self.$model.onlyShowModifiedKeystrokes)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.onlyShowModifiedKeystrokesLabel)
                         .toggleStyle(.switch)
                 }
 
@@ -114,6 +115,7 @@ struct KeyboardSettingsPane: View {
                 ) {
                     Toggle("", isOn: self.$model.showSpecialKeys)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.showSpecialKeysLabel)
                         .toggleStyle(.switch)
                 }
 
@@ -125,6 +127,7 @@ struct KeyboardSettingsPane: View {
                 ) {
                     Toggle("", isOn: self.$model.showMediaKeyButtons)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.showMediaKeyButtonsLabel)
                         .toggleStyle(.switch)
                 }
 
@@ -136,6 +139,7 @@ struct KeyboardSettingsPane: View {
                 ) {
                     Toggle("", isOn: self.$model.showMouseEvents)
                         .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.showMouseEventsLabel)
                         .toggleStyle(.switch)
                 }
             }
@@ -145,7 +149,10 @@ struct KeyboardSettingsPane: View {
                 subtitle: L10n.KeyboardVisualizer.layoutSectionSubtitle
             ) {
                 SettingsControlRow(title: L10n.KeyboardVisualizer.anchorLabel, subtitle: L10n.KeyboardVisualizer.anchorSubtitle) {
-                    KeyboardVisualizerAnchorPicker(selection: self.$model.anchor)
+                    KeyboardVisualizerAnchorPicker(
+                        selection: self.$model.anchor,
+                        accessibilityLabel: L10n.KeyboardVisualizer.anchorLabel
+                    )
                 }
 
                 Divider()
@@ -154,7 +161,8 @@ struct KeyboardSettingsPane: View {
                     SettingsSliderControl(
                         value: self.$model.scale,
                         range: self.model.scaleRange,
-                        step: self.model.scaleStep
+                        step: self.model.scaleStep,
+                        accessibilityLabel: L10n.KeyboardVisualizer.sizeLabel
                     )
                 }
             }
@@ -172,6 +180,7 @@ struct KeyboardSettingsPane: View {
 
                         Stepper("", value: self.$model.maxCount, in: self.model.maxCountRange)
                             .labelsHidden()
+                            .accessibilityLabel(L10n.KeyboardVisualizer.maxCountLabel)
                     }
                 }
 
@@ -194,7 +203,8 @@ struct KeyboardSettingsPane: View {
                         edgeLabels: SettingsSliderEdgeLabels(
                             leading: L10n.KeyboardVisualizer.LingerTime.short,
                             trailing: L10n.KeyboardVisualizer.LingerTime.long
-                        )
+                        ),
+                        accessibilityLabel: L10n.KeyboardVisualizer.lingerTimeLabel
                     )
                 }
 
@@ -208,7 +218,8 @@ struct KeyboardSettingsPane: View {
                         edgeLabels: SettingsSliderEdgeLabels(
                             leading: L10n.KeyboardVisualizer.FadeDuration.fast,
                             trailing: L10n.KeyboardVisualizer.FadeDuration.slow
-                        )
+                        ),
+                        accessibilityLabel: L10n.KeyboardVisualizer.fadeDurationLabel
                     )
                 }
             }
@@ -237,6 +248,7 @@ struct KeyboardSettingsPane: View {
                     .tag(KeyboardSettingsPaneViewModel.ThemeSelection.custom)
             }
             .labelsHidden()
+            .accessibilityLabel(L10n.KeyboardVisualizer.themeLabel)
             .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
     }
@@ -282,6 +294,7 @@ struct KeyboardSettingsPane: View {
             )
         }
         .labelsHidden()
+        .accessibilityLabel(L10n.KeyboardVisualizer.legendColorLabel)
         .pickerStyle(.menu)
         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         .onAppear {
@@ -309,6 +322,7 @@ struct KeyboardSettingsPane: View {
                 }
             }
             .labelsHidden()
+            .accessibilityLabel(title)
             .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
     }
@@ -336,6 +350,7 @@ struct KeyboardSettingsPane: View {
                 }
             }
             .labelsHidden()
+            .accessibilityLabel(L10n.KeyboardVisualizer.styleLabel)
             .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
     }
@@ -348,6 +363,7 @@ struct KeyboardSettingsPane: View {
                 .tag(KeyboardVisualizerStackAxis.horizontal)
         }
         .labelsHidden()
+        .accessibilityLabel(L10n.KeyboardVisualizer.axisLabel)
         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
     }
 

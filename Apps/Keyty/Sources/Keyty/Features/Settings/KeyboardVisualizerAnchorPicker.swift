@@ -10,6 +10,12 @@ import SwiftUI
 
 struct KeyboardVisualizerAnchorPicker: View {
     @Binding var selection: KeyboardVisualizerAnchor
+    let accessibilityLabel: String
+
+    init(selection: Binding<KeyboardVisualizerAnchor>, accessibilityLabel: String) {
+        self._selection = selection
+        self.accessibilityLabel = accessibilityLabel
+    }
 
     var body: some View {
         Picker("", selection: self.$selection) {
@@ -18,6 +24,7 @@ struct KeyboardVisualizerAnchorPicker: View {
             }
         }
         .labelsHidden()
+        .accessibilityLabel(self.accessibilityLabel)
         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
     }
 }

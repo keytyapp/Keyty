@@ -12,21 +12,9 @@ import XCTest
 
 final class EventTransformerMouseTests: XCTestCase {
     var keyboardLayout: TISInputSource!
-    var keyboardLayouts: [TISInputSource] = []
 
     func transform(_ event: MouseEvent) -> String {
         EventTransformer(keyboardLayout: keyboardLayout).transform(.mouse(event))
-    }
-
-    func usEnglishKeyboardLayout() -> TISInputSource {
-        let properties: [String: Any] = [
-            kTISPropertyInputSourceID as String: "com.apple.keylayout.US",
-            kTISPropertyInputSourceType as String: kTISTypeKeyboardLayout as String
-        ]
-        keyboardLayouts = TISCreateInputSourceList(properties as CFDictionary, true)!
-            .takeRetainedValue() as! [TISInputSource]
-        XCTAssertGreaterThan(keyboardLayouts.count, 0)
-        return keyboardLayouts[0]
     }
 
     func makeMouseEvent(type: NSEvent.EventType, buttonNumber: Int,
@@ -50,9 +38,9 @@ final class EventTransformerMouseTests: XCTestCase {
         return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
     }
 
-    override func setUp() {
-        super.setUp()
-        keyboardLayout = usEnglishKeyboardLayout()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        keyboardLayout = try TestKeyboardLayouts.requireUSEnglish()
     }
 
     // MARK: - Mouse buttons

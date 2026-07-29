@@ -16,21 +16,9 @@ import XCTest
 final class EventTransformerKeystrokeTests: XCTestCase {
     var keystroke: StandardKeyEvent!
     var keyboardLayout: TISInputSource!
-    var keyboardLayouts: [TISInputSource] = []
 
     func transform(_ event: StandardKeyEvent) -> String {
         EventTransformer(keyboardLayout: keyboardLayout).transform(.keystroke(event))
-    }
-
-    func usEnglishKeyboardLayout() -> TISInputSource {
-        let properties: [String: Any] = [
-            kTISPropertyInputSourceID as String: "com.apple.keylayout.US",
-            kTISPropertyInputSourceType as String: kTISTypeKeyboardLayout as String
-        ]
-        keyboardLayouts = TISCreateInputSourceList(properties as CFDictionary, true)!
-            .takeRetainedValue() as! [TISInputSource]
-        XCTAssertGreaterThan(keyboardLayouts.count, 0)
-        return keyboardLayouts[0]
     }
 
     func makeKeystroke(keyCode: UInt16, modifiers: NSEvent.ModifierFlags,
@@ -50,9 +38,9 @@ final class EventTransformerKeystrokeTests: XCTestCase {
         return StandardKeyEvent(nsEvent: event)
     }
 
-    override func setUp() {
-        super.setUp()
-        keyboardLayout = usEnglishKeyboardLayout()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        keyboardLayout = try TestKeyboardLayouts.requireUSEnglish()
     }
 
     // MARK: - Numbers

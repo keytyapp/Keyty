@@ -42,6 +42,7 @@ Run `tuist generate` after changing `Project.swift`, dependencies, build setting
 - Use Conventional Commits for commit messages and branch names.
 - Branch names should follow `<type>/<short-description>`, for example `fix/menu-bar-position` or `feat/input-overlay-theme`.
 - Commit messages should follow `<type>(<scope>): <description>` when a scope is useful, for example `fix(settings): clamp overlay opacity`.
+- When creating a pull request, always use the existing GitHub pull request template.
 
 ## Code Style
 

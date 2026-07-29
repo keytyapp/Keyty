@@ -187,6 +187,10 @@ let project = Project(
             url: "https://github.com/linearmouse/AppMover",
             requirement: .revision("a578bf41b8d4874eb6b9ace05608f217f52efcb0")
         ),
+        .remote(
+            url: "https://github.com/pointfreeco/swift-snapshot-testing",
+            requirement: .exact("1.19.2")
+        ),
     ],
     settings: projectSettings,
     targets: [
@@ -236,6 +240,7 @@ let project = Project(
             ],
             dependencies: [
                 .target(name: "Keyty"),
+                .package(product: "SnapshotTesting"),
             ],
             settings: .settings(
                 base: testSettings,

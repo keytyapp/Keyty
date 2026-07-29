@@ -12,7 +12,11 @@ import XCTest
 
 final class KeycapItemFactoryTests: XCTestCase {
     func testKeyboardModifierKeysDecodeLocationSpecificFlags() {
-        let flags = Self.flags(.command, masks: UInt(NX_DEVICELCMDKEYMASK), UInt(NX_DEVICERCMDKEYMASK))
+        let flags = NSEvent.ModifierFlags(
+            .command,
+            deviceMasks: UInt(NX_DEVICELCMDKEYMASK),
+            UInt(NX_DEVICERCMDKEYMASK)
+        )
 
         XCTAssertEqual(KeyboardModifierKey.keys(in: flags), [.leftCommand, .rightCommand])
     }
@@ -33,7 +37,11 @@ final class KeycapItemFactoryTests: XCTestCase {
 
     func testModifierItemsUseLocationSpecificModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
-            currentFlags: Self.flags(.command, masks: UInt(NX_DEVICELCMDKEYMASK), UInt(NX_DEVICERCMDKEYMASK)),
+            currentFlags: NSEvent.ModifierFlags(
+                .command,
+                deviceMasks: UInt(NX_DEVICELCMDKEYMASK),
+                UInt(NX_DEVICERCMDKEYMASK)
+            ),
             releasedFlags: [],
             palette: Self.makePalette()
         )
@@ -47,7 +55,11 @@ final class KeycapItemFactoryTests: XCTestCase {
 
     func testModifierItemsUseInwardAlignmentForNonCommandModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
-            currentFlags: Self.flags(.shift, masks: UInt(NX_DEVICELSHIFTKEYMASK), UInt(NX_DEVICERSHIFTKEYMASK)),
+            currentFlags: NSEvent.ModifierFlags(
+                .shift,
+                deviceMasks: UInt(NX_DEVICELSHIFTKEYMASK),
+                UInt(NX_DEVICERSHIFTKEYMASK)
+            ),
             releasedFlags: [],
             palette: Self.makePalette()
         )
@@ -153,10 +165,6 @@ final class KeycapItemFactoryTests: XCTestCase {
             groupBackgroundTheme: theme,
             legendColorOverride: nil
         )
-    }
-
-    private static func flags(_ flags: NSEvent.ModifierFlags, masks: UInt...) -> NSEvent.ModifierFlags {
-        NSEvent.ModifierFlags(rawValue: masks.reduce(flags.rawValue) { $0 | $1 })
     }
 
     private static func makeMouseEvent(type: NSEvent.EventType) -> MouseEvent {

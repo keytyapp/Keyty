@@ -222,7 +222,7 @@ extension EventTransformerKeystrokeTests {
     func test_insertFunctionKeyDisplaysInsertForHelpKeyCode() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
         self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
-        XCTAssertEqual(self.transform(self.keystroke), "ins")
+        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.insert.displayText)
     }
 
     func test_helpFunctionKeyDisplaysHelpForHelpKeyCode() {
@@ -233,7 +233,7 @@ extension EventTransformerKeystrokeTests {
 
     func test_helpKeyCodeWithoutSemanticCharactersDefaultsToInsert() {
         self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), "ins")
+        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.insert.displayText)
     }
 }
 

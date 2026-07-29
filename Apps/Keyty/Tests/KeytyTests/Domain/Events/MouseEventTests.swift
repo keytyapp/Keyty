@@ -11,10 +11,10 @@ import XCTest
 
 final class MouseEventTests: XCTestCase {
     func testKindClassifiesButtonsAndScrollDirections() {
-        XCTAssertEqual(makeMouseEvent(type: .leftMouseDown, buttonNumber: 0).kind, .leftButton)
-        XCTAssertEqual(makeMouseEvent(type: .rightMouseDown, buttonNumber: 1).kind, .rightButton)
-        XCTAssertEqual(makeMouseEvent(type: .otherMouseDown, buttonNumber: 2).kind, .middleButton)
-        XCTAssertEqual(makeMouseEvent(type: .otherMouseDown, buttonNumber: 3).kind, .otherButton(4))
+        XCTAssertEqual(TestMouseEvents.make(type: .leftMouseDown, buttonNumber: 0).kind, .leftButton)
+        XCTAssertEqual(TestMouseEvents.make(type: .rightMouseDown, buttonNumber: 1).kind, .rightButton)
+        XCTAssertEqual(TestMouseEvents.make(type: .otherMouseDown, buttonNumber: 2).kind, .middleButton)
+        XCTAssertEqual(TestMouseEvents.make(type: .otherMouseDown, buttonNumber: 3).kind, .otherButton(4))
         XCTAssertEqual(makeScrollEvent(deltaX: 0, deltaY: 1).kind, .wheelUp)
         XCTAssertEqual(makeScrollEvent(deltaX: 0, deltaY: -1).kind, .wheelDown)
         XCTAssertEqual(makeScrollEvent(deltaX: -1, deltaY: 0).kind, .wheelLeft)
@@ -66,19 +66,6 @@ final class MouseEventTests: XCTestCase {
 
         XCTAssertEqual(location.x, 1600)
         XCTAssertEqual(location.y, 980)
-    }
-
-    private func makeMouseEvent(type: NSEvent.EventType, buttonNumber: Int) -> MouseEvent {
-        let cgType: CGEventType = {
-            switch type {
-            case .leftMouseDown: return .leftMouseDown
-            case .rightMouseDown: return .rightMouseDown
-            default: return .otherMouseDown
-            }
-        }()
-        let cgEvent = CGEvent(mouseEventSource: nil, mouseType: cgType, mouseCursorPosition: .zero, mouseButton: .left)!
-        cgEvent.setIntegerValueField(.mouseEventButtonNumber, value: Int64(buttonNumber))
-        return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
     }
 
     private func makeScrollEvent(deltaX: CGFloat, deltaY: CGFloat) -> MouseEvent {

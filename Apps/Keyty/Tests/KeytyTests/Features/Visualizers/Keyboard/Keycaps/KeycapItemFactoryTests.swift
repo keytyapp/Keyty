@@ -134,11 +134,11 @@ final class KeycapItemFactoryTests: XCTestCase {
         let palette = Self.makePalette()
 
         let downItem = KeycapItemFactory.mouseItem(
-            for: Self.makeMouseEvent(type: .leftMouseDown),
+            for: TestMouseEvents.make(type: .leftMouseDown),
             palette: palette
         )
         let upItem = KeycapItemFactory.mouseItem(
-            for: Self.makeMouseEvent(type: .leftMouseUp),
+            for: TestMouseEvents.make(type: .leftMouseUp),
             palette: palette
         )
 
@@ -164,9 +164,4 @@ final class KeycapItemFactoryTests: XCTestCase {
         )
     }
 
-    private static func makeMouseEvent(type: NSEvent.EventType) -> MouseEvent {
-        let cgType: CGEventType = type == .leftMouseDown ? .leftMouseDown : .leftMouseUp
-        let cgEvent = CGEvent(mouseEventSource: nil, mouseType: cgType, mouseCursorPosition: .zero, mouseButton: .left)!
-        return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
-    }
 }

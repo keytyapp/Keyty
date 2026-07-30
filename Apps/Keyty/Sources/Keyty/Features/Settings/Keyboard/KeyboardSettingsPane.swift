@@ -121,6 +121,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.onlyShowModifiedKeystrokesLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -133,6 +134,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showSpecialKeysLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -145,6 +147,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showMediaKeyButtonsLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -157,6 +160,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showMouseEventsLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
             }
             .disabled(!self.model.isEnabled)

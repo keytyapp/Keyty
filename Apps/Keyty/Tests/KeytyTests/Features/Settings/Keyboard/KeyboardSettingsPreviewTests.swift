@@ -90,6 +90,16 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
         ])
     }
 
+    func testMediaPreviewGroupsRenderPressedMediaKeys() {
+        let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
+        let mediaGroups = groups.filter { $0.category == .mediaKey }
+
+        XCTAssertEqual(mediaGroups.count, 2)
+        XCTAssertTrue(mediaGroups.allSatisfy { group in
+            group.items.allSatisfy(\.isPressed)
+        })
+    }
+
     func testPreviewGroupsFallBackToKeyboardCategoryOnly() {
         settings.onlyShowModifiedKeystrokes = true
         settings.showSpecialKeys = false

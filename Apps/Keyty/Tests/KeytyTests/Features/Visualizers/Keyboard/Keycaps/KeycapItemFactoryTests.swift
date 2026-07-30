@@ -146,6 +146,23 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertFalse(upItem.isPressed)
     }
 
+    func testMediaKeyItemUsesPressedStateFromMediaKeyEvent() {
+        let palette = Self.makePalette()
+
+        let downItem = KeycapItemFactory.mediaKeyItem(
+            for: Self.makeMediaKeyEvent(keyCode: 16, keyState: 0x0A),
+            palette: palette
+        )
+        let upItem = KeycapItemFactory.mediaKeyItem(
+            for: Self.makeMediaKeyEvent(keyCode: 16, keyState: 0x0B),
+            palette: palette
+        )
+
+        XCTAssertEqual(downItem.identity, .media(.play))
+        XCTAssertTrue(downItem.isPressed)
+        XCTAssertFalse(upItem.isPressed)
+    }
+
     private static func makePalette(
         style: KeycapStyle = .minimal,
         theme: KeyboardVisualizerTheme = .citrus
@@ -162,6 +179,23 @@ final class KeycapItemFactoryTests: XCTestCase {
             groupBackgroundTheme: theme,
             legendColorOverride: nil
         )
+    }
+
+    private static func makeMediaKeyEvent(keyCode: Int, keyState: Int) -> MediaKeyEvent {
+        let data1 = (keyCode << 16) | (keyState << 8)
+        let event = NSEvent.otherEvent(
+            with: .systemDefined,
+            location: .zero,
+            modifierFlags: [],
+            timestamp: 0,
+            windowNumber: 0,
+            context: nil,
+            subtype: Int16(NX_SUBTYPE_AUX_CONTROL_BUTTONS),
+            data1: data1,
+            data2: 0
+        )!
+
+        return MediaKeyEvent(nsEvent: event)
     }
 
 }

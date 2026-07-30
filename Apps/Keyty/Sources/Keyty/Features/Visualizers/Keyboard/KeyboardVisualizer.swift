@@ -15,18 +15,20 @@ final class KeyboardVisualizer {
     private let visualizerSettings: KeyboardVisualizerSettings
     private let visualizerWindow: KeyboardVisualizerWindow
     private let eventCoordinator = KeycapEventCoordinator<KeyboardVisualizerGroupView, KeycapItem>()
+    private var cancellables = Set<AnyCancellable>()
     private var currentModifierFlags: NSEvent.ModifierFlags = []
     private var lastModifierFlags: NSEvent.ModifierFlags = []
     private var hasPendingGroupBreak = false
-    
-    private var cancellables = Set<AnyCancellable>()
 
     convenience init() {
         self.init(store: UserDefaultsStore())
     }
 
-    init(store: KeyValueStore) {
-        let settings = KeyboardVisualizerSettings(store: store)
+    convenience init(store: KeyValueStore) {
+        self.init(settings: KeyboardVisualizerSettings(store: store))
+    }
+
+    init(settings: KeyboardVisualizerSettings) {
         self.visualizerSettings = settings
         self.visualizerWindow = KeyboardVisualizerWindow(settings: settings)
         self.visualizerWindow.onGroupRemoved = { [weak self] group in

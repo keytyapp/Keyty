@@ -42,10 +42,8 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     static let maxWindowPadding: CGFloat = Spacing.grid(40)
 
     let store: KeyValueStore
-    private var isEnabledSnapshot: Bool?
     private let isEnabledChangesSubject = PassthroughSubject<Bool, Never>()
     private let placementChangesSubject = PassthroughSubject<Void, Never>()
-    private var storeChangesCancellable: AnyCancellable?
 
     var isEnabledChanges: AnyPublisher<Bool, Never> {
         self.isEnabledChangesSubject.eraseToAnyPublisher()
@@ -57,21 +55,24 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     init(store: KeyValueStore = UserDefaultsStore()) {
         self.store = store
-        self.storeChangesCancellable = self.store.changes
-            .sink { [weak self] in
-                self?.storeDidChange()
-            }
-        self.isEnabledSnapshot = self.isEnabled
     }
 
     func registerDefaults() {
         self.registerStoredDefaults()
-        self.isEnabledSnapshot = self.isEnabled
     }
 
     /// Whether the keyboard overlay window should render input events.
     @Stored(.bool(KeyboardVisualizerSettingsKeys.isEnabled, default: true))
-    var isEnabled: Bool
+    private var storedIsEnabled: Bool
+
+    var isEnabled: Bool {
+        get { self.storedIsEnabled }
+        set {
+            guard newValue != self.storedIsEnabled else { return }
+            self.storedIsEnabled = newValue
+            self.isEnabledChangesSubject.send(newValue)
+        }
+    }
 
     @Stored(.custom(
         key: KeyboardVisualizerSettingsKeys.axis,
@@ -284,10 +285,4 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         }
     }
 
-    private func storeDidChange() {
-        let isEnabled = self.isEnabled
-        guard isEnabled != self.isEnabledSnapshot else { return }
-        self.isEnabledSnapshot = isEnabled
-        self.isEnabledChangesSubject.send(isEnabled)
-    }
 }

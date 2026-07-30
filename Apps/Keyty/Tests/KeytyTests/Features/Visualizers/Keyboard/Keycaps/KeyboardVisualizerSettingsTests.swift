@@ -77,6 +77,19 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         cancellable.cancel()
     }
 
+    func testDoesNotPublishIsEnabledWhenValueIsUnchanged() {
+        settings.registerDefaults()
+        var receivedValues: [Bool] = []
+        let cancellable = settings.isEnabledChanges.sink { value in
+            receivedValues.append(value)
+        }
+
+        settings.isEnabled = true
+
+        XCTAssertTrue(receivedValues.isEmpty)
+        cancellable.cancel()
+    }
+
     func testPersistsScale() {
         settings.scale = 1.5
 

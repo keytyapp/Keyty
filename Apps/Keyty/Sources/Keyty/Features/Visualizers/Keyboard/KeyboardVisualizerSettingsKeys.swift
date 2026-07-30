@@ -12,6 +12,7 @@ enum KeyboardVisualizerSettingsKeys {
     static let defaultMaxCount = 1
     static let minMaxCount = 1
 
+    static let isEnabled    = "keyboard_visualizer.isEnabled"
     static let axis         = "keyboard_visualizer.direction"
     static let maxCount     = "keyboard_visualizer.maxCount"
     static let fadeDelay    = "keyboard_visualizer.fadeDelay"

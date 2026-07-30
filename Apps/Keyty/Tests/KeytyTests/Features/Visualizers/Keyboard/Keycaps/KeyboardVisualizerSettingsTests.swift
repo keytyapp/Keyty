@@ -6,6 +6,7 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
+import Combine
 import XCTest
 @testable import Keyty
 
@@ -28,6 +29,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
     func testRegistersDefaults() {
         settings.registerDefaults()
 
+        XCTAssertEqual(store.bool(forKey: KeyboardVisualizerSettingsKeys.isEnabled), true)
         XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.axis), KeyboardVisualizerStackAxis.vertical.storedValue)
         XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.maxCount), KeyboardVisualizerSettingsKeys.defaultMaxCount)
         XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.fadeDelay), 2.0, accuracy: 0.0001)
@@ -53,6 +55,26 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
 
         store.set(3, forKey: KeyboardVisualizerSettingsKeys.axis)
         XCTAssertEqual(settings.stackAxis, .horizontal)
+    }
+
+    func testPersistsIsEnabled() {
+        settings.isEnabled = false
+
+        XCTAssertFalse(settings.isEnabled)
+        XCTAssertFalse(store.bool(forKey: KeyboardVisualizerSettingsKeys.isEnabled))
+    }
+
+    func testPublishesIsEnabledChanges() {
+        settings.registerDefaults()
+        var receivedValues: [Bool] = []
+        let cancellable = settings.isEnabledChanges.sink { value in
+            receivedValues.append(value)
+        }
+
+        settings.isEnabled = false
+
+        XCTAssertEqual(receivedValues, [false])
+        cancellable.cancel()
     }
 
     func testPersistsScale() {

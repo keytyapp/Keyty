@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Combine
 
 final class KeyboardVisualizer {
     private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control, .function]
@@ -17,6 +18,8 @@ final class KeyboardVisualizer {
     private var currentModifierFlags: NSEvent.ModifierFlags = []
     private var lastModifierFlags: NSEvent.ModifierFlags = []
     private var hasPendingGroupBreak = false
+    
+    private var cancellables = Set<AnyCancellable>()
 
     convenience init() {
         self.init(store: UserDefaultsStore())
@@ -29,6 +32,12 @@ final class KeyboardVisualizer {
         self.visualizerWindow.onGroupRemoved = { [weak self] group in
             self?.eventCoordinator.removeGroup(group)
         }
+        settings.isEnabledChanges
+            .filter { !$0 }
+            .sink { [weak self] _ in
+                self?.clearDisplayState()
+            }
+            .store(in: &self.cancellables)
     }
 
     func activate() {
@@ -36,6 +45,11 @@ final class KeyboardVisualizer {
     }
 
     func display(_ item: DisplayItem) {
+        guard self.visualizerSettings.isEnabled else {
+            self.clearDisplayState()
+            return
+        }
+
         if item.kind == .flagsChanged {
             self.currentModifierFlags = item.modifierFlags
             self.displayModifierPreview(item.modifierFlags)
@@ -184,6 +198,14 @@ final class KeyboardVisualizer {
         self.eventCoordinator.reset()
         self.lastModifierFlags = modifierFlags
         self.hasPendingGroupBreak = false
+    }
+
+    private func clearDisplayState() {
+        self.eventCoordinator.reset()
+        self.currentModifierFlags = []
+        self.lastModifierFlags = []
+        self.hasPendingGroupBreak = false
+        self.visualizerWindow.removeAllGroups()
     }
 
     private var currentTrackedFlags: NSEvent.ModifierFlags {

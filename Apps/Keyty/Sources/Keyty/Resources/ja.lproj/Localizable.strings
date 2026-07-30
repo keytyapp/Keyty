@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "ライブプレビュー";
 "keyboard_visualizer.live_overlay_section_subtitle" = "現在のキーボード表示設定を使用した実際の表示例です。";
-"keyboard_visualizer.style_section_title" = "スタイル";
-"keyboard_visualizer.style_section_subtitle" = "キーの全体的な形状と仕上げを選択します。";
+"keyboard_visualizer.general_section_title" = "一般";
+"keyboard_visualizer.general_section_subtitle" = "キーボードオーバーレイの表示と外観を設定します。";
 "keyboard_visualizer.theme_section_title" = "テーマ";
 "keyboard_visualizer.theme_section_subtitle" = "キーの種類ごとにカラーパレットを設定します。";
 "keyboard_visualizer.layout_section_title" = "レイアウト";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "キーを表示する時間とフェードアウトの速さを設定します。";
 "keyboard_visualizer.filter_section_title" = "フィルタ";
 "keyboard_visualizer.filter_section_subtitle" = "オーバーレイに表示するキーボードイベントを選択します。";
+"keyboard_visualizer.enabled_label" = "有効";
+"keyboard_visualizer.enabled_subtitle" = "キーボードオーバーレイの表示。";
 "keyboard_visualizer.axis_label" = "方向";
 "keyboard_visualizer.axis_subtitle" = "連続するキーグループを並べる方向です。";
 "keyboard_visualizer.anchor_label" = "位置";

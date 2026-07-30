@@ -71,9 +71,20 @@ final class KeyboardVisualizerWindow: NSWindow {
         self.scheduleFadeOut(for: groupView)
     }
 
+    func removeAllGroups() {
+        let removedGroups = self.groupViews
+        self.groupViews.removeAll()
+        removedGroups.forEach { groupView in
+            groupView.removeFromSuperview()
+            self.onGroupRemoved?(groupView)
+        }
+        self.layoutGroups()
+    }
+
     private func scheduleFadeOut(for groupView: KeyboardVisualizerGroupView) {
         groupView.scheduleFadeOut { [weak self, weak groupView] in
             guard let self, let groupView else { return }
+            guard self.groupViews.contains(where: { $0 === groupView }) else { return }
             self.groupViews.removeAll { $0 === groupView }
             groupView.removeFromSuperview()
             self.onGroupRemoved?(groupView)

@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "Live Overlay";
 "keyboard_visualizer.live_overlay_section_subtitle" = "This is a real renderer-backed sample using the current keyboard visualizer settings.";
-"keyboard_visualizer.style_section_title" = "Style";
-"keyboard_visualizer.style_section_subtitle" = "Choose the overall keycap construction and finish.";
+"keyboard_visualizer.general_section_title" = "General";
+"keyboard_visualizer.general_section_subtitle" = "Control keyboard overlay visibility and appearance.";
 "keyboard_visualizer.theme_section_title" = "Theme";
 "keyboard_visualizer.theme_section_subtitle" = "Give each key type its own color palette.";
 "keyboard_visualizer.layout_section_title" = "Layout";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "Balance readability and responsiveness by controlling how long keys remain visible and how quickly they fade.";
 "keyboard_visualizer.filter_section_title" = "Filter";
 "keyboard_visualizer.filter_section_subtitle" = "Choose which keyboard events appear in the overlay.";
+"keyboard_visualizer.enabled_label" = "Enabled";
+"keyboard_visualizer.enabled_subtitle" = "Keyboard overlay visibility.";
 "keyboard_visualizer.axis_label" = "Axis";
 "keyboard_visualizer.axis_subtitle" = "Direction used to stack consecutive key groups.";
 "keyboard_visualizer.anchor_label" = "Position";

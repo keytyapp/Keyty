@@ -10,6 +10,7 @@ import AppKit
 import Combine
 
 protocol KeyboardVisualizerSettingsProtocol: AnyObject {
+    var isEnabled: Bool { get set }
     var stackAxis: KeyboardVisualizerStackAxis { get set }
     var maxCount: Int { get set }
     var fadeDelay: CGFloat { get set }
@@ -41,7 +42,14 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     static let maxWindowPadding: CGFloat = Spacing.grid(40)
 
     let store: KeyValueStore
+    private var isEnabledSnapshot: Bool?
+    private let isEnabledChangesSubject = PassthroughSubject<Bool, Never>()
     private let placementChangesSubject = PassthroughSubject<Void, Never>()
+    private var storeChangesCancellable: AnyCancellable?
+
+    var isEnabledChanges: AnyPublisher<Bool, Never> {
+        self.isEnabledChangesSubject.eraseToAnyPublisher()
+    }
 
     var placementChanges: AnyPublisher<Void, Never> {
         self.placementChangesSubject.eraseToAnyPublisher()
@@ -49,11 +57,21 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     init(store: KeyValueStore = UserDefaultsStore()) {
         self.store = store
+        self.storeChangesCancellable = self.store.changes
+            .sink { [weak self] in
+                self?.storeDidChange()
+            }
+        self.isEnabledSnapshot = self.isEnabled
     }
 
     func registerDefaults() {
         self.registerStoredDefaults()
+        self.isEnabledSnapshot = self.isEnabled
     }
+
+    /// Whether the keyboard overlay window should render input events.
+    @Stored(.bool(KeyboardVisualizerSettingsKeys.isEnabled, default: true))
+    var isEnabled: Bool
 
     @Stored(.custom(
         key: KeyboardVisualizerSettingsKeys.axis,
@@ -264,5 +282,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         case .custom:
             return self.customLegendColor
         }
+    }
+
+    private func storeDidChange() {
+        let isEnabled = self.isEnabled
+        guard isEnabled != self.isEnabledSnapshot else { return }
+        self.isEnabledSnapshot = isEnabled
+        self.isEnabledChangesSubject.send(isEnabled)
     }
 }

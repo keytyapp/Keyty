@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "Vista previa";
 "keyboard_visualizer.live_overlay_section_subtitle" = "Esta muestra utiliza el renderizador y los ajustes actuales del visualizador del teclado.";
-"keyboard_visualizer.style_section_title" = "Estilo";
-"keyboard_visualizer.style_section_subtitle" = "Elige el diseño y el acabado general de las teclas.";
+"keyboard_visualizer.general_section_title" = "General";
+"keyboard_visualizer.general_section_subtitle" = "Controla la visibilidad y la apariencia de la superposición del teclado.";
 "keyboard_visualizer.theme_section_title" = "Tema";
 "keyboard_visualizer.theme_section_subtitle" = "Asigna una paleta de colores distinta a cada tipo de tecla.";
 "keyboard_visualizer.layout_section_title" = "Disposición";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "Ajusta cuánto tiempo permanecen visibles las teclas y la velocidad con la que se desvanecen.";
 "keyboard_visualizer.filter_section_title" = "Filtro";
 "keyboard_visualizer.filter_section_subtitle" = "Elige qué eventos del teclado aparecen en la superposición.";
+"keyboard_visualizer.enabled_label" = "Activado";
+"keyboard_visualizer.enabled_subtitle" = "Visibilidad de la superposición del teclado.";
 "keyboard_visualizer.axis_label" = "Eje";
 "keyboard_visualizer.axis_subtitle" = "Dirección en la que se apilan los grupos de teclas consecutivos.";
 "keyboard_visualizer.anchor_label" = "Posición";

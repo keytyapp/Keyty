@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "Aperçu en direct";
 "keyboard_visualizer.live_overlay_section_subtitle" = "Cet aperçu utilise le moteur de rendu et les réglages actuels de visualisation du clavier.";
-"keyboard_visualizer.style_section_title" = "Style";
-"keyboard_visualizer.style_section_subtitle" = "Choisissez la forme et la finition générales des touches.";
+"keyboard_visualizer.general_section_title" = "Général";
+"keyboard_visualizer.general_section_subtitle" = "Contrôlez la visibilité et l’apparence de la superposition du clavier.";
 "keyboard_visualizer.theme_section_title" = "Thème";
 "keyboard_visualizer.theme_section_subtitle" = "Attribuez une palette de couleurs différente à chaque type de touche.";
 "keyboard_visualizer.layout_section_title" = "Disposition";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "Réglez la durée d’affichage des touches et la vitesse de leur disparition.";
 "keyboard_visualizer.filter_section_title" = "Filtre";
 "keyboard_visualizer.filter_section_subtitle" = "Choisissez les événements du clavier à afficher dans la superposition.";
+"keyboard_visualizer.enabled_label" = "Activé";
+"keyboard_visualizer.enabled_subtitle" = "Visibilité de la superposition du clavier.";
 "keyboard_visualizer.axis_label" = "Axe";
 "keyboard_visualizer.axis_subtitle" = "Direction d’empilement des groupes de touches successifs.";
 "keyboard_visualizer.anchor_label" = "Position";

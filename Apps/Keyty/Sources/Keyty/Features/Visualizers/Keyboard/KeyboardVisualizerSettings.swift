@@ -10,6 +10,7 @@ import AppKit
 import Combine
 
 protocol KeyboardVisualizerSettingsProtocol: AnyObject {
+    var isEnabled: Bool { get set }
     var stackAxis: KeyboardVisualizerStackAxis { get set }
     var maxCount: Int { get set }
     var fadeDelay: CGFloat { get set }
@@ -41,7 +42,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     static let maxWindowPadding: CGFloat = Spacing.grid(40)
 
     let store: KeyValueStore
+    private let isEnabledChangesSubject = PassthroughSubject<Bool, Never>()
     private let placementChangesSubject = PassthroughSubject<Void, Never>()
+
+    var isEnabledChanges: AnyPublisher<Bool, Never> {
+        self.isEnabledChangesSubject.eraseToAnyPublisher()
+    }
 
     var placementChanges: AnyPublisher<Void, Never> {
         self.placementChangesSubject.eraseToAnyPublisher()
@@ -53,6 +59,19 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    /// Whether the keyboard overlay window should render input events.
+    @Stored(.bool(KeyboardVisualizerSettingsKeys.isEnabled, default: true))
+    private var storedIsEnabled: Bool
+
+    var isEnabled: Bool {
+        get { self.storedIsEnabled }
+        set {
+            guard newValue != self.storedIsEnabled else { return }
+            self.storedIsEnabled = newValue
+            self.isEnabledChangesSubject.send(newValue)
+        }
     }
 
     @Stored(.custom(
@@ -265,4 +284,5 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
             return self.customLegendColor
         }
     }
+
 }

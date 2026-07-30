@@ -21,6 +21,10 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     let scaleRange: ClosedRange<Double> = 0.5...2.0
     let scaleStep: Double = 0.1
 
+    @Published var isEnabled: Bool {
+        didSet { self.settings.isEnabled = self.isEnabled }
+    }
+
     @Published var stackAxis: KeyboardVisualizerStackAxis {
         didSet { self.settings.stackAxis = self.stackAxis }
     }
@@ -118,6 +122,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
 
     init(settings: KeyboardVisualizerSettings) {
         self.settings = settings
+        self.isEnabled = settings.isEnabled
         self.stackAxis = settings.stackAxis
         self.anchor = settings.anchor
         self.maxCount = settings.maxCount
@@ -143,6 +148,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     var previewIdentity: String {
         [
             "\(self.style.rawValue)",
+            "\(self.isEnabled)",
             "\(self.theme.rawValue)",
             self.legendColorMode.rawValue,
             self.customLegendColor.hexString,
@@ -166,6 +172,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     var previewRenderSettings: KeyboardVisualizerSettings {
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
         settings.registerDefaults()
+        settings.isEnabled = self.isEnabled
         settings.style = self.style
         settings.theme = self.theme
         settings.legendColorMode = self.legendColorMode

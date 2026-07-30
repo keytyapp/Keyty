@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "Попередній перегляд";
 "keyboard_visualizer.live_overlay_section_subtitle" = "Приклад відображення з поточними параметрами візуалізації клавіатури.";
-"keyboard_visualizer.style_section_title" = "Стиль";
-"keyboard_visualizer.style_section_subtitle" = "Виберіть загальний вигляд і оздоблення клавіш.";
+"keyboard_visualizer.general_section_title" = "Загальні";
+"keyboard_visualizer.general_section_subtitle" = "Керуйте видимістю та виглядом накладки клавіатури.";
 "keyboard_visualizer.theme_section_title" = "Тема";
 "keyboard_visualizer.theme_section_subtitle" = "Призначте власну палітру кольорів кожному типу клавіш.";
 "keyboard_visualizer.layout_section_title" = "Розташування";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "Налаштуйте час відображення клавіш і швидкість їх зникнення.";
 "keyboard_visualizer.filter_section_title" = "Фільтр";
 "keyboard_visualizer.filter_section_subtitle" = "Виберіть події клавіатури, які з’являтимуться в накладці.";
+"keyboard_visualizer.enabled_label" = "Увімкнено";
+"keyboard_visualizer.enabled_subtitle" = "Видимість накладки клавіатури.";
 "keyboard_visualizer.axis_label" = "Вісь";
 "keyboard_visualizer.axis_subtitle" = "Напрямок розміщення послідовних груп клавіш.";
 "keyboard_visualizer.anchor_label" = "Положення";

@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "Vorschau";
 "keyboard_visualizer.live_overlay_section_subtitle" = "Diese Vorschau verwendet die aktuellen Einstellungen der Tastaturvisualisierung.";
-"keyboard_visualizer.style_section_title" = "Stil";
-"keyboard_visualizer.style_section_subtitle" = "Wähle die allgemeine Form und Oberfläche der Tastenkappen.";
+"keyboard_visualizer.general_section_title" = "Allgemein";
+"keyboard_visualizer.general_section_subtitle" = "Steuere Sichtbarkeit und Darstellung der Tastatureinblendung.";
 "keyboard_visualizer.theme_section_title" = "Thema";
 "keyboard_visualizer.theme_section_subtitle" = "Weise jedem Tastentyp eine eigene Farbpalette zu.";
 "keyboard_visualizer.layout_section_title" = "Layout";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "Lege fest, wie lange Tasten sichtbar bleiben und wie schnell sie ausgeblendet werden.";
 "keyboard_visualizer.filter_section_title" = "Filter";
 "keyboard_visualizer.filter_section_subtitle" = "Wähle aus, welche Tastaturereignisse in der Einblendung erscheinen.";
+"keyboard_visualizer.enabled_label" = "Aktiviert";
+"keyboard_visualizer.enabled_subtitle" = "Sichtbarkeit der Tastatureinblendung.";
 "keyboard_visualizer.axis_label" = "Achse";
 "keyboard_visualizer.axis_subtitle" = "Richtung, in der aufeinanderfolgende Tastengruppen gestapelt werden.";
 "keyboard_visualizer.anchor_label" = "Position";

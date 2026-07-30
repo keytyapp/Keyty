@@ -22,14 +22,29 @@ struct KeyboardSettingsPane: View {
 
         SettingsStack {
             SettingsSectionView(
-                title: L10n.KeyboardVisualizer.styleSectionTitle,
-                subtitle: L10n.KeyboardVisualizer.styleSectionSubtitle
+                title: L10n.KeyboardVisualizer.generalSectionTitle,
+                subtitle: L10n.KeyboardVisualizer.generalSectionSubtitle
             ) {
+                SettingsControlRow(
+                    title: L10n.KeyboardVisualizer.enabledLabel,
+                    subtitle: L10n.KeyboardVisualizer.enabledSubtitle
+                ) {
+                    Toggle("", isOn: self.$model.isEnabled)
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.enabledLabel)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
+
+                Divider()
+
                 self.stylePicker
+                    .disabled(!self.model.isEnabled)
 
                 Divider()
 
                 self.baseThemePicker
+                    .disabled(!self.model.isEnabled)
             }
 
             if self.model.usesCustomThemePalette {
@@ -91,6 +106,7 @@ struct KeyboardSettingsPane: View {
                         selection: self.$model.mouseTheme
                     )
                 }
+                .disabled(!self.model.isEnabled)
             }
 
             SettingsSectionView(
@@ -105,6 +121,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.onlyShowModifiedKeystrokesLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -117,6 +134,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showSpecialKeysLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -129,6 +147,7 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showMediaKeyButtonsLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
 
                 Divider()
@@ -141,8 +160,10 @@ struct KeyboardSettingsPane: View {
                         .labelsHidden()
                         .accessibilityLabel(L10n.KeyboardVisualizer.showMouseEventsLabel)
                         .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
             }
+            .disabled(!self.model.isEnabled)
 
             SettingsSectionView(
                 title: L10n.KeyboardVisualizer.layoutSectionTitle,
@@ -166,6 +187,7 @@ struct KeyboardSettingsPane: View {
                     )
                 }
             }
+            .disabled(!self.model.isEnabled)
 
             SettingsSectionView(
                 title: L10n.KeyboardVisualizer.historySectionTitle,
@@ -190,6 +212,7 @@ struct KeyboardSettingsPane: View {
                     self.axisPicker
                 }
             }
+            .disabled(!self.model.isEnabled)
 
             SettingsSectionView(
                 title: L10n.KeyboardVisualizer.timingSectionTitle,
@@ -223,6 +246,7 @@ struct KeyboardSettingsPane: View {
                     )
                 }
             }
+            .disabled(!self.model.isEnabled)
         }
     }
 

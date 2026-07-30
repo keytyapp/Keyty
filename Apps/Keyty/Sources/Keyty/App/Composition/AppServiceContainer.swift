@@ -24,7 +24,7 @@ final class AppServiceContainer {
             pointerRingSettings: settings.pointerRingSettings,
             pointerIconSettings: settings.pointerIconSettings
         )
-        let keyboardVisualizer = KeyboardVisualizer(store: settings.store)
+        let keyboardVisualizer = KeyboardVisualizer(settings: settings.keyboardVisualizerSettings)
         keyboardVisualizer.activate()
         let permissionsService = SystemPermissionsService()
         let captureController = CaptureController(

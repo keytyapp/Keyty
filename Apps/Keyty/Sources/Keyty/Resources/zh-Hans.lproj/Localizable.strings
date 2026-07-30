@@ -67,8 +67,8 @@
 /* Keyboard visualizer settings pane */
 "keyboard_visualizer.live_overlay_section_title" = "实时预览";
 "keyboard_visualizer.live_overlay_section_subtitle" = "此预览使用当前的键盘可视化设置进行实际渲染。";
-"keyboard_visualizer.style_section_title" = "样式";
-"keyboard_visualizer.style_section_subtitle" = "选择按键的整体结构和表面效果。";
+"keyboard_visualizer.general_section_title" = "通用";
+"keyboard_visualizer.general_section_subtitle" = "控制键盘叠加层的可见性和外观。";
 "keyboard_visualizer.theme_section_title" = "主题";
 "keyboard_visualizer.theme_section_subtitle" = "为每种按键类型设置专属的调色板。";
 "keyboard_visualizer.layout_section_title" = "布局";
@@ -79,6 +79,8 @@
 "keyboard_visualizer.timing_section_subtitle" = "设置按键保持可见的时间和淡出的速度。";
 "keyboard_visualizer.filter_section_title" = "筛选";
 "keyboard_visualizer.filter_section_subtitle" = "选择要在叠加层中显示的键盘事件。";
+"keyboard_visualizer.enabled_label" = "已启用";
+"keyboard_visualizer.enabled_subtitle" = "键盘叠加层可见性。";
 "keyboard_visualizer.axis_label" = "方向";
 "keyboard_visualizer.axis_subtitle" = "连续按键组的堆叠方向。";
 "keyboard_visualizer.anchor_label" = "位置";

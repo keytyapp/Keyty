@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Combine
 
 final class KeyboardVisualizer {
     private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control, .function]
@@ -14,6 +15,7 @@ final class KeyboardVisualizer {
     private let visualizerSettings: KeyboardVisualizerSettings
     private let visualizerWindow: KeyboardVisualizerWindow
     private let eventCoordinator = KeycapEventCoordinator<KeyboardVisualizerGroupView, KeycapItem>()
+    private var cancellables = Set<AnyCancellable>()
     private var currentModifierFlags: NSEvent.ModifierFlags = []
     private var lastModifierFlags: NSEvent.ModifierFlags = []
     private var hasPendingGroupBreak = false
@@ -22,13 +24,22 @@ final class KeyboardVisualizer {
         self.init(store: UserDefaultsStore())
     }
 
-    init(store: KeyValueStore) {
-        let settings = KeyboardVisualizerSettings(store: store)
+    convenience init(store: KeyValueStore) {
+        self.init(settings: KeyboardVisualizerSettings(store: store))
+    }
+
+    init(settings: KeyboardVisualizerSettings) {
         self.visualizerSettings = settings
         self.visualizerWindow = KeyboardVisualizerWindow(settings: settings)
         self.visualizerWindow.onGroupRemoved = { [weak self] group in
             self?.eventCoordinator.removeGroup(group)
         }
+        settings.isEnabledChanges
+            .filter { !$0 }
+            .sink { [weak self] _ in
+                self?.clearDisplayState()
+            }
+            .store(in: &self.cancellables)
     }
 
     func activate() {
@@ -36,6 +47,11 @@ final class KeyboardVisualizer {
     }
 
     func display(_ item: DisplayItem) {
+        guard self.visualizerSettings.isEnabled else {
+            self.clearDisplayState()
+            return
+        }
+
         if item.kind == .flagsChanged {
             self.currentModifierFlags = item.modifierFlags
             self.displayModifierPreview(item.modifierFlags)
@@ -184,6 +200,14 @@ final class KeyboardVisualizer {
         self.eventCoordinator.reset()
         self.lastModifierFlags = modifierFlags
         self.hasPendingGroupBreak = false
+    }
+
+    private func clearDisplayState() {
+        self.eventCoordinator.reset()
+        self.currentModifierFlags = []
+        self.lastModifierFlags = []
+        self.hasPendingGroupBreak = false
+        self.visualizerWindow.removeAllGroups()
     }
 
     private var currentTrackedFlags: NSEvent.ModifierFlags {

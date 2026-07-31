@@ -193,13 +193,13 @@ final class KeyboardVisualizerWindow: NSWindow {
     }
 
     private func customFrame(size: NSSize, in area: CGRect) -> NSRect {
-        let anchorPoint = CGPoint(
+        let center = CGPoint(
             x: area.minX + area.width * self.settings.customPositionX,
             y: area.minY + area.height * self.settings.customPositionY
         )
         let origin = CGPoint(
-            x: anchorPoint.x - self.anchorOffsetX(for: size),
-            y: anchorPoint.y - self.anchorOffsetY(for: size)
+            x: center.x - size.width / 2,
+            y: center.y - size.height / 2
         )
         let clampedOrigin = CGPoint(
             x: self.clampedOriginValue(origin.x, minimum: area.minX, maximum: area.maxX - size.width),
@@ -213,29 +213,6 @@ final class KeyboardVisualizerWindow: NSWindow {
         guard maximum >= minimum else { return minimum }
         return min(max(value, minimum), maximum)
     }
-
-    private func anchorOffsetX(for size: NSSize) -> CGFloat {
-        switch self.settings.anchor.horizontal {
-        case .leading:
-            return 0
-        case .center:
-            return size.width / 2
-        case .trailing:
-            return size.width
-        }
-    }
-
-    private func anchorOffsetY(for size: NSSize) -> CGFloat {
-        switch self.settings.anchor.vertical {
-        case .bottom:
-            return 0
-        case .middle:
-            return size.height / 2
-        case .top:
-            return size.height
-        }
-    }
-
     private func resolvedVisibleFrame() -> CGRect? {
         self.screensService.visibleFrame(for: self.settings.screenID)
             ?? self.screensService.mainVisibleFrame()

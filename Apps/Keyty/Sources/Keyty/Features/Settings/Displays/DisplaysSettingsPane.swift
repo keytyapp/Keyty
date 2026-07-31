@@ -11,8 +11,18 @@ import SwiftUI
 struct DisplaysSettingsPane: View {
     @StateObject private var model: DisplaysSettingsPaneViewModel
 
-    init(keyboardVisualizerSettings: KeyboardVisualizerSettings) {
-        _model = StateObject(wrappedValue: DisplaysSettingsPaneViewModel(keyboardVisualizerSettings: keyboardVisualizerSettings))
+    init(
+        keyboardVisualizerSettings: KeyboardVisualizerSettings,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {},
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {}
+    ) {
+        _model = StateObject(
+            wrappedValue: DisplaysSettingsPaneViewModel(
+                keyboardVisualizerSettings: keyboardVisualizerSettings,
+                startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
+                stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition
+            )
+        )
     }
 
     var body: some View {

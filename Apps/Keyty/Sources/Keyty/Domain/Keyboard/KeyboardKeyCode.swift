@@ -17,6 +17,8 @@ enum KeyboardKeyCode: UInt16 {
     // MARK: - Letters & punctuation
 
     case a = 0x00
+    case s = 0x01
+    case t = 0x11
     case e = 0x0E
     case digit7 = 0x1A
     case minus = 0x1B

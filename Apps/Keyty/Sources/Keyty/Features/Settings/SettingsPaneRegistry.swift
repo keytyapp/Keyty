@@ -27,6 +27,8 @@ struct SettingsPaneRegistry {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void,
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void,
         permissionsService: any PermissionsService,
         updater: SPUUpdater
     ) {
@@ -71,7 +73,13 @@ struct SettingsPaneRegistry {
                 title: SettingsPaneIdentifier.displays.label,
                 systemImageName: SettingsPaneIdentifier.displays.sfSymbolName,
                 makeView: {
-                    AnyView(DisplaysSettingsPane(keyboardVisualizerSettings: keyboardVisualizerSettings))
+                    AnyView(
+                        DisplaysSettingsPane(
+                            keyboardVisualizerSettings: keyboardVisualizerSettings,
+                            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
+                            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition
+                        )
+                    )
                 }
             ),
             SettingsPaneEntry(

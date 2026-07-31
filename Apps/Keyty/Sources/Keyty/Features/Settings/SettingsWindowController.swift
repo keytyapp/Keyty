@@ -25,6 +25,8 @@ final class SettingsWindowController: NSWindowController {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void,
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void,
         permissionsService: any PermissionsService,
         updater: SPUUpdater
     ) {
@@ -35,6 +37,8 @@ final class SettingsWindowController: NSWindowController {
             pointerRingSettings: pointerRingSettings,
             pointerIconSettings: pointerIconSettings,
             keyboardVisualizerSettings: keyboardVisualizerSettings,
+            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
+            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition,
             permissionsService: permissionsService,
             updater: updater
         )
@@ -52,7 +56,7 @@ final class SettingsWindowController: NSWindowController {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("Use init(shortcutManager:appSettings:pointerRingVisualizer:pointerRingSettings:pointerIconSettings:keyboardVisualizerSettings:permissionsService:updater:) instead.")
+        fatalError("Use init(shortcutManager:appSettings:pointerRingVisualizer:pointerRingSettings:pointerIconSettings:keyboardVisualizerSettings:startSettingKeyboardVisualizerPosition:stopSettingKeyboardVisualizerPosition:permissionsService:updater:) instead.")
     }
 
     override func showWindow(_ sender: Any?) {

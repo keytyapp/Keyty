@@ -9,9 +9,12 @@
 import Combine
 import SwiftUI
 
+@MainActor
 final class DisplaysSettingsPaneViewModel: ObservableObject {
     private let screensService: any ScreenServiceProvider
     private let keyboardVisualizerSettings: KeyboardVisualizerSettings
+    private let startSettingKeyboardVisualizerPosition: @MainActor () -> Void
+    private let stopSettingKeyboardVisualizerPosition: @MainActor () -> Void
     private var cancellables = Set<AnyCancellable>()
 
     let paddingRange: ClosedRange<Double> = Double(KeyboardVisualizerSettings.minWindowPadding)...Double(KeyboardVisualizerSettings.maxWindowPadding)
@@ -34,7 +37,12 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     }
 
     @Published var placementMode: KeyboardVisualizerSettings.PlacementMode {
-        didSet { self.keyboardVisualizerSettings.placementMode = self.placementMode }
+        didSet {
+            self.keyboardVisualizerSettings.placementMode = self.placementMode
+            if self.placementMode != .custom {
+                self.stopCustomPositionSetting()
+            }
+        }
     }
 
     @Published var windowPadding: Double {
@@ -59,7 +67,9 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
 
     init(
         screensService: any ScreenServiceProvider = ScreensService.shared,
-        keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings()
+        keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {},
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {}
     ) {
         guard let selectedScreen = Self.initialSelectedScreen(
             screensService: screensService,
@@ -70,6 +80,8 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
 
         self.screensService = screensService
         self.keyboardVisualizerSettings = keyboardVisualizerSettings
+        self.startSettingKeyboardVisualizerPosition = startSettingKeyboardVisualizerPosition
+        self.stopSettingKeyboardVisualizerPosition = stopSettingKeyboardVisualizerPosition
         self.screens = screensService.screens
         self.selectedScreen = selectedScreen
         self.selectedAnchor = keyboardVisualizerSettings.anchor
@@ -89,11 +101,24 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     }
 
     func toggleCustomPositionSetting() {
-        self.isSettingCustomPosition.toggle()
+        if self.isSettingCustomPosition {
+            self.stopCustomPositionSetting()
+        } else {
+            self.startSettingKeyboardVisualizerPosition()
+            self.isSettingCustomPosition = true
+        }
     }
 }
 
 private extension DisplaysSettingsPaneViewModel {
+    func stopCustomPositionSetting() {
+        guard self.isSettingCustomPosition else { return }
+        self.stopSettingKeyboardVisualizerPosition()
+        self.customPositionX = Double(self.keyboardVisualizerSettings.customPositionX)
+        self.customPositionY = Double(self.keyboardVisualizerSettings.customPositionY)
+        self.isSettingCustomPosition = false
+    }
+
     static func initialSelectedScreen(
         screensService: any ScreenServiceProvider,
         keyboardVisualizerSettings: KeyboardVisualizerSettings

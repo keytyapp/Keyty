@@ -11,6 +11,7 @@ import Sparkle
 @MainActor
 final class AppUIContainer {
     let aboutWindowController: AboutWindowController
+    let keyboardVisualizerPlacementWindowController: KeyboardVisualizerPlacementWindowController
     let permissionsOnboardingWindowController: PermissionsOnboardingWindowController
     let settingsWindowController: SettingsWindowController
 
@@ -20,6 +21,10 @@ final class AppUIContainer {
         updater: SPUUpdater
     ) {
         aboutWindowController = AboutWindowController()
+        let keyboardVisualizerPlacementWindowController = KeyboardVisualizerPlacementWindowController(
+            settings: settings.keyboardVisualizerSettings
+        )
+        self.keyboardVisualizerPlacementWindowController = keyboardVisualizerPlacementWindowController
         permissionsOnboardingWindowController = PermissionsOnboardingWindowController(
             permissionsService: services.permissionsService
         )
@@ -30,6 +35,12 @@ final class AppUIContainer {
             pointerRingSettings: settings.pointerRingSettings,
             pointerIconSettings: settings.pointerIconSettings,
             keyboardVisualizerSettings: settings.keyboardVisualizerSettings,
+            startSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] in
+                keyboardVisualizerPlacementWindowController?.startSettingPosition()
+            },
+            stopSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] in
+                keyboardVisualizerPlacementWindowController?.stopSettingPosition()
+            },
             permissionsService: services.permissionsService,
             updater: updater
         )

@@ -173,34 +173,10 @@ private extension DisplaysSettingsPane.PreviewCard {
     }
 
     func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
-        let anchorX = size.width * CGFloat(self.customPositionX) - size.width / 2
-        let anchorY = size.height / 2 - size.height * CGFloat(self.customPositionY)
-        let markerAnchorX = self.markerAnchorOffsetX(for: markerSize)
-        let markerAnchorY = self.markerAnchorOffsetY(for: markerSize)
-
-        return CGSize(width: anchorX - markerAnchorX, height: anchorY - markerAnchorY)
-    }
-
-    func markerAnchorOffsetX(for markerSize: CGSize) -> CGFloat {
-        switch self.anchor.horizontal {
-        case .leading:
-            return -markerSize.width / 2
-        case .center:
-            return 0
-        case .trailing:
-            return markerSize.width / 2
-        }
-    }
-
-    func markerAnchorOffsetY(for markerSize: CGSize) -> CGFloat {
-        switch self.anchor.vertical {
-        case .top:
-            return -markerSize.height / 2
-        case .middle:
-            return 0
-        case .bottom:
-            return markerSize.height / 2
-        }
+        CGSize(
+            width: size.width * CGFloat(self.customPositionX) - size.width / 2,
+            height: size.height / 2 - size.height * CGFloat(self.customPositionY)
+        )
     }
 }
 

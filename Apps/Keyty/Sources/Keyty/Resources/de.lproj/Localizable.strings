@@ -47,7 +47,7 @@
 "displays.anchor_subtitle" = "Overlay alignment and growth point.";
 "displays.margin_label" = "Bildschirmabstand";
 "displays.margin_subtitle" = "Abstand zwischen der Einblendung und dem ausgewählten Bildschirmrand.";
-"displays.custom_position.set_label" = "Set Position";
+"displays.custom_position.label" = "Position";
 "displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
 "displays.custom_position.start_setting_button" = "Start Setting…";
 "displays.custom_position.stop_setting_button" = "Stop Setting";

@@ -11,14 +11,18 @@ import Combine
 
 protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var isEnabled: Bool { get set }
+    
     var stackAxis: KeyboardVisualizerStackAxis { get set }
     var maxCount: Int { get set }
+    
     var fadeDelay: CGFloat { get set }
     var fadeDuration: CGFloat { get set }
+    
     var theme: KeyboardVisualizerTheme { get set }
     var legendColorMode: KeyboardLegendColorMode { get set }
     var customLegendColor: NSColor { get set }
     var usesCustomThemePalette: Bool { get set }
+    
     var modifierTheme: KeyboardVisualizerTheme { get set }
     var specialTheme: KeyboardVisualizerTheme { get set }
     var mediaTheme: KeyboardVisualizerTheme { get set }

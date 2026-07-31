@@ -109,7 +109,7 @@ struct DisplaysSettingsPane: View {
 private extension DisplaysSettingsPane {
     var customPlacementControls: some View {
         SettingsControlRow(
-            title: L10n.Displays.CustomPosition.setLabel,
+            title: L10n.Displays.CustomPosition.label,
             subtitle: L10n.Displays.CustomPosition.setSubtitle
         ) {
             Button(self.model.isSettingCustomPosition ? L10n.Displays.CustomPosition.stopSettingButton : L10n.Displays.CustomPosition.startSettingButton) {

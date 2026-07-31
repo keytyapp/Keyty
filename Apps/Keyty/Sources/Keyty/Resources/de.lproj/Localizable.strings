@@ -39,10 +39,18 @@
 /* Displays settings pane */
 "displays.display_label" = "Bildschirm";
 "displays.display_subtitle" = "Bildschirm für die Tastatureinblendung";
+"displays.placement_label" = "Placement";
+"displays.placement_subtitle" = "Choose whether the overlay uses screen anchors or a custom position.";
+"displays.placement.anchored" = "Anchored";
+"displays.placement.custom" = "Custom";
 "displays.anchor_label" = "Verankerung";
-"displays.anchor_subtitle" = "Position der Tastatureinblendung";
+"displays.anchor_subtitle" = "Overlay alignment and growth point.";
 "displays.margin_label" = "Bildschirmabstand";
 "displays.margin_subtitle" = "Abstand zwischen der Einblendung und dem ausgewählten Bildschirmrand.";
+"displays.custom_position.set_label" = "Set Position";
+"displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
+"displays.custom_position.start_setting_button" = "Start Setting…";
+"displays.custom_position.stop_setting_button" = "Stop Setting";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";

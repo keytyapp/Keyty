@@ -39,10 +39,18 @@
 /* Displays settings pane */
 "displays.display_label" = "Дисплей";
 "displays.display_subtitle" = "Дисплей, на якому показуватиметься накладка клавіатури";
+"displays.placement_label" = "Placement";
+"displays.placement_subtitle" = "Choose whether the overlay uses screen anchors or a custom position.";
+"displays.placement.anchored" = "Anchored";
+"displays.placement.custom" = "Custom";
 "displays.anchor_label" = "Прив’язка";
-"displays.anchor_subtitle" = "Положення накладки клавіатури";
+"displays.anchor_subtitle" = "Overlay alignment and growth point.";
 "displays.margin_label" = "Відступ від краю";
 "displays.margin_subtitle" = "Відстань між накладкою та вибраним краєм екрана.";
+"displays.custom_position.set_label" = "Set Position";
+"displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
+"displays.custom_position.start_setting_button" = "Start Setting…";
+"displays.custom_position.stop_setting_button" = "Stop Setting";
 
 /* General settings pane */
 "general.appearance_section_title" = "Програма";

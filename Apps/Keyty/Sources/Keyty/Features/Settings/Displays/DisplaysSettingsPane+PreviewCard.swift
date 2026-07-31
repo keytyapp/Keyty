@@ -13,8 +13,11 @@ extension DisplaysSettingsPane {
         let screens: [Screen]
         let selectedScreen: Screen
         let anchor: KeyboardVisualizerAnchor
+        let placementMode: KeyboardVisualizerSettings.PlacementMode
         let stackAxis: KeyboardVisualizerStackAxis
         let windowPadding: Double
+        let customPositionX: Double
+        let customPositionY: Double
         let onSelectScreen: (Screen) -> Void
 
         private let previewHeight = Spacing.grid(48)
@@ -64,7 +67,7 @@ private extension DisplaysSettingsPane.PreviewCard {
                 RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
                     .fill(Color.Theme.Accent.controlAccent)
                     .frame(width: markerSize.width, height: markerSize.height)
-                    .offset(self.anchorOffset(in: size, for: screen, markerSize: markerSize))
+                    .offset(self.markerOffset(in: size, for: screen, markerSize: markerSize))
                     .shadow(color: Color.Theme.Shadow.displayMarker, radius: 6, y: 2)
             }
         }
@@ -126,6 +129,15 @@ private extension DisplaysSettingsPane.PreviewCard {
         return min(1, max(minimumScale, displayScale))
     }
 
+    func markerOffset(in size: CGSize, for screen: Screen, markerSize: CGSize) -> CGSize {
+        switch self.placementMode {
+        case .anchored:
+            return self.anchorOffset(in: size, for: screen, markerSize: markerSize)
+        case .custom:
+            return self.customPositionOffset(in: size, markerSize: markerSize)
+        }
+    }
+
     func anchorOffset(in size: CGSize, for screen: Screen, markerSize: CGSize) -> CGSize {
         let halfMarkerWidth = markerSize.width / 2
         let halfMarkerHeight = markerSize.height / 2
@@ -158,6 +170,37 @@ private extension DisplaysSettingsPane.PreviewCard {
         }
 
         return CGSize(width: x, height: y)
+    }
+
+    func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
+        let anchorX = size.width * CGFloat(self.customPositionX) - size.width / 2
+        let anchorY = size.height / 2 - size.height * CGFloat(self.customPositionY)
+        let markerAnchorX = self.markerAnchorOffsetX(for: markerSize)
+        let markerAnchorY = self.markerAnchorOffsetY(for: markerSize)
+
+        return CGSize(width: anchorX - markerAnchorX, height: anchorY - markerAnchorY)
+    }
+
+    func markerAnchorOffsetX(for markerSize: CGSize) -> CGFloat {
+        switch self.anchor.horizontal {
+        case .leading:
+            return -markerSize.width / 2
+        case .center:
+            return 0
+        case .trailing:
+            return markerSize.width / 2
+        }
+    }
+
+    func markerAnchorOffsetY(for markerSize: CGSize) -> CGFloat {
+        switch self.anchor.vertical {
+        case .top:
+            return -markerSize.height / 2
+        case .middle:
+            return 0
+        case .bottom:
+            return markerSize.height / 2
+        }
     }
 }
 

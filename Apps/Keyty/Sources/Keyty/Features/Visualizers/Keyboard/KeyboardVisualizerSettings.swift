@@ -24,7 +24,12 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var mediaTheme: KeyboardVisualizerTheme { get set }
     var mouseTheme: KeyboardVisualizerTheme { get set }
     var groupBackgroundTheme: KeyboardVisualizerTheme { get set }
+
     var anchor: KeyboardVisualizerAnchor { get set }
+    var placementMode: KeyboardVisualizerSettings.PlacementMode { get set }
+    var customPositionX: CGFloat { get set }
+    var customPositionY: CGFloat { get set }
+
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
     var windowPadding: CGFloat { get set }
@@ -165,6 +170,27 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.anchor, default: .default))
     var anchor: KeyboardVisualizerAnchor {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.enum(KeyboardVisualizerSettingsKeys.placementMode, default: .anchored))
+    var placementMode: PlacementMode {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionX, default: 0.5, clamp: 0...1))
+    var customPositionX: CGFloat {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionY, default: 0.5, clamp: 0...1))
+    var customPositionY: CGFloat {
         didSet {
             self.placementChangesSubject.send(())
         }

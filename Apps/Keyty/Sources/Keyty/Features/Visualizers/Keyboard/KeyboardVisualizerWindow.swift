@@ -162,6 +162,15 @@ final class KeyboardVisualizerWindow: NSWindow {
             return NSRect(origin: self.frame.origin, size: size)
         }
 
+        switch self.settings.placementMode {
+        case .anchored:
+            return self.anchoredFrame(size: size, in: area)
+        case .custom:
+            return self.customFrame(size: size, in: area)
+        }
+    }
+
+    private func anchoredFrame(size: NSSize, in area: CGRect) -> NSRect {
         let anchor = self.settings.anchor
         let margin = self.settings.windowPadding
 
@@ -181,6 +190,50 @@ final class KeyboardVisualizerWindow: NSWindow {
         }
 
         return NSRect(x: x, y: y, width: size.width, height: size.height)
+    }
+
+    private func customFrame(size: NSSize, in area: CGRect) -> NSRect {
+        let anchorPoint = CGPoint(
+            x: area.minX + area.width * self.settings.customPositionX,
+            y: area.minY + area.height * self.settings.customPositionY
+        )
+        let origin = CGPoint(
+            x: anchorPoint.x - self.anchorOffsetX(for: size),
+            y: anchorPoint.y - self.anchorOffsetY(for: size)
+        )
+        let clampedOrigin = CGPoint(
+            x: self.clampedOriginValue(origin.x, minimum: area.minX, maximum: area.maxX - size.width),
+            y: self.clampedOriginValue(origin.y, minimum: area.minY, maximum: area.maxY - size.height)
+        )
+
+        return NSRect(origin: clampedOrigin, size: size)
+    }
+
+    private func clampedOriginValue(_ value: CGFloat, minimum: CGFloat, maximum: CGFloat) -> CGFloat {
+        guard maximum >= minimum else { return minimum }
+        return min(max(value, minimum), maximum)
+    }
+
+    private func anchorOffsetX(for size: NSSize) -> CGFloat {
+        switch self.settings.anchor.horizontal {
+        case .leading:
+            return 0
+        case .center:
+            return size.width / 2
+        case .trailing:
+            return size.width
+        }
+    }
+
+    private func anchorOffsetY(for size: NSSize) -> CGFloat {
+        switch self.settings.anchor.vertical {
+        case .bottom:
+            return 0
+        case .middle:
+            return size.height / 2
+        case .top:
+            return size.height
+        }
     }
 
     private func resolvedVisibleFrame() -> CGRect? {

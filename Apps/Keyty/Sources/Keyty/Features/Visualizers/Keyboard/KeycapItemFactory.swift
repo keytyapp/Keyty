@@ -128,7 +128,7 @@ enum KeycapItemFactory {
     }
 
     static func mediaKeyItem(for mediaKey: MediaKeyEvent, palette: KeycapThemePalette) -> KeycapItem {
-        Self.mediaKeyItem(for: mediaKey.kind, isPressed: false, palette: palette)
+        Self.mediaKeyItem(for: mediaKey.kind, isPressed: mediaKey.isPressed, palette: palette)
     }
 
     static func mediaKeyItem(

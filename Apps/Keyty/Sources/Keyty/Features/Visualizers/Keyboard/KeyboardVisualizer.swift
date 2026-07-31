@@ -96,7 +96,9 @@ final class KeyboardVisualizer {
             self.prepareForNextContentEvent()
 
             let keycap = KeycapItemFactory.mediaKeyItem(for: mediaKey, palette: self.visualizerSettings.palette)
-            self.eventCoordinator.handleStandalone(
+            self.eventCoordinator.handleMediaKey(
+                kind: mediaKey.kind,
+                isPressed: keycap.isPressed,
                 items: [keycap],
                 appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
                 updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }

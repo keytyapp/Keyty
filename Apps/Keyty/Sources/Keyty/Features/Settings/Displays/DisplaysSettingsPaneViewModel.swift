@@ -110,6 +110,10 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
             self.isSettingCustomPosition = true
         }
     }
+
+    func finishCustomPositionSetting() {
+        self.stopCustomPositionSetting()
+    }
 }
 
 private extension DisplaysSettingsPaneViewModel {

@@ -97,6 +97,33 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.stopSettingCallCount, 1)
     }
 
+    func testFinishingCustomPositionSettingStopsAndAppliesReturnedPlacement() {
+        self.placementToReturn = KeyboardVisualizerPlacement(
+            screenID: 2,
+            positionX: 0.3,
+            positionY: 0.7
+        )
+
+        self.model.toggleCustomPositionSetting()
+        self.model.finishCustomPositionSetting()
+
+        XCTAssertFalse(self.model.isSettingCustomPosition)
+        XCTAssertEqual(self.stopSettingCallCount, 1)
+        XCTAssertEqual(self.model.selectedScreenID, 2)
+        XCTAssertEqual(self.keyboardVisualizerSettings.screenID, 2)
+        XCTAssertEqual(self.model.customPositionX, 0.3, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionY, 0.7, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.3, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.7, accuracy: 0.0001)
+    }
+
+    func testFinishingCustomPositionSettingDoesNothingWhenNotSetting() {
+        self.model.finishCustomPositionSetting()
+
+        XCTAssertFalse(self.model.isSettingCustomPosition)
+        XCTAssertEqual(self.stopSettingCallCount, 0)
+    }
+
     func testStoppingCustomPositionSettingAppliesReturnedPlacement() {
         self.placementToReturn = KeyboardVisualizerPlacement(
             screenID: 2,

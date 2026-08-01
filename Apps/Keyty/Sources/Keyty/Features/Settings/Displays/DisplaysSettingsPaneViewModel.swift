@@ -65,12 +65,12 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         didSet { self.keyboardVisualizerSettings.windowPadding = CGFloat(self.windowPadding) }
     }
 
-    @Published var customPositionX: Double {
-        didSet { self.keyboardVisualizerSettings.customPositionX = CGFloat(self.customPositionX) }
+    @Published var customPositionNormalizedX: Double {
+        didSet { self.keyboardVisualizerSettings.customPositionNormalizedX = CGFloat(self.customPositionNormalizedX) }
     }
 
-    @Published var customPositionY: Double {
-        didSet { self.keyboardVisualizerSettings.customPositionY = CGFloat(self.customPositionY) }
+    @Published var customPositionNormalizedY: Double {
+        didSet { self.keyboardVisualizerSettings.customPositionNormalizedY = CGFloat(self.customPositionNormalizedY) }
     }
 
     var stackAxis: KeyboardVisualizerStackAxis {
@@ -123,8 +123,8 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         self.selectedAnchor = keyboardVisualizerSettings.anchor
         self.placementMode = keyboardVisualizerSettings.placementMode
         self.windowPadding = Double(keyboardVisualizerSettings.windowPadding)
-        self.customPositionX = Double(keyboardVisualizerSettings.customPositionX)
-        self.customPositionY = Double(keyboardVisualizerSettings.customPositionY)
+        self.customPositionNormalizedX = Double(keyboardVisualizerSettings.customPositionNormalizedX)
+        self.customPositionNormalizedY = Double(keyboardVisualizerSettings.customPositionNormalizedY)
 
         self.screensService.screensDidChange
             .receive(on: RunLoop.main)
@@ -163,8 +163,8 @@ private extension DisplaysSettingsPaneViewModel {
 
     func applyPlacement(_ placement: KeyboardVisualizerPlacementWindowController.Placement) {
         self.selectedScreenID = placement.screenID
-        self.customPositionX = Double(placement.positionX)
-        self.customPositionY = Double(placement.positionY)
+        self.customPositionNormalizedX = Double(placement.positionX)
+        self.customPositionNormalizedY = Double(placement.positionY)
     }
 
     static func initialSelectedScreen(

@@ -16,8 +16,8 @@ extension DisplaysSettingsPane {
         let placementMode: KeyboardVisualizerSettings.PlacementMode
         let stackAxis: KeyboardVisualizerStackAxis
         let windowPadding: Double
-        let customPositionX: Double
-        let customPositionY: Double
+        let customPositionNormalizedX: Double
+        let customPositionNormalizedY: Double
         let onSelectScreen: (Screen) -> Void
 
         private let previewHeight = Spacing.grid(48)
@@ -174,8 +174,8 @@ private extension DisplaysSettingsPane.PreviewCard {
 
     func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
         CGSize(
-            width: size.width * CGFloat(self.customPositionX) - size.width / 2,
-            height: size.height / 2 - size.height * CGFloat(self.customPositionY)
+            width: size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2,
+            height: size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY)
         )
     }
 }

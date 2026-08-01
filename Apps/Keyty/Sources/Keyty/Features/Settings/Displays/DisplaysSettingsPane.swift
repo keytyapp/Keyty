@@ -34,8 +34,8 @@ struct DisplaysSettingsPane: View {
                 placementMode: self.model.placementMode,
                 stackAxis: self.model.stackAxis,
                 windowPadding: self.model.windowPadding,
-                customPositionX: self.model.customPositionX,
-                customPositionY: self.model.customPositionY,
+                customPositionNormalizedX: self.model.customPositionNormalizedX,
+                customPositionNormalizedY: self.model.customPositionNormalizedY,
                 onSelectScreen: { screen in
                     self.model.selectedScreenID = screen.id
                 }

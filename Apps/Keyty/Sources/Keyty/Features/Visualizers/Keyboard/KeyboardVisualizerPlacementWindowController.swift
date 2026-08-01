@@ -52,7 +52,7 @@ extension KeyboardVisualizerPlacementWindowController {
         let contentView = KeyboardVisualizerGroupView(items: Self.previewItems(settings: self.settings), settings: self.settings)
         let size = contentView.preferredSize
         let frame = Self.frame(
-            forNormalizedPosition: CGPoint(x: self.settings.customPositionX, y: self.settings.customPositionY),
+            forNormalizedPosition: CGPoint(x: self.settings.customPositionNormalizedX, y: self.settings.customPositionNormalizedY),
             in: visibleFrame,
             size: size
         )

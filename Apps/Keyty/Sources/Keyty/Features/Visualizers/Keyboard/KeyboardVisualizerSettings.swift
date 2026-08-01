@@ -30,9 +30,12 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var groupBackgroundTheme: KeyboardVisualizerTheme { get set }
 
     var anchor: KeyboardVisualizerAnchor { get set }
+    /// Selects whether the keyboard overlay uses a predefined anchor or a custom normalized position.
     var placementMode: KeyboardVisualizerSettings.PlacementMode { get set }
-    var customPositionX: CGFloat { get set }
-    var customPositionY: CGFloat { get set }
+    /// Horizontal custom overlay position normalized to the selected display visible frame.
+    var customPositionNormalizedX: CGFloat { get set }
+    /// Vertical custom overlay position normalized to the selected display visible frame.
+    var customPositionNormalizedY: CGFloat { get set }
 
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
@@ -186,15 +189,15 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         }
     }
 
-    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionX, default: 0.5, clamp: 0...1))
-    var customPositionX: CGFloat {
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionNormalizedX, default: 0.5, clamp: 0...1))
+    var customPositionNormalizedX: CGFloat {
         didSet {
             self.placementChangesSubject.send(())
         }
     }
 
-    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionY, default: 0.5, clamp: 0...1))
-    var customPositionY: CGFloat {
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionNormalizedY, default: 0.5, clamp: 0...1))
+    var customPositionNormalizedY: CGFloat {
         didSet {
             self.placementChangesSubject.send(())
         }

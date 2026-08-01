@@ -57,20 +57,20 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     }
 
     func testToggleCustomPositionSettingFlipsLocalFlagOnly() {
-        self.keyboardVisualizerSettings.customPositionX = 0.25
-        self.keyboardVisualizerSettings.customPositionY = 0.75
+        self.keyboardVisualizerSettings.customPositionNormalizedX = 0.25
+        self.keyboardVisualizerSettings.customPositionNormalizedY = 0.75
 
         self.model.toggleCustomPositionSetting()
 
         XCTAssertTrue(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.25, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.75, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.75, accuracy: 0.0001)
 
         self.model.toggleCustomPositionSetting()
 
         XCTAssertFalse(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.25, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.75, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.75, accuracy: 0.0001)
     }
 
     func testToggleCustomPositionSettingStartsAndStopsPlacementController() {
@@ -141,10 +141,10 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.stopSettingCallCount, 1)
         XCTAssertEqual(self.model.selectedScreenID, 2)
         XCTAssertEqual(self.keyboardVisualizerSettings.screenID, 2)
-        XCTAssertEqual(self.model.customPositionX, 0.3, accuracy: 0.0001)
-        XCTAssertEqual(self.model.customPositionY, 0.7, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.3, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.7, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedX, 0.3, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedY, 0.7, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.3, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.7, accuracy: 0.0001)
     }
 
     func testFinishingCustomPositionSettingDoesNothingWhenNotSetting() {
@@ -166,10 +166,10 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
 
         XCTAssertEqual(self.model.selectedScreenID, 2)
         XCTAssertEqual(self.keyboardVisualizerSettings.screenID, 2)
-        XCTAssertEqual(self.model.customPositionX, 0.25, accuracy: 0.0001)
-        XCTAssertEqual(self.model.customPositionY, 0.75, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.25, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.75, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedX, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedY, 0.75, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.75, accuracy: 0.0001)
     }
 
     func testPlacementChangeWhileSettingAppliesPlacement() {
@@ -186,10 +186,10 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertTrue(self.model.isSettingCustomPosition)
         XCTAssertEqual(self.model.selectedScreenID, 2)
         XCTAssertEqual(self.keyboardVisualizerSettings.screenID, 2)
-        XCTAssertEqual(self.model.customPositionX, 0.4, accuracy: 0.0001)
-        XCTAssertEqual(self.model.customPositionY, 0.6, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionX, 0.4, accuracy: 0.0001)
-        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionY, 0.6, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedX, 0.4, accuracy: 0.0001)
+        XCTAssertEqual(self.model.customPositionNormalizedY, 0.6, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.4, accuracy: 0.0001)
+        XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.6, accuracy: 0.0001)
     }
 }
 

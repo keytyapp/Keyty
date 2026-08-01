@@ -194,8 +194,8 @@ final class KeyboardVisualizerWindow: NSWindow {
 
     private func customFrame(size: NSSize, in area: CGRect) -> NSRect {
         let center = CGPoint(
-            x: area.minX + area.width * self.settings.customPositionX,
-            y: area.minY + area.height * self.settings.customPositionY
+            x: area.minX + area.width * self.settings.customPositionNormalizedX,
+            y: area.minY + area.height * self.settings.customPositionNormalizedY
         )
         let origin = CGPoint(
             x: center.x - size.width / 2,

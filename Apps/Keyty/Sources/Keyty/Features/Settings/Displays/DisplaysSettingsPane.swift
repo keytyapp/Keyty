@@ -23,6 +23,7 @@ struct DisplaysSettingsPane: View {
                 anchor: self.model.selectedAnchor,
                 placementMode: self.model.placementMode,
                 stackAxis: self.model.stackAxis,
+                keyboardScale: self.model.scale,
                 windowPadding: self.model.windowPadding,
                 customPositionNormalizedX: self.model.customPositionNormalizedX,
                 customPositionNormalizedY: self.model.customPositionNormalizedY,

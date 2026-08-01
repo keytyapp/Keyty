@@ -15,6 +15,7 @@ extension DisplaysSettingsPane {
         let anchor: KeyboardVisualizerAnchor
         let placementMode: KeyboardVisualizerSettings.PlacementMode
         let stackAxis: KeyboardVisualizerStackAxis
+        let keyboardScale: Double
         let windowPadding: Double
         let customPositionNormalizedX: Double
         let customPositionNormalizedY: Double
@@ -113,10 +114,15 @@ private extension DisplaysSettingsPane.PreviewCard {
     func markerSize(in displaySize: CGSize) -> CGSize {
         let maximumSize = self.maximumMarkerSize
         let scale = self.markerScale(in: displaySize, maximumSize: maximumSize)
+        let keyboardScale = CGFloat(self.keyboardScale).clamped(to: 0.5...2.0)
+        let scaledSize = CGSize(
+            width: maximumSize.width * scale * keyboardScale,
+            height: maximumSize.height * scale * keyboardScale
+        )
 
         return CGSize(
-            width: maximumSize.width * scale,
-            height: maximumSize.height * scale
+            width: min(scaledSize.width, max(displaySize.width - Spacing.xs * 2, Spacing.xs)),
+            height: min(scaledSize.height, max(displaySize.height - Spacing.xs * 2, Spacing.xs))
         )
     }
 
@@ -173,9 +179,16 @@ private extension DisplaysSettingsPane.PreviewCard {
     }
 
     func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
-        CGSize(
-            width: size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2,
-            height: size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY)
+        let halfMarkerWidth = markerSize.width / 2
+        let halfMarkerHeight = markerSize.height / 2
+        let x = (size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2)
+            .clamped(minimum: -size.width / 2 + halfMarkerWidth, maximum: size.width / 2 - halfMarkerWidth)
+        let y = (size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY))
+            .clamped(minimum: -size.height / 2 + halfMarkerHeight, maximum: size.height / 2 - halfMarkerHeight)
+
+        return CGSize(
+            width: x,
+            height: y
         )
     }
 }

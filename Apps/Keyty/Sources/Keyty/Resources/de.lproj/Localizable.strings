@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "Bildschirm";
 "displays.display_subtitle" = "Bildschirm für die Tastatureinblendung";
-"displays.placement_label" = "Platzierung";
-"displays.placement_subtitle" = "Wähle, ob die Einblendung Bildschirmanker oder eine benutzerdefinierte Position verwendet.";
-"displays.placement.anchored" = "Verankert";
 "displays.placement.custom" = "Benutzerdefiniert";
 "displays.anchor_label" = "Verankerung";
 "displays.anchor_subtitle" = "Ausrichtung und Wachstumspunkt der Einblendung.";

@@ -7,20 +7,11 @@
 //
 
 extension KeyboardVisualizerSettings {
-    enum PlacementMode: Int, CaseIterable {
+    enum PlacementMode: Int {
         /// Positions the overlay from a screen anchor plus edge inset.
         case anchored
 
         /// Positions the overlay from a normalized point on the selected display.
         case custom
-
-        var label: String {
-            switch self {
-            case .anchored:
-                return L10n.Displays.Placement.anchored
-            case .custom:
-                return L10n.Displays.Placement.custom
-            }
-        }
     }
 }

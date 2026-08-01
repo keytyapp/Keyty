@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "Pantalla";
 "displays.display_subtitle" = "Pantalla en la que se muestra la superposición del teclado";
-"displays.placement_label" = "Ubicación";
-"displays.placement_subtitle" = "Elige si la superposición usa anclajes de pantalla o una posición personalizada.";
-"displays.placement.anchored" = "Anclada";
 "displays.placement.custom" = "Personalizada";
 "displays.anchor_label" = "Anclaje";
 "displays.anchor_subtitle" = "Alineación y punto de crecimiento de la superposición.";

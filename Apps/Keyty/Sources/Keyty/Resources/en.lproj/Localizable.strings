@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "Display";
 "displays.display_subtitle" = "Display to host the keyboard overlay";
-"displays.placement_label" = "Placement";
-"displays.placement_subtitle" = "Choose whether the overlay uses screen anchors or a custom position.";
-"displays.placement.anchored" = "Anchored";
 "displays.placement.custom" = "Custom";
 "displays.anchor_label" = "Anchor";
 "displays.anchor_subtitle" = "Overlay alignment and growth point.";

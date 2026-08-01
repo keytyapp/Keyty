@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "Дисплей";
 "displays.display_subtitle" = "Дисплей, на якому показуватиметься накладка клавіатури";
-"displays.placement_label" = "Розміщення";
-"displays.placement_subtitle" = "Виберіть, чи використовувати прив’язки екрана або власну позицію для накладки.";
-"displays.placement.anchored" = "Прив’язано";
 "displays.placement.custom" = "Власна";
 "displays.anchor_label" = "Прив’язка";
 "displays.anchor_subtitle" = "Вирівнювання накладки та точка розгортання.";

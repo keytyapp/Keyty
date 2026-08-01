@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "ディスプレイ";
 "displays.display_subtitle" = "キーボードオーバーレイを表示するディスプレイ";
-"displays.placement_label" = "配置";
-"displays.placement_subtitle" = "オーバーレイを画面の基準位置に固定するか、カスタム位置に配置するかを選択します。";
-"displays.placement.anchored" = "固定";
 "displays.placement.custom" = "カスタム";
 "displays.anchor_label" = "基準位置";
 "displays.anchor_subtitle" = "オーバーレイの配置と広がりの基準点。";

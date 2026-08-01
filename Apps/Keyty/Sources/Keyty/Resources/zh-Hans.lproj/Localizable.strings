@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "显示器";
 "displays.display_subtitle" = "用于显示键盘叠加层的显示器";
-"displays.placement_label" = "放置方式";
-"displays.placement_subtitle" = "选择叠加层使用屏幕锚点还是自定义位置。";
-"displays.placement.anchored" = "锚定";
 "displays.placement.custom" = "自定义";
 "displays.anchor_label" = "锚点";
 "displays.anchor_subtitle" = "叠加层的对齐方式和展开基点。";

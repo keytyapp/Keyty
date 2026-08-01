@@ -39,9 +39,6 @@
 /* Displays settings pane */
 "displays.display_label" = "Écran";
 "displays.display_subtitle" = "Écran sur lequel afficher la superposition du clavier";
-"displays.placement_label" = "Placement";
-"displays.placement_subtitle" = "Choisissez si la superposition utilise des ancrages d’écran ou une position personnalisée.";
-"displays.placement.anchored" = "Ancrée";
 "displays.placement.custom" = "Personnalisée";
 "displays.anchor_label" = "Ancrage";
 "displays.anchor_subtitle" = "Alignement et point d’expansion de la superposition.";

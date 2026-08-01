@@ -202,17 +202,13 @@ final class KeyboardVisualizerWindow: NSWindow {
             y: center.y - size.height / 2
         )
         let clampedOrigin = CGPoint(
-            x: self.clampedOriginValue(origin.x, minimum: area.minX, maximum: area.maxX - size.width),
-            y: self.clampedOriginValue(origin.y, minimum: area.minY, maximum: area.maxY - size.height)
+            x: origin.x.clamped(minimum: area.minX, maximum: area.maxX - size.width),
+            y: origin.y.clamped(minimum: area.minY, maximum: area.maxY - size.height)
         )
 
         return NSRect(origin: clampedOrigin, size: size)
     }
 
-    private func clampedOriginValue(_ value: CGFloat, minimum: CGFloat, maximum: CGFloat) -> CGFloat {
-        guard maximum >= minimum else { return minimum }
-        return min(max(value, minimum), maximum)
-    }
     private func resolvedVisibleFrame() -> CGRect? {
         self.screensService.visibleFrame(for: self.settings.screenID)
             ?? self.screensService.mainVisibleFrame()

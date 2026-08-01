@@ -86,8 +86,8 @@ extension KeyboardVisualizerPlacementWindowController {
             y: area.minY + area.height * position.y
         )
         let origin = CGPoint(
-            x: Self.clamped(center.x - size.width / 2, minimum: area.minX, maximum: area.maxX - size.width),
-            y: Self.clamped(center.y - size.height / 2, minimum: area.minY, maximum: area.maxY - size.height)
+            x: (center.x - size.width / 2).clamped(minimum: area.minX, maximum: area.maxX - size.width),
+            y: (center.y - size.height / 2).clamped(minimum: area.minY, maximum: area.maxY - size.height)
         )
 
         return CGRect(origin: origin, size: size)
@@ -95,8 +95,8 @@ extension KeyboardVisualizerPlacementWindowController {
 
     static func normalizedPosition(for point: CGPoint, in area: CGRect) -> CGPoint {
         CGPoint(
-            x: Self.clamped((point.x - area.minX) / max(area.width, 1), minimum: 0, maximum: 1),
-            y: Self.clamped((point.y - area.minY) / max(area.height, 1), minimum: 0, maximum: 1)
+            x: ((point.x - area.minX) / max(area.width, 1)).clamped(to: 0...1),
+            y: ((point.y - area.minY) / max(area.height, 1)).clamped(to: 0...1)
         )
     }
 
@@ -202,10 +202,6 @@ private extension KeyboardVisualizerPlacementWindowController {
         return dx * dx + dy * dy
     }
 
-    static func clamped(_ value: CGFloat, minimum: CGFloat, maximum: CGFloat) -> CGFloat {
-        guard maximum >= minimum else { return minimum }
-        return min(max(value, minimum), maximum)
-    }
 }
 
 extension KeyboardVisualizerPlacementWindowController {

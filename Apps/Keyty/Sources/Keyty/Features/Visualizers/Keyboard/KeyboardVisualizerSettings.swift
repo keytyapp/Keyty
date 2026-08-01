@@ -240,6 +240,7 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         }
         set {
             self.storedScale = min(max(newValue, 0.5), 2.0)
+            self.placementChangesSubject.send(())
         }
     }
 

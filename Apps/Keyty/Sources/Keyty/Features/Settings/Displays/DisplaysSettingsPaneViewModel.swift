@@ -57,9 +57,8 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         didSet { self.keyboardVisualizerSettings.customPositionNormalizedY = CGFloat(self.customPositionNormalizedY) }
     }
 
-    var stackAxis: KeyboardVisualizerStackAxis {
-        self.keyboardVisualizerSettings.stackAxis
-    }
+    @Published private(set) var stackAxis: KeyboardVisualizerStackAxis
+    @Published private(set) var scale: Double
 
     var isCustomPlacement: Bool {
         self.placementMode == .custom
@@ -109,6 +108,8 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         self.windowPadding = Double(keyboardVisualizerSettings.windowPadding)
         self.customPositionNormalizedX = Double(keyboardVisualizerSettings.customPositionNormalizedX)
         self.customPositionNormalizedY = Double(keyboardVisualizerSettings.customPositionNormalizedY)
+        self.stackAxis = keyboardVisualizerSettings.stackAxis
+        self.scale = Double(keyboardVisualizerSettings.scale)
 
         self.screensService.screensDidChange
             .receive(on: RunLoop.main)
@@ -116,6 +117,15 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
                 guard let self else { return }
                 self.screens = screens
                 self.selectedScreen = self.resolveSelectedScreen(for: self.keyboardVisualizerSettings.screenID)
+            }
+            .store(in: &self.cancellables)
+
+        self.keyboardVisualizerSettings.placementChanges
+            .receive(on: RunLoop.main)
+            .sink { [weak self, weak keyboardVisualizerSettings] in
+                guard let self, let keyboardVisualizerSettings else { return }
+                self.stackAxis = keyboardVisualizerSettings.stackAxis
+                self.scale = Double(keyboardVisualizerSettings.scale)
             }
             .store(in: &self.cancellables)
     }

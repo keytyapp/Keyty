@@ -14,6 +14,10 @@ Run project commands from `Apps/Keyty`.
 
 Attach screenshots or screen recordings for visible UI changes. Write `N/A` if there are none.
 
+| Before | After |
+| --- | --- |
+|  |  |
+
 ## Documentation
 
 - [ ] Updated relevant docs

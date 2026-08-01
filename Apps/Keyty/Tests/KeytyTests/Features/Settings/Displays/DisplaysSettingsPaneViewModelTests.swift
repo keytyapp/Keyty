@@ -17,8 +17,8 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     private var screensService: TestScreenService!
     private var startSettingCallCount = 0
     private var stopSettingCallCount = 0
-    private var placementToReturn: KeyboardVisualizerPlacement?
-    private var placementChangeHandler: KeyboardVisualizerPlacementChangeHandler?
+    private var placementToReturn: KeyboardVisualizerPlacementWindowController.Placement?
+    private var placementChangeHandler: KeyboardVisualizerPlacementWindowController.PlacementChangeHandler?
     private var model: DisplaysSettingsPaneViewModel!
 
     override func setUp() {
@@ -128,7 +128,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     }
 
     func testFinishingCustomPositionSettingStopsAndAppliesReturnedPlacement() {
-        self.placementToReturn = KeyboardVisualizerPlacement(
+        self.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
             screenID: 2,
             positionX: 0.3,
             positionY: 0.7
@@ -155,7 +155,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     }
 
     func testStoppingCustomPositionSettingAppliesReturnedPlacement() {
-        self.placementToReturn = KeyboardVisualizerPlacement(
+        self.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
             screenID: 2,
             positionX: 0.25,
             positionY: 0.75
@@ -176,7 +176,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.model.toggleCustomPositionSetting()
 
         self.placementChangeHandler?(
-            KeyboardVisualizerPlacement(
+            KeyboardVisualizerPlacementWindowController.Placement(
                 screenID: 2,
                 positionX: 0.4,
                 positionY: 0.6

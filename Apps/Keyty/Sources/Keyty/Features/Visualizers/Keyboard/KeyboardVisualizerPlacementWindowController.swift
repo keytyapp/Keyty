@@ -8,19 +8,19 @@
 
 import AppKit
 
-struct KeyboardVisualizerPlacement {
-    let screenID: CGDirectDisplayID
-    let positionX: CGFloat
-    let positionY: CGFloat
-}
-
-typealias KeyboardVisualizerPlacementChangeHandler = @MainActor (KeyboardVisualizerPlacement) -> Void
-
 @MainActor
 final class KeyboardVisualizerPlacementWindowController: NSWindowController {
+    struct Placement {
+        let screenID: CGDirectDisplayID
+        let positionX: CGFloat
+        let positionY: CGFloat
+    }
+
+    typealias PlacementChangeHandler = @MainActor (Placement) -> Void
+
     private let settings: KeyboardVisualizerSettings
     private let screensService: any ScreenServiceProvider
-    private var onPlacementChanged: KeyboardVisualizerPlacementChangeHandler?
+    private var onPlacementChanged: PlacementChangeHandler?
 
     init(
         settings: KeyboardVisualizerSettings,
@@ -39,7 +39,7 @@ final class KeyboardVisualizerPlacementWindowController: NSWindowController {
 
 // MARK: - Public API
 extension KeyboardVisualizerPlacementWindowController {
-    func startSettingPosition(onPlacementChanged: @escaping KeyboardVisualizerPlacementChangeHandler) {
+    func startSettingPosition(onPlacementChanged: @escaping PlacementChangeHandler) {
         self.onPlacementChanged = onPlacementChanged
 
         if let window = self.window {
@@ -64,7 +64,7 @@ extension KeyboardVisualizerPlacementWindowController {
         window.orderFrontRegardless()
     }
 
-    func stopSettingPosition() -> KeyboardVisualizerPlacement? {
+    func stopSettingPosition() -> Placement? {
         guard let window = self.window else { return nil }
 
         let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
@@ -100,7 +100,7 @@ extension KeyboardVisualizerPlacementWindowController {
     static func placement(
         for point: CGPoint,
         in visibleFrames: [(screenID: CGDirectDisplayID, frame: CGRect)]
-    ) -> KeyboardVisualizerPlacement? {
+    ) -> Placement? {
         guard let visibleFrame = visibleFrames.first(where: { $0.frame.contains(point) })
             ?? Self.nearestVisibleFrame(to: point, in: visibleFrames)
         else {
@@ -109,7 +109,7 @@ extension KeyboardVisualizerPlacementWindowController {
 
         let position = Self.normalizedPosition(for: point, in: visibleFrame.frame)
 
-        return KeyboardVisualizerPlacement(
+        return Placement(
             screenID: visibleFrame.screenID,
             positionX: position.x,
             positionY: position.y
@@ -147,7 +147,7 @@ private extension KeyboardVisualizerPlacementWindowController {
             ?? self.screensService.mainVisibleFrame()
     }
 
-    func placement(for point: CGPoint) -> KeyboardVisualizerPlacement? {
+    func placement(for point: CGPoint) -> Placement? {
         Self.placement(for: point, in: self.visibleFrames())
     }
 

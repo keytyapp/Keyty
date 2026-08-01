@@ -25,8 +25,8 @@ final class SettingsWindowController: NSWindowController {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void,
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement?,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void,
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?,
         permissionsService: any PermissionsService,
         updater: SPUUpdater
     ) {

@@ -13,8 +13,8 @@ struct DisplaysSettingsPane: View {
 
     init(
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void = { _ in },
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement? = { nil }
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void = { _ in },
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement? = { nil }
     ) {
         _model = StateObject(
             wrappedValue: DisplaysSettingsPaneViewModel(

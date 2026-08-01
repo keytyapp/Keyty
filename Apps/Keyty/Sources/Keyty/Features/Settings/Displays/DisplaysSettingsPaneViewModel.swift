@@ -29,8 +29,8 @@ enum DisplaysAnchorSelection: Hashable {
 final class DisplaysSettingsPaneViewModel: ObservableObject {
     private let screensService: any ScreenServiceProvider
     private let keyboardVisualizerSettings: KeyboardVisualizerSettings
-    private let startSettingKeyboardVisualizerPosition: @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void
-    private let stopSettingKeyboardVisualizerPosition: @MainActor () -> KeyboardVisualizerPlacement?
+    private let startSettingKeyboardVisualizerPosition: @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void
+    private let stopSettingKeyboardVisualizerPosition: @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?
     private var cancellables = Set<AnyCancellable>()
 
     let paddingRange: ClosedRange<Double> = Double(KeyboardVisualizerSettings.minWindowPadding)...Double(KeyboardVisualizerSettings.maxWindowPadding)
@@ -104,8 +104,8 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     init(
         screensService: any ScreenServiceProvider = ScreensService.shared,
         keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void = { _ in },
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement? = { nil }
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void = { _ in },
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement? = { nil }
     ) {
         guard let selectedScreen = Self.initialSelectedScreen(
             screensService: screensService,
@@ -161,7 +161,7 @@ private extension DisplaysSettingsPaneViewModel {
         self.isSettingCustomPosition = false
     }
 
-    func applyPlacement(_ placement: KeyboardVisualizerPlacement) {
+    func applyPlacement(_ placement: KeyboardVisualizerPlacementWindowController.Placement) {
         self.selectedScreenID = placement.screenID
         self.customPositionX = Double(placement.positionX)
         self.customPositionY = Double(placement.positionY)

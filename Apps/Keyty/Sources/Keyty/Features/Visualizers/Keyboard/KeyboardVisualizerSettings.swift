@@ -47,6 +47,7 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var showMouseEvents: Bool { get set }
 
     func registerDefaults()
+    func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat)
 }
 
 final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasSettingsStore, PlacementReactiveSettings {
@@ -71,6 +72,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat) {
+        self.screenID = screenID
+        self.customPositionNormalizedX = normalizedX
+        self.customPositionNormalizedY = normalizedY
     }
 
     /// Whether the keyboard overlay window should render input events.

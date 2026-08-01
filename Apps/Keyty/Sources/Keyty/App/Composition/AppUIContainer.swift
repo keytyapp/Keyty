@@ -28,7 +28,7 @@ final class AppUIContainer {
         self.permissionsOnboardingWindowController = PermissionsOnboardingWindowController(
             permissionsService: services.permissionsService
         )
-        self.settingsWindowController = SettingsWindowController(
+        let settingsWindowController = SettingsWindowController(
             shortcutManager: services.shortcutManager,
             appSettings: settings.appSettings,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
@@ -44,5 +44,14 @@ final class AppUIContainer {
             permissionsService: services.permissionsService,
             updater: updater
         )
+        settingsWindowController.onClose = { [weak keyboardVisualizerPlacementWindowController, keyboardVisualizerSettings = settings.keyboardVisualizerSettings] in
+            guard let placement = keyboardVisualizerPlacementWindowController?.stopSettingPosition() else { return }
+            keyboardVisualizerSettings.applyCustomPlacement(
+                screenID: placement.screenID,
+                normalizedX: placement.positionX,
+                normalizedY: placement.positionY
+            )
+        }
+        self.settingsWindowController = settingsWindowController
     }
 }

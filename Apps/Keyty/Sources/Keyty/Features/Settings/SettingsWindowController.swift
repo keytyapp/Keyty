@@ -14,6 +14,8 @@ import SwiftUI
 @MainActor
 final class SettingsWindowController: NSWindowController {
     let sidebarViewModel = SettingsSidebarViewModel()
+    var onClose: (@MainActor () -> Void)?
+
     private let registry: SettingsPaneRegistry
     private var cancellables = Set<AnyCancellable>()
     private var permissionObservationToken: PermissionObservationToken?
@@ -48,6 +50,7 @@ final class SettingsWindowController: NSWindowController {
         window.contentViewController = NSHostingController(rootView: rootView)
 
         super.init(window: window)
+        window.delegate = self
         self.bindWindowTitle()
         self.bindSidebarBadges(permissionsService: permissionsService)
         self.updateWindowTitle(for: self.sidebarViewModel.selectedPaneID)
@@ -96,6 +99,14 @@ final class SettingsWindowController: NSWindowController {
 
     private func updateWindowTitle(for identifier: SettingsPaneIdentifier) {
         self.window?.title = self.registry.entry(for: identifier)?.title ?? AppConstants.appName
+    }
+}
+
+// MARK: - NSWindowDelegate
+extension SettingsWindowController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        self.registry.finishTransientWork()
+        self.onClose?()
     }
 }
 

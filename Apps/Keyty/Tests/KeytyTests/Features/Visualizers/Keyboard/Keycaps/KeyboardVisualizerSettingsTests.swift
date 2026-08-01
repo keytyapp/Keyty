@@ -144,6 +144,21 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0, accuracy: 0.0001)
     }
 
+    func testApplyCustomPlacementStoresDisplayAndClampedPosition() {
+        settings.applyCustomPlacement(
+            screenID: 42,
+            normalizedX: 1.5,
+            normalizedY: -0.5
+        )
+
+        XCTAssertEqual(settings.screenID, 42)
+        XCTAssertEqual(settings.customPositionNormalizedX, 1, accuracy: 0.0001)
+        XCTAssertEqual(settings.customPositionNormalizedY, 0, accuracy: 0.0001)
+        XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.screenID), 42)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 1, accuracy: 0.0001)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0, accuracy: 0.0001)
+    }
+
     func testPublishesPlacementChangesForCustomPlacementSettings() {
         var receivedCount = 0
         let cancellable = settings.placementChanges.sink { _ in

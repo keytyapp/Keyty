@@ -28,6 +28,11 @@ extension MouseSettingsPane {
                 self.cursorPreview
             }
             .frame(height: Spacing.grid(40))
+            .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                    .stroke(Color.Theme.Border.primary, lineWidth: StrokeWidth.standard)
+            )
         }
 
         private var cursorPreview: some View {

@@ -50,6 +50,11 @@ extension DisplaysSettingsPane {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(height: self.previewHeight)
+                .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
+                .overlay(
+                    RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
+                        .stroke(Color.Theme.Border.primary, lineWidth: StrokeWidth.standard)
+                )
             }
         }
     }

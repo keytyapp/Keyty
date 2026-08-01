@@ -97,6 +97,36 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.stopSettingCallCount, 1)
     }
 
+    func testAnchorSelectionReflectsPlacementMode() {
+        self.model.selectedAnchor = .topLeft
+        self.model.placementMode = .anchored
+
+        XCTAssertEqual(self.model.anchorSelection, .anchor(.topLeft))
+
+        self.model.placementMode = .custom
+
+        XCTAssertEqual(self.model.anchorSelection, .custom)
+    }
+
+    func testSettingAnchorSelectionUpdatesAnchoredPlacement() {
+        self.model.placementMode = .custom
+
+        self.model.anchorSelection = .anchor(.topRight)
+
+        XCTAssertEqual(self.model.placementMode, .anchored)
+        XCTAssertEqual(self.keyboardVisualizerSettings.placementMode, .anchored)
+        XCTAssertEqual(self.model.selectedAnchor, .topRight)
+        XCTAssertEqual(self.keyboardVisualizerSettings.anchor, .topRight)
+    }
+
+    func testSettingCustomAnchorSelectionUpdatesCustomPlacement() {
+        self.model.anchorSelection = .custom
+
+        XCTAssertEqual(self.model.placementMode, .custom)
+        XCTAssertEqual(self.keyboardVisualizerSettings.placementMode, .custom)
+        XCTAssertEqual(self.model.anchorSelection, .custom)
+    }
+
     func testFinishingCustomPositionSettingStopsAndAppliesReturnedPlacement() {
         self.placementToReturn = KeyboardVisualizerPlacement(
             screenID: 2,

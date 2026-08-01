@@ -60,34 +60,24 @@ struct DisplaysSettingsPane: View {
                     Divider()
 
                     SettingsControlRow(
-                        title: L10n.Displays.placementLabel,
-                        subtitle: L10n.Displays.placementSubtitle
+                        title: L10n.Displays.anchorLabel,
+                        subtitle: L10n.Displays.anchorSubtitle
                     ) {
-                        Picker("", selection: self.$model.placementMode) {
-                            ForEach(KeyboardVisualizerSettings.PlacementMode.allCases, id: \.self) { mode in
-                                Text(mode.label).tag(mode)
+                        Picker("", selection: self.anchorSelection) {
+                            ForEach(DisplaysAnchorSelection.allCases, id: \.self) { selection in
+                                Text(selection.label).tag(selection)
                             }
                         }
                         .labelsHidden()
-                        .accessibilityLabel(L10n.Displays.placementLabel)
+                        .accessibilityLabel(L10n.Displays.anchorLabel)
                         .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                     }
 
-                    Divider()
-
                     if self.model.isCustomPlacement {
+                        Divider()
+
                         self.customPlacementControls
                     } else {
-                        SettingsControlRow(
-                            title: L10n.Displays.anchorLabel,
-                            subtitle: L10n.Displays.anchorSubtitle
-                        ) {
-                            KeyboardVisualizerAnchorPicker(
-                                selection: self.$model.selectedAnchor,
-                                accessibilityLabel: L10n.Displays.anchorLabel
-                            )
-                        }
-
                         Divider()
 
                         SettingsControlRow(
@@ -123,5 +113,12 @@ private extension DisplaysSettingsPane {
             .controlSize(.regular)
             .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
+    }
+
+    var anchorSelection: Binding<DisplaysAnchorSelection> {
+        Binding(
+            get: { self.model.anchorSelection },
+            set: { self.model.anchorSelection = $0 }
+        )
     }
 }

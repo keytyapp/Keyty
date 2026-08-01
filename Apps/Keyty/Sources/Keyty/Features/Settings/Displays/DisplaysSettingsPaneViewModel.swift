@@ -9,6 +9,22 @@
 import Combine
 import SwiftUI
 
+enum DisplaysAnchorSelection: Hashable {
+    case anchor(KeyboardVisualizerAnchor)
+    case custom
+
+    static let allCases: [DisplaysAnchorSelection] = KeyboardVisualizerAnchor.allCases.map(Self.anchor) + [.custom]
+
+    var label: String {
+        switch self {
+        case .anchor(let anchor):
+            return "\(anchor.symbol) \(anchor.label)"
+        case .custom:
+            return L10n.Displays.Placement.custom
+        }
+    }
+}
+
 @MainActor
 final class DisplaysSettingsPaneViewModel: ObservableObject {
     private let screensService: any ScreenServiceProvider
@@ -63,6 +79,26 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
 
     var isCustomPlacement: Bool {
         self.placementMode == .custom
+    }
+
+    var anchorSelection: DisplaysAnchorSelection {
+        get {
+            switch self.placementMode {
+            case .anchored:
+                return .anchor(self.selectedAnchor)
+            case .custom:
+                return .custom
+            }
+        }
+        set {
+            switch newValue {
+            case .anchor(let anchor):
+                self.selectedAnchor = anchor
+                self.placementMode = .anchored
+            case .custom:
+                self.placementMode = .custom
+            }
+        }
     }
 
     init(

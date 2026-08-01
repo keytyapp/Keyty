@@ -76,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Contrôlez la visibilité et l’apparence de la superposition du clavier.";
 "keyboard_visualizer.theme_section_title" = "Thème";
 "keyboard_visualizer.theme_section_subtitle" = "Attribuez une palette de couleurs différente à chaque type de touche.";
-"keyboard_visualizer.layout_section_title" = "Disposition";
-"keyboard_visualizer.layout_section_subtitle" = "Réglez l’espace occupé par la superposition.";
 "keyboard_visualizer.history_section_title" = "Historique";
 "keyboard_visualizer.history_section_subtitle" = "Réglez le nombre de touches qui restent visibles et l’empilement des groupes successifs.";
 "keyboard_visualizer.timing_section_title" = "Durée";

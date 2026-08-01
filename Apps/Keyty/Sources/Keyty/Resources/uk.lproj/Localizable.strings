@@ -76,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Керуйте видимістю та виглядом накладки клавіатури.";
 "keyboard_visualizer.theme_section_title" = "Тема";
 "keyboard_visualizer.theme_section_subtitle" = "Призначте власну палітру кольорів кожному типу клавіш.";
-"keyboard_visualizer.layout_section_title" = "Розташування";
-"keyboard_visualizer.layout_section_subtitle" = "Налаштуйте розмір накладки.";
 "keyboard_visualizer.history_section_title" = "Історія";
 "keyboard_visualizer.history_section_subtitle" = "Налаштуйте кількість видимих клавіш і розміщення послідовних груп.";
 "keyboard_visualizer.timing_section_title" = "Тривалість";

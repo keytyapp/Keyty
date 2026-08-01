@@ -76,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "キーボードオーバーレイの表示と外観を設定します。";
 "keyboard_visualizer.theme_section_title" = "テーマ";
 "keyboard_visualizer.theme_section_subtitle" = "キーの種類ごとにカラーパレットを設定します。";
-"keyboard_visualizer.layout_section_title" = "レイアウト";
-"keyboard_visualizer.layout_section_subtitle" = "オーバーレイの大きさを設定します。";
 "keyboard_visualizer.history_section_title" = "履歴";
 "keyboard_visualizer.history_section_subtitle" = "表示するキーの数と、連続するグループの並び方を設定します。";
 "keyboard_visualizer.timing_section_title" = "表示時間";

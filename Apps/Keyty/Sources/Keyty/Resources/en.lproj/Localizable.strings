@@ -76,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Control keyboard overlay visibility and appearance.";
 "keyboard_visualizer.theme_section_title" = "Theme";
 "keyboard_visualizer.theme_section_subtitle" = "Give each key type its own color palette.";
-"keyboard_visualizer.layout_section_title" = "Layout";
-"keyboard_visualizer.layout_section_subtitle" = "Control how much space the overlay occupies.";
 "keyboard_visualizer.history_section_title" = "History";
 "keyboard_visualizer.history_section_subtitle" = "Control how many keycaps remain visible and how consecutive groups stack.";
 "keyboard_visualizer.timing_section_title" = "Timing";

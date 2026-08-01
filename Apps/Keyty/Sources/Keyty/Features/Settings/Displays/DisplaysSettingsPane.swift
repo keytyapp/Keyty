@@ -64,7 +64,7 @@ struct DisplaysSettingsPane: View {
                         subtitle: L10n.Displays.anchorSubtitle
                     ) {
                         Picker("", selection: self.anchorSelection) {
-                            ForEach(DisplaysAnchorSelection.allCases, id: \.self) { selection in
+                            ForEach(DisplaysSettingsPaneViewModel.PlacementSelection.allCases, id: \.self) { selection in
                                 Text(selection.label).tag(selection)
                             }
                         }
@@ -115,7 +115,7 @@ private extension DisplaysSettingsPane {
         }
     }
 
-    var anchorSelection: Binding<DisplaysAnchorSelection> {
+    var anchorSelection: Binding<DisplaysSettingsPaneViewModel.PlacementSelection> {
         Binding(
             get: { self.model.anchorSelection },
             set: { self.model.anchorSelection = $0 }

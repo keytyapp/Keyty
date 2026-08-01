@@ -20,15 +20,15 @@ final class AppUIContainer {
         services: AppServiceContainer,
         updater: SPUUpdater
     ) {
-        aboutWindowController = AboutWindowController()
+        self.aboutWindowController = AboutWindowController()
         let keyboardVisualizerPlacementWindowController = KeyboardVisualizerPlacementWindowController(
             settings: settings.keyboardVisualizerSettings
         )
         self.keyboardVisualizerPlacementWindowController = keyboardVisualizerPlacementWindowController
-        permissionsOnboardingWindowController = PermissionsOnboardingWindowController(
+        self.permissionsOnboardingWindowController = PermissionsOnboardingWindowController(
             permissionsService: services.permissionsService
         )
-        settingsWindowController = SettingsWindowController(
+        self.settingsWindowController = SettingsWindowController(
             shortcutManager: services.shortcutManager,
             appSettings: settings.appSettings,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,

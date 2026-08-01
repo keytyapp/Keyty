@@ -45,6 +45,18 @@ struct KeyboardSettingsPane: View {
 
                 self.baseThemePicker
                     .disabled(!self.model.isEnabled)
+
+                Divider()
+
+                SettingsControlRow(title: L10n.KeyboardVisualizer.sizeLabel, subtitle: L10n.KeyboardVisualizer.sizeSubtitle) {
+                    SettingsSliderControl(
+                        value: self.$model.scale,
+                        range: self.model.scaleRange,
+                        step: self.model.scaleStep,
+                        accessibilityLabel: L10n.KeyboardVisualizer.sizeLabel
+                    )
+                }
+                .disabled(!self.model.isEnabled)
             }
 
             if self.model.usesCustomThemePalette {
@@ -161,30 +173,6 @@ struct KeyboardSettingsPane: View {
                         .accessibilityLabel(L10n.KeyboardVisualizer.showMouseEventsLabel)
                         .toggleStyle(.switch)
                         .controlSize(.small)
-                }
-            }
-            .disabled(!self.model.isEnabled)
-
-            SettingsSectionView(
-                title: L10n.KeyboardVisualizer.layoutSectionTitle,
-                subtitle: L10n.KeyboardVisualizer.layoutSectionSubtitle
-            ) {
-                SettingsControlRow(title: L10n.KeyboardVisualizer.anchorLabel, subtitle: L10n.KeyboardVisualizer.anchorSubtitle) {
-                    KeyboardVisualizerAnchorPicker(
-                        selection: self.$model.anchor,
-                        accessibilityLabel: L10n.KeyboardVisualizer.anchorLabel
-                    )
-                }
-
-                Divider()
-
-                SettingsControlRow(title: L10n.KeyboardVisualizer.sizeLabel, subtitle: L10n.KeyboardVisualizer.sizeSubtitle) {
-                    SettingsSliderControl(
-                        value: self.$model.scale,
-                        range: self.model.scaleRange,
-                        step: self.model.scaleStep,
-                        accessibilityLabel: L10n.KeyboardVisualizer.sizeLabel
-                    )
                 }
             }
             .disabled(!self.model.isEnabled)

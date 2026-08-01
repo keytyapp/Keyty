@@ -13,8 +13,11 @@ extension DisplaysSettingsPane {
         let screens: [Screen]
         let selectedScreen: Screen
         let anchor: KeyboardVisualizerAnchor
+        let placementMode: KeyboardVisualizerSettings.PlacementMode
         let stackAxis: KeyboardVisualizerStackAxis
         let windowPadding: Double
+        let customPositionNormalizedX: Double
+        let customPositionNormalizedY: Double
         let onSelectScreen: (Screen) -> Void
 
         private let previewHeight = Spacing.grid(48)
@@ -64,7 +67,7 @@ private extension DisplaysSettingsPane.PreviewCard {
                 RoundedRectangle(cornerRadius: Radius.sm, style: .continuous)
                     .fill(Color.Theme.Accent.controlAccent)
                     .frame(width: markerSize.width, height: markerSize.height)
-                    .offset(self.anchorOffset(in: size, for: screen, markerSize: markerSize))
+                    .offset(self.markerOffset(in: size, for: screen, markerSize: markerSize))
                     .shadow(color: Color.Theme.Shadow.displayMarker, radius: 6, y: 2)
             }
         }
@@ -126,6 +129,15 @@ private extension DisplaysSettingsPane.PreviewCard {
         return min(1, max(minimumScale, displayScale))
     }
 
+    func markerOffset(in size: CGSize, for screen: Screen, markerSize: CGSize) -> CGSize {
+        switch self.placementMode {
+        case .anchored:
+            return self.anchorOffset(in: size, for: screen, markerSize: markerSize)
+        case .custom:
+            return self.customPositionOffset(in: size, markerSize: markerSize)
+        }
+    }
+
     func anchorOffset(in size: CGSize, for screen: Screen, markerSize: CGSize) -> CGSize {
         let halfMarkerWidth = markerSize.width / 2
         let halfMarkerHeight = markerSize.height / 2
@@ -158,6 +170,13 @@ private extension DisplaysSettingsPane.PreviewCard {
         }
 
         return CGSize(width: x, height: y)
+    }
+
+    func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
+        CGSize(
+            width: size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2,
+            height: size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY)
+        )
     }
 }
 

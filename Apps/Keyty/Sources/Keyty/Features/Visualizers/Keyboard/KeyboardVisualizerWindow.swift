@@ -162,6 +162,15 @@ final class KeyboardVisualizerWindow: NSWindow {
             return NSRect(origin: self.frame.origin, size: size)
         }
 
+        switch self.settings.placementMode {
+        case .anchored:
+            return self.anchoredFrame(size: size, in: area)
+        case .custom:
+            return self.customFrame(size: size, in: area)
+        }
+    }
+
+    private func anchoredFrame(size: NSSize, in area: CGRect) -> NSRect {
         let anchor = self.settings.anchor
         let margin = self.settings.windowPadding
 
@@ -181,6 +190,23 @@ final class KeyboardVisualizerWindow: NSWindow {
         }
 
         return NSRect(x: x, y: y, width: size.width, height: size.height)
+    }
+
+    private func customFrame(size: NSSize, in area: CGRect) -> NSRect {
+        let center = CGPoint(
+            x: area.minX + area.width * self.settings.customPositionNormalizedX,
+            y: area.minY + area.height * self.settings.customPositionNormalizedY
+        )
+        let origin = CGPoint(
+            x: center.x - size.width / 2,
+            y: center.y - size.height / 2
+        )
+        let clampedOrigin = CGPoint(
+            x: origin.x.clamped(minimum: area.minX, maximum: area.maxX - size.width),
+            y: origin.y.clamped(minimum: area.minY, maximum: area.maxY - size.height)
+        )
+
+        return NSRect(origin: clampedOrigin, size: size)
     }
 
     private func resolvedVisibleFrame() -> CGRect? {

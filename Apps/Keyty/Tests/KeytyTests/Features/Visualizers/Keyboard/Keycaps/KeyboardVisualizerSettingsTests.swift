@@ -38,6 +38,9 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(store.bool(forKey: KeyboardVisualizerSettingsKeys.usesCustomThemePalette), false)
         XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.style), KeycapStyle.apple.rawValue)
         XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.scale), 1.0, accuracy: 0.0001)
+        XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.placementMode), KeyboardVisualizerSettings.PlacementMode.anchored.rawValue)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 0.5, accuracy: 0.0001)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0.5, accuracy: 0.0001)
         XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.windowPadding), Double(Size.KeyboardVisualizer.windowPadding), accuracy: 0.0001)
         XCTAssertEqual(store.bool(forKey: KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes), false)
         XCTAssertEqual(store.bool(forKey: KeyboardVisualizerSettingsKeys.showSpecialKeys), true)
@@ -122,6 +125,52 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
 
         settings.windowPadding = KeyboardVisualizerSettings.minWindowPadding - 10
         XCTAssertEqual(settings.windowPadding, KeyboardVisualizerSettings.minWindowPadding, accuracy: 0.0001)
+    }
+
+    func testPersistsPlacementMode() {
+        settings.placementMode = .custom
+
+        XCTAssertEqual(settings.placementMode, .custom)
+        XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.placementMode), KeyboardVisualizerSettings.PlacementMode.custom.rawValue)
+    }
+
+    func testCustomPositionClamps() {
+        settings.customPositionNormalizedX = 1.5
+        settings.customPositionNormalizedY = -0.5
+
+        XCTAssertEqual(settings.customPositionNormalizedX, 1, accuracy: 0.0001)
+        XCTAssertEqual(settings.customPositionNormalizedY, 0, accuracy: 0.0001)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 1, accuracy: 0.0001)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0, accuracy: 0.0001)
+    }
+
+    func testApplyCustomPlacementStoresDisplayAndClampedPosition() {
+        settings.applyCustomPlacement(
+            screenID: 42,
+            normalizedX: 1.5,
+            normalizedY: -0.5
+        )
+
+        XCTAssertEqual(settings.screenID, 42)
+        XCTAssertEqual(settings.customPositionNormalizedX, 1, accuracy: 0.0001)
+        XCTAssertEqual(settings.customPositionNormalizedY, 0, accuracy: 0.0001)
+        XCTAssertEqual(store.integer(forKey: KeyboardVisualizerSettingsKeys.screenID), 42)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 1, accuracy: 0.0001)
+        XCTAssertEqual(store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0, accuracy: 0.0001)
+    }
+
+    func testPublishesPlacementChangesForCustomPlacementSettings() {
+        var receivedCount = 0
+        let cancellable = settings.placementChanges.sink { _ in
+            receivedCount += 1
+        }
+
+        settings.placementMode = .custom
+        settings.customPositionNormalizedX = 0.25
+        settings.customPositionNormalizedY = 0.75
+
+        XCTAssertEqual(receivedCount, 3)
+        cancellable.cancel()
     }
 
     func testPersistsSharedTimingSettings() {

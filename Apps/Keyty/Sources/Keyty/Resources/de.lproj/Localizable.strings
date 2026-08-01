@@ -39,10 +39,15 @@
 /* Displays settings pane */
 "displays.display_label" = "Bildschirm";
 "displays.display_subtitle" = "Bildschirm für die Tastatureinblendung";
+"displays.placement.custom" = "Benutzerdefiniert";
 "displays.anchor_label" = "Verankerung";
-"displays.anchor_subtitle" = "Position der Tastatureinblendung";
+"displays.anchor_subtitle" = "Ausrichtung und Wachstumspunkt der Einblendung.";
 "displays.margin_label" = "Bildschirmabstand";
 "displays.margin_subtitle" = "Abstand zwischen der Einblendung und dem ausgewählten Bildschirmrand.";
+"displays.custom_position.label" = "Position";
+"displays.custom_position.set_subtitle" = "Wähle, wo die Einblendung auf dem ausgewählten Display erscheint.";
+"displays.custom_position.start_setting_button" = "Anordnen...";
+"displays.custom_position.stop_setting_button" = "Anwenden";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
@@ -71,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Steuere Sichtbarkeit und Darstellung der Tastatureinblendung.";
 "keyboard_visualizer.theme_section_title" = "Thema";
 "keyboard_visualizer.theme_section_subtitle" = "Weise jedem Tastentyp eine eigene Farbpalette zu.";
-"keyboard_visualizer.layout_section_title" = "Layout";
-"keyboard_visualizer.layout_section_subtitle" = "Lege die Bildschirmposition und Größe der Einblendung fest.";
 "keyboard_visualizer.history_section_title" = "Verlauf";
 "keyboard_visualizer.history_section_subtitle" = "Lege fest, wie viele Tastenkappen sichtbar bleiben und wie aufeinanderfolgende Gruppen gestapelt werden.";
 "keyboard_visualizer.timing_section_title" = "Zeitverhalten";

@@ -11,20 +11,32 @@ import Combine
 
 protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var isEnabled: Bool { get set }
+    
     var stackAxis: KeyboardVisualizerStackAxis { get set }
     var maxCount: Int { get set }
+    
     var fadeDelay: CGFloat { get set }
     var fadeDuration: CGFloat { get set }
+    
     var theme: KeyboardVisualizerTheme { get set }
     var legendColorMode: KeyboardLegendColorMode { get set }
     var customLegendColor: NSColor { get set }
     var usesCustomThemePalette: Bool { get set }
+    
     var modifierTheme: KeyboardVisualizerTheme { get set }
     var specialTheme: KeyboardVisualizerTheme { get set }
     var mediaTheme: KeyboardVisualizerTheme { get set }
     var mouseTheme: KeyboardVisualizerTheme { get set }
     var groupBackgroundTheme: KeyboardVisualizerTheme { get set }
+
     var anchor: KeyboardVisualizerAnchor { get set }
+    /// Selects whether the keyboard overlay uses a predefined anchor or a custom normalized position.
+    var placementMode: KeyboardVisualizerSettings.PlacementMode { get set }
+    /// Horizontal custom overlay position normalized to the selected display visible frame.
+    var customPositionNormalizedX: CGFloat { get set }
+    /// Vertical custom overlay position normalized to the selected display visible frame.
+    var customPositionNormalizedY: CGFloat { get set }
+
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
     var windowPadding: CGFloat { get set }
@@ -35,6 +47,7 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var showMouseEvents: Bool { get set }
 
     func registerDefaults()
+    func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat)
 }
 
 final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasSettingsStore, PlacementReactiveSettings {
@@ -59,6 +72,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat) {
+        self.screenID = screenID
+        self.customPositionNormalizedX = normalizedX
+        self.customPositionNormalizedY = normalizedY
     }
 
     /// Whether the keyboard overlay window should render input events.
@@ -165,6 +184,27 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.anchor, default: .default))
     var anchor: KeyboardVisualizerAnchor {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.enum(KeyboardVisualizerSettingsKeys.placementMode, default: .anchored))
+    var placementMode: PlacementMode {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionNormalizedX, default: 0.5, clamp: 0...1))
+    var customPositionNormalizedX: CGFloat {
+        didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionNormalizedY, default: 0.5, clamp: 0...1))
+    var customPositionNormalizedY: CGFloat {
         didSet {
             self.placementChangesSubject.send(())
         }

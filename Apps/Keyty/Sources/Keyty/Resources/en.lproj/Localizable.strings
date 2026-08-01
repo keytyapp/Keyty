@@ -39,10 +39,15 @@
 /* Displays settings pane */
 "displays.display_label" = "Display";
 "displays.display_subtitle" = "Display to host the keyboard overlay";
+"displays.placement.custom" = "Custom";
 "displays.anchor_label" = "Anchor";
-"displays.anchor_subtitle" = "Keyboard overlay anchor position";
+"displays.anchor_subtitle" = "Overlay alignment and growth point.";
 "displays.margin_label" = "Screen Inset";
 "displays.margin_subtitle" = "Distance between the overlay and the selected screen edge.";
+"displays.custom_position.label" = "Position";
+"displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
+"displays.custom_position.start_setting_button" = "Arrange...";
+"displays.custom_position.stop_setting_button" = "Apply";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
@@ -71,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Control keyboard overlay visibility and appearance.";
 "keyboard_visualizer.theme_section_title" = "Theme";
 "keyboard_visualizer.theme_section_subtitle" = "Give each key type its own color palette.";
-"keyboard_visualizer.layout_section_title" = "Layout";
-"keyboard_visualizer.layout_section_subtitle" = "Control screen anchor and how much space the overlay occupies.";
 "keyboard_visualizer.history_section_title" = "History";
 "keyboard_visualizer.history_section_subtitle" = "Control how many keycaps remain visible and how consecutive groups stack.";
 "keyboard_visualizer.timing_section_title" = "Timing";

@@ -14,6 +14,18 @@ struct Screen: Identifiable, Equatable {
     let wallpaperImageURL: URL?
     let frame: CGRect
 
+    init(
+        id: CGDirectDisplayID,
+        displayName: String,
+        wallpaperImageURL: URL?,
+        frame: CGRect
+    ) {
+        self.id = id
+        self.displayName = displayName
+        self.wallpaperImageURL = wallpaperImageURL
+        self.frame = frame
+    }
+
     init(_ nsScreen: NSScreen) {
         self.id = nsScreen.displayID
         self.displayName = nsScreen.localizedName

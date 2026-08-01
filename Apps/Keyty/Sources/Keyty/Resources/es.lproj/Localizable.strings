@@ -39,10 +39,15 @@
 /* Displays settings pane */
 "displays.display_label" = "Pantalla";
 "displays.display_subtitle" = "Pantalla en la que se muestra la superposición del teclado";
+"displays.placement.custom" = "Personalizada";
 "displays.anchor_label" = "Anclaje";
-"displays.anchor_subtitle" = "Posición de anclaje de la superposición del teclado";
+"displays.anchor_subtitle" = "Alineación y punto de crecimiento de la superposición.";
 "displays.margin_label" = "Margen de pantalla";
 "displays.margin_subtitle" = "Distancia entre la superposición y el borde seleccionado de la pantalla.";
+"displays.custom_position.label" = "Posición";
+"displays.custom_position.set_subtitle" = "Elige dónde aparece la superposición en la pantalla seleccionada.";
+"displays.custom_position.start_setting_button" = "Organizar...";
+"displays.custom_position.stop_setting_button" = "Aplicar";
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplicación";
@@ -71,8 +76,6 @@
 "keyboard_visualizer.general_section_subtitle" = "Controla la visibilidad y la apariencia de la superposición del teclado.";
 "keyboard_visualizer.theme_section_title" = "Tema";
 "keyboard_visualizer.theme_section_subtitle" = "Asigna una paleta de colores distinta a cada tipo de tecla.";
-"keyboard_visualizer.layout_section_title" = "Disposición";
-"keyboard_visualizer.layout_section_subtitle" = "Controla el anclaje en pantalla y el espacio que ocupa la superposición.";
 "keyboard_visualizer.history_section_title" = "Historial";
 "keyboard_visualizer.history_section_subtitle" = "Controla cuántas teclas permanecen visibles y cómo se apilan los grupos consecutivos.";
 "keyboard_visualizer.timing_section_title" = "Duración";

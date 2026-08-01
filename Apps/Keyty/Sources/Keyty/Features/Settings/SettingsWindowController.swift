@@ -14,6 +14,8 @@ import SwiftUI
 @MainActor
 final class SettingsWindowController: NSWindowController {
     let sidebarViewModel = SettingsSidebarViewModel()
+    var onClose: (@MainActor () -> Void)?
+
     private let registry: SettingsPaneRegistry
     private var cancellables = Set<AnyCancellable>()
     private var permissionObservationToken: PermissionObservationToken?
@@ -25,6 +27,8 @@ final class SettingsWindowController: NSWindowController {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void,
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?,
         permissionsService: any PermissionsService,
         updater: SPUUpdater
     ) {
@@ -35,6 +39,8 @@ final class SettingsWindowController: NSWindowController {
             pointerRingSettings: pointerRingSettings,
             pointerIconSettings: pointerIconSettings,
             keyboardVisualizerSettings: keyboardVisualizerSettings,
+            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
+            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition,
             permissionsService: permissionsService,
             updater: updater
         )
@@ -44,6 +50,7 @@ final class SettingsWindowController: NSWindowController {
         window.contentViewController = NSHostingController(rootView: rootView)
 
         super.init(window: window)
+        window.delegate = self
         self.bindWindowTitle()
         self.bindSidebarBadges(permissionsService: permissionsService)
         self.updateWindowTitle(for: self.sidebarViewModel.selectedPaneID)
@@ -52,7 +59,7 @@ final class SettingsWindowController: NSWindowController {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("Use init(shortcutManager:appSettings:pointerRingVisualizer:pointerRingSettings:pointerIconSettings:keyboardVisualizerSettings:permissionsService:updater:) instead.")
+        fatalError("Use init(shortcutManager:appSettings:pointerRingVisualizer:pointerRingSettings:pointerIconSettings:keyboardVisualizerSettings:startSettingKeyboardVisualizerPosition:stopSettingKeyboardVisualizerPosition:permissionsService:updater:) instead.")
     }
 
     override func showWindow(_ sender: Any?) {
@@ -92,6 +99,14 @@ final class SettingsWindowController: NSWindowController {
 
     private func updateWindowTitle(for identifier: SettingsPaneIdentifier) {
         self.window?.title = self.registry.entry(for: identifier)?.title ?? AppConstants.appName
+    }
+}
+
+// MARK: - NSWindowDelegate
+extension SettingsWindowController: NSWindowDelegate {
+    func windowWillClose(_ notification: Notification) {
+        self.registry.finishTransientWork()
+        self.onClose?()
     }
 }
 

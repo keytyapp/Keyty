@@ -50,6 +50,10 @@ final class KeyboardVisualizerGroupView: NSView {
         self.preferredSize
     }
 
+    override var mouseDownCanMoveWindow: Bool {
+        true
+    }
+
     init(items: [KeycapItem], settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings()) {
         self.items = items
         self.settings = settings

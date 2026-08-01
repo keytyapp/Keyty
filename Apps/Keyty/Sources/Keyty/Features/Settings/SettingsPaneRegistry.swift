@@ -19,6 +19,7 @@ struct SettingsPaneEntry: Identifiable {
 @MainActor
 struct SettingsPaneRegistry {
     let entries: [SettingsPaneEntry]
+    private let displaysViewModel: DisplaysSettingsPaneViewModel
 
     init(
         shortcutManager: ShortcutManager,
@@ -27,9 +28,18 @@ struct SettingsPaneRegistry {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void,
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?,
         permissionsService: any PermissionsService,
         updater: SPUUpdater
     ) {
+        let displaysViewModel = DisplaysSettingsPaneViewModel(
+            keyboardVisualizerSettings: keyboardVisualizerSettings,
+            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
+            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition
+        )
+        self.displaysViewModel = displaysViewModel
+
         self.entries = [
             SettingsPaneEntry(
                 id: .general,
@@ -71,7 +81,11 @@ struct SettingsPaneRegistry {
                 title: SettingsPaneIdentifier.displays.label,
                 systemImageName: SettingsPaneIdentifier.displays.sfSymbolName,
                 makeView: {
-                    AnyView(DisplaysSettingsPane(keyboardVisualizerSettings: keyboardVisualizerSettings))
+                    AnyView(
+                        DisplaysSettingsPane(
+                            model: displaysViewModel
+                        )
+                    )
                 }
             ),
             SettingsPaneEntry(
@@ -103,5 +117,9 @@ struct SettingsPaneRegistry {
 
     func entry(for identifier: SettingsPaneIdentifier) -> SettingsPaneEntry? {
         self.entries.first { $0.id == identifier }
+    }
+
+    func finishTransientWork() {
+        self.displaysViewModel.finishCustomPositionSetting()
     }
 }

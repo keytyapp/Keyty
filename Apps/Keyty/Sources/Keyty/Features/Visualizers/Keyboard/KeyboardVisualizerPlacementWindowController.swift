@@ -94,10 +94,7 @@ extension KeyboardVisualizerPlacementWindowController {
     }
 
     static func normalizedPosition(for point: CGPoint, in area: CGRect) -> CGPoint {
-        CGPoint(
-            x: ((point.x - area.minX) / max(area.width, 1)).clamped(to: 0...1),
-            y: ((point.y - area.minY) / max(area.height, 1)).clamped(to: 0...1)
-        )
+        area.normalizedPoint(for: point)
     }
 
     static func placement(

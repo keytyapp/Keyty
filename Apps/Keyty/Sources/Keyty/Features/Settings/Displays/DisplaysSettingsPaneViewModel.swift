@@ -14,7 +14,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     private let screensService: any ScreenServiceProvider
     private let keyboardVisualizerSettings: KeyboardVisualizerSettings
     private let startSettingKeyboardVisualizerPosition: @MainActor () -> Void
-    private let stopSettingKeyboardVisualizerPosition: @MainActor () -> Void
+    private let stopSettingKeyboardVisualizerPosition: @MainActor () -> KeyboardVisualizerPlacement?
     private var cancellables = Set<AnyCancellable>()
 
     let paddingRange: ClosedRange<Double> = Double(KeyboardVisualizerSettings.minWindowPadding)...Double(KeyboardVisualizerSettings.maxWindowPadding)
@@ -69,7 +69,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         screensService: any ScreenServiceProvider = ScreensService.shared,
         keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
         startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {},
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {}
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement? = { nil }
     ) {
         guard let selectedScreen = Self.initialSelectedScreen(
             screensService: screensService,
@@ -113,9 +113,11 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
 private extension DisplaysSettingsPaneViewModel {
     func stopCustomPositionSetting() {
         guard self.isSettingCustomPosition else { return }
-        self.stopSettingKeyboardVisualizerPosition()
-        self.customPositionX = Double(self.keyboardVisualizerSettings.customPositionX)
-        self.customPositionY = Double(self.keyboardVisualizerSettings.customPositionY)
+        if let placement = self.stopSettingKeyboardVisualizerPosition() {
+            self.selectedScreenID = placement.screenID
+            self.customPositionX = Double(placement.positionX)
+            self.customPositionY = Double(placement.positionY)
+        }
         self.isSettingCustomPosition = false
     }
 

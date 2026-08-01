@@ -8,6 +8,12 @@
 
 import AppKit
 
+struct KeyboardVisualizerPlacement {
+    let screenID: CGDirectDisplayID
+    let positionX: CGFloat
+    let positionY: CGFloat
+}
+
 @MainActor
 final class KeyboardVisualizerPlacementWindowController: NSWindowController {
     private let settings: KeyboardVisualizerSettings
@@ -50,20 +56,13 @@ extension KeyboardVisualizerPlacementWindowController {
         window.orderFrontRegardless()
     }
 
-    func stopSettingPosition() {
-        guard let window = self.window else { return }
+    func stopSettingPosition() -> KeyboardVisualizerPlacement? {
+        guard let window = self.window else { return nil }
 
-        if let visibleFrame = self.resolvedVisibleFrame() {
-            let position = Self.normalizedPosition(
-                for: CGPoint(x: window.frame.midX, y: window.frame.midY),
-                in: visibleFrame
-            )
-            self.settings.customPositionX = position.x
-            self.settings.customPositionY = position.y
-        }
-
+        let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
         window.close()
         self.window = nil
+        return placement
     }
 }
 
@@ -89,6 +88,25 @@ extension KeyboardVisualizerPlacementWindowController {
         CGPoint(
             x: Self.clamped((point.x - area.minX) / max(area.width, 1), minimum: 0, maximum: 1),
             y: Self.clamped((point.y - area.minY) / max(area.height, 1), minimum: 0, maximum: 1)
+        )
+    }
+
+    static func placement(
+        for point: CGPoint,
+        in visibleFrames: [(screenID: CGDirectDisplayID, frame: CGRect)]
+    ) -> KeyboardVisualizerPlacement? {
+        guard let visibleFrame = visibleFrames.first(where: { $0.frame.contains(point) })
+            ?? Self.nearestVisibleFrame(to: point, in: visibleFrames)
+        else {
+            return nil
+        }
+
+        let position = Self.normalizedPosition(for: point, in: visibleFrame.frame)
+
+        return KeyboardVisualizerPlacement(
+            screenID: visibleFrame.screenID,
+            positionX: position.x,
+            positionY: position.y
         )
     }
 
@@ -121,6 +139,48 @@ private extension KeyboardVisualizerPlacementWindowController {
     func resolvedVisibleFrame() -> CGRect? {
         self.screensService.visibleFrame(for: self.settings.screenID)
             ?? self.screensService.mainVisibleFrame()
+    }
+
+    func placement(for point: CGPoint) -> KeyboardVisualizerPlacement? {
+        Self.placement(for: point, in: self.visibleFrames())
+    }
+
+    func visibleFrames() -> [(screenID: CGDirectDisplayID, frame: CGRect)] {
+        self.screensService.screens.compactMap { screen in
+            guard let frame = self.screensService.visibleFrame(for: screen.id) else { return nil }
+            return (screen.id, frame)
+        }
+    }
+
+    static func nearestVisibleFrame(
+        to point: CGPoint,
+        in visibleFrames: [(screenID: CGDirectDisplayID, frame: CGRect)]
+    ) -> (screenID: CGDirectDisplayID, frame: CGRect)? {
+        visibleFrames.min { lhs, rhs in
+            Self.squaredDistance(from: point, to: lhs.frame) < Self.squaredDistance(from: point, to: rhs.frame)
+        }
+    }
+
+    static func squaredDistance(from point: CGPoint, to frame: CGRect) -> CGFloat {
+        let dx: CGFloat
+        if point.x < frame.minX {
+            dx = frame.minX - point.x
+        } else if point.x > frame.maxX {
+            dx = point.x - frame.maxX
+        } else {
+            dx = 0
+        }
+
+        let dy: CGFloat
+        if point.y < frame.minY {
+            dy = frame.minY - point.y
+        } else if point.y > frame.maxY {
+            dy = point.y - frame.maxY
+        } else {
+            dy = 0
+        }
+
+        return dx * dx + dy * dy
     }
 
     static func clamped(_ value: CGFloat, minimum: CGFloat, maximum: CGFloat) -> CGFloat {

@@ -14,7 +14,7 @@ struct DisplaysSettingsPane: View {
     init(
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
         startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {},
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {}
+        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement? = { nil }
     ) {
         _model = StateObject(
             wrappedValue: DisplaysSettingsPaneViewModel(
@@ -115,7 +115,8 @@ private extension DisplaysSettingsPane {
             Button(self.model.isSettingCustomPosition ? L10n.Displays.CustomPosition.stopSettingButton : L10n.Displays.CustomPosition.startSettingButton) {
                 self.model.toggleCustomPositionSetting()
             }
-            .controlSize(.small)
+            .controlSize(.regular)
+            .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
     }
 }

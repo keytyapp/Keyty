@@ -49,8 +49,8 @@
 "displays.margin_subtitle" = "Distancia entre la superposición y el borde seleccionado de la pantalla.";
 "displays.custom_position.label" = "Position";
 "displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
-"displays.custom_position.start_setting_button" = "Start Setting…";
-"displays.custom_position.stop_setting_button" = "Stop Setting";
+"displays.custom_position.start_setting_button" = "Arrange...";
+"displays.custom_position.stop_setting_button" = "Apply";
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplicación";
@@ -80,7 +80,7 @@
 "keyboard_visualizer.theme_section_title" = "Tema";
 "keyboard_visualizer.theme_section_subtitle" = "Asigna una paleta de colores distinta a cada tipo de tecla.";
 "keyboard_visualizer.layout_section_title" = "Disposición";
-"keyboard_visualizer.layout_section_subtitle" = "Controla el anclaje en pantalla y el espacio que ocupa la superposición.";
+"keyboard_visualizer.layout_section_subtitle" = "Controla el espacio que ocupa la superposición.";
 "keyboard_visualizer.history_section_title" = "Historial";
 "keyboard_visualizer.history_section_subtitle" = "Controla cuántas teclas permanecen visibles y cómo se apilan los grupos consecutivos.";
 "keyboard_visualizer.timing_section_title" = "Duración";

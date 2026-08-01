@@ -176,32 +176,9 @@ private extension KeyboardVisualizerPlacementWindowController {
         in visibleFrames: [(screenID: CGDirectDisplayID, frame: CGRect)]
     ) -> (screenID: CGDirectDisplayID, frame: CGRect)? {
         visibleFrames.min { lhs, rhs in
-            Self.squaredDistance(from: point, to: lhs.frame) < Self.squaredDistance(from: point, to: rhs.frame)
+            lhs.frame.squaredDistance(to: point) < rhs.frame.squaredDistance(to: point)
         }
     }
-
-    static func squaredDistance(from point: CGPoint, to frame: CGRect) -> CGFloat {
-        let dx: CGFloat
-        if point.x < frame.minX {
-            dx = frame.minX - point.x
-        } else if point.x > frame.maxX {
-            dx = point.x - frame.maxX
-        } else {
-            dx = 0
-        }
-
-        let dy: CGFloat
-        if point.y < frame.minY {
-            dy = frame.minY - point.y
-        } else if point.y > frame.maxY {
-            dy = point.y - frame.maxY
-        } else {
-            dy = 0
-        }
-
-        return dx * dx + dy * dy
-    }
-
 }
 
 extension KeyboardVisualizerPlacementWindowController {

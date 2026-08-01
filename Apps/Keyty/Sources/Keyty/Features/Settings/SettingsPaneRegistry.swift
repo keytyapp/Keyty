@@ -27,7 +27,7 @@ struct SettingsPaneRegistry {
         pointerRingSettings: any PointerRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol,
         keyboardVisualizerSettings: KeyboardVisualizerSettings,
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void,
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void,
         stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement?,
         permissionsService: any PermissionsService,
         updater: SPUUpdater

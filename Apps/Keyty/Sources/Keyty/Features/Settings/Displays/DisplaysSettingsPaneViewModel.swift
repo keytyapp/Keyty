@@ -13,7 +13,7 @@ import SwiftUI
 final class DisplaysSettingsPaneViewModel: ObservableObject {
     private let screensService: any ScreenServiceProvider
     private let keyboardVisualizerSettings: KeyboardVisualizerSettings
-    private let startSettingKeyboardVisualizerPosition: @MainActor () -> Void
+    private let startSettingKeyboardVisualizerPosition: @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void
     private let stopSettingKeyboardVisualizerPosition: @MainActor () -> KeyboardVisualizerPlacement?
     private var cancellables = Set<AnyCancellable>()
 
@@ -68,7 +68,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     init(
         screensService: any ScreenServiceProvider = ScreensService.shared,
         keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor () -> Void = {},
+        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementChangeHandler) -> Void = { _ in },
         stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacement? = { nil }
     ) {
         guard let selectedScreen = Self.initialSelectedScreen(
@@ -104,7 +104,9 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         if self.isSettingCustomPosition {
             self.stopCustomPositionSetting()
         } else {
-            self.startSettingKeyboardVisualizerPosition()
+            self.startSettingKeyboardVisualizerPosition { [weak self] placement in
+                self?.applyPlacement(placement)
+            }
             self.isSettingCustomPosition = true
         }
     }
@@ -114,11 +116,15 @@ private extension DisplaysSettingsPaneViewModel {
     func stopCustomPositionSetting() {
         guard self.isSettingCustomPosition else { return }
         if let placement = self.stopSettingKeyboardVisualizerPosition() {
-            self.selectedScreenID = placement.screenID
-            self.customPositionX = Double(placement.positionX)
-            self.customPositionY = Double(placement.positionY)
+            self.applyPlacement(placement)
         }
         self.isSettingCustomPosition = false
+    }
+
+    func applyPlacement(_ placement: KeyboardVisualizerPlacement) {
+        self.selectedScreenID = placement.screenID
+        self.customPositionX = Double(placement.positionX)
+        self.customPositionY = Double(placement.positionY)
     }
 
     static func initialSelectedScreen(

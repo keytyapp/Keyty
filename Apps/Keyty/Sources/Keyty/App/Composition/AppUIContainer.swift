@@ -35,8 +35,8 @@ final class AppUIContainer {
             pointerRingSettings: settings.pointerRingSettings,
             pointerIconSettings: settings.pointerIconSettings,
             keyboardVisualizerSettings: settings.keyboardVisualizerSettings,
-            startSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] in
-                keyboardVisualizerPlacementWindowController?.startSettingPosition()
+            startSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] onPlacementChanged in
+                keyboardVisualizerPlacementWindowController?.startSettingPosition(onPlacementChanged: onPlacementChanged)
             },
             stopSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] in
                 keyboardVisualizerPlacementWindowController?.stopSettingPosition()

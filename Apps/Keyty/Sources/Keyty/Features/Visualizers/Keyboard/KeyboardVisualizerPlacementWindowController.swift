@@ -14,10 +14,13 @@ struct KeyboardVisualizerPlacement {
     let positionY: CGFloat
 }
 
+typealias KeyboardVisualizerPlacementChangeHandler = @MainActor (KeyboardVisualizerPlacement) -> Void
+
 @MainActor
 final class KeyboardVisualizerPlacementWindowController: NSWindowController {
     private let settings: KeyboardVisualizerSettings
     private let screensService: any ScreenServiceProvider
+    private var onPlacementChanged: KeyboardVisualizerPlacementChangeHandler?
 
     init(
         settings: KeyboardVisualizerSettings,
@@ -36,7 +39,9 @@ final class KeyboardVisualizerPlacementWindowController: NSWindowController {
 
 // MARK: - Public API
 extension KeyboardVisualizerPlacementWindowController {
-    func startSettingPosition() {
+    func startSettingPosition(onPlacementChanged: @escaping KeyboardVisualizerPlacementChangeHandler) {
+        self.onPlacementChanged = onPlacementChanged
+
         if let window = self.window {
             window.orderFrontRegardless()
             return
@@ -52,6 +57,9 @@ extension KeyboardVisualizerPlacementWindowController {
             size: size
         )
         let window = Window(frame: frame, contentView: contentView)
+        window.onMoveEnded = { [weak self] in
+            self?.notifyPlacementChanged()
+        }
         self.window = window
         window.orderFrontRegardless()
     }
@@ -61,6 +69,7 @@ extension KeyboardVisualizerPlacementWindowController {
 
         let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
         window.close()
+        self.onPlacementChanged = nil
         self.window = nil
         return placement
     }
@@ -145,6 +154,16 @@ private extension KeyboardVisualizerPlacementWindowController {
         Self.placement(for: point, in: self.visibleFrames())
     }
 
+    func notifyPlacementChanged() {
+        guard let window = self.window,
+              let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
+        else {
+            return
+        }
+
+        self.onPlacementChanged?(placement)
+    }
+
     func visibleFrames() -> [(screenID: CGDirectDisplayID, frame: CGRect)] {
         self.screensService.screens.compactMap { screen in
             guard let frame = self.screensService.visibleFrame(for: screen.id) else { return nil }
@@ -191,6 +210,8 @@ private extension KeyboardVisualizerPlacementWindowController {
 
 extension KeyboardVisualizerPlacementWindowController {
     final class Window: NSPanel {
+        var onMoveEnded: (() -> Void)?
+
         init(frame: CGRect, contentView: NSView) {
             super.init(
                 contentRect: frame,
@@ -208,6 +229,11 @@ extension KeyboardVisualizerPlacementWindowController {
             self.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
             contentView.frame = CGRect(origin: .zero, size: frame.size)
             self.contentView = contentView
+        }
+
+        override func mouseUp(with event: NSEvent) {
+            super.mouseUp(with: event)
+            self.onMoveEnded?()
         }
     }
 }

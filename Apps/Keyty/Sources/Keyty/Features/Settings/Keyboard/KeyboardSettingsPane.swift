@@ -169,15 +169,6 @@ struct KeyboardSettingsPane: View {
                 title: L10n.KeyboardVisualizer.layoutSectionTitle,
                 subtitle: L10n.KeyboardVisualizer.layoutSectionSubtitle
             ) {
-                SettingsControlRow(title: L10n.KeyboardVisualizer.anchorLabel, subtitle: L10n.KeyboardVisualizer.anchorSubtitle) {
-                    KeyboardVisualizerAnchorPicker(
-                        selection: self.$model.anchor,
-                        accessibilityLabel: L10n.KeyboardVisualizer.anchorLabel
-                    )
-                }
-
-                Divider()
-
                 SettingsControlRow(title: L10n.KeyboardVisualizer.sizeLabel, subtitle: L10n.KeyboardVisualizer.sizeSubtitle) {
                     SettingsSliderControl(
                         value: self.$model.scale,

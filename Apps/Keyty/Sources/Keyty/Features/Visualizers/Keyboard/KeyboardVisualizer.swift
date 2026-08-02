@@ -12,6 +12,20 @@ import Combine
 final class KeyboardVisualizer {
     private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control, .function]
 
+    var isPresentationActive: Bool = false {
+        didSet {
+            self.updatePresentationState()
+        }
+    }
+
+    var isPresented: Bool {
+        self.visualizerWindow.isVisible
+    }
+
+    var visibleGroupCount: Int {
+        self.visualizerWindow.groupCount
+    }
+
     private let visualizerSettings: KeyboardVisualizerSettings
     private let visualizerWindow: KeyboardVisualizerWindow
     private let eventCoordinator = KeycapEventCoordinator<KeyboardVisualizerGroupView, KeycapItem>()
@@ -35,19 +49,22 @@ final class KeyboardVisualizer {
             self?.eventCoordinator.removeGroup(group)
         }
         settings.isEnabledChanges
-            .filter { !$0 }
-            .sink { [weak self] _ in
-                self?.clearDisplayState()
+            .sink { [weak self] isEnabled in
+                guard let self else { return }
+                if !isEnabled {
+                    self.clearDisplayState()
+                }
+                self.updatePresentationState()
             }
             .store(in: &self.cancellables)
     }
 
     func activate() {
-        self.visualizerWindow.orderFront(nil)
+        self.updatePresentationState()
     }
 
     func display(_ item: DisplayItem) {
-        guard self.visualizerSettings.isEnabled else {
+        guard self.visualizerSettings.isEnabled, self.isPresentationActive else {
             self.clearDisplayState()
             return
         }
@@ -210,6 +227,15 @@ final class KeyboardVisualizer {
         self.lastModifierFlags = []
         self.hasPendingGroupBreak = false
         self.visualizerWindow.removeAllGroups()
+    }
+
+    private func updatePresentationState() {
+        guard self.visualizerSettings.isEnabled, self.isPresentationActive else {
+            self.clearDisplayState()
+            self.visualizerWindow.orderOut(nil)
+            return
+        }
+        self.visualizerWindow.orderFront(nil)
     }
 
     private var currentTrackedFlags: NSEvent.ModifierFlags {

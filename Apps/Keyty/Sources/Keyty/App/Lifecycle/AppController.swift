@@ -35,6 +35,7 @@ final class AppController: NSObject {
         )
         super.init()
         self.menuController.setAppController(self)
+        NSApp.mainMenu = self.menuController.makeMainMenu()
         self.dependencies.captureController.onCapturingChanged = { [weak self] isCapturing in
             self?.statusItemController.isCapturing = isCapturing
         }

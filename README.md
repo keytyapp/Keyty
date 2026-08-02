@@ -73,3 +73,7 @@ Keyty requires your permission to receive events from macOS in order to display 
 ## Privacy
 
 Input events are processed locally on your Mac. Keyty does not record, store, or upload your keystrokes, typed text, mouse clicks, or pointer activity. See [PRIVACY.md](Docs/PRIVACY.md) for details, including Sparkle update checks.
+
+## Support
+
+If Keyty is useful to you, consider giving the project a ⭐ on GitHub. It helps more people discover it and is the easiest way to support its development.

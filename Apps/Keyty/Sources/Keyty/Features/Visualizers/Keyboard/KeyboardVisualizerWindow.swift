@@ -16,6 +16,7 @@ final class KeyboardVisualizerWindow: NSWindow {
     private var groupViews: [KeyboardVisualizerGroupView] = []
     private var cancellables = Set<AnyCancellable>()
     var onGroupRemoved: ((KeyboardVisualizerGroupView) -> Void)?
+    var groupCount: Int { self.groupViews.count }
 
     init(
         settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),

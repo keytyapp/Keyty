@@ -119,8 +119,9 @@ private extension CaptureController {
     func applyCapturing(_ capturing: Bool) {
         guard !capturing || self.eventTap.isInstalled else { return }
         let wasCapturing = self.isCapturing
-        Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
+        Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager, keyboardVisualizer = self.keyboardVisualizer] in
             pointerVisualizersManager.isPresentationActive = capturing
+            keyboardVisualizer.isPresentationActive = capturing
         }
         if wasCapturing != capturing {
             self.onCapturingChanged?(capturing)

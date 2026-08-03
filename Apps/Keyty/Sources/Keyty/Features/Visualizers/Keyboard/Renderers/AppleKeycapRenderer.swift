@@ -13,7 +13,7 @@ struct AppleKeycapRenderer: KeycapRendering {
 
     func size(for context: KeycapContext) -> CGSize {
         CGSize(
-            width: self.keycapWidth(for: context.item),
+            width: keycapWidth(for: context.item),
             height: AppleKeycapMetrics.height
         )
     }

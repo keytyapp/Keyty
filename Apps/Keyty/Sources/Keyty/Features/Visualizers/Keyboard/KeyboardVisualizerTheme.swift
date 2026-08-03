@@ -23,7 +23,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
     case blue = 9
     case purple = 10
     case pink = 11
+}
 
+// MARK: - Titles
+extension KeyboardVisualizerTheme {
     var title: String {
         switch self {
         case .black: L10n.KeyboardVisualizer.Theme.dark
@@ -40,7 +43,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
         case .pink: L10n.KeyboardVisualizer.Theme.pink
         }
     }
+}
 
+// MARK: - Tokens
+extension KeyboardVisualizerTheme {
     var tokens: KeycapThemeTokens {
         switch self {
         case .white:
@@ -62,10 +68,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 groupBackgroundColor: NSColor(white: 0.09, alpha: 0.95),
                 groupStrokeColor: NSColor(white: 0.24, alpha: 0.62),
                 surfaceHighlightColor: NSColor(white: 0.22, alpha: 1),
-                surfaceBaseColor: NSColor(white: 0.035, alpha: 1),
+                surfaceBaseColor: NSColor(white: 0.11, alpha: 1),
                 surfaceShadowColor: NSColor(white: 0.05, alpha: 1),
                 surfaceBorderColor: NSColor(white: 0.28, alpha: 1),
-                recessColor: NSColor(white: 0.11, alpha: 1)
+                recessColor: NSColor(white: 0.035, alpha: 1)
             )
         case .citrus:
             return KeycapThemeTokens(
@@ -189,7 +195,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
             )
         }
     }
+}
 
+// MARK: - Appearance
+extension KeyboardVisualizerTheme {
     func tokens(legendColorOverride: NSColor?) -> KeycapThemeTokens {
         let tokens = self.tokens
         guard let legendColorOverride else {
@@ -222,7 +231,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
             return KeycapAppearance.retro(KeycapAppearance.Retro(tokens: tokens))
         }
     }
+}
 
+// MARK: - Display
+extension KeyboardVisualizerTheme {
     var displayColor: NSColor {
         self.tokens.swatchColor
     }

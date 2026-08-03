@@ -51,6 +51,7 @@ Configure these repository secrets before running the workflow:
 | `NOTARY_KEY_ID` | App Store Connect API key ID |
 | `NOTARY_ISSUER` | App Store Connect issuer ID |
 | `SPARKLE_ED_KEY_BASE64` | Base64-encoded Sparkle EdDSA private key |
+| `HOMEBREW_TAP_DISPATCH_TOKEN` | Optional token with permission to dispatch workflows in `keytyapp/homebrew-tap`; when present, the release workflow triggers the tap repo's cask-update automation after publishing `v*` release assets |
 
 Optionally configure these repository variables:
 
@@ -65,6 +66,11 @@ The release workflow uploads generated appcast artifacts as an Actions artifact.
 Publish `appcast.xml` from that artifact through the Vercel-hosted site so
 Sparkle reads `https://keyty.app/appcast.xml`. Update archives are hosted as
 GitHub release assets by default.
+
+When `HOMEBREW_TAP_DISPATCH_TOKEN` is configured, the same workflow also
+dispatches `keyty_release_published` to `keytyapp/homebrew-tap` with the new
+release version, tag, DMG URL, and DMG SHA-256 so the tap repo can open its own
+cask update pull request.
 
 Before generating a new appcast, the release lane downloads the currently
 published appcast from `https://keyty.app/appcast.xml` into the Sparkle input

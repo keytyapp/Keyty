@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 concurrency:
   group: release-${{ github.ref }}
@@ -101,3 +102,66 @@ jobs:
           name: appcast-artifacts
           path: dist/
           if-no-files-found: error
+
+  update-homebrew-tap:
+    if: ${{ !endsWith(github.ref_name, '-test') }}
+    runs-on: ubuntu-latest
+    needs: release
+
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: appcast-artifacts
+          path: dist
+
+      - name: Resolve release payload
+        id: release
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          version="${GITHUB_REF_NAME#v}"
+          tag="${GITHUB_REF_NAME}"
+          dmg_path="dist/Keyty.dmg"
+
+          if [[ ! -f "$dmg_path" ]]; then
+            echo "missing release artifact: $dmg_path" >&2
+            exit 1
+          fi
+
+          sha256="$(sha256sum "$dmg_path" | awk '{print $1}')"
+          dmg_url="https://github.com/${GITHUB_REPOSITORY}/releases/download/${tag}/Keyty.dmg"
+
+          {
+            echo "version=$version"
+            echo "tag=$tag"
+            echo "dmg_url=$dmg_url"
+            echo "sha256=$sha256"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch Homebrew tap update
+        if: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          gh api repos/keytyapp/homebrew-tap/dispatches \
+            --method POST \
+            --input - <<EOF
+          {
+            "event_type": "keyty_release_published",
+            "client_payload": {
+              "version": "${{ steps.release.outputs.version }}",
+              "tag": "${{ steps.release.outputs.tag }}",
+              "dmg_url": "${{ steps.release.outputs.dmg_url }}",
+              "sha256": "${{ steps.release.outputs.sha256 }}"
+            }
+          }
+          EOF
+
+      - name: Skip Homebrew tap update dispatch
+        if: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN == '' }}
+        run: echo "::notice::Skipping Homebrew tap update dispatch because HOMEBREW_TAP_DISPATCH_TOKEN is not configured."

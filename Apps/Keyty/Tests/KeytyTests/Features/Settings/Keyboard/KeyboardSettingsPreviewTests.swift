@@ -90,13 +90,13 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
         ])
     }
 
-    func testMediaPreviewGroupsRenderPressedMediaKeys() {
+    func testMediaPreviewGroupsRenderUnpressedMediaKeys() {
         let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
         let mediaGroups = groups.filter { $0.category == .mediaKey }
 
         XCTAssertEqual(mediaGroups.count, 2)
         XCTAssertTrue(mediaGroups.allSatisfy { group in
-            group.items.allSatisfy(\.isPressed)
+            group.items.allSatisfy { !$0.isPressed }
         })
     }
 

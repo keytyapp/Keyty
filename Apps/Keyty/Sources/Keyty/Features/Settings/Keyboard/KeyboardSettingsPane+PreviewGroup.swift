@@ -167,10 +167,10 @@ extension KeyboardSettingsPane.PreviewGroup {
     private static func mediaKeySampleGroups() -> [[KeycapPreviewSample]] {
         [
             [
-                .media(.brightnessUp, isPressed: true)
+                .media(.brightnessUp)
             ],
             [
-                .media(.play, isPressed: true)
+                .media(.play)
             ],
         ]
     }

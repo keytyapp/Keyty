@@ -137,7 +137,7 @@ private extension KeyboardVisualizerPlacementWindowController {
         return KeycapItem(
             identity: identity,
             legend: .character(symbol),
-            state: KeycapState(isPressed: true),
+            state: KeycapState(isPressed: false),
             appearance: settings.palette.appearance(for: identity)
         )
     }

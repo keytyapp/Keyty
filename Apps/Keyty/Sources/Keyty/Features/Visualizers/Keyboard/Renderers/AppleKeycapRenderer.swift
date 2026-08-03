@@ -13,7 +13,7 @@ struct AppleKeycapRenderer: KeycapRendering {
 
     func size(for context: KeycapContext) -> CGSize {
         CGSize(
-            width: keycapWidth(for: context.item),
+            width: self.keycapWidth(for: context.item),
             height: AppleKeycapMetrics.height
         )
     }
@@ -44,6 +44,6 @@ struct AppleKeycapRenderer: KeycapRendering {
         path.lineWidth = StrokeWidth.standard
         path.stroke()
 
-        legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
+        self.legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
     }
 }

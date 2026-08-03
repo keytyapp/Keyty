@@ -44,6 +44,6 @@ struct AppleKeycapRenderer: KeycapRendering {
         path.lineWidth = StrokeWidth.standard
         path.stroke()
 
-        legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
+        self.legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
     }
 }

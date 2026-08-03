@@ -18,6 +18,10 @@ struct KeycapThemeTokens {
     let surfaceShadowColor: NSColor
     let surfaceBorderColor: NSColor
     let recessColor: NSColor
+    /// Optional Apple-style underside edge color override. Falls back to `recessColor`.
+    let undersideEdgeColor: NSColor?
+    /// Optional Apple-style underside center color override. Falls back to `surfaceBaseColor`.
+    let undersideCenterColor: NSColor?
 }
 
 enum KeycapAppearance {
@@ -92,10 +96,12 @@ extension KeycapAppearance {
             self.groupBackgroundColor = tokens.groupBackgroundColor
             self.groupStrokeColor = tokens.groupStrokeColor
             self.strokeColor = tokens.surfaceBorderColor
+            let undersideEdgeColor = tokens.undersideEdgeColor ?? tokens.recessColor
+            let undersideCenterColor = tokens.undersideCenterColor ?? tokens.surfaceBaseColor
             self.undersideGradient = NSGradient(colorsAndLocations:
-                (tokens.recessColor, 0.0),
-                (tokens.surfaceBaseColor, 0.5),
-                (tokens.recessColor, 1.0)
+                (undersideEdgeColor, 0.0),
+                (undersideCenterColor, 0.5),
+                (undersideEdgeColor, 1.0)
             )
             self.mainGradient = NSGradient(colorsAndLocations:
                 (tokens.surfaceBaseColor, 0.0),

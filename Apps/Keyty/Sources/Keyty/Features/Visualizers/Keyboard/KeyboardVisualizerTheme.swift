@@ -23,7 +23,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
     case blue = 9
     case purple = 10
     case pink = 11
+}
 
+// MARK: - Titles
+extension KeyboardVisualizerTheme {
     var title: String {
         switch self {
         case .black: L10n.KeyboardVisualizer.Theme.dark
@@ -40,7 +43,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
         case .pink: L10n.KeyboardVisualizer.Theme.pink
         }
     }
+}
 
+// MARK: - Tokens
+extension KeyboardVisualizerTheme {
     var tokens: KeycapThemeTokens {
         switch self {
         case .white:
@@ -53,7 +59,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(white: 0.94, alpha: 1),
                 surfaceShadowColor: NSColor(white: 0.88, alpha: 1),
                 surfaceBorderColor: NSColor(white: 0.78, alpha: 1),
-                recessColor: NSColor(white: 0.86, alpha: 1)
+                recessColor: NSColor(white: 0.86, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .black:
             return KeycapThemeTokens(
@@ -65,7 +73,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(white: 0.035, alpha: 1),
                 surfaceShadowColor: NSColor(white: 0.05, alpha: 1),
                 surfaceBorderColor: NSColor(white: 0.28, alpha: 1),
-                recessColor: NSColor(white: 0.11, alpha: 1)
+                recessColor: NSColor(white: 0.11, alpha: 1),
+                undersideEdgeColor: NSColor(white: 0.035, alpha: 1),
+                undersideCenterColor: NSColor(white: 0.11, alpha: 1)
             )
         case .citrus:
             return KeycapThemeTokens(
@@ -77,7 +87,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.945, green: 0.937, blue: 0.749, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.902, green: 0.890, blue: 0.659, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.620, green: 0.604, blue: 0.361, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.776, green: 0.761, blue: 0.486, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.776, green: 0.761, blue: 0.486, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .green:
             return KeycapThemeTokens(
@@ -89,7 +101,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.460, green: 0.900, blue: 0.000, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.350, green: 0.720, blue: 0.000, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.405, green: 0.760, blue: 0.015, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.270, green: 0.510, blue: 0.000, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.270, green: 0.510, blue: 0.000, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .blue:
             return KeycapThemeTokens(
@@ -101,7 +115,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.230, green: 0.455, blue: 1.000, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.110, green: 0.315, blue: 0.940, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.300, green: 0.545, blue: 1.000, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.090, green: 0.270, blue: 0.820, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.090, green: 0.270, blue: 0.820, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .indigo:
             return KeycapThemeTokens(
@@ -113,7 +129,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.565, green: 0.596, blue: 0.690, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.490, green: 0.522, blue: 0.616, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.486, green: 0.533, blue: 0.639, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.314, green: 0.345, blue: 0.431, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.314, green: 0.345, blue: 0.431, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .rose:
             return KeycapThemeTokens(
@@ -125,7 +143,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.941, green: 0.878, blue: 0.878, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.894, green: 0.816, blue: 0.824, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.690, green: 0.608, blue: 0.612, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.800, green: 0.718, blue: 0.725, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.800, green: 0.718, blue: 0.725, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .red:
             return KeycapThemeTokens(
@@ -137,7 +157,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 1.000, green: 0.295, blue: 0.265, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.215, blue: 0.200, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.760, green: 0.180, blue: 0.150, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.760, green: 0.150, blue: 0.120, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.760, green: 0.150, blue: 0.120, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .purple:
             return KeycapThemeTokens(
@@ -149,7 +171,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.45, green: 0.24, blue: 0.79, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.39, green: 0.20, blue: 0.73, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.36, green: 0.19, blue: 0.69, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.41, green: 0.22, blue: 0.75, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.41, green: 0.22, blue: 0.75, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .yellow:
             return KeycapThemeTokens(
@@ -161,7 +185,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.994, green: 0.714, blue: 0.182, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.610, blue: 0.120, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.705, green: 0.460, blue: 0.060, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.780, green: 0.520, blue: 0.085, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.780, green: 0.520, blue: 0.085, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .orange:
             return KeycapThemeTokens(
@@ -173,7 +199,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 1.000, green: 0.455, blue: 0.135, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.340, blue: 0.085, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.795, green: 0.295, blue: 0.055, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.790, green: 0.270, blue: 0.045, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.790, green: 0.270, blue: 0.045, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         case .pink:
             return KeycapThemeTokens(
@@ -185,11 +213,16 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
                 surfaceBaseColor: NSColor(calibratedRed: 0.905, green: 0.225, blue: 0.800, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.820, green: 0.155, blue: 0.710, alpha: 1),
                 surfaceBorderColor: NSColor(calibratedRed: 0.650, green: 0.120, blue: 0.560, alpha: 1),
-                recessColor: NSColor(calibratedRed: 0.700, green: 0.135, blue: 0.610, alpha: 1)
+                recessColor: NSColor(calibratedRed: 0.700, green: 0.135, blue: 0.610, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
             )
         }
     }
+}
 
+// MARK: - Appearance
+extension KeyboardVisualizerTheme {
     func tokens(legendColorOverride: NSColor?) -> KeycapThemeTokens {
         let tokens = self.tokens
         guard let legendColorOverride else {
@@ -205,7 +238,9 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
             surfaceBaseColor: tokens.surfaceBaseColor,
             surfaceShadowColor: tokens.surfaceShadowColor,
             surfaceBorderColor: tokens.surfaceBorderColor,
-            recessColor: tokens.recessColor
+            recessColor: tokens.recessColor,
+            undersideEdgeColor: tokens.undersideEdgeColor,
+            undersideCenterColor: tokens.undersideCenterColor
         )
     }
 
@@ -222,7 +257,10 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
             return KeycapAppearance.retro(KeycapAppearance.Retro(tokens: tokens))
         }
     }
+}
 
+// MARK: - Display
+extension KeyboardVisualizerTheme {
     var displayColor: NSColor {
         self.tokens.swatchColor
     }

@@ -1,5 +1,7 @@
 /* Main menu */
 "main_menu.about" = "À propos de %@";
+"main_menu.close_window" = "Fermer la fenêtre";
+"main_menu.file" = "Fichier";
 "main_menu.settings" = "Réglages…";
 "main_menu.quit" = "Quitter %@";
 

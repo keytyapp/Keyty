@@ -1,5 +1,7 @@
 /* Main menu */
 "main_menu.about" = "%@について";
+"main_menu.close_window" = "ウインドウを閉じる";
+"main_menu.file" = "ファイル";
 "main_menu.settings" = "設定…";
 "main_menu.quit" = "%@を終了";
 

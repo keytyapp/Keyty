@@ -58,8 +58,8 @@ private extension MenuController {
     }
 
     private func makeFileMenu() -> NSMenu {
-        let menu = NSMenu(title: "File")
-        let close = NSMenuItem(title: "Close Window", action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
+        let menu = NSMenu(title: L10n.MainMenu.file)
+        let close = NSMenuItem(title: L10n.MainMenu.closeWindow, action: #selector(NSWindow.performClose(_:)), keyEquivalent: "w")
         close.keyEquivalentModifierMask = [.command]
         menu.addItem(close)
         return menu

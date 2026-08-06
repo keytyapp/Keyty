@@ -1,5 +1,7 @@
 /* Main menu */
 "main_menu.about" = "Про %@";
+"main_menu.close_window" = "Закрити вікно";
+"main_menu.file" = "Файл";
 "main_menu.settings" = "Параметри…";
 "main_menu.quit" = "Завершити роботу %@";
 

@@ -1,5 +1,7 @@
 /* Main menu */
 "main_menu.about" = "关于 %@";
+"main_menu.close_window" = "关闭窗口";
+"main_menu.file" = "文件";
 "main_menu.settings" = "设置…";
 "main_menu.quit" = "退出 %@";
 

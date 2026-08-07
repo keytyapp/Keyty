@@ -6,9 +6,6 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-// NOTE: These tests assume a US-English layout and may break under other locales.
-// The correct modifier ordering is Control-Option-Shift-Command (as shown in Apple menus).
-
 import Carbon
 import XCTest
 @testable import Keyty

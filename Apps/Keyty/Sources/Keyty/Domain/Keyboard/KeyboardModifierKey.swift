@@ -24,6 +24,15 @@ extension KeyboardModifierKey {
     enum Location: CaseIterable, Hashable {
         case left
         case right
+
+        var canonicalDisplayOrderIndex: Int {
+            switch self {
+            case .left:
+                return 0
+            case .right:
+                return 1
+            }
+        }
     }
 }
 

@@ -1,5 +1,5 @@
 <h1 align="center">
-  <a href="https://keyty.app">
+  <a href="https://keyty.app/es">
     <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Logotipo de la app Keyty" width="128">
     <br />
     <strong>Keyty</strong>
@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<div>
+<div align="center">
    <img src="https://img.shields.io/github/v/release/keytyapp/Keyty?style=flat-square" alt="Versiones">
    <img src="https://img.shields.io/github/downloads/keytyapp/Keyty/total?style=flat-square" alt="Descargas">
    <img src="https://img.shields.io/github/stars/keytyapp/Keyty?style=flat-square" alt="Estrellas">

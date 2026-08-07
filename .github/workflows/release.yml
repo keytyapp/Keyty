@@ -107,6 +107,8 @@ jobs:
     if: ${{ !endsWith(github.ref_name, '-test') }}
     runs-on: ubuntu-latest
     needs: release
+    env:
+      HOMEBREW_TAP_DISPATCH_TOKEN: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN }}
 
     steps:
       - name: Download release artifacts
@@ -141,9 +143,9 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Dispatch Homebrew tap update
-        if: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN != '' }}
+        if: ${{ env.HOMEBREW_TAP_DISPATCH_TOKEN != '' }}
         env:
-          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN }}
+          GH_TOKEN: ${{ env.HOMEBREW_TAP_DISPATCH_TOKEN }}
         shell: bash
         run: |
           set -euo pipefail
@@ -163,5 +165,5 @@ jobs:
           EOF
 
       - name: Skip Homebrew tap update dispatch
-        if: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN == '' }}
+        if: ${{ env.HOMEBREW_TAP_DISPATCH_TOKEN == '' }}
         run: echo "::notice::Skipping Homebrew tap update dispatch because HOMEBREW_TAP_DISPATCH_TOKEN is not configured."

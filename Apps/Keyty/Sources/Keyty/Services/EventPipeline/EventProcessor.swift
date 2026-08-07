@@ -9,7 +9,7 @@
 import AppKit
 
 public final class EventProcessor {
-    var onItemProduced: ((DisplayItem) -> Void)?
+    var onItemProduced: ((DisplayEvent) -> Void)?
 
     private enum ScrollState {
         case idle
@@ -20,7 +20,7 @@ public final class EventProcessor {
     private var scrollDebounceTimer: Timer?
 
     func noteKeystroke(_ keystroke: StandardKeyEvent) {
-        let item = DisplayItem.content(
+        let item = DisplayEvent.content(
             text: keystroke.displayString,
             sourceEvent: keystroke.inputEvent,
             startsNewLine: keystroke.isCommand,
@@ -37,7 +37,7 @@ public final class EventProcessor {
         }
 
         if [.leftMouseDown, .rightMouseDown, .otherMouseDown].contains(mouseEvent.type) {
-            let item = DisplayItem.content(
+            let item = DisplayEvent.content(
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
@@ -49,7 +49,7 @@ public final class EventProcessor {
         }
 
         if [.leftMouseUp, .rightMouseUp, .otherMouseUp].contains(mouseEvent.type) {
-            let item = DisplayItem.content(
+            let item = DisplayEvent.content(
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
@@ -65,7 +65,7 @@ public final class EventProcessor {
     }
 
     func noteMediaKey(_ mediaKey: MediaKeyEvent) {
-        let item = DisplayItem.content(
+        let item = DisplayEvent.content(
             text: mediaKey.displayString,
             sourceEvent: mediaKey.inputEvent,
             startsNewLine: false,
@@ -76,7 +76,7 @@ public final class EventProcessor {
     }
 
     func noteFlagsChanged(_ flags: NSEvent.ModifierFlags) {
-        let item = DisplayItem.flagsChanged(flags)
+        let item = DisplayEvent.flagsChanged(flags)
         onItemProduced?(item)
     }
 
@@ -102,7 +102,7 @@ public final class EventProcessor {
         let isWheel = !mouseEvent.hasPreciseScrollingDeltas
         if shouldDisplayScrollBezel || isWheel {
             scrollState = .active(displayed: true)
-            let item = DisplayItem.content(
+            let item = DisplayEvent.content(
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,

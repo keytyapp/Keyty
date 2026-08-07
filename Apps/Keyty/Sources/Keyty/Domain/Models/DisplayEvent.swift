@@ -1,5 +1,5 @@
 //
-//  DisplayItem.swift
+//  DisplayEvent.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -8,7 +8,7 @@
 
 import AppKit
 
-public enum DisplayItem {
+public enum DisplayEvent {
     case content(
         text: String,
         sourceEvent: InputEvent,

@@ -12,7 +12,7 @@ import XCTest
 final class EventProcessorTests: XCTestCase {
     func testMouseUpEmitsContentAndGroupBreakWhenModifierIsHeld() {
         let processor = EventProcessor()
-        var items: [DisplayItem] = []
+        var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
         processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
@@ -35,7 +35,7 @@ final class EventProcessorTests: XCTestCase {
 
     func testMouseUpWithoutModifiersEmitsContentAndGroupBreak() {
         let processor = EventProcessor()
-        var items: [DisplayItem] = []
+        var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
         processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: []))

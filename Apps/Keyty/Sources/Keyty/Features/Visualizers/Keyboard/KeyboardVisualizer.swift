@@ -63,7 +63,7 @@ final class KeyboardVisualizer {
         self.updatePresentationState()
     }
 
-    func display(_ item: DisplayItem) {
+    func display(_ item: DisplayEvent) {
         guard self.visualizerSettings.isEnabled, self.isPresentationActive else {
             self.clearDisplayState()
             return

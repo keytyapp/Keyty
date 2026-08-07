@@ -54,8 +54,7 @@ final class KeyboardVisualizerTests: XCTestCase {
                 text: keystroke.displayString,
                 sourceEvent: keystroke.inputEvent,
                 startsNewLine: false,
-                isModified: keystroke.isModified,
-                isMouseEvent: false
+                isModified: keystroke.isModified
             )
         )
 

@@ -13,8 +13,7 @@ public enum DisplayEvent {
         text: String,
         sourceEvent: InputEvent,
         startsNewLine: Bool,
-        isModified: Bool,
-        isMouseEvent: Bool
+        isModified: Bool
     )
     case groupBreak
     case flagsChanged(NSEvent.ModifierFlags)

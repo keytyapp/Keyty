@@ -24,8 +24,7 @@ public final class EventProcessor {
             text: keystroke.displayString,
             sourceEvent: keystroke.inputEvent,
             startsNewLine: keystroke.isCommand,
-            isModified: keystroke.isModified,
-            isMouseEvent: false
+            isModified: keystroke.isModified
         )
         onItemProduced?(item)
     }
@@ -41,8 +40,7 @@ public final class EventProcessor {
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isModified: false,
-                isMouseEvent: true
+                isModified: false
             )
             onItemProduced?(item)
             return
@@ -53,8 +51,7 @@ public final class EventProcessor {
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isModified: false,
-                isMouseEvent: true
+                isModified: false
             )
             onItemProduced?(item)
             onItemProduced?(.groupBreak)
@@ -69,8 +66,7 @@ public final class EventProcessor {
             text: mediaKey.displayString,
             sourceEvent: mediaKey.inputEvent,
             startsNewLine: false,
-            isModified: false,
-            isMouseEvent: false
+            isModified: false
         )
         onItemProduced?(item)
     }
@@ -106,8 +102,7 @@ public final class EventProcessor {
                 text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isModified: false,
-                isMouseEvent: true
+                isModified: false
             )
             onItemProduced?(item)
         }

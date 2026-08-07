@@ -86,7 +86,7 @@ final class KeyboardVisualizer {
             }
             return
 
-        case .content(_, let sourceEvent, _, _, _):
+        case .content(_, let sourceEvent, _, _):
             switch sourceEvent {
             case .mouse(let mouseEvent):
                 guard self.visualizerSettings.showMouseEvents else { return }

@@ -19,7 +19,7 @@ final class EventProcessorTests: XCTestCase {
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {
-        case .content(_, let sourceEvent, _, _, _):
+        case .content(_, let sourceEvent, _, _):
             XCTAssertEqual(sourceEvent.type, .leftMouseUp)
         default:
             XCTFail("Expected content item")
@@ -42,7 +42,7 @@ final class EventProcessorTests: XCTestCase {
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {
-        case .content(_, let sourceEvent, _, _, _):
+        case .content(_, let sourceEvent, _, _):
             XCTAssertEqual(sourceEvent.type, .leftMouseUp)
         default:
             XCTFail("Expected content item")

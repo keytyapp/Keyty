@@ -282,7 +282,17 @@ private extension KeycapEventCoordinator {
     }
 
     private func ordered(items: [Item]) -> [Item] {
-        let modifiers = items.filter { $0.identity.isModifier }
+        let modifiers = items
+            .filter { $0.identity.isModifier }
+            .sorted {
+                (
+                    $0.identity.modifierKind?.canonicalDisplayOrderIndex ?? Int.max,
+                    $0.identity.modifierLocation?.canonicalDisplayOrderIndex ?? Int.max
+                ) < (
+                    $1.identity.modifierKind?.canonicalDisplayOrderIndex ?? Int.max,
+                    $1.identity.modifierLocation?.canonicalDisplayOrderIndex ?? Int.max
+                )
+            }
         let others = items.filter { !$0.identity.isModifier }
         return modifiers + others
     }

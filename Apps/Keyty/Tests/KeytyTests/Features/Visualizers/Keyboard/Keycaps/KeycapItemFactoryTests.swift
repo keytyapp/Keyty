@@ -51,6 +51,20 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.map(\.layoutHints.alignment), [.right, .left])
     }
 
+    func testModifierItemsFollowCanonicalDisplayOrder() {
+        let items = KeycapItemFactory.modifierItems(
+            currentFlags: [.command, .option, .shift],
+            releasedFlags: [],
+            palette: Self.makePalette()
+        )
+
+        XCTAssertEqual(items.map(\.identity), [
+            .modifier(.leftOption),
+            .modifier(.leftShift),
+            .modifier(.leftCommand),
+        ])
+    }
+
     func testModifierItemsUseInwardAlignmentForNonCommandModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
             currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(

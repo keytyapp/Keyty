@@ -11,6 +11,13 @@ import XCTest
 @testable import Keyty
 
 final class KeyboardModifierKeyKindTests: XCTestCase {
+    func testCanonicalDisplayOrderMatchesAppleMenuOrder() {
+        XCTAssertEqual(
+            KeyboardModifierKey.Kind.canonicalDisplayOrder,
+            [.control, .option, .shift, .command]
+        )
+    }
+
     func testFlagMapsKindToAggregateModifierFlag() {
         XCTAssertEqual(KeyboardModifierKey.Kind.command.flag, .command)
         XCTAssertEqual(KeyboardModifierKey.Kind.shift.flag, .shift)

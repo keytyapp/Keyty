@@ -16,6 +16,10 @@ extension KeyboardModifierKey {
         case option
         case control
 
+        /// Modifier order guidance from Apple style guide:
+        /// https://support.apple.com/guide/applestyleguide/k-apsgf9067ae8/1.0/web/1.0
+        static let canonicalDisplayOrder: [Self] = [.control, .option, .shift, .command]
+
         var glyph: String {
             switch self {
             case .command: return UnicodeToken.command.string
@@ -64,6 +68,10 @@ extension KeyboardModifierKey {
             case (.control, .left): return .controlLeft
             case (.control, .right): return .controlRight
             }
+        }
+
+        var canonicalDisplayOrderIndex: Int {
+            Self.canonicalDisplayOrder.firstIndex(of: self) ?? Self.canonicalDisplayOrder.endIndex
         }
     }
 }

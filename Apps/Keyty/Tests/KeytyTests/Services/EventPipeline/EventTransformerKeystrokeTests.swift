@@ -6,138 +6,134 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-// NOTE: These tests assume a US-English layout and may break under other locales.
-// The correct modifier ordering is Control-Option-Shift-Command (as shown in Apple menus).
-
 import Carbon
 import XCTest
 @testable import Keyty
 
 final class EventTransformerKeystrokeTests: XCTestCase {
-    var keystroke: StandardKeyEvent!
-    var keyboardLayout: TISInputSource!
+    var transformer: EventTransformer!
 
     func transform(_ event: StandardKeyEvent) -> String {
-        EventTransformer(keyboardLayout: self.keyboardLayout).transform(.keystroke(event))
+        self.transformer.transform(.keystroke(event))
     }
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        self.keyboardLayout = try TestKeyboardLayouts.requireUSEnglish()
+        self.transformer = EventTransformer(keyboardLayout: try TestKeyboardLayouts.requireUSEnglish())
     }
 }
 
 // MARK: - Numbers
 
 extension EventTransformerKeystrokeTests {
-    func test_KCKeystroke_convertsCtrlNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.control, characters: "7", charactersIgnoringModifiers: "7")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + "7")
+    func test_convertsCtrlNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.control, characters: "7", charactersIgnoringModifiers: "7")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + "7")
     }
 
-    func test_KCKeystroke_convertsShiftNumberToShiftNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.shift, characters: "&", charactersIgnoringModifiers: "&")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.shift + "7")
+    func test_convertsShiftNumberToShiftNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.shift, characters: "&", charactersIgnoringModifiers: "&")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.shift + "7")
     }
 
-    func test_KCKeystroke_convertsCtrlShiftNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.controlShift, characters: "7", charactersIgnoringModifiers: "&")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + "7")
+    func test_convertsCtrlShiftNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.controlShift, characters: "7", charactersIgnoringModifiers: "&")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + "7")
     }
 
-    func test_KCKeystroke_convertsCmdNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.command, characters: "7", charactersIgnoringModifiers: "7")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.command + "7")
+    func test_convertsCmdNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.command, characters: "7", charactersIgnoringModifiers: "7")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.command + "7")
     }
 
-    func test_KCKeystroke_convertsCmdShiftNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandShift, characters: "7", charactersIgnoringModifiers: "&")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "7")
+    func test_convertsCmdShiftNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandShift, characters: "7", charactersIgnoringModifiers: "&")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "7")
     }
 
-    func test_KCKeystroke_convertsCmdOptNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOption, characters: "¶", charactersIgnoringModifiers: "7")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.command + "7")
+    func test_convertsCmdOptNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOption, characters: "¶", charactersIgnoringModifiers: "7")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.command + "7")
     }
 
-    func test_KCKeystroke_convertsShiftOptionNumberToNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "7")
+    func test_convertsShiftOptionNumberToNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "7")
     }
 
-    func test_KCKeystroke_convertsCmdOptShiftNumberToShiftedNumber() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOptionShift, characters: "‡", charactersIgnoringModifiers: "&")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "7")
+    func test_convertsCmdOptShiftNumberToShiftedNumber() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.commandOptionShift, characters: "‡", charactersIgnoringModifiers: "&")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "7")
     }
 }
 
 // MARK: - Letters
 
 extension EventTransformerKeystrokeTests {
-    func test_KCKeystroke_convertsCtrlLetterToUppercaseLetter() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.control, characters: "^A", charactersIgnoringModifiers: "a")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + "A")
+    func test_convertsCtrlLetterToUppercaseLetter() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.control, characters: "^A", charactersIgnoringModifiers: "a")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + "A")
     }
 
-    func test_KCKeystroke_convertsCtrlShiftLetterToLetter() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlShift, characters: "^A", charactersIgnoringModifiers: "a")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + "A")
+    func test_convertsCtrlShiftLetterToLetter() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlShift, characters: "^A", charactersIgnoringModifiers: "a")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + "A")
     }
 
-    func test_KCKeystroke_convertsCtrlShiftCmdLetterToLetter() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlCommandShift, characters: "^A", charactersIgnoringModifiers: "A")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "A")
+    func test_convertsCtrlShiftCmdLetterToLetter() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlCommandShift, characters: "^A", charactersIgnoringModifiers: "A")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.shift + KeyboardGlyphCatalog.command + "A")
     }
 
-    func test_KCKeystroke_convertsCtrlOptLetterToUppercaseLetter() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOption, characters: "^A", charactersIgnoringModifiers: "a")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.option + "A")
+    func test_convertsCtrlOptLetterToUppercaseLetter() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOption, characters: "^A", charactersIgnoringModifiers: "a")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.option + "A")
     }
 
-    func test_KCKeystroke_convertsCtrlOptShiftLetterToLetter() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOptionShift, characters: "^A", charactersIgnoringModifiers: "A")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "A")
+    func test_convertsCtrlOptShiftLetterToLetter() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: TestModifierFlags.controlOptionShift, characters: "^A", charactersIgnoringModifiers: "A")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.control + KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "A")
     }
 
-    func test_KCKeystroke_displaysOptLetterByDefault() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + "U")
+    func test_displaysOptLetterByDefault() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + "U")
     }
 }
 
 // MARK: - Function Row
 extension EventTransformerKeystrokeTests {
-    func test_KCKeystroke_convertsFnF1ToBrightnessDecrease() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessDown.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.brightnessDown.string)
+    func test_convertsFnF1ToBrightnessDecrease() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessDown.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), UnicodeToken.brightnessDown.string)
     }
 
-    func test_KCKeystroke_convertsFnF2ToBrightnessIncrease() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessUp.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.brightnessUp.string)
+    func test_convertsFnF2ToBrightnessIncrease() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessUp.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), UnicodeToken.brightnessUp.string)
     }
 
-    func test_KCKeystroke_convertsFnF3ToMissionControl() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.missionControl.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.missionControl.string)
+    func test_convertsFnF3ToMissionControl() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.missionControl.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), UnicodeToken.missionControl.string)
     }
 
-    func test_KCKeystroke_convertsFnF4ToLauncher() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.launchpad.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.launchpad.string)
+    func test_convertsFnF4ToLauncher() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.launchpad.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), UnicodeToken.launchpad.string)
     }
 }
 
 // MARK: - JIS layout
 extension EventTransformerKeystrokeTests {
-    func test_KCKeystroke_convertsEisuKey() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.eisu.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.eisu.displayText)
+    func test_convertsEisuKey() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.eisu.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), KeyboardSpecialKey.eisu.displayText)
     }
 
-    func test_KCKeystroke_convertsKanaKey() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.kana.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.kana.displayText)
+    func test_convertsKanaKey() {
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.kana.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), KeyboardSpecialKey.kana.displayText)
     }
 }
 
@@ -145,8 +141,8 @@ extension EventTransformerKeystrokeTests {
 
 extension EventTransformerKeystrokeTests {
     func test_optionShiftNumberDisplaysExplicitModifiers() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "7")
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: TestModifierFlags.optionShift, characters: "»", charactersIgnoringModifiers: "7")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "7")
     }
 }
 
@@ -154,50 +150,50 @@ extension EventTransformerKeystrokeTests {
 
 extension EventTransformerKeystrokeTests {
     func test_tabKey() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.none, characters: "\t", charactersIgnoringModifiers: "\t")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.tab)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.none, characters: "\t", charactersIgnoringModifiers: "\t")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.tab)
     }
 
     func test_returnAndKeypadEnterUseDifferentSymbols() {
-        self.keystroke = TestKeystrokes.make(
+        let returnKey = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.returnKey.rawValue,
             modifiers: TestModifierFlags.none,
             characters: "\r",
             charactersIgnoringModifiers: "\r"
         )
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.returnKey.string)
+        XCTAssertEqual(self.transform(returnKey), UnicodeToken.returnKey.string)
 
-        self.keystroke = TestKeystrokes.make(
+        let keypadEnter = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.keypadEnter.rawValue,
             modifiers: TestModifierFlags.none,
             characters: "\r",
             charactersIgnoringModifiers: "\r"
         )
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.keypadEnter.string)
+        XCTAssertEqual(self.transform(keypadEnter), UnicodeToken.keypadEnter.string)
     }
 
     func test_deleteAndForwardDeleteUseDifferentSymbols() {
-        self.keystroke = TestKeystrokes.make(
+        let deleteKey = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.delete.rawValue,
             modifiers: TestModifierFlags.none,
             characters: UnicodeToken.delete.string,
             charactersIgnoringModifiers: UnicodeToken.delete.string
         )
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.delete.string)
+        XCTAssertEqual(self.transform(deleteKey), UnicodeToken.delete.string)
 
-        self.keystroke = TestKeystrokes.make(
+        let forwardDelete = TestKeystrokes.make(
             keyCode: KeyboardKeyCode.forwardDelete.rawValue,
             modifiers: TestModifierFlags.none,
             characters: UnicodeToken.forwardDelete.string,
             charactersIgnoringModifiers: UnicodeToken.forwardDelete.string
         )
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.forwardDelete.string)
+        XCTAssertEqual(self.transform(forwardDelete), UnicodeToken.forwardDelete.string)
     }
 
     func test_shiftTab() {
         let ch = TestKeyboardCharacters.backTab
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.shift, characters: ch, charactersIgnoringModifiers: ch)
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.backTab)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.tab.rawValue, modifiers: TestModifierFlags.shift, characters: ch, charactersIgnoringModifiers: ch)
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.backTab)
     }
 
     func test_arrowKeysUseFilledTriangleSymbols() {
@@ -209,31 +205,31 @@ extension EventTransformerKeystrokeTests {
         ]
 
         for (keyCode, expected) in cases {
-            self.keystroke = TestKeystrokes.make(
+            let keystroke = TestKeystrokes.make(
                 keyCode: keyCode.rawValue,
                 modifiers: TestModifierFlags.none,
                 characters: expected,
                 charactersIgnoringModifiers: expected
             )
-            XCTAssertEqual(self.transform(self.keystroke), expected)
+            XCTAssertEqual(self.transform(keystroke), expected)
         }
     }
 
     func test_insertFunctionKeyDisplaysInsertForHelpKeyCode() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.insert.displayText)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
+        XCTAssertEqual(self.transform(keystroke), KeyboardSpecialKey.insert.displayText)
     }
 
     func test_helpFunctionKeyDisplaysHelpForHelpKeyCode() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSHelpFunctionKey)
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
-        XCTAssertEqual(self.transform(self.keystroke), UnicodeToken.questionMark.string + UnicodeToken.enclosingCircle.string)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
+        XCTAssertEqual(self.transform(keystroke), UnicodeToken.questionMark.string + UnicodeToken.enclosingCircle.string)
     }
 
     func test_helpKeyCodeWithoutSemanticCharactersDefaultsToInsert() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardSpecialKey.insert.displayText)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: "", charactersIgnoringModifiers: "")
+        XCTAssertEqual(self.transform(keystroke), KeyboardSpecialKey.insert.displayText)
     }
 }
 
@@ -242,27 +238,27 @@ extension EventTransformerKeystrokeTests {
 extension EventTransformerKeystrokeTests {
     func test_optionShiftUp() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSUpArrowFunctionKey)
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: TestModifierFlags.functionOptionShiftNumericPad, characters: ch, charactersIgnoringModifiers: ch)
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.upArrow.rawValue, modifiers: TestModifierFlags.functionOptionShiftNumericPad, characters: ch, charactersIgnoringModifiers: ch)
 
         XCTAssertEqual(
-            self.transform(self.keystroke),
+            self.transform(keystroke),
             KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + UnicodeToken.upArrow.string
         )
     }
 
     func test_optionUSpecialCase() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + "U")
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.u.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "u")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + "U")
     }
 
     func test_optionESpecialCase() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.e.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "e")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + "E")
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.e.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "e")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + "E")
     }
 
     func test_optionBacktickSpecialCase() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.grave.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "`")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.option + "`")
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.grave.rawValue, modifiers: TestModifierFlags.option, characters: "", charactersIgnoringModifiers: "`")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.option + "`")
     }
 }
 
@@ -270,8 +266,7 @@ extension EventTransformerKeystrokeTests {
 
 extension EventTransformerKeystrokeTests {
     func test_commandßDisplaysCommandß() {
-        self.keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.minus.rawValue, modifiers: TestModifierFlags.command, characters: "ß", charactersIgnoringModifiers: "ß")
-        XCTAssertEqual(self.transform(self.keystroke), KeyboardGlyphCatalog.command + "ß")
+        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.minus.rawValue, modifiers: TestModifierFlags.command, characters: "ß", charactersIgnoringModifiers: "ß")
+        XCTAssertEqual(self.transform(keystroke), KeyboardGlyphCatalog.command + "ß")
     }
-
 }

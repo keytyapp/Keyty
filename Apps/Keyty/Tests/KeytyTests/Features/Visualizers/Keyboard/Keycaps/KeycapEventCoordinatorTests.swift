@@ -87,7 +87,42 @@ final class KeycapEventCoordinatorTests: XCTestCase {
 
         XCTAssertEqual(appendedGroups.count, 1)
         XCTAssertEqual(updatedGroups.count, 1)
-        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift)])
+        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand)])
+    }
+
+    func testFlagsChangedReordersModifiersIntoCanonicalDisplayOrder() {
+        let coordinator = KeycapEventCoordinator<TestGroupView, TestItem>()
+        var updatedGroups: [[TestItem]] = []
+
+        coordinator.handleFlagsChanged(
+            currentTrackedFlags: [.command],
+            releasedTrackedFlags: [],
+            buildItems: { _, _ in
+                [TestItem(identity: .modifier(.leftCommand))]
+            },
+            appendGroup: { _ in TestGroupView() },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        coordinator.handleFlagsChanged(
+            currentTrackedFlags: [.command, .shift],
+            releasedTrackedFlags: [],
+            buildItems: { _, _ in
+                [
+                    TestItem(identity: .modifier(.leftCommand)),
+                    TestItem(identity: .modifier(.leftShift)),
+                ]
+            },
+            appendGroup: { _ in TestGroupView() },
+            updateGroup: { _, items in
+                updatedGroups.append(items)
+            }
+        )
+
+        XCTAssertEqual(updatedGroups.count, 1)
+        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand)])
     }
 
     func testTrackedKeyUpdateDoesNotAppendLaterModifierToExistingKeyGroup() {
@@ -315,10 +350,10 @@ final class KeycapEventCoordinatorTests: XCTestCase {
         )
 
         XCTAssertEqual(appendedGroups.count, 2)
-        XCTAssertEqual(appendedGroups[0].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift)])
-        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift), .keyCode(29)])
-        XCTAssertEqual(updatedGroups[1].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift), .keyCode(29)])
-        XCTAssertEqual(appendedGroups[1].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift), .keyCode(18)])
+        XCTAssertEqual(appendedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand)])
+        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand), .keyCode(29)])
+        XCTAssertEqual(updatedGroups[1].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand), .keyCode(29)])
+        XCTAssertEqual(appendedGroups[1].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand), .keyCode(18)])
     }
 
     func testStandaloneItemAbsorbsExistingModifierGroup() {
@@ -353,9 +388,9 @@ final class KeycapEventCoordinatorTests: XCTestCase {
         )
 
         XCTAssertEqual(appendedGroups.count, 1)
-        XCTAssertEqual(appendedGroups[0].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift)])
+        XCTAssertEqual(appendedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand)])
         XCTAssertEqual(updatedGroups.count, 1)
-        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftCommand), .modifier(.leftShift), .mouse(.leftButton)])
+        XCTAssertEqual(updatedGroups[0].map(\.identity), [.modifier(.leftShift), .modifier(.leftCommand), .mouse(.leftButton)])
     }
 
     func testMouseButtonReleaseUpdatesExistingChordGroup() {

@@ -30,7 +30,6 @@ enum KeycapPreviewSample {
 /// `KeycapIdentity`, so per-key-type theming applies uniformly across every branch.
 enum KeycapItemFactory {
     private static let mouseIconHeight: CGFloat = 44
-    private static let orderedModifiers: [KeyboardModifierKey.Kind] = [.command, .shift, .option, .control]
     private static let orderedModifierLocations: [KeyboardModifierKey.Location] = [.left, .right]
 
     static func keycapItems(for keystroke: StandardKeyEvent, palette: KeycapThemePalette) -> [KeycapItem] {
@@ -156,7 +155,7 @@ enum KeycapItemFactory {
         let currentModifierKeys = KeyboardModifierKey.keys(in: currentFlags)
         let releasedModifierKeys = KeyboardModifierKey.keys(in: releasedFlags)
 
-        for modifier in Self.orderedModifiers {
+        for modifier in KeyboardModifierKey.Kind.canonicalDisplayOrder {
             let modifierKeys = Self.orderedModifierKeys(
                 for: modifier,
                 currentModifierKeys: currentModifierKeys,

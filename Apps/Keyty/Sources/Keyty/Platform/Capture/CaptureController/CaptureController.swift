@@ -185,17 +185,17 @@ extension CaptureController: EventTapDelegate {
 
     func eventTap(_ tap: EventTap, noteKeystroke keystroke: StandardKeyEvent) {
         guard self.isCapturing else { return }
-        self.eventProcessor.noteKeystroke(keystroke)
+        self.eventProcessor.processKeystroke(keystroke)
     }
 
     func eventTap(_ tap: EventTap, noteFlagsChanged flags: NSEvent.ModifierFlags) {
         guard self.isCapturing else { return }
-        self.eventProcessor.noteFlagsChanged(flags)
+        self.eventProcessor.processFlagsChanged(flags)
     }
 
     func eventTap(_ tap: EventTap, noteMediaKey mediaKey: MediaKeyEvent) {
         guard self.isCapturing, mediaKey.isRecognized else { return }
-        self.eventProcessor.noteMediaKey(mediaKey)
+        self.eventProcessor.processMediaKey(mediaKey)
     }
 
     func eventTap(_ tap: EventTap, noteMouseEvent mouseEvent: MouseEvent) {
@@ -203,6 +203,6 @@ extension CaptureController: EventTapDelegate {
         Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
             pointerVisualizersManager.noteMouseEvent(mouseEvent)
         }
-        self.eventProcessor.noteMouseEvent(mouseEvent)
+        self.eventProcessor.processMouseEvent(mouseEvent)
     }
 }

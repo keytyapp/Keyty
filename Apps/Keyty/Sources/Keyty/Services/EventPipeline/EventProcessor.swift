@@ -18,49 +18,53 @@ public final class EventProcessor {
 
     private var scrollState = ScrollState.idle
     private var scrollDebounceTimer: Timer?
+}
 
-    func noteKeystroke(_ keystroke: StandardKeyEvent) {
-        onItemProduced?(.keystroke(keystroke))
+// MARK: - Event Handlers
+extension EventProcessor {
+    func processKeystroke(_ keystroke: StandardKeyEvent) {
+        self.onItemProduced?(.keystroke(keystroke))
     }
 
-    func noteMouseEvent(_ mouseEvent: MouseEvent) {
+    func processMouseEvent(_ mouseEvent: MouseEvent) {
         if mouseEvent.type == .scrollWheel {
-            handleScrollEvent(mouseEvent)
+            self.handleScrollEvent(mouseEvent)
             return
         }
 
         if [.leftMouseDown, .rightMouseDown, .otherMouseDown].contains(mouseEvent.type) {
-            onItemProduced?(.mouse(mouseEvent))
+            self.onItemProduced?(.mouse(mouseEvent))
             return
         }
 
         if [.leftMouseUp, .rightMouseUp, .otherMouseUp].contains(mouseEvent.type) {
-            onItemProduced?(.mouse(mouseEvent))
-            onItemProduced?(.groupBreak)
+            self.onItemProduced?(.mouse(mouseEvent))
+            self.onItemProduced?(.groupBreak)
             return
         }
-
-        // Drags discarded.
     }
 
-    func noteMediaKey(_ mediaKey: MediaKeyEvent) {
-        onItemProduced?(.mediaKey(mediaKey))
+    func processMediaKey(_ mediaKey: MediaKeyEvent) {
+        self.onItemProduced?(.mediaKey(mediaKey))
     }
 
-    func noteFlagsChanged(_ flags: NSEvent.ModifierFlags) {
-        onItemProduced?(.modifierStateChanged(flags))
+    func processFlagsChanged(_ flags: NSEvent.ModifierFlags) {
+        self.onItemProduced?(.modifierStateChanged(flags))
     }
+}
 
-    private func handleScrollEvent(_ mouseEvent: MouseEvent) {
+// MARK: - Scroll Events
+private extension EventProcessor {
+    func handleScrollEvent(_ mouseEvent: MouseEvent) {
         let phase = mouseEvent.phase
 
         if phase == .ended || phase == .cancelled {
-            finishScrollEvent()
+            self.finishScrollEvent()
             return
         }
 
         if phase == .began {
-            scrollState = .active(displayed: false)
+            self.scrollState = .active(displayed: false)
             return
         }
 
@@ -71,24 +75,24 @@ public final class EventProcessor {
         // Trackpad (precise): show bezel once per gesture, let phase events drive lifecycle.
         // Scroll wheel (imprecise): update the bezel on every click so direction stays current.
         let isWheel = !mouseEvent.hasPreciseScrollingDeltas
-        if shouldDisplayScrollBezel || isWheel {
-            scrollState = .active(displayed: true)
-            onItemProduced?(.mouse(mouseEvent))
+        if self.shouldDisplayScrollBezel || isWheel {
+            self.scrollState = .active(displayed: true)
+            self.onItemProduced?(.mouse(mouseEvent))
         }
 
         if phase.isEmpty {
             // Wheel events can be 100–200 ms apart; use a longer debounce so the
             // timer does not fire between clicks and cause flicker.
             let debounce: TimeInterval = isWheel ? 0.4 : 0.15
-            scrollDebounceTimer?.invalidate()
-            scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: debounce, repeats: false) { [weak self] _ in
+            self.scrollDebounceTimer?.invalidate()
+            self.scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: debounce, repeats: false) { [weak self] _ in
                 self?.finishScrollEvent()
             }
         }
     }
 
-    private var shouldDisplayScrollBezel: Bool {
-        switch scrollState {
+    var shouldDisplayScrollBezel: Bool {
+        switch self.scrollState {
         case .idle:
             return true
         case .active(displayed: let displayed):
@@ -96,10 +100,10 @@ public final class EventProcessor {
         }
     }
 
-    private func finishScrollEvent() {
-        scrollDebounceTimer?.invalidate()
-        scrollDebounceTimer = nil
-        scrollState = .idle
-        onItemProduced?(.groupBreak)
+    func finishScrollEvent() {
+        self.scrollDebounceTimer?.invalidate()
+        self.scrollDebounceTimer = nil
+        self.scrollState = .idle
+        self.onItemProduced?(.groupBreak)
     }
 }

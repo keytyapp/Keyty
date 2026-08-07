@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://keyty.app">
-    <img src="Assets/Application/AppIcon/AppIcon.png" alt="Logo de l'application Keyty" width="128">
+    <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Logo de l'application Keyty" width="128">
     <br />
     <strong>Keyty</strong>
   </a>
@@ -24,7 +24,7 @@ Keyty est une application gratuite et open source qui visualise vos actions au c
 
 ### Clavier
 
-![Démo du clavier](Docs/Resources/demo.gif)
+![Démo du clavier](Resources/demo.gif)
 
 - Affichage en temps réel des raccourcis clavier, des touches spéciales et du texte saisi
 - Styles de superposition personnalisables, thèmes, taille, disposition et durée de fondu
@@ -33,8 +33,8 @@ Keyty est une application gratuite et open source qui visualise vos actions au c
 ### Souris
 
 <p>
-  <img src="Docs/Resources/ring_demo.gif" alt="Démo de l'anneau du pointeur" width="49%">
-  <img src="Docs/Resources/pointer_icon_demo.gif" alt="Démo de l'icône du pointeur" width="49%">
+  <img src="Resources/ring_demo.gif" alt="Démo de l'anneau du pointeur" width="49%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Démo de l'icône du pointeur" width="49%">
 </p>
 
 - Visualisez les clics et actions de défilement de la souris en plus des entrées clavier
@@ -65,15 +65,15 @@ brew install --cask keytyapp/tap/keyty
 
 ### Compiler à partir du code source
 
-Pour compiler Keyty localement à partir du code source, consultez [BUILD.md](Docs/BUILD.md).
+Pour compiler Keyty localement à partir du code source, consultez [BUILD.md](BUILD.md).
 
 ## Autorisations
 
-Keyty a besoin de votre autorisation pour recevoir les événements de macOS afin d'afficher vos frappes clavier et les clics de la souris. Consultez [PERMISSIONS.md](Docs/PERMISSIONS.md) pour la configuration et le dépannage.
+Keyty a besoin de votre autorisation pour recevoir les événements de macOS afin d'afficher vos frappes clavier et les clics de la souris. Consultez [PERMISSIONS.md](PERMISSIONS.md) pour la configuration et le dépannage.
 
 ## Confidentialité
 
-Les événements d'entrée sont traités localement sur votre Mac. Keyty n'enregistre, ne stocke et ne téléverse ni vos frappes clavier, ni le texte saisi, ni les clics de la souris, ni l'activité du pointeur. Consultez [PRIVACY.md](Docs/PRIVACY.md) pour plus de détails, y compris les vérifications de mise à jour Sparkle.
+Les événements d'entrée sont traités localement sur votre Mac. Keyty n'enregistre, ne stocke et ne téléverse ni vos frappes clavier, ni le texte saisi, ni les clics de la souris, ni l'activité du pointeur. Consultez [PRIVACY.md](PRIVACY.md) pour plus de détails, y compris les vérifications de mise à jour Sparkle.
 
 ## Support
 

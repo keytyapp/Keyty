@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://keyty.app">
-    <img src="Assets/Application/AppIcon/AppIcon.png" alt="Keyty アプリのロゴ" width="128">
+    <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Keyty アプリのロゴ" width="128">
     <br />
     <strong>Keyty</strong>
   </a>
@@ -23,7 +23,7 @@ Keyty は、キーボードやマウスの操作をリアルタイムで可視�
 
 ### キーボード
 
-![キーボードデモ](Docs/Resources/demo.gif)
+![キーボードデモ](Resources/demo.gif)
 
 - キーボードショートカット、特殊キー、入力文字をリアルタイムで表示
 - オーバーレイのスタイル、テーマ、サイズ、レイアウト、フェード時間をカスタマイズ可能
@@ -32,8 +32,8 @@ Keyty は、キーボードやマウスの操作をリアルタイムで可視�
 ### マウス
 
 <p>
-  <img src="Docs/Resources/ring_demo.gif" alt="ポインターリングのデモ" width="49%">
-  <img src="Docs/Resources/pointer_icon_demo.gif" alt="ポインターアイコンのデモ" width="49%">
+  <img src="Resources/ring_demo.gif" alt="ポインターリングのデモ" width="49%">
+  <img src="Resources/pointer_icon_demo.gif" alt="ポインターアイコンのデモ" width="49%">
 </p>
 
 - キーボード入力とあわせてマウスクリックやスクロール操作を可視化
@@ -64,15 +64,15 @@ brew install --cask keytyapp/tap/keyty
 
 ### ソースからビルド
 
-ローカルで Keyty をソースからビルドする方法は [BUILD.md](Docs/BUILD.md) を参照してください。
+ローカルで Keyty をソースからビルドする方法は [BUILD.md](BUILD.md) を参照してください。
 
 ## 権限
 
-Keyty がキーストロークやマウスクリックを表示するには、macOS からイベントを受け取るための許可が必要です。設定方法とトラブルシューティングについては [PERMISSIONS.md](Docs/PERMISSIONS.md) を参照してください。
+Keyty がキーストロークやマウスクリックを表示するには、macOS からイベントを受け取るための許可が必要です。設定方法とトラブルシューティングについては [PERMISSIONS.md](PERMISSIONS.md) を参照してください。
 
 ## プライバシー
 
-入力イベントはお使いの Mac 上でローカルに処理されます。Keyty はキーストローク、入力した文字、マウスクリック、ポインター操作を記録、保存、アップロードしません。Sparkle によるアップデート確認を含む詳細は [PRIVACY.md](Docs/PRIVACY.md) を参照してください。
+入力イベントはお使いの Mac 上でローカルに処理されます。Keyty はキーストローク、入力した文字、マウスクリック、ポインター操作を記録、保存、アップロードしません。Sparkle によるアップデート確認を含む詳細は [PRIVACY.md](PRIVACY.md) を参照してください。
 
 ## サポート
 

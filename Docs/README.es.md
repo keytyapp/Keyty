@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://keyty.app">
-    <img src="Assets/Application/AppIcon/AppIcon.png" alt="Logotipo de la app Keyty" width="128">
+    <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Logotipo de la app Keyty" width="128">
     <br />
     <strong>Keyty</strong>
   </a>
@@ -24,7 +24,7 @@ Keyty es una app gratuita y de código abierto que visualiza tus acciones de tec
 
 ### Teclado
 
-![Demostración del teclado](Docs/Resources/demo.gif)
+![Demostración del teclado](Resources/demo.gif)
 
 - Visualización en tiempo real de atajos de teclado, teclas especiales y texto escrito
 - Estilos de superposición personalizables, temas, tamaño, disposición y tiempo de desvanecimiento
@@ -33,8 +33,8 @@ Keyty es una app gratuita y de código abierto que visualiza tus acciones de tec
 ### Ratón
 
 <p>
-  <img src="Docs/Resources/ring_demo.gif" alt="Demostración del anillo del puntero" width="49%">
-  <img src="Docs/Resources/pointer_icon_demo.gif" alt="Demostración del icono del puntero" width="49%">
+  <img src="Resources/ring_demo.gif" alt="Demostración del anillo del puntero" width="49%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Demostración del icono del puntero" width="49%">
 </p>
 
 - Visualiza clics y acciones de desplazamiento del ratón junto con la entrada del teclado
@@ -65,15 +65,15 @@ brew install --cask keytyapp/tap/keyty
 
 ### Compilar desde el código fuente
 
-Para compilar Keyty localmente desde el código fuente, consulta [BUILD.md](Docs/BUILD.md).
+Para compilar Keyty localmente desde el código fuente, consulta [BUILD.md](BUILD.md).
 
 ## Permisos
 
-Keyty necesita tu permiso para recibir eventos de macOS y así poder mostrar tus pulsaciones de teclado y clics del ratón. Consulta [PERMISSIONS.md](Docs/PERMISSIONS.md) para la configuración y solución de problemas.
+Keyty necesita tu permiso para recibir eventos de macOS y así poder mostrar tus pulsaciones de teclado y clics del ratón. Consulta [PERMISSIONS.md](PERMISSIONS.md) para la configuración y solución de problemas.
 
 ## Privacidad
 
-Los eventos de entrada se procesan localmente en tu Mac. Keyty no graba, almacena ni sube tus pulsaciones de teclado, texto escrito, clics del ratón ni actividad del puntero. Consulta [PRIVACY.md](Docs/PRIVACY.md) para más detalles, incluidas las comprobaciones de actualización de Sparkle.
+Los eventos de entrada se procesan localmente en tu Mac. Keyty no graba, almacena ni sube tus pulsaciones de teclado, texto escrito, clics del ratón ni actividad del puntero. Consulta [PRIVACY.md](PRIVACY.md) para más detalles, incluidas las comprobaciones de actualización de Sparkle.
 
 ## Soporte
 

@@ -17,12 +17,12 @@
 
 <p align="center">
   <a href="README.md">English</a> |
-  <a href="README.de.md">Deutsch</a> |
-  <a href="README.es.md">Español</a> |
-  <a href="README.fr.md">Français</a> |
-  <a href="README.ja.md">日本語</a> |
-  <a href="README.uk.md">Українська</a> |
-  <a href="README.zh-Hans.md">简体中文</a>
+  <a href="Docs/README.de.md">Deutsch</a> |
+  <a href="Docs/README.es.md">Español</a> |
+  <a href="Docs/README.fr.md">Français</a> |
+  <a href="Docs/README.ja.md">日本語</a> |
+  <a href="Docs/README.uk.md">Українська</a> |
+  <a href="Docs/README.zh-Hans.md">简体中文</a>
 </p>
 
 Keyty is a free, open-source app that visualizes your keyboard and mouse actions in real time,

@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://keyty.app">
-    <img src="Assets/Application/AppIcon/AppIcon.png" alt="Logo der Keyty-App" width="128">
+    <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Logo der Keyty-App" width="128">
     <br />
     <strong>Keyty</strong>
   </a>
@@ -24,7 +24,7 @@ Keyty ist eine kostenlose Open-Source-App, die Ihre Tastatur- und Mausaktionen i
 
 ### Tastatur
 
-![Tastatur-Demo](Docs/Resources/demo.gif)
+![Tastatur-Demo](Resources/demo.gif)
 
 - Echtzeitanzeige von Tastaturkurzbefehlen, Sondertasten und eingegebenem Text
 - Anpassbare Overlay-Stile, Designs, Größe, Layout und Ausblenddauer
@@ -33,8 +33,8 @@ Keyty ist eine kostenlose Open-Source-App, die Ihre Tastatur- und Mausaktionen i
 ### Maus
 
 <p>
-  <img src="Docs/Resources/ring_demo.gif" alt="Demo des Zeigerrings" width="49%">
-  <img src="Docs/Resources/pointer_icon_demo.gif" alt="Demo des Zeigersymbols" width="49%">
+  <img src="Resources/ring_demo.gif" alt="Demo des Zeigerrings" width="49%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Demo des Zeigersymbols" width="49%">
 </p>
 
 - Visualisieren Sie Mausklicks und Scrollaktionen zusammen mit der Tastatureingabe
@@ -65,15 +65,15 @@ brew install --cask keytyapp/tap/keyty
 
 ### Aus dem Quellcode erstellen
 
-Informationen zum lokalen Erstellen von Keyty aus dem Quellcode finden Sie in [BUILD.md](Docs/BUILD.md).
+Informationen zum lokalen Erstellen von Keyty aus dem Quellcode finden Sie in [BUILD.md](BUILD.md).
 
 ## Berechtigungen
 
-Keyty benötigt Ihre Erlaubnis, Ereignisse von macOS zu empfangen, um Ihre Tastatureingaben und Mausklicks anzuzeigen. Hinweise zur Einrichtung und Fehlerbehebung finden Sie in [PERMISSIONS.md](Docs/PERMISSIONS.md).
+Keyty benötigt Ihre Erlaubnis, Ereignisse von macOS zu empfangen, um Ihre Tastatureingaben und Mausklicks anzuzeigen. Hinweise zur Einrichtung und Fehlerbehebung finden Sie in [PERMISSIONS.md](PERMISSIONS.md).
 
 ## Datenschutz
 
-Eingabeereignisse werden lokal auf Ihrem Mac verarbeitet. Keyty zeichnet Ihre Tastatureingaben, den eingegebenen Text, Mausklicks oder Zeigeraktivitäten nicht auf, speichert sie nicht und lädt sie nicht hoch. Weitere Details, einschließlich der Sparkle-Update-Prüfungen, finden Sie in [PRIVACY.md](Docs/PRIVACY.md).
+Eingabeereignisse werden lokal auf Ihrem Mac verarbeitet. Keyty zeichnet Ihre Tastatureingaben, den eingegebenen Text, Mausklicks oder Zeigeraktivitäten nicht auf, speichert sie nicht und lädt sie nicht hoch. Weitere Details, einschließlich der Sparkle-Update-Prüfungen, finden Sie in [PRIVACY.md](PRIVACY.md).
 
 ## Unterstützung
 

@@ -1,6 +1,6 @@
 <h1 align="center">
   <a href="https://keyty.app">
-    <img src="Assets/Application/AppIcon/AppIcon.png" alt="Keyty 应用标志" width="128">
+    <img src="../Assets/Application/AppIcon/AppIcon.png" alt="Keyty 应用标志" width="128">
     <br />
     <strong>Keyty</strong>
   </a>
@@ -23,7 +23,7 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
 
 ### 键盘
 
-![键盘演示](Docs/Resources/demo.gif)
+![键盘演示](Resources/demo.gif)
 
 - 实时显示键盘快捷键、特殊按键和输入的文本
 - 可自定义叠加层样式、主题、大小、布局和淡出时间
@@ -32,8 +32,8 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
 ### 鼠标
 
 <p>
-  <img src="Docs/Resources/ring_demo.gif" alt="指针高亮环演示" width="49%">
-  <img src="Docs/Resources/pointer_icon_demo.gif" alt="指针图标演示" width="49%">
+  <img src="Resources/ring_demo.gif" alt="指针高亮环演示" width="49%">
+  <img src="Resources/pointer_icon_demo.gif" alt="指针图标演示" width="49%">
 </p>
 
 - 与键盘输入一起可视化鼠标点击和滚动操作
@@ -64,15 +64,15 @@ brew install --cask keytyapp/tap/keyty
 
 ### 从源码构建
 
-如需在本地从源码构建 Keyty，请参阅 [BUILD.md](Docs/BUILD.md)。
+如需在本地从源码构建 Keyty，请参阅 [BUILD.md](BUILD.md)。
 
 ## 权限
 
-Keyty 需要获得你的授权，才能接收来自 macOS 的事件并显示按键和鼠标点击。有关设置和故障排除，请参阅 [PERMISSIONS.md](Docs/PERMISSIONS.md)。
+Keyty 需要获得你的授权，才能接收来自 macOS 的事件并显示按键和鼠标点击。有关设置和故障排除，请参阅 [PERMISSIONS.md](PERMISSIONS.md)。
 
 ## 隐私
 
-输入事件仅在你的 Mac 本地处理。Keyty 不会记录、存储或上传你的按键、输入文本、鼠标点击或指针活动。更多细节（包括 Sparkle 更新检查）请参阅 [PRIVACY.md](Docs/PRIVACY.md)。
+输入事件仅在你的 Mac 本地处理。Keyty 不会记录、存储或上传你的按键、输入文本、鼠标点击或指针活动。更多细节（包括 Sparkle 更新检查）请参阅 [PRIVACY.md](PRIVACY.md)。
 
 ## 支持
 

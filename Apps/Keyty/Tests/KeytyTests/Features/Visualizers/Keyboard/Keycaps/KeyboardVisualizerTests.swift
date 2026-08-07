@@ -49,14 +49,7 @@ final class KeyboardVisualizerTests: XCTestCase {
             characters: "k",
             charactersIgnoringModifiers: "k"
         )
-        self.visualizer.display(
-            .content(
-                text: keystroke.displayString,
-                sourceEvent: keystroke.inputEvent,
-                startsNewLine: false,
-                isModified: keystroke.isModified
-            )
-        )
+        self.visualizer.display(.keystroke(keystroke))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
 

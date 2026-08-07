@@ -9,12 +9,9 @@
 import AppKit
 
 public enum DisplayEvent {
-    case content(
-        text: String,
-        sourceEvent: InputEvent,
-        startsNewLine: Bool,
-        isModified: Bool
-    )
+    case keystroke(StandardKeyEvent)
+    case mouse(MouseEvent)
+    case mediaKey(MediaKeyEvent)
+    case modifierStateChanged(NSEvent.ModifierFlags)
     case groupBreak
-    case flagsChanged(NSEvent.ModifierFlags)
 }

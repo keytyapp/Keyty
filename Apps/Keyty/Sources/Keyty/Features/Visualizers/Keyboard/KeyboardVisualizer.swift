@@ -70,7 +70,7 @@ final class KeyboardVisualizer {
         }
 
         switch item {
-        case .flagsChanged(let modifierFlags):
+        case .modifierStateChanged(let modifierFlags):
             self.currentModifierFlags = modifierFlags
             self.displayModifierPreview(modifierFlags)
             if self.hasPendingGroupBreak && self.currentTrackedFlags.isEmpty {
@@ -86,45 +86,42 @@ final class KeyboardVisualizer {
             }
             return
 
-        case .content(_, let sourceEvent, _, _):
-            switch sourceEvent {
-            case .mouse(let mouseEvent):
-                guard self.visualizerSettings.showMouseEvents else { return }
-                self.prepareForNextContentEvent()
+        case .mouse(let mouseEvent):
+            guard self.visualizerSettings.showMouseEvents else { return }
+            self.prepareForNextContentEvent()
 
-                let modifierItems = KeycapItemFactory.modifierItems(
-                    currentFlags: mouseEvent.modifierFlags,
-                    releasedFlags: [],
-                    palette: self.visualizerSettings.palette
-                )
-                let keycap = KeycapItemFactory.mouseItem(for: mouseEvent, palette: self.visualizerSettings.palette)
-                self.eventCoordinator.handleMouseButton(
-                    kind: mouseEvent.kind,
-                    isPressed: keycap.isPressed,
-                    items: modifierItems + [keycap],
-                    appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
-                    updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
-                )
-                return
+            let modifierItems = KeycapItemFactory.modifierItems(
+                currentFlags: mouseEvent.modifierFlags,
+                releasedFlags: [],
+                palette: self.visualizerSettings.palette
+            )
+            let keycap = KeycapItemFactory.mouseItem(for: mouseEvent, palette: self.visualizerSettings.palette)
+            self.eventCoordinator.handleMouseButton(
+                kind: mouseEvent.kind,
+                isPressed: keycap.isPressed,
+                items: modifierItems + [keycap],
+                appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+                updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
+            )
+            return
 
-            case .mediaKey(let mediaKey):
-                guard self.visualizerSettings.showMediaKeyButtons else { return }
-                self.prepareForNextContentEvent()
+        case .mediaKey(let mediaKey):
+            guard self.visualizerSettings.showMediaKeyButtons else { return }
+            self.prepareForNextContentEvent()
 
-                let keycap = KeycapItemFactory.mediaKeyItem(for: mediaKey, palette: self.visualizerSettings.palette)
-                self.eventCoordinator.handleMediaKey(
-                    kind: mediaKey.kind,
-                    isPressed: keycap.isPressed,
-                    items: [keycap],
-                    appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
-                    updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
-                )
-                return
+            let keycap = KeycapItemFactory.mediaKeyItem(for: mediaKey, palette: self.visualizerSettings.palette)
+            self.eventCoordinator.handleMediaKey(
+                kind: mediaKey.kind,
+                isPressed: keycap.isPressed,
+                items: [keycap],
+                appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+                updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
+            )
+            return
 
-            case .keystroke(let keystroke):
-                self.displayKeystroke(keystroke)
-                return
-            }
+        case .keystroke(let keystroke):
+            self.displayKeystroke(keystroke)
+            return
         }
     }
 

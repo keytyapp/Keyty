@@ -20,13 +20,7 @@ public final class EventProcessor {
     private var scrollDebounceTimer: Timer?
 
     func noteKeystroke(_ keystroke: StandardKeyEvent) {
-        let item = DisplayEvent.content(
-            text: keystroke.displayString,
-            sourceEvent: keystroke.inputEvent,
-            startsNewLine: keystroke.isCommand,
-            isModified: keystroke.isModified
-        )
-        onItemProduced?(item)
+        onItemProduced?(.keystroke(keystroke))
     }
 
     func noteMouseEvent(_ mouseEvent: MouseEvent) {
@@ -36,24 +30,12 @@ public final class EventProcessor {
         }
 
         if [.leftMouseDown, .rightMouseDown, .otherMouseDown].contains(mouseEvent.type) {
-            let item = DisplayEvent.content(
-                text: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isModified: false
-            )
-            onItemProduced?(item)
+            onItemProduced?(.mouse(mouseEvent))
             return
         }
 
         if [.leftMouseUp, .rightMouseUp, .otherMouseUp].contains(mouseEvent.type) {
-            let item = DisplayEvent.content(
-                text: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isModified: false
-            )
-            onItemProduced?(item)
+            onItemProduced?(.mouse(mouseEvent))
             onItemProduced?(.groupBreak)
             return
         }
@@ -62,18 +44,11 @@ public final class EventProcessor {
     }
 
     func noteMediaKey(_ mediaKey: MediaKeyEvent) {
-        let item = DisplayEvent.content(
-            text: mediaKey.displayString,
-            sourceEvent: mediaKey.inputEvent,
-            startsNewLine: false,
-            isModified: false
-        )
-        onItemProduced?(item)
+        onItemProduced?(.mediaKey(mediaKey))
     }
 
     func noteFlagsChanged(_ flags: NSEvent.ModifierFlags) {
-        let item = DisplayEvent.flagsChanged(flags)
-        onItemProduced?(item)
+        onItemProduced?(.modifierStateChanged(flags))
     }
 
     private func handleScrollEvent(_ mouseEvent: MouseEvent) {
@@ -98,13 +73,7 @@ public final class EventProcessor {
         let isWheel = !mouseEvent.hasPreciseScrollingDeltas
         if shouldDisplayScrollBezel || isWheel {
             scrollState = .active(displayed: true)
-            let item = DisplayEvent.content(
-                text: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isModified: false
-            )
-            onItemProduced?(item)
+            onItemProduced?(.mouse(mouseEvent))
         }
 
         if phase.isEmpty {

@@ -19,10 +19,10 @@ final class EventProcessorTests: XCTestCase {
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {
-        case .content(_, let sourceEvent, _, _):
-            XCTAssertEqual(sourceEvent.type, .leftMouseUp)
+        case .mouse(let mouseEvent):
+            XCTAssertEqual(mouseEvent.type, .leftMouseUp)
         default:
-            XCTFail("Expected content item")
+            XCTFail("Expected mouse event")
         }
 
         switch items[1] {
@@ -42,10 +42,10 @@ final class EventProcessorTests: XCTestCase {
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {
-        case .content(_, let sourceEvent, _, _):
-            XCTAssertEqual(sourceEvent.type, .leftMouseUp)
+        case .mouse(let mouseEvent):
+            XCTAssertEqual(mouseEvent.type, .leftMouseUp)
         default:
-            XCTFail("Expected content item")
+            XCTFail("Expected mouse event")
         }
 
         switch items[1] {

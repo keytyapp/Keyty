@@ -18,9 +18,19 @@ final class EventProcessorTests: XCTestCase {
         processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
 
         XCTAssertEqual(items.count, 2)
-        XCTAssertEqual(items[0].kind, .content)
-        XCTAssertEqual(items[0].sourceEvent?.type, .leftMouseUp)
-        XCTAssertEqual(items[1].kind, .groupBreak)
+        switch items[0] {
+        case .content(_, let sourceEvent, _, _, _):
+            XCTAssertEqual(sourceEvent.type, .leftMouseUp)
+        default:
+            XCTFail("Expected content item")
+        }
+
+        switch items[1] {
+        case .groupBreak:
+            break
+        default:
+            XCTFail("Expected group break item")
+        }
     }
 
     func testMouseUpWithoutModifiersEmitsContentAndGroupBreak() {
@@ -31,9 +41,18 @@ final class EventProcessorTests: XCTestCase {
         processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: []))
 
         XCTAssertEqual(items.count, 2)
-        XCTAssertEqual(items[0].kind, .content)
-        XCTAssertEqual(items[0].sourceEvent?.type, .leftMouseUp)
-        XCTAssertEqual(items[1].kind, .groupBreak)
-    }
+        switch items[0] {
+        case .content(_, let sourceEvent, _, _, _):
+            XCTAssertEqual(sourceEvent.type, .leftMouseUp)
+        default:
+            XCTFail("Expected content item")
+        }
 
+        switch items[1] {
+        case .groupBreak:
+            break
+        default:
+            XCTFail("Expected group break item")
+        }
+    }
 }

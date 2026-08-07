@@ -20,11 +20,10 @@ public final class EventProcessor {
     private var scrollDebounceTimer: Timer?
 
     func noteKeystroke(_ keystroke: StandardKeyEvent) {
-        let item = DisplayItem(
-            asContentWithText: keystroke.displayString,
+        let item = DisplayItem.content(
+            text: keystroke.displayString,
             sourceEvent: keystroke.inputEvent,
             startsNewLine: keystroke.isCommand,
-            isCommand: keystroke.isCommand,
             isModified: keystroke.isModified,
             isMouseEvent: false
         )
@@ -38,11 +37,10 @@ public final class EventProcessor {
         }
 
         if [.leftMouseDown, .rightMouseDown, .otherMouseDown].contains(mouseEvent.type) {
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
+            let item = DisplayItem.content(
+                text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isCommand: false,
                 isModified: false,
                 isMouseEvent: true
             )
@@ -51,16 +49,15 @@ public final class EventProcessor {
         }
 
         if [.leftMouseUp, .rightMouseUp, .otherMouseUp].contains(mouseEvent.type) {
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
+            let item = DisplayItem.content(
+                text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isCommand: false,
                 isModified: false,
                 isMouseEvent: true
             )
             onItemProduced?(item)
-            onItemProduced?(DisplayItem(asGroupBreak: ()))
+            onItemProduced?(.groupBreak)
             return
         }
 
@@ -68,11 +65,10 @@ public final class EventProcessor {
     }
 
     func noteMediaKey(_ mediaKey: MediaKeyEvent) {
-        let item = DisplayItem(
-            asContentWithText: mediaKey.displayString,
+        let item = DisplayItem.content(
+            text: mediaKey.displayString,
             sourceEvent: mediaKey.inputEvent,
             startsNewLine: false,
-            isCommand: false,
             isModified: false,
             isMouseEvent: false
         )
@@ -80,7 +76,7 @@ public final class EventProcessor {
     }
 
     func noteFlagsChanged(_ flags: NSEvent.ModifierFlags) {
-        let item = DisplayItem(asFlagsChangedWith: flags)
+        let item = DisplayItem.flagsChanged(flags)
         onItemProduced?(item)
     }
 
@@ -106,11 +102,10 @@ public final class EventProcessor {
         let isWheel = !mouseEvent.hasPreciseScrollingDeltas
         if shouldDisplayScrollBezel || isWheel {
             scrollState = .active(displayed: true)
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
+            let item = DisplayItem.content(
+                text: mouseEvent.displayString,
                 sourceEvent: mouseEvent.inputEvent,
                 startsNewLine: true,
-                isCommand: false,
                 isModified: false,
                 isMouseEvent: true
             )
@@ -141,6 +136,6 @@ public final class EventProcessor {
         scrollDebounceTimer?.invalidate()
         scrollDebounceTimer = nil
         scrollState = .idle
-        onItemProduced?(DisplayItem(asGroupBreak: ()))
+        onItemProduced?(.groupBreak)
     }
 }

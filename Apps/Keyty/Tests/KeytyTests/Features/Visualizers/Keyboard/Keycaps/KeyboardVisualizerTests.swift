@@ -50,11 +50,10 @@ final class KeyboardVisualizerTests: XCTestCase {
             charactersIgnoringModifiers: "k"
         )
         self.visualizer.display(
-            DisplayItem(
-                asContentWithText: keystroke.displayString,
+            .content(
+                text: keystroke.displayString,
                 sourceEvent: keystroke.inputEvent,
                 startsNewLine: false,
-                isCommand: keystroke.isCommand,
                 isModified: keystroke.isModified,
                 isMouseEvent: false
             )

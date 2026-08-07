@@ -7,7 +7,7 @@
   <br>
 </h1>
 
-<div>
+<div align="center">
    <img src="https://img.shields.io/github/v/release/keytyapp/Keyty?style=flat-square" alt="Releases">
    <img src="https://img.shields.io/github/downloads/keytyapp/Keyty/total?style=flat-square" alt="Downloads">
    <img src="https://img.shields.io/github/stars/keytyapp/Keyty?style=flat-square" alt="Stars">

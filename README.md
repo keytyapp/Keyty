@@ -15,6 +15,16 @@
    <img src="https://img.shields.io/badge/platform-macOS-lightgrey?style=flat-square" alt="Platform Support">
 </div>
 
+<p align="center">
+  <a href="README.md">English</a> |
+  <a href="README.de.md">Deutsch</a> |
+  <a href="README.es.md">Español</a> |
+  <a href="README.fr.md">Français</a> |
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.uk.md">Українська</a> |
+  <a href="README.zh-Hans.md">简体中文</a>
+</p>
+
 Keyty is a free, open-source app that visualizes your keyboard and mouse actions in real time,
   making demos, presentations, tutorials, and livestreams easier to follow. It gives your audience a
   clear view of every shortcut, click, and input so you can communicate more effectively on screen.

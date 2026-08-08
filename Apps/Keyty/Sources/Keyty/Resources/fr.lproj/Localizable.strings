@@ -50,6 +50,8 @@
 "displays.custom_position.set_subtitle" = "Choisissez l’emplacement de la superposition sur l’écran sélectionné.";
 "displays.custom_position.start_setting_button" = "Organiser...";
 "displays.custom_position.stop_setting_button" = "Appliquer";
+"displays.custom_content_alignment_label" = "Alignement du contenu";
+"displays.custom_content_alignment_subtitle" = "Choisissez comment la superposition s’étend horizontalement à partir de la position personnalisée.";
 
 /* General settings pane */
 "general.appearance_section_title" = "Application";

@@ -30,6 +30,7 @@ enum KeyboardVisualizerSettingsKeys {
     static let placementMode = "keyboard_visualizer.placementMode"
     static let customPositionNormalizedX = "keyboard_visualizer.customPositionNormalizedX"
     static let customPositionNormalizedY = "keyboard_visualizer.customPositionNormalizedY"
+    static let customHorizontalAlignment = "keyboard_visualizer.customHorizontalAlignment"
     static let screenID     = "keyboard_visualizer.screenID"
     static let scale        = "keyboard_visualizer.scale"
     static let windowPadding = "keyboard_visualizer.windowPadding"

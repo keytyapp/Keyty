@@ -94,15 +94,33 @@ struct DisplaysSettingsPane: View {
 
 private extension DisplaysSettingsPane {
     var customPlacementControls: some View {
-        SettingsControlRow(
-            title: L10n.Displays.CustomPosition.label,
-            subtitle: L10n.Displays.CustomPosition.setSubtitle
-        ) {
-            Button(self.model.isSettingCustomPosition ? L10n.Displays.CustomPosition.stopSettingButton : L10n.Displays.CustomPosition.startSettingButton) {
-                self.model.toggleCustomPositionSetting()
+        Group {
+            SettingsControlRow(
+                title: L10n.Displays.CustomPosition.label,
+                subtitle: L10n.Displays.CustomPosition.setSubtitle
+            ) {
+                Button(self.model.isSettingCustomPosition ? L10n.Displays.CustomPosition.stopSettingButton : L10n.Displays.CustomPosition.startSettingButton) {
+                    self.model.toggleCustomPositionSetting()
+                }
+                .controlSize(.regular)
+                .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
             }
-            .controlSize(.regular)
-            .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
+
+            Divider()
+
+            SettingsControlRow(
+                title: L10n.Displays.customContentAlignmentLabel,
+                subtitle: L10n.Displays.customContentAlignmentSubtitle
+            ) {
+                Picker("", selection: self.$model.customHorizontalAlignment) {
+                    ForEach(KeyboardVisualizerAlignment.allCases, id: \.rawValue) { alignment in
+                        Text(alignment.label).tag(alignment)
+                    }
+                }
+                .labelsHidden()
+                .accessibilityLabel(L10n.Displays.customContentAlignmentLabel)
+                .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
+            }
         }
     }
 

@@ -54,7 +54,8 @@ extension KeyboardVisualizerPlacementWindowController {
         let frame = Self.frame(
             forNormalizedPosition: CGPoint(x: self.settings.customPositionNormalizedX, y: self.settings.customPositionNormalizedY),
             in: visibleFrame,
-            size: size
+            size: size,
+            horizontalAlignment: self.previewHorizontalAlignment
         )
         let window = Window(frame: frame, contentView: contentView)
         window.onMoveEnded = { [weak self] in
@@ -67,7 +68,7 @@ extension KeyboardVisualizerPlacementWindowController {
     func stopSettingPosition() -> Placement? {
         guard let window = self.window else { return nil }
 
-        let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
+        let placement = self.placement(for: self.previewAnchorPoint(in: window.frame))
         window.close()
         self.onPlacementChanged = nil
         self.window = nil
@@ -79,14 +80,19 @@ extension KeyboardVisualizerPlacementWindowController {
     static func frame(
         forNormalizedPosition position: CGPoint,
         in area: CGRect,
-        size: CGSize
+        size: CGSize,
+        horizontalAlignment: KeyboardVisualizerAlignment = .center
     ) -> CGRect {
         let center = CGPoint(
             x: area.minX + area.width * position.x,
             y: area.minY + area.height * position.y
         )
         let origin = CGPoint(
-            x: (center.x - size.width / 2).clamped(minimum: area.minX, maximum: area.maxX - size.width),
+            x: KeyboardVisualizerWindow.customHorizontalOriginX(
+                for: size.width,
+                anchoredAt: center.x,
+                alignment: horizontalAlignment
+            ).clamped(minimum: area.minX, maximum: area.maxX - size.width),
             y: (center.y - size.height / 2).clamped(minimum: area.minY, maximum: area.maxY - size.height)
         )
 
@@ -124,6 +130,17 @@ extension KeyboardVisualizerPlacementWindowController {
             Self.previewItem(keyCode: .t, symbol: "T", settings: settings),
         ]
     }
+
+    static func anchorX(in frame: CGRect, alignment: KeyboardVisualizerAlignment) -> CGFloat {
+        switch alignment {
+        case .leading:
+            return frame.minX
+        case .center:
+            return frame.midX
+        case .trailing:
+            return frame.maxX
+        }
+    }
 }
 
 private extension KeyboardVisualizerPlacementWindowController {
@@ -147,18 +164,34 @@ private extension KeyboardVisualizerPlacementWindowController {
             ?? self.screensService.mainVisibleFrame()
     }
 
+    var previewHorizontalAlignment: KeyboardVisualizerAlignment {
+        switch self.settings.stackAxis {
+        case .vertical:
+            return self.settings.customHorizontalAlignment
+        case .horizontal:
+            return .center
+        }
+    }
+
     func placement(for point: CGPoint) -> Placement? {
         Self.placement(for: point, in: self.visibleFrames())
     }
 
     func notifyPlacementChanged() {
         guard let window = self.window,
-              let placement = self.placement(for: CGPoint(x: window.frame.midX, y: window.frame.midY))
+              let placement = self.placement(for: self.previewAnchorPoint(in: window.frame))
         else {
             return
         }
 
         self.onPlacementChanged?(placement)
+    }
+
+    func previewAnchorPoint(in frame: CGRect) -> CGPoint {
+        CGPoint(
+            x: Self.anchorX(in: frame, alignment: self.previewHorizontalAlignment),
+            y: frame.midY
+        )
     }
 
     func visibleFrames() -> [(screenID: CGDirectDisplayID, frame: CGRect)] {

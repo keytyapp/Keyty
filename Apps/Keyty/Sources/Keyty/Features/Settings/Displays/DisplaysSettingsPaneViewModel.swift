@@ -57,6 +57,13 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         didSet { self.keyboardVisualizerSettings.customPositionNormalizedY = CGFloat(self.customPositionNormalizedY) }
     }
 
+    @Published var customHorizontalAlignment: KeyboardVisualizerAlignment {
+        didSet {
+            guard self.keyboardVisualizerSettings.customHorizontalAlignment != self.customHorizontalAlignment else { return }
+            self.keyboardVisualizerSettings.customHorizontalAlignment = self.customHorizontalAlignment
+        }
+    }
+
     @Published private(set) var stackAxis: KeyboardVisualizerStackAxis
     @Published private(set) var scale: Double
 
@@ -108,6 +115,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
         self.windowPadding = Double(keyboardVisualizerSettings.windowPadding)
         self.customPositionNormalizedX = Double(keyboardVisualizerSettings.customPositionNormalizedX)
         self.customPositionNormalizedY = Double(keyboardVisualizerSettings.customPositionNormalizedY)
+        self.customHorizontalAlignment = keyboardVisualizerSettings.customHorizontalAlignment
         self.stackAxis = keyboardVisualizerSettings.stackAxis
         self.scale = Double(keyboardVisualizerSettings.scale)
 
@@ -126,6 +134,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
                 guard let self, let keyboardVisualizerSettings else { return }
                 self.stackAxis = keyboardVisualizerSettings.stackAxis
                 self.scale = Double(keyboardVisualizerSettings.scale)
+                self.customHorizontalAlignment = keyboardVisualizerSettings.customHorizontalAlignment
             }
             .store(in: &self.cancellables)
     }

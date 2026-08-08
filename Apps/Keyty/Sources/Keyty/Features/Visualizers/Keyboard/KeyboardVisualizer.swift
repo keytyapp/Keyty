@@ -63,32 +63,29 @@ final class KeyboardVisualizer {
         self.updatePresentationState()
     }
 
-    func display(_ item: DisplayItem) {
+    func display(_ item: DisplayEvent) {
         guard self.visualizerSettings.isEnabled, self.isPresentationActive else {
             self.clearDisplayState()
             return
         }
 
-        if item.kind == .flagsChanged {
-            self.currentModifierFlags = item.modifierFlags
-            self.displayModifierPreview(item.modifierFlags)
+        switch item {
+        case .modifierStateChanged(let modifierFlags):
+            self.currentModifierFlags = modifierFlags
+            self.displayModifierPreview(modifierFlags)
             if self.hasPendingGroupBreak && self.currentTrackedFlags.isEmpty {
                 self.finishCurrentGroup(retaining: [])
             }
             return
-        }
 
-        if item.kind == .groupBreak {
+        case .groupBreak:
             if self.currentTrackedFlags.isEmpty {
                 self.finishCurrentGroup(retaining: [])
             } else {
                 self.hasPendingGroupBreak = true
             }
             return
-        }
 
-        guard let sourceEvent = item.sourceEvent else { return }
-        switch sourceEvent {
         case .mouse(let mouseEvent):
             guard self.visualizerSettings.showMouseEvents else { return }
             self.prepareForNextContentEvent()

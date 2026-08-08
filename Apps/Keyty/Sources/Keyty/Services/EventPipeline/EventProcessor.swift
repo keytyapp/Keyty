@@ -9,138 +9,41 @@
 import AppKit
 
 public final class EventProcessor {
-    var onItemProduced: ((DisplayItem) -> Void)?
+    var onItemProduced: ((DisplayEvent) -> Void)?
+    private lazy var scrollEventProcessor = ScrollEventProcessor { [weak self] item in
+        self?.onItemProduced?(item)
+    }
+}
 
-    private enum ScrollState {
-        case idle
-        case active(displayed: Bool)
+// MARK: - Event Handlers
+extension EventProcessor {
+    func processKeystroke(_ keystroke: StandardKeyEvent) {
+        self.onItemProduced?(.keystroke(keystroke))
     }
 
-    private var scrollState = ScrollState.idle
-    private var scrollDebounceTimer: Timer?
-
-    func noteKeystroke(_ keystroke: StandardKeyEvent) {
-        let item = DisplayItem(
-            asContentWithText: keystroke.displayString,
-            sourceEvent: keystroke.inputEvent,
-            startsNewLine: keystroke.isCommand,
-            isCommand: keystroke.isCommand,
-            isModified: keystroke.isModified,
-            isMouseEvent: false
-        )
-        onItemProduced?(item)
-    }
-
-    func noteMouseEvent(_ mouseEvent: MouseEvent) {
+    func processMouseEvent(_ mouseEvent: MouseEvent) {
         if mouseEvent.type == .scrollWheel {
-            handleScrollEvent(mouseEvent)
+            self.scrollEventProcessor.process(mouseEvent)
             return
         }
 
         if [.leftMouseDown, .rightMouseDown, .otherMouseDown].contains(mouseEvent.type) {
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isCommand: false,
-                isModified: false,
-                isMouseEvent: true
-            )
-            onItemProduced?(item)
+            self.onItemProduced?(.mouse(mouseEvent))
             return
         }
 
         if [.leftMouseUp, .rightMouseUp, .otherMouseUp].contains(mouseEvent.type) {
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isCommand: false,
-                isModified: false,
-                isMouseEvent: true
-            )
-            onItemProduced?(item)
-            onItemProduced?(DisplayItem(asGroupBreak: ()))
+            self.onItemProduced?(.mouse(mouseEvent))
+            self.onItemProduced?(.groupBreak)
             return
         }
-
-        // Drags discarded.
     }
 
-    func noteMediaKey(_ mediaKey: MediaKeyEvent) {
-        let item = DisplayItem(
-            asContentWithText: mediaKey.displayString,
-            sourceEvent: mediaKey.inputEvent,
-            startsNewLine: false,
-            isCommand: false,
-            isModified: false,
-            isMouseEvent: false
-        )
-        onItemProduced?(item)
+    func processMediaKey(_ mediaKey: MediaKeyEvent) {
+        self.onItemProduced?(.mediaKey(mediaKey))
     }
 
-    func noteFlagsChanged(_ flags: NSEvent.ModifierFlags) {
-        let item = DisplayItem(asFlagsChangedWith: flags)
-        onItemProduced?(item)
-    }
-
-    private func handleScrollEvent(_ mouseEvent: MouseEvent) {
-        let phase = mouseEvent.phase
-
-        if phase == .ended || phase == .cancelled {
-            finishScrollEvent()
-            return
-        }
-
-        if phase == .began {
-            scrollState = .active(displayed: false)
-            return
-        }
-
-        if mouseEvent.scrollingDeltaX == 0.0 && mouseEvent.scrollingDeltaY == 0.0 {
-            return
-        }
-
-        // Trackpad (precise): show bezel once per gesture, let phase events drive lifecycle.
-        // Scroll wheel (imprecise): update the bezel on every click so direction stays current.
-        let isWheel = !mouseEvent.hasPreciseScrollingDeltas
-        if shouldDisplayScrollBezel || isWheel {
-            scrollState = .active(displayed: true)
-            let item = DisplayItem(
-                asContentWithText: mouseEvent.displayString,
-                sourceEvent: mouseEvent.inputEvent,
-                startsNewLine: true,
-                isCommand: false,
-                isModified: false,
-                isMouseEvent: true
-            )
-            onItemProduced?(item)
-        }
-
-        if phase.isEmpty {
-            // Wheel events can be 100–200 ms apart; use a longer debounce so the
-            // timer does not fire between clicks and cause flicker.
-            let debounce: TimeInterval = isWheel ? 0.4 : 0.15
-            scrollDebounceTimer?.invalidate()
-            scrollDebounceTimer = Timer.scheduledTimer(withTimeInterval: debounce, repeats: false) { [weak self] _ in
-                self?.finishScrollEvent()
-            }
-        }
-    }
-
-    private var shouldDisplayScrollBezel: Bool {
-        switch scrollState {
-        case .idle:
-            return true
-        case .active(displayed: let displayed):
-            return !displayed
-        }
-    }
-
-    private func finishScrollEvent() {
-        scrollDebounceTimer?.invalidate()
-        scrollDebounceTimer = nil
-        scrollState = .idle
-        onItemProduced?(DisplayItem(asGroupBreak: ()))
+    func processFlagsChanged(_ flags: NSEvent.ModifierFlags) {
+        self.onItemProduced?(.modifierStateChanged(flags))
     }
 }

@@ -12,28 +12,47 @@ import XCTest
 final class EventProcessorTests: XCTestCase {
     func testMouseUpEmitsContentAndGroupBreakWhenModifierIsHeld() {
         let processor = EventProcessor()
-        var items: [DisplayItem] = []
+        var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
-        processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
+        processor.processMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
 
         XCTAssertEqual(items.count, 2)
-        XCTAssertEqual(items[0].kind, .content)
-        XCTAssertEqual(items[0].sourceEvent?.type, .leftMouseUp)
-        XCTAssertEqual(items[1].kind, .groupBreak)
+        switch items[0] {
+        case .mouse(let mouseEvent):
+            XCTAssertEqual(mouseEvent.type, .leftMouseUp)
+        default:
+            XCTFail("Expected mouse event")
+        }
+
+        switch items[1] {
+        case .groupBreak:
+            break
+        default:
+            XCTFail("Expected group break item")
+        }
     }
 
     func testMouseUpWithoutModifiersEmitsContentAndGroupBreak() {
         let processor = EventProcessor()
-        var items: [DisplayItem] = []
+        var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
-        processor.noteMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: []))
+        processor.processMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: []))
 
         XCTAssertEqual(items.count, 2)
-        XCTAssertEqual(items[0].kind, .content)
-        XCTAssertEqual(items[0].sourceEvent?.type, .leftMouseUp)
-        XCTAssertEqual(items[1].kind, .groupBreak)
-    }
+        switch items[0] {
+        case .mouse(let mouseEvent):
+            XCTAssertEqual(mouseEvent.type, .leftMouseUp)
+        default:
+            XCTFail("Expected mouse event")
+        }
 
+        switch items[1] {
+        case .groupBreak:
+            break
+        default:
+            XCTFail("Expected group break item")
+        }
+    }
 }

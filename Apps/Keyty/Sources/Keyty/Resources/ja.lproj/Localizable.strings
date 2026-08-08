@@ -50,6 +50,8 @@
 "displays.custom_position.set_subtitle" = "選択したディスプレイ上でオーバーレイを表示する位置を選択します。";
 "displays.custom_position.start_setting_button" = "配置...";
 "displays.custom_position.stop_setting_button" = "適用";
+"displays.custom_content_alignment_label" = "コンテンツの配置";
+"displays.custom_content_alignment_subtitle" = "カスタム位置を基準にオーバーレイが水平方向へどのように広がるかを選びます。";
 
 /* General settings pane */
 "general.appearance_section_title" = "アプリ";

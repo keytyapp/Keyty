@@ -125,25 +125,40 @@ final class KeyboardVisualizerWindow: NSWindow {
             }
         }
 
+        let layoutSize = NSSize(
+            width: max(contentSize.width, Size.bootstrapWindow.width),
+            height: max(contentSize.height, Size.bootstrapWindow.height)
+        )
+        let targetFrame = self.anchoredFrame(for: layoutSize)
+        let customVerticalAnchorX = self.customVerticalAnchorX(in: targetFrame)
+
         cursor = .zero
         for (view, size) in viewSizes {
             let origin: CGPoint
             switch stackAxis {
             case .horizontal:
-                origin = CGPoint(x: cursor.x, y: self.alignmentOffset(free: contentSize.height - size.height, alignment: alignment))
+                origin = CGPoint(x: cursor.x, y: self.alignmentOffset(free: layoutSize.height - size.height, alignment: alignment))
                 cursor.x += size.width + spacing
             case .vertical:
-                origin = CGPoint(x: self.alignmentOffset(free: contentSize.width - size.width, alignment: alignment), y: cursor.y)
+                origin = CGPoint(
+                    x: self.horizontalOriginX(
+                        for: size.width,
+                        layoutWidth: layoutSize.width,
+                        alignment: alignment,
+                        customAnchorX: customVerticalAnchorX
+                    ),
+                    y: cursor.y
+                )
                 cursor.y += size.height + spacing
             }
             view.frame = NSRect(origin: origin, size: size)
         }
 
-        self.rootView.frame = NSRect(origin: .zero, size: contentSize)
+        self.rootView.frame = NSRect(origin: .zero, size: layoutSize)
 
         // The window is pinned to a screen anchor: it grows inward from the anchored
         // edges as content is added/removed, rather than tracking its previous frame.
-        self.setFrame(self.anchoredFrame(for: contentSize), display: true, animate: false)
+        self.setFrame(targetFrame, display: true, animate: false)
     }
 
     /// Re-pins the window to its anchor using the current content size, without adding
@@ -199,7 +214,11 @@ final class KeyboardVisualizerWindow: NSWindow {
             y: area.minY + area.height * self.settings.customPositionNormalizedY
         )
         let origin = CGPoint(
-            x: center.x - size.width / 2,
+            x: Self.customHorizontalOriginX(
+                for: size.width,
+                anchoredAt: center.x,
+                alignment: self.settings.customHorizontalAlignment
+            ),
             y: center.y - size.height / 2
         )
         let clampedOrigin = CGPoint(
@@ -221,5 +240,61 @@ final class KeyboardVisualizerWindow: NSWindow {
         case .center:   return free / 2
         case .trailing: return free
         }
+    }
+
+    private func horizontalOriginX(
+        for width: CGFloat,
+        layoutWidth: CGFloat,
+        alignment: KeyboardVisualizerAlignment,
+        customAnchorX: CGFloat?
+    ) -> CGFloat {
+        if let customAnchorX {
+            return Self.customHorizontalOriginX(
+                for: width,
+                anchoredAt: customAnchorX,
+                alignment: self.settings.customHorizontalAlignment
+            )
+        }
+
+        return self.alignmentOffset(free: layoutWidth - width, alignment: alignment)
+    }
+
+    private func customVerticalAnchorX(in frame: NSRect) -> CGFloat? {
+        guard self.settings.placementMode == .custom, self.settings.stackAxis == .vertical else {
+            return nil
+        }
+        guard let area = self.resolvedVisibleFrame() else {
+            return nil
+        }
+
+        return Self.customHorizontalAnchorX(
+            in: frame,
+            visibleFrame: area,
+            normalizedX: self.settings.customPositionNormalizedX
+        )
+    }
+
+    static func customHorizontalOriginX(
+        for width: CGFloat,
+        anchoredAt x: CGFloat,
+        alignment: KeyboardVisualizerAlignment
+    ) -> CGFloat {
+        switch alignment {
+        case .leading:
+            return x
+        case .center:
+            return x - width / 2
+        case .trailing:
+            return x - width
+        }
+    }
+
+    static func customHorizontalAnchorX(
+        in windowFrame: NSRect,
+        visibleFrame: CGRect,
+        normalizedX: CGFloat
+    ) -> CGFloat {
+        let anchorX = visibleFrame.minX + visibleFrame.width * normalizedX
+        return anchorX - windowFrame.minX
     }
 }

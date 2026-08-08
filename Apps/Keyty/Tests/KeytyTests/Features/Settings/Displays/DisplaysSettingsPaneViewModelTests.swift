@@ -127,6 +127,18 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.model.anchorSelection, .custom)
     }
 
+    func testCustomHorizontalAlignmentUpdatesSettings() {
+        self.model.customHorizontalAlignment = .trailing
+
+        XCTAssertEqual(self.keyboardVisualizerSettings.customHorizontalAlignment, .trailing)
+    }
+
+    func testPlacementChangesRefreshCustomHorizontalAlignment() {
+        self.keyboardVisualizerSettings.customHorizontalAlignment = .leading
+
+        XCTAssertEqual(self.model.customHorizontalAlignment, .leading)
+    }
+
     func testFinishingCustomPositionSettingStopsAndAppliesReturnedPlacement() {
         self.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
             screenID: 2,
@@ -207,6 +219,56 @@ final class KeyboardVisualizerPlacementWindowControllerTests: XCTestCase {
 
         XCTAssertEqual(frame.midX, 300, accuracy: 0.0001)
         XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
+    }
+
+    func testFramePlacesLeadingAlignedHandleAtNormalizedPosition() {
+        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
+        let size = CGSize(width: 120, height: 80)
+
+        let frame = KeyboardVisualizerPlacementWindowController.frame(
+            forNormalizedPosition: CGPoint(x: 0.25, y: 0.75),
+            in: area,
+            size: size,
+            horizontalAlignment: .leading
+        )
+
+        XCTAssertEqual(frame.minX, 300, accuracy: 0.0001)
+        XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
+    }
+
+    func testFramePlacesTrailingAlignedHandleAtNormalizedPosition() {
+        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
+        let size = CGSize(width: 120, height: 80)
+
+        let frame = KeyboardVisualizerPlacementWindowController.frame(
+            forNormalizedPosition: CGPoint(x: 0.25, y: 0.75),
+            in: area,
+            size: size,
+            horizontalAlignment: .trailing
+        )
+
+        XCTAssertEqual(frame.maxX, 300, accuracy: 0.0001)
+        XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
+    }
+
+    func testAnchorXUsesAlignmentSpecificAnchorPoint() {
+        let frame = CGRect(x: 180, y: 200, width: 120, height: 80)
+
+        XCTAssertEqual(
+            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .leading),
+            180,
+            accuracy: 0.0001
+        )
+        XCTAssertEqual(
+            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .center),
+            240,
+            accuracy: 0.0001
+        )
+        XCTAssertEqual(
+            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .trailing),
+            300,
+            accuracy: 0.0001
+        )
     }
 
     func testFrameClampsHandleInsideVisibleFrame() {

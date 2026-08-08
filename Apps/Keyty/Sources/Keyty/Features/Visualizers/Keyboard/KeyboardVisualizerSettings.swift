@@ -36,6 +36,8 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var customPositionNormalizedX: CGFloat { get set }
     /// Vertical custom overlay position normalized to the selected display visible frame.
     var customPositionNormalizedY: CGFloat { get set }
+    /// Horizontal alignment used when custom placement is selected.
+    var customHorizontalAlignment: KeyboardVisualizerAlignment { get set }
 
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
@@ -106,11 +108,19 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     ))
     var stackAxis: KeyboardVisualizerStackAxis
 
-    /// Cross-axis alignment, derived from the anchor so groups hug the same edge the
-    /// window is pinned to. The cross axis depends on the stacking axis: a vertical
-    /// stack uses the anchor's horizontal side; a horizontal stack uses its vertical side
-    /// (where AppKit y grows upward, so `.top` maps to `.trailing` and `.bottom` to `.leading`).
+    /// Cross-axis alignment used by group layout. Preset anchors derive this from the
+    /// pinned edge; custom placement uses an explicit horizontal alignment only for
+    /// vertical stacks, while horizontal stacks remain vertically centered.
     var alignment: KeyboardVisualizerAlignment {
+        if self.placementMode == .custom {
+            switch self.stackAxis {
+            case .vertical:
+                return self.customHorizontalAlignment
+            case .horizontal:
+                return .center
+            }
+        }
+
         switch stackAxis {
         case .vertical:
             switch anchor.horizontal {
@@ -206,6 +216,14 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.customPositionNormalizedY, default: 0.5, clamp: 0...1))
     var customPositionNormalizedY: CGFloat {
         didSet {
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    @Stored(.enum(KeyboardVisualizerSettingsKeys.customHorizontalAlignment, default: .center))
+    var customHorizontalAlignment: KeyboardVisualizerAlignment {
+        didSet {
+            guard oldValue != self.customHorizontalAlignment else { return }
             self.placementChangesSubject.send(())
         }
     }

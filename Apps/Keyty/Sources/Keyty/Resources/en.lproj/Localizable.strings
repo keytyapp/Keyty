@@ -50,6 +50,8 @@
 "displays.custom_position.set_subtitle" = "Choose where the overlay appears on the selected display.";
 "displays.custom_position.start_setting_button" = "Arrange...";
 "displays.custom_position.stop_setting_button" = "Apply";
+"displays.custom_content_alignment_label" = "Content Alignment";
+"displays.custom_content_alignment_subtitle" = "Choose how the overlay expands horizontally from the custom position.";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";

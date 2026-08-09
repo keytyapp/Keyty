@@ -7,17 +7,25 @@
 //
 
 import AppKit
+import Combine
 import SwiftUI
 
 @MainActor
 final class AboutWindowController: NSWindowController {
+    let viewModel: AboutWindowViewModel
+
+    private var cancellables = Set<AnyCancellable>()
+
     init(bundle: Bundle = .main) {
+        self.viewModel = AboutWindowViewModel(bundle: bundle)
+
         let window = Window()
-        let viewModel = AboutWindowViewModel(bundle: bundle)
-        let rootView = AboutWindowView(viewModel: viewModel)
+        let rootView = AboutWindowView(viewModel: self.viewModel)
         window.contentViewController = NSHostingController(rootView: rootView)
 
         super.init(window: window)
+        self.bindWindowTitle()
+        self.updateWindowTitle(for: self.viewModel.selectedTab)
         window.center()
     }
 
@@ -28,6 +36,18 @@ final class AboutWindowController: NSWindowController {
 
     override func showWindow(_ sender: Any?) {
         self.window?.makeKeyAndOrderFront(sender)
+    }
+
+    private func bindWindowTitle() {
+        self.viewModel.$selectedTab
+            .sink { [weak self] tab in
+                self?.updateWindowTitle(for: tab)
+            }
+            .store(in: &self.cancellables)
+    }
+
+    private func updateWindowTitle(for tab: AboutWindowViewModel.Tab) {
+        self.window?.title = tab.title
     }
 }
 

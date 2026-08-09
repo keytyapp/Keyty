@@ -6,8 +6,10 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
+import AppKit
 import Combine
 import Foundation
+import SwiftUI
 
 @MainActor
 final class AboutWindowViewModel: ObservableObject {
@@ -152,6 +154,41 @@ extension AboutWindowViewModel {
             case .credits:
                 L10n.About.Tab.credits
             }
+        }
+
+        var systemImageName: String {
+            switch self {
+            case .license:
+                "doc.text.fill"
+            case .contributors:
+                "person.2.fill"
+            case .credits:
+                "sparkles"
+            }
+        }
+
+        var iconBaseColor: NSColor {
+            switch self {
+            case .license:
+                Color.Theme.Palette.blue
+            case .contributors:
+                Color.Theme.Palette.green
+            case .credits:
+                Color.Theme.Palette.orange
+            }
+        }
+
+        var iconGradient: LinearGradient {
+            let baseColor = self.iconBaseColor
+
+            return LinearGradient(
+                colors: [
+                    Color(appKitColor: baseColor.lightened(by: 0.18)),
+                    Color(appKitColor: baseColor)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
         }
     }
 }

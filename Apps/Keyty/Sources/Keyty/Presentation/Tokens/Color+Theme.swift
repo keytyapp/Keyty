@@ -20,8 +20,6 @@ extension Color.Theme {
 
     enum Settings {
         static let clear = Color.clear
-        static let sidebarGlassOuterBorder = Color.white.opacity(0.10)
-        static let sidebarGlassInnerBorder = Color.white.opacity(0.04)
     }
 
     enum Surface {
@@ -38,9 +36,9 @@ extension Color.Theme {
 
     enum Border {
         static let primary = Color.white.opacity(0.07)
-        static let sidebar = Color.white.opacity(0.05)
-        static let headerSeparator = Color.white.opacity(0.08)
-        static let selection = Color.white.opacity(0.12)
+        static let sidebar = Color(appKitColor: .separatorColor).opacity(0.55)
+        static let headerSeparator = Color(appKitColor: .separatorColor).opacity(0.4)
+        static let selection = Color(appKitColor: .separatorColor).opacity(0.2)
         static let iconBadgeSelected = Color.white.opacity(0.18)
         static let iconBadgeUnselected = Color.white.opacity(0.10)
     }
@@ -50,7 +48,6 @@ extension Color.Theme {
         static let header = Color(appKitColor: .headerTextColor)
         static let secondary = Color(appKitColor: .secondaryLabelColor)
         static let selected = Color(appKitColor: .selectedTextColor)
-        static let alternateSelectedControl = Color(appKitColor: .alternateSelectedControlTextColor)
         
         static let sidebarItem = Color(appKitColor: .labelColor)
         static let sidebarItemSelected = Color.white

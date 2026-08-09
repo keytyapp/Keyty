@@ -40,7 +40,7 @@ private extension SettingsDetailContainer {
     var paneHeader: some View {
         VStack(spacing: Spacing.none) {
             ZStack {
-                VisualEffectView(material: .sidebar)
+                VisualEffectView(material: .headerView)
 
                 HStack(alignment: .center, spacing: Spacing.sm) {
                     Text(self.title)

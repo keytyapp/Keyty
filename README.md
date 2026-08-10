@@ -20,8 +20,9 @@
   <a href="Docs/README.de.md">Deutsch</a> |
   <a href="Docs/README.es.md">Español</a> |
   <a href="Docs/README.fr.md">Français</a> |
-  <a href="Docs/README.ja.md">日本語</a> |
+  <a href="Docs/README.pl.md">Polski</a> |
   <a href="Docs/README.uk.md">Українська</a> |
+  <a href="Docs/README.ja.md">日本語</a> |
   <a href="Docs/README.zh-Hans.md">简体中文</a>
 </p>
 

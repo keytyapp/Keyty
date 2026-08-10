@@ -78,7 +78,9 @@ struct KeyboardSettingsPane: View {
                     ) {
                         self.legendColorControls
                     }
-                    
+
+                    Divider()
+
                     self.themePicker(
                         title: L10n.KeyboardVisualizer.regularThemeLabel,
                         subtitle: L10n.KeyboardVisualizer.regularThemeSubtitle,

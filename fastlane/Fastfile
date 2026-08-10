@@ -16,8 +16,6 @@
 #   NOTARY_APPLE_ID / NOTARY_PASSWORD                -> Apple ID app-specific password
 #   SPARKLE_ED_KEY_FILE                              -> EdDSA private key file
 #   APPCAST_DOWNLOAD_PREFIX                          -> base URL for enclosures
-#   STAGING_APPCAST_URL                              -> feed URL compiled into staging builds
-#   STAGING_APPCAST_DOWNLOAD_PREFIX                  -> staging base URL for enclosures
 #   KEYTY_RELEASE_TEAM_ID                            -> Developer ID team
 #   KEYTY_RELEASE_CODE_SIGN_IDENTITY                 -> release signing identity
 #   KEYTY_NOTARY_PROFILE                             -> local notarytool keychain profile
@@ -38,8 +36,6 @@ BUILD_DIR  = File.join(REPO_ROOT, "build", "release")   # gitignored (build/)
 DIST_DIR   = File.join(REPO_ROOT, "dist")               # release artifacts + appcast.xml
 APPCAST_DIST_DIR = File.join(DIST_DIR, "appcast")       # production Sparkle feed inputs
 BETA_DIST_DIR = File.join(DIST_DIR, "beta")             # local test distribution artifacts
-STAGING_DIST_DIR = File.join(DIST_DIR, "staging")       # staging appcast + artifacts
-STAGING_APPCAST_DIST_DIR = File.join(STAGING_DIST_DIR, "appcast")
 APPCAST_FILENAME = "appcast.xml"
 DMG_SCRIPT = File.join(REPO_ROOT, "scripts", "build-dmg.sh")
 APP_ENTITLEMENTS = File.join(REPO_ROOT, "Apps", "Keyty", "Sources", "Keyty", "Resources", "Keyty.entitlements")
@@ -54,7 +50,6 @@ RELEASE_CODE_SIGN_IDENTITY = ENV["KEYTY_RELEASE_CODE_SIGN_IDENTITY"] || "Develop
 # unique per release.
 DOWNLOAD_PREFIX = ENV["APPCAST_DOWNLOAD_PREFIX"].to_s.strip
 PRODUCTION_APPCAST_URL = "https://keyty.app/appcast.xml"
-DEFAULT_STAGING_APPCAST_URL = "https://keyty.app/staging/appcast.xml"
 
 platform :mac do
   desc "Full release: build, sign, notarize, staple, GitHub release, update appcast"
@@ -111,38 +106,6 @@ platform :mac do
     UI.message("ZIP: #{zip}")
     UI.message("Skipped GitHub release, Sparkle appcast generation, and feed publishing.")
   end
-
-  desc "Staging appcast test: build, sign, notarize, prerelease, update staging appcast"
-  lane :appcast_staging do |options|
-    generate_project
-
-    version = options[:version] || marketing_version
-    build   = (options[:build] || build_number).to_s
-    tag     = (options[:tag] || "v#{version}-test").to_s
-    feed_url = staging_appcast_url(options)
-    app     = File.join(BUILD_DIR, "#{APP_NAME}.app")
-    zip     = File.join(STAGING_APPCAST_DIST_DIR, "#{APP_NAME}.zip")
-    dmg     = File.join(STAGING_DIST_DIR, "#{APP_NAME}.dmg")
-    download_prefix = staging_appcast_download_prefix(tag: tag)
-    UI.header("Building staging #{APP_NAME} #{version} (#{build}) for #{feed_url}")
-
-    build_distribution_artifacts(version: version, build: build, app: app, zip: zip, dmg: dmg, feed_url: feed_url)
-
-    seed_appcast_history(feed_url: feed_url, archive_dir: STAGING_APPCAST_DIST_DIR)
-
-    sh("gh release create #{tag.shellescape} #{zip.shellescape} " \
-       "#{dmg.shellescape} --title #{"#{APP_NAME} #{version} Staging".shellescape} " \
-       "--generate-notes --prerelease")
-
-    generate_cumulative_appcast(
-      archive_dir: STAGING_APPCAST_DIST_DIR,
-      output_path: File.join(STAGING_DIST_DIR, APPCAST_FILENAME),
-      download_prefix: download_prefix
-    )
-
-    UI.success("Built staging appcast test release #{tag}.")
-    UI.message("Next: publish #{STAGING_DIST_DIR}/appcast.xml to #{feed_url}.")
-  end
 end
 
 # --- helpers ---------------------------------------------------------------
@@ -153,17 +116,6 @@ end
 
 def appcast_download_prefix(tag:)
   return trailing_slash(DOWNLOAD_PREFIX) unless DOWNLOAD_PREFIX.empty?
-
-  github_release_download_prefix(tag: tag)
-end
-
-def staging_appcast_url(options)
-  (options[:feed_url] || ENV["STAGING_APPCAST_URL"] || DEFAULT_STAGING_APPCAST_URL).to_s.strip
-end
-
-def staging_appcast_download_prefix(tag:)
-  prefix = ENV["STAGING_APPCAST_DOWNLOAD_PREFIX"].to_s.strip
-  return trailing_slash(prefix) unless prefix.empty?
 
   github_release_download_prefix(tag: tag)
 end

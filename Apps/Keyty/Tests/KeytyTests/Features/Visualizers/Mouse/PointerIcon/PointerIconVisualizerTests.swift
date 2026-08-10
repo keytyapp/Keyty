@@ -133,16 +133,18 @@ final class PointerIconVisualizerTests: XCTestCase {
 
     func testIdleAlwaysVisibleIconFollowsNativeCursorVisibility() {
         XCTAssertTrue(
-            PointerIconVisualizerWindow.shouldBeVisible(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
                 isEnabled: true,
+                isPresentationActive: true,
                 alwaysVisible: true,
                 isTransientlyVisible: false,
                 isCursorVisible: true
             )
         )
         XCTAssertFalse(
-            PointerIconVisualizerWindow.shouldBeVisible(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
                 isEnabled: true,
+                isPresentationActive: true,
                 alwaysVisible: true,
                 isTransientlyVisible: false,
                 isCursorVisible: false
@@ -152,8 +154,9 @@ final class PointerIconVisualizerTests: XCTestCase {
 
     func testTransientPointerActivityRemainsVisibleWhenNativeCursorIsHidden() {
         XCTAssertTrue(
-            PointerIconVisualizerWindow.shouldBeVisible(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
                 isEnabled: true,
+                isPresentationActive: true,
                 alwaysVisible: true,
                 isTransientlyVisible: true,
                 isCursorVisible: false
@@ -163,8 +166,9 @@ final class PointerIconVisualizerTests: XCTestCase {
 
     func testDisabledPointerIconRemainsHidden() {
         XCTAssertFalse(
-            PointerIconVisualizerWindow.shouldBeVisible(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
                 isEnabled: false,
+                isPresentationActive: true,
                 alwaysVisible: true,
                 isTransientlyVisible: true,
                 isCursorVisible: true

@@ -58,8 +58,6 @@ Optionally configure these repository variables:
 | Variable | Description |
 |---|---|
 | `APPCAST_DOWNLOAD_PREFIX` | Sparkle enclosure URL prefix. By default, the release lane uses the current GitHub release asset URL, such as `https://github.com/keytyapp/Keyty/releases/download/v0.8.0/` |
-| `STAGING_APPCAST_URL` | Feed URL compiled into staging builds, default `https://keyty.app/staging/appcast.xml` |
-| `STAGING_APPCAST_DOWNLOAD_PREFIX` | Staging Sparkle enclosure URL prefix. By default, the staging lane uses the current GitHub prerelease asset URL |
 | `KEYTY_RELEASE_TEAM_ID` | Developer ID team, default `NEVA4MAZBL` |
 
 The release workflow uploads generated appcast artifacts as an Actions artifact.
@@ -85,9 +83,9 @@ other fetch failures stop the lane before creating the GitHub release.
 - The stable artifact names support GitHub's latest-release download URLs, for example `https://github.com/keytyapp/Keyty/releases/latest/download/Keyty.dmg`.
 - Appcast generation reads the zip from an appcast-only directory so the DMG is
   not scanned as a duplicate update.
-- Production and staging appcasts are cumulative. Previous appcast items keep
-  their original tag-specific GitHub asset URLs, while the new item uses the
-  current release or prerelease tag.
+- The production appcast is cumulative. Previous appcast items keep their
+  original tag-specific GitHub asset URLs, while the new item uses the current
+  release tag.
 - The DMG is built by [`scripts/build-dmg.sh`](../scripts/build-dmg.sh) from the signed app bundle and includes a drag-to-`Applications` layout.
 - `dmgbuild` is the preferred branded DMG backend because it does not require an interactive Finder session. The packaging script falls back to the older Finder AppleScript backend when `dmgbuild` is unavailable locally.
 
@@ -110,81 +108,6 @@ You can override the version or build number for a one-off test:
 
 ```bash
 bundle exec fastlane beta version:0.8.0 build:123
-```
-
-## Staging Appcast Test
-
-Use the `Staging Appcast` workflow when you need to test the full Sparkle update
-path before publishing the production appcast. It runs the `appcast_staging`
-lane, builds a Developer ID signed and notarized app whose `SUFeedURL` points to
-`https://keyty.app/staging/appcast.xml`, creates a public GitHub prerelease with
-stable `Keyty.zip` and `Keyty.dmg` assets, generates `dist/staging/appcast.xml`
-pointing to that prerelease asset URL, and uploads `dist/` as a workflow
-artifact.
-
-Like production, the staging lane first downloads the currently published
-`staging/appcast.xml` and preserves its existing items. Delete or overwrite the
-staging feed when you intentionally want to reset staging history after testing.
-
-Run the `Staging Appcast` workflow with these inputs to build and publish an
-initial staging version:
-
-```text
-version: 0.9.0
-build: 90
-tag: v0.9.0-test
-feed_url: https://keyty.app/staging/appcast.xml
-```
-
-Download the `staging-appcast-artifacts` workflow artifact and publish
-`staging/appcast.xml` through Vercel at:
-
-```text
-https://keyty.app/staging/appcast.xml
-```
-
-Then install the staging `0.9.0` app from the prerelease.
-
-Run the `Staging Appcast` workflow again to build and publish the staging
-update:
-
-```text
-version: 0.9.1
-build: 91
-tag: v0.9.1-test
-feed_url: https://keyty.app/staging/appcast.xml
-```
-
-Download the updated `staging-appcast-artifacts` workflow artifact and publish
-the updated `staging/appcast.xml` through Vercel. Then use Check for Updates in
-the installed staging `0.9.0` app. Sparkle should offer the `0.9.1` update from
-the GitHub prerelease asset. The updated staging appcast will include both the
-`0.9.0` and `0.9.1` staging items until you reset it:
-
-```text
-https://github.com/keytyapp/Keyty/releases/download/v0.9.1-test/Keyty.zip
-```
-
-After testing, delete the staging prereleases and tags:
-
-```bash
-gh release delete v0.9.0-test --yes
-gh release delete v0.9.1-test --yes
-git push origin :refs/tags/v0.9.0-test
-git push origin :refs/tags/v0.9.1-test
-git tag -d v0.9.0-test v0.9.1-test
-```
-
-Remove or overwrite `https://keyty.app/staging/appcast.xml` before publishing
-the production appcast. The production `Release` workflow skips `*-test` tags,
-so staging tags such as `v0.9.0-test` cannot accidentally run the production
-release job.
-
-You can also run the lane locally with the same parameters if you want to build
-the staging artifacts on a maintainer Mac:
-
-```bash
-bundle exec fastlane appcast_staging version:0.9.0 build:90 tag:v0.9.0-test
 ```
 
 ## Release Checklist

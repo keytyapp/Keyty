@@ -12,6 +12,7 @@ import Combine
 @MainActor
 final class PointerIconVisualizer {
     private let settings: any PointerIconSettingsProtocol & ReactiveSettings
+    private let cursorVisibilityProvider: any CursorVisibilityProviding
     private var cancellables = Set<AnyCancellable>()
     private var window: PointerIconVisualizerWindow?
     private var tracker: DisplayTracker?
@@ -27,8 +28,12 @@ final class PointerIconVisualizer {
         self.window != nil
     }
 
-    init(settings: any PointerIconSettingsProtocol & ReactiveSettings = PointerIconSettings()) {
+    init(
+        settings: any PointerIconSettingsProtocol & ReactiveSettings = PointerIconSettings(),
+        cursorVisibilityProvider: any CursorVisibilityProviding = SystemCursorVisibilityProvider()
+    ) {
         self.settings = settings
+        self.cursorVisibilityProvider = cursorVisibilityProvider
         self.settings.changes
             .sink { [weak self] in
                 Task { @MainActor in
@@ -74,7 +79,12 @@ private extension PointerIconVisualizer {
     }
 
     func show() {
-        if self.window == nil { self.window = PointerIconVisualizerWindow.make(settings: self.settings) }
+        if self.window == nil {
+            self.window = PointerIconVisualizerWindow(
+                settings: self.settings,
+                cursorVisibilityProvider: self.cursorVisibilityProvider
+            )
+        }
         self.window?.update(screenLocation: NSEvent.mouseLocation)
         self.window?.refreshVisibility()
         self.startTracking()
@@ -89,6 +99,7 @@ private extension PointerIconVisualizer {
         guard self.tracker == nil else { return }
         self.tracker = DisplayTracker { [weak self] in
             self?.window?.update(screenLocation: NSEvent.mouseLocation)
+            self?.window?.refreshVisibility()
         }
         self.tracker?.start()
     }

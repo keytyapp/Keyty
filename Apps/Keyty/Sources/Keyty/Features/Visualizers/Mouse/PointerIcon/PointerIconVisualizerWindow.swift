@@ -7,16 +7,17 @@
 //
 
 import AppKit
-import Combine
 
 final class PointerIconVisualizerWindow: NSWindow {
-    private let settings: any PointerIconSettingsProtocol & ReactiveSettings
-    private var cancellables = Set<AnyCancellable>()
+    private let pointerContentView: PointerIconContentView
 
-    init(settings: any PointerIconSettingsProtocol & ReactiveSettings) {
-        self.settings = settings
+    init(
+        contentView: PointerIconContentView,
+        contentSize: NSSize
+    ) {
+        self.pointerContentView = contentView
         super.init(
-            contentRect: NSRect(origin: .zero, size: PointerIconContentView.windowSize(settings: settings)),
+            contentRect: NSRect(origin: .zero, size: contentSize),
             styleMask: .borderless,
             backing: .buffered,
             defer: false
@@ -27,51 +28,29 @@ final class PointerIconVisualizerWindow: NSWindow {
         self.alphaValue = 1
         self.ignoresMouseEvents = true
         self.collectionBehavior = .canJoinAllSpaces
-
-        settings.changes
-            .sink { [weak self] in
-                Task { @MainActor in
-                    self?.settingsDidChange()
-                }
-            }
-            .store(in: &self.cancellables)
+        self.contentView = self.pointerContentView
     }
 
-    private func settingsDidChange() {
-        let newSize = PointerIconContentView.windowSize(settings: self.settings)
-        self.setContentSize(newSize)
+    func updateContentSize(_ size: NSSize) {
+        self.setContentSize(size)
         self.contentView?.needsDisplay = true
-        self.update(screenLocation: NSEvent.mouseLocation)
-        self.refreshVisibility()
     }
 
-    static func make(settings: any PointerIconSettingsProtocol & ReactiveSettings) -> PointerIconVisualizerWindow {
-        let window = PointerIconVisualizerWindow(settings: settings)
-        let contentView = PointerIconContentView(settings: settings)
-        contentView.visibilityDidChange = { [weak window] _ in
-            window?.refreshVisibility()
-        }
-        window.contentView = contentView
-        return window
-    }
-
-    func update(screenLocation: NSPoint) {
-        let size = frame.size
-        let origin = self.settings.anchor.origin(relativeTo: screenLocation, windowSize: size, offset: self.settings.offset)
+    func update(screenLocation: NSPoint, anchor: PointerIconAnchor, offset: CGFloat) {
+        let size = self.frame.size
+        let origin = anchor.origin(relativeTo: screenLocation, windowSize: size, offset: offset)
         self.setFrameOrigin(origin)
     }
 
     func update(mouseEvent: MouseEvent) {
-        (contentView as? PointerIconContentView)?.handle(mouseEvent: mouseEvent)
-        self.refreshVisibility()
+        self.pointerContentView.handle(mouseEvent: mouseEvent)
     }
 
-    func refreshVisibility() {
-        let isTransientlyVisible = (contentView as? PointerIconContentView)?.isTransientlyVisible ?? false
-        if self.settings.isEnabled, self.settings.alwaysVisible || isTransientlyVisible {
-            orderFrontRegardless()
+    func setVisible(_ isVisible: Bool) {
+        if isVisible {
+            self.orderFrontRegardless()
         } else {
-            orderOut(nil)
+            self.orderOut(nil)
         }
     }
 }

@@ -131,6 +131,51 @@ final class PointerIconVisualizerTests: XCTestCase {
         XCTAssertTrue(view.isTransientlyVisible)
     }
 
+    func testIdleAlwaysVisibleIconFollowsNativeCursorVisibility() {
+        XCTAssertTrue(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
+                isEnabled: true,
+                isPresentationActive: true,
+                alwaysVisible: true,
+                isTransientlyVisible: false,
+                isCursorVisible: true
+            )
+        )
+        XCTAssertFalse(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
+                isEnabled: true,
+                isPresentationActive: true,
+                alwaysVisible: true,
+                isTransientlyVisible: false,
+                isCursorVisible: false
+            )
+        )
+    }
+
+    func testTransientPointerActivityRemainsVisibleWhenNativeCursorIsHidden() {
+        XCTAssertTrue(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
+                isEnabled: true,
+                isPresentationActive: true,
+                alwaysVisible: true,
+                isTransientlyVisible: true,
+                isCursorVisible: false
+            )
+        )
+    }
+
+    func testDisabledPointerIconRemainsHidden() {
+        XCTAssertFalse(
+            PointerIconVisualizer.VisibilityPolicy.shouldShow(
+                isEnabled: false,
+                isPresentationActive: true,
+                alwaysVisible: true,
+                isTransientlyVisible: true,
+                isCursorVisible: true
+            )
+        )
+    }
+
     private func makeMouseEvent(type: CGEventType, button: CGMouseButton = .left, buttonNumber: Int = 0) throws -> MouseEvent {
         guard let cgEvent = CGEvent(
             mouseEventSource: nil,

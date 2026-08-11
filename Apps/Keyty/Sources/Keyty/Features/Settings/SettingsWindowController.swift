@@ -14,38 +14,19 @@ import SwiftUI
 @MainActor
 final class SettingsWindowController: NSWindowController {
     let sidebarViewModel = SettingsSidebarViewModel()
-    var onClose: (@MainActor () -> Void)?
 
     private let registry: SettingsPaneRegistry
+    private let displaysViewModel: DisplaysSettingsPaneViewModel
     private var cancellables = Set<AnyCancellable>()
     private var permissionObservationToken: PermissionObservationToken?
 
-    init(
-        shortcutManager: ShortcutManager,
-        resetAllSettingsToDefaults: @escaping @MainActor () -> Void,
-        appSettings: any AppSettingsProtocol,
-        pointerRingVisualizer: PointerRingVisualizer,
-        pointerRingSettings: any PointerRingSettingsProtocol,
-        pointerIconSettings: any PointerIconSettingsProtocol,
-        keyboardVisualizerSettings: KeyboardVisualizerSettings,
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void,
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?,
-        permissionsService: any PermissionsService,
-        updater: SPUUpdater
-    ) {
-        self.registry = SettingsPaneRegistry(
-            shortcutManager: shortcutManager,
-            resetAllSettingsToDefaults: resetAllSettingsToDefaults,
-            appSettings: appSettings,
-            pointerRingVisualizer: pointerRingVisualizer,
-            pointerRingSettings: pointerRingSettings,
-            pointerIconSettings: pointerIconSettings,
-            keyboardVisualizerSettings: keyboardVisualizerSettings,
-            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
-            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition,
-            permissionsService: permissionsService,
-            updater: updater
+    init(context: SettingsContext) {
+        let displaysViewModel = DisplaysSettingsPaneViewModel(
+            keyboardVisualizerSettings: context.keyboardVisualizerSettings,
+            placementCoordinator: context.placementCoordinator
         )
+        self.displaysViewModel = displaysViewModel
+        self.registry = SettingsPaneRegistry(context: context, displaysViewModel: displaysViewModel)
 
         let window = Window()
         let rootView = SettingsRootView(registry: self.registry, sidebarViewModel: self.sidebarViewModel)
@@ -54,7 +35,7 @@ final class SettingsWindowController: NSWindowController {
         super.init(window: window)
         window.delegate = self
         self.bindWindowTitle()
-        self.bindSidebarBadges(permissionsService: permissionsService)
+        self.bindSidebarBadges(permissionsService: context.permissionsService)
         self.updateWindowTitle(for: self.sidebarViewModel.selectedPaneID)
         window.center()
     }
@@ -107,8 +88,7 @@ final class SettingsWindowController: NSWindowController {
 // MARK: - NSWindowDelegate
 extension SettingsWindowController: NSWindowDelegate {
     func windowWillClose(_ notification: Notification) {
-        self.registry.finishTransientWork()
-        self.onClose?()
+        self.displaysViewModel.finishCustomPositionSetting()
     }
 }
 

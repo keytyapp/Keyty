@@ -15,10 +15,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     private var store: InMemoryKeyValueStore!
     private var keyboardVisualizerSettings: KeyboardVisualizerSettings!
     private var screensService: TestScreenService!
-    private var startSettingCallCount = 0
-    private var stopSettingCallCount = 0
-    private var placementToReturn: KeyboardVisualizerPlacementWindowController.Placement?
-    private var placementChangeHandler: KeyboardVisualizerPlacementWindowController.PlacementChangeHandler?
+    private var placementCoordinator: FakeKeyboardVisualizerPlacementCoordinator!
     private var model: DisplaysSettingsPaneViewModel!
 
     override func setUp() {
@@ -26,30 +23,17 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.store = InMemoryKeyValueStore()
         self.keyboardVisualizerSettings = KeyboardVisualizerSettings(store: self.store)
         self.screensService = TestScreenService()
-        self.startSettingCallCount = 0
-        self.stopSettingCallCount = 0
-        self.placementToReturn = nil
-        self.placementChangeHandler = nil
+        self.placementCoordinator = FakeKeyboardVisualizerPlacementCoordinator()
         self.model = DisplaysSettingsPaneViewModel(
             screensService: self.screensService,
             keyboardVisualizerSettings: self.keyboardVisualizerSettings,
-            startSettingKeyboardVisualizerPosition: { [weak self] onPlacementChanged in
-                self?.startSettingCallCount += 1
-                self?.placementChangeHandler = onPlacementChanged
-            },
-            stopSettingKeyboardVisualizerPosition: { [weak self] in
-                self?.stopSettingCallCount += 1
-                return self?.placementToReturn
-            }
+            placementCoordinator: self.placementCoordinator
         )
     }
 
     override func tearDown() {
         self.model = nil
-        self.placementChangeHandler = nil
-        self.placementToReturn = nil
-        self.stopSettingCallCount = 0
-        self.startSettingCallCount = 0
+        self.placementCoordinator = nil
         self.screensService = nil
         self.keyboardVisualizerSettings = nil
         self.store = nil
@@ -77,14 +61,14 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.model.toggleCustomPositionSetting()
 
         XCTAssertTrue(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.startSettingCallCount, 1)
-        XCTAssertEqual(self.stopSettingCallCount, 0)
+        XCTAssertEqual(self.placementCoordinator.startSettingCallCount, 1)
+        XCTAssertEqual(self.placementCoordinator.stopSettingCallCount, 0)
 
         self.model.toggleCustomPositionSetting()
 
         XCTAssertFalse(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.startSettingCallCount, 1)
-        XCTAssertEqual(self.stopSettingCallCount, 1)
+        XCTAssertEqual(self.placementCoordinator.startSettingCallCount, 1)
+        XCTAssertEqual(self.placementCoordinator.stopSettingCallCount, 1)
     }
 
     func testChangingPlacementModeStopsPositionSetting() {
@@ -94,7 +78,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.model.placementMode = .anchored
 
         XCTAssertFalse(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.stopSettingCallCount, 1)
+        XCTAssertEqual(self.placementCoordinator.stopSettingCallCount, 1)
     }
 
     func testAnchorSelectionReflectsPlacementMode() {
@@ -140,7 +124,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     }
 
     func testFinishingCustomPositionSettingStopsAndAppliesReturnedPlacement() {
-        self.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
+        self.placementCoordinator.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
             screenID: 2,
             positionX: 0.3,
             positionY: 0.7
@@ -150,7 +134,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.model.finishCustomPositionSetting()
 
         XCTAssertFalse(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.stopSettingCallCount, 1)
+        XCTAssertEqual(self.placementCoordinator.stopSettingCallCount, 1)
         XCTAssertEqual(self.model.selectedScreenID, 2)
         XCTAssertEqual(self.keyboardVisualizerSettings.screenID, 2)
         XCTAssertEqual(self.model.customPositionNormalizedX, 0.3, accuracy: 0.0001)
@@ -163,11 +147,11 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         self.model.finishCustomPositionSetting()
 
         XCTAssertFalse(self.model.isSettingCustomPosition)
-        XCTAssertEqual(self.stopSettingCallCount, 0)
+        XCTAssertEqual(self.placementCoordinator.stopSettingCallCount, 0)
     }
 
     func testStoppingCustomPositionSettingAppliesReturnedPlacement() {
-        self.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
+        self.placementCoordinator.placementToReturn = KeyboardVisualizerPlacementWindowController.Placement(
             screenID: 2,
             positionX: 0.25,
             positionY: 0.75
@@ -187,7 +171,7 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     func testPlacementChangeWhileSettingAppliesPlacement() {
         self.model.toggleCustomPositionSetting()
 
-        self.placementChangeHandler?(
+        self.placementCoordinator.placementChangeHandler?(
             KeyboardVisualizerPlacementWindowController.Placement(
                 screenID: 2,
                 positionX: 0.4,
@@ -202,6 +186,26 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.model.customPositionNormalizedY, 0.6, accuracy: 0.0001)
         XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedX, 0.4, accuracy: 0.0001)
         XCTAssertEqual(self.keyboardVisualizerSettings.customPositionNormalizedY, 0.6, accuracy: 0.0001)
+    }
+}
+
+@MainActor
+private final class FakeKeyboardVisualizerPlacementCoordinator: KeyboardVisualizerPlacementCoordinating {
+    private(set) var startSettingCallCount = 0
+    private(set) var stopSettingCallCount = 0
+    var placementToReturn: KeyboardVisualizerPlacementWindowController.Placement?
+    var placementChangeHandler: KeyboardVisualizerPlacementWindowController.PlacementChangeHandler?
+
+    func startSettingPosition(
+        onPlacementChanged: @escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler
+    ) {
+        self.startSettingCallCount += 1
+        self.placementChangeHandler = onPlacementChanged
+    }
+
+    func stopSettingPosition() -> KeyboardVisualizerPlacementWindowController.Placement? {
+        self.stopSettingCallCount += 1
+        return self.placementToReturn
     }
 }
 

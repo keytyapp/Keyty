@@ -30,6 +30,9 @@ final class AppUIContainer {
         )
         let settingsWindowController = SettingsWindowController(
             shortcutManager: services.shortcutManager,
+            resetAllSettingsToDefaults: {
+                settings.resetAllSettingsToDefaults()
+            },
             appSettings: settings.appSettings,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
             pointerRingSettings: settings.pointerRingSettings,

@@ -23,6 +23,7 @@ struct SettingsPaneRegistry {
 
     init(
         shortcutManager: ShortcutManager,
+        resetAllSettingsToDefaults: @escaping @MainActor () -> Void,
         appSettings: any AppSettingsProtocol,
         pointerRingVisualizer: PointerRingVisualizer,
         pointerRingSettings: any PointerRingSettingsProtocol,
@@ -49,7 +50,8 @@ struct SettingsPaneRegistry {
                     AnyView(
                         GeneralSettingsPane(
                             shortcutManager: shortcutManager,
-                            appSettings: appSettings
+                            appSettings: appSettings,
+                            onResetAllSettingsToDefaults: resetAllSettingsToDefaults
                         )
                     )
                 }

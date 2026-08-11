@@ -63,6 +63,11 @@
 "general.stop_capturing" = "Disable";
 "general.show_settings_at_launch" = "Show settings at launch";
 "general.show_settings_at_launch_subtitle" = "Reopen the settings window automatically when Keyty starts.";
+"general.reset_all_settings_button" = "Reset All Settings";
+"general.reset_all_settings_confirmation_title" = "Reset All Settings?";
+"general.reset_all_settings_confirmation_message" = "Reset all settings, including shortcuts, to their defaults?";
+"general.reset_all_settings_confirmation_button" = "Reset Settings";
+"general.reset_all_settings_cancel_button" = "Cancel";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Could not create key event tap. Accessibility permission is required.";

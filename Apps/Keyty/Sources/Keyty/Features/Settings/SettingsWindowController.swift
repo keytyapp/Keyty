@@ -22,6 +22,7 @@ final class SettingsWindowController: NSWindowController {
 
     init(
         shortcutManager: ShortcutManager,
+        resetAllSettingsToDefaults: @escaping @MainActor () -> Void,
         appSettings: any AppSettingsProtocol,
         pointerRingVisualizer: PointerRingVisualizer,
         pointerRingSettings: any PointerRingSettingsProtocol,
@@ -34,6 +35,7 @@ final class SettingsWindowController: NSWindowController {
     ) {
         self.registry = SettingsPaneRegistry(
             shortcutManager: shortcutManager,
+            resetAllSettingsToDefaults: resetAllSettingsToDefaults,
             appSettings: appSettings,
             pointerRingVisualizer: pointerRingVisualizer,
             pointerRingSettings: pointerRingSettings,
@@ -59,7 +61,7 @@ final class SettingsWindowController: NSWindowController {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) {
-        fatalError("Use init(shortcutManager:appSettings:pointerRingVisualizer:pointerRingSettings:pointerIconSettings:keyboardVisualizerSettings:startSettingKeyboardVisualizerPosition:stopSettingKeyboardVisualizerPosition:permissionsService:updater:) instead.")
+        fatalError("Use the designated SettingsWindowController initializer instead.")
     }
 
     override func showWindow(_ sender: Any?) {

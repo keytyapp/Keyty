@@ -24,6 +24,7 @@ protocol PlacementReactiveSettings: AnyObject {
 
 protocol AnyStoredSetting {
     var defaultRegistration: (key: String, value: Any)? { get }
+    func reset(in store: KeyValueStore)
 }
 
 private protocol AnyOptional {
@@ -65,6 +66,10 @@ struct Stored<Value>: AnyStoredSetting {
         return (self.descriptor.key, self.descriptor.registrationValue)
     }
 
+    func reset(in store: KeyValueStore) {
+        store.removeObject(forKey: self.descriptor.key)
+    }
+
     @available(*, unavailable, message: "@Stored can only be used on reference types that conform to HasSettingsStore.")
     var wrappedValue: Value {
         get { fatalError() }
@@ -100,6 +105,12 @@ enum StoredDefaults {
 extension HasSettingsStore {
     func registerStoredDefaults() {
         StoredDefaults.register(from: self, into: self.store)
+    }
+
+    func resetStoredSettingsToDefaults() {
+        Mirror(reflecting: self).children.forEach { child in
+            (child.value as? AnyStoredSetting)?.reset(in: self.store)
+        }
     }
 }
 

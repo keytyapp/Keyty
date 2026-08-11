@@ -12,6 +12,7 @@ protocol AppSettingsProtocol: AnyObject {
     var visibleAtLaunch: Bool { get set }
 
     func registerDefaults()
+    func resetToDefaults()
 }
 
 final class AppSettings: AppSettingsProtocol, HasSettingsStore {
@@ -28,5 +29,9 @@ final class AppSettings: AppSettingsProtocol, HasSettingsStore {
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func resetToDefaults() {
+        self.resetStoredSettingsToDefaults()
     }
 }

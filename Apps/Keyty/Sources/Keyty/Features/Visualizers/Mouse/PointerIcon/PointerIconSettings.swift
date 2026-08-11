@@ -20,6 +20,7 @@ protocol PointerIconSettingsProtocol: AnyObject {
     var iconSize: NSSize { get }
 
     func registerDefaults()
+    func resetToDefaults()
 }
 
 final class PointerIconSettings: PointerIconSettingsProtocol, ReactiveSettings, HasSettingsStore {
@@ -84,6 +85,10 @@ final class PointerIconSettings: PointerIconSettingsProtocol, ReactiveSettings, 
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func resetToDefaults() {
+        self.resetStoredSettingsToDefaults()
     }
 
     private func storeDidChange() {

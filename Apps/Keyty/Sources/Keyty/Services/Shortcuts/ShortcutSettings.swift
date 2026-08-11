@@ -12,6 +12,7 @@ protocol ShortcutSettingsProtocol: AnyObject {
     var capturingHotKeyData: Data? { get set }
 
     func registerDefaults()
+    func resetToDefaults()
 }
 
 final class ShortcutSettings: ShortcutSettingsProtocol, HasSettingsStore {
@@ -28,5 +29,9 @@ final class ShortcutSettings: ShortcutSettingsProtocol, HasSettingsStore {
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func resetToDefaults() {
+        self.resetStoredSettingsToDefaults()
     }
 }

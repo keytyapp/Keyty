@@ -37,4 +37,14 @@ final class AppSettingsTests: XCTestCase {
         XCTAssertFalse(settings.visibleAtLaunch)
         XCTAssertFalse(store.bool(forKey: AppSettings.visibleAtLaunchKey))
     }
+
+    func testResetToDefaultsRemovesStoredValue() {
+        settings.registerDefaults()
+        settings.visibleAtLaunch = false
+
+        settings.resetToDefaults()
+
+        XCTAssertTrue(settings.visibleAtLaunch)
+        XCTAssertTrue(store.bool(forKey: AppSettings.visibleAtLaunchKey))
+    }
 }

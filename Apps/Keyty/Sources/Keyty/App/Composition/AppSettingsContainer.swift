@@ -35,4 +35,12 @@ final class AppSettingsContainer {
         self.shortcutSettings.registerDefaults()
         self.keyboardVisualizerSettings.registerDefaults()
     }
+
+    func resetAllSettingsToDefaults() {
+        self.appSettings.resetToDefaults()
+        self.pointerRingSettings.resetToDefaults()
+        self.pointerIconSettings.resetToDefaults()
+        self.shortcutSettings.resetToDefaults()
+        self.keyboardVisualizerSettings.resetToDefaults()
+    }
 }

@@ -56,6 +56,7 @@
 /* General settings pane */
 "general.appearance_section_title" = "App";
 "general.shortcut_section_title" = "Shortcut";
+"general.settings_section_title" = "Settings";
 "general.toggle_capturing_label" = "Toggle capturing";
 "general.toggle_capturing_subtitle" = "Global shortcut used to start or stop capturing from anywhere.";
 "general.shortcut_validation_fallback" = "This shortcut cannot be used.";
@@ -63,6 +64,13 @@
 "general.stop_capturing" = "Disable";
 "general.show_settings_at_launch" = "Show settings at launch";
 "general.show_settings_at_launch_subtitle" = "Reopen the settings window automatically when Keyty starts.";
+"general.reset_all_settings_title" = "Reset All Settings";
+"general.reset_all_settings_subtitle" = "Reset keyboard, mouse, display, app, and shortcut settings to their defaults.";
+"general.reset_all_settings_button" = "Reset";
+"general.reset_all_settings_confirmation_title" = "Reset All Settings?";
+"general.reset_all_settings_confirmation_message" = "This will reset keyboard, mouse, display, app, and shortcut settings to their defaults.";
+"general.reset_all_settings_confirmation_button" = "Reset Settings";
+"general.reset_all_settings_cancel_button" = "Cancel";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Could not create key event tap. Accessibility permission is required.";

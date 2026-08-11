@@ -49,6 +49,7 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var showMouseEvents: Bool { get set }
 
     func registerDefaults()
+    func resetToDefaults()
     func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat)
 }
 
@@ -74,6 +75,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     func registerDefaults() {
         self.registerStoredDefaults()
+    }
+
+    func resetToDefaults() {
+        self.resetStoredSettingsToDefaults()
+        self.isEnabledChangesSubject.send(self.isEnabled)
+        self.placementChangesSubject.send(())
     }
 
     func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat) {

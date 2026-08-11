@@ -63,6 +63,14 @@
 "general.stop_capturing" = "無効にする";
 "general.show_settings_at_launch" = "起動時に設定を表示";
 "general.show_settings_at_launch_subtitle" = "Keytyの起動時に設定ウインドウを自動的に開きます。";
+"general.settings_section_title" = "設定";
+"general.reset_all_settings_title" = "すべての設定をリセット";
+"general.reset_all_settings_subtitle" = "キーボード、マウス、ディスプレイ、アプリ、ショートカットの設定をデフォルトに戻します。";
+"general.reset_all_settings_button" = "リセット";
+"general.reset_all_settings_confirmation_title" = "すべての設定をリセットしますか？";
+"general.reset_all_settings_confirmation_message" = "キーボード、マウス、ディスプレイ、アプリ、ショートカットの設定がデフォルトに戻ります。";
+"general.reset_all_settings_confirmation_button" = "設定をリセット";
+"general.reset_all_settings_cancel_button" = "キャンセル";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "キーボード入力の検出を開始できませんでした。アクセシビリティへのアクセス権が必要です。";

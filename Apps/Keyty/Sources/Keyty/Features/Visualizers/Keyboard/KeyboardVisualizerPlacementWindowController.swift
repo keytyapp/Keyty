@@ -9,7 +9,7 @@
 import AppKit
 
 @MainActor
-final class KeyboardVisualizerPlacementWindowController: NSWindowController {
+final class KeyboardVisualizerPlacementWindowController: NSWindowController, KeyboardVisualizerPlacementCoordinating {
     struct Placement {
         let screenID: CGDirectDisplayID
         let positionX: CGFloat

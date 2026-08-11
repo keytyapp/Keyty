@@ -18,6 +18,7 @@ protocol PointerRingSettingsProtocol: AnyObject {
     var shape: PointerRingShape { get set }
 
     func registerDefaults()
+    func resetToDefaults()
 }
 
 private struct PointerRingVisualSettingsSnapshot: Equatable {
@@ -96,6 +97,10 @@ final class PointerRingSettings: PointerRingSettingsProtocol, ReactiveSettings, 
     func registerDefaults() {
         self.registerStoredDefaults()
         self.visualSettingsSnapshot = self.currentVisualSettingsSnapshot
+    }
+
+    func resetToDefaults() {
+        self.resetStoredSettingsToDefaults()
     }
 
     private func storeDidChange() {

@@ -28,30 +28,15 @@ final class AppUIContainer {
         self.permissionsOnboardingWindowController = PermissionsOnboardingWindowController(
             permissionsService: services.permissionsService
         )
-        let settingsWindowController = SettingsWindowController(
+        let settingsContext = SettingsContext(
+            settings: settings,
             shortcutManager: services.shortcutManager,
-            appSettings: settings.appSettings,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
-            pointerRingSettings: settings.pointerRingSettings,
-            pointerIconSettings: settings.pointerIconSettings,
-            keyboardVisualizerSettings: settings.keyboardVisualizerSettings,
-            startSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] onPlacementChanged in
-                keyboardVisualizerPlacementWindowController?.startSettingPosition(onPlacementChanged: onPlacementChanged)
-            },
-            stopSettingKeyboardVisualizerPosition: { [weak keyboardVisualizerPlacementWindowController] in
-                keyboardVisualizerPlacementWindowController?.stopSettingPosition()
-            },
             permissionsService: services.permissionsService,
-            updater: updater
+            updater: updater,
+            placementCoordinator: keyboardVisualizerPlacementWindowController
         )
-        settingsWindowController.onClose = { [weak keyboardVisualizerPlacementWindowController, keyboardVisualizerSettings = settings.keyboardVisualizerSettings] in
-            guard let placement = keyboardVisualizerPlacementWindowController?.stopSettingPosition() else { return }
-            keyboardVisualizerSettings.applyCustomPlacement(
-                screenID: placement.screenID,
-                normalizedX: placement.positionX,
-                normalizedY: placement.positionY
-            )
-        }
+        let settingsWindowController = SettingsWindowController(context: settingsContext)
         self.settingsWindowController = settingsWindowController
     }
 }

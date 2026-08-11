@@ -10,11 +10,17 @@ import SwiftUI
 
 struct GeneralSettingsPane: View {
     @StateObject private var model: GeneralSettingsPaneViewModel
+    @State private var isShowingResetConfirmation = false
 
-    init(shortcutManager: ShortcutManager, appSettings: any AppSettingsProtocol) {
+    init(
+        shortcutManager: ShortcutManager,
+        appSettings: any AppSettingsProtocol,
+        onResetAllSettingsToDefaults: @escaping @MainActor () -> Void
+    ) {
         _model = StateObject(wrappedValue: GeneralSettingsPaneViewModel(
             shortcutManager: shortcutManager,
-            appSettings: appSettings
+            appSettings: appSettings,
+            onResetAllSettingsToDefaults: onResetAllSettingsToDefaults
         ))
     }
 
@@ -53,6 +59,29 @@ struct GeneralSettingsPane: View {
                     }
                 }
             }
+
+            SettingsSectionView(title: L10n.General.settingsSectionTitle) {
+                SettingsControlRow(
+                    title: L10n.General.resetAllSettingsTitle,
+                    subtitle: L10n.General.resetAllSettingsSubtitle
+                ) {
+                    Button(L10n.General.resetAllSettingsButton) {
+                        self.isShowingResetConfirmation = true
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.regular)
+                }
+            }
+        }
+        .alert(isPresented: self.$isShowingResetConfirmation) {
+            Alert(
+                title: Text(L10n.General.resetAllSettingsConfirmationTitle),
+                message: Text(L10n.General.resetAllSettingsConfirmationMessage),
+                primaryButton: .destructive(Text(L10n.General.resetAllSettingsConfirmationButton)) {
+                    self.model.resetAllSettingsToDefaults()
+                },
+                secondaryButton: .cancel(Text(L10n.General.resetAllSettingsCancelButton))
+            )
         }
     }
 }

@@ -63,6 +63,14 @@
 "general.stop_capturing" = "Wyłącz";
 "general.show_settings_at_launch" = "Pokaż ustawienia przy uruchomieniu";
 "general.show_settings_at_launch_subtitle" = "Automatycznie ponownie otwieraj okno ustawień po uruchomieniu Keyty.";
+"general.settings_section_title" = "Ustawienia";
+"general.reset_all_settings_title" = "Resetuj wszystkie ustawienia";
+"general.reset_all_settings_subtitle" = "Resetuje ustawienia klawiatury, myszy, ekranu, aplikacji i skrótów do wartości domyślnych.";
+"general.reset_all_settings_button" = "Resetuj";
+"general.reset_all_settings_confirmation_title" = "Zresetować wszystkie ustawienia?";
+"general.reset_all_settings_confirmation_message" = "Spowoduje to zresetowanie ustawień klawiatury, myszy, ekranu, aplikacji i skrótów do wartości domyślnych.";
+"general.reset_all_settings_confirmation_button" = "Zresetuj ustawienia";
+"general.reset_all_settings_cancel_button" = "Anuluj";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń klawiatury. Wymagane jest uprawnienie Dostępność.";

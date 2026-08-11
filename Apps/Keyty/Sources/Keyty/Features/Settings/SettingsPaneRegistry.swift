@@ -19,27 +19,8 @@ struct SettingsPaneEntry: Identifiable {
 @MainActor
 struct SettingsPaneRegistry {
     let entries: [SettingsPaneEntry]
-    private let displaysViewModel: DisplaysSettingsPaneViewModel
 
-    init(
-        shortcutManager: ShortcutManager,
-        appSettings: any AppSettingsProtocol,
-        pointerRingVisualizer: PointerRingVisualizer,
-        pointerRingSettings: any PointerRingSettingsProtocol,
-        pointerIconSettings: any PointerIconSettingsProtocol,
-        keyboardVisualizerSettings: KeyboardVisualizerSettings,
-        startSettingKeyboardVisualizerPosition: @escaping @MainActor (@escaping KeyboardVisualizerPlacementWindowController.PlacementChangeHandler) -> Void,
-        stopSettingKeyboardVisualizerPosition: @escaping @MainActor () -> KeyboardVisualizerPlacementWindowController.Placement?,
-        permissionsService: any PermissionsService,
-        updater: SPUUpdater
-    ) {
-        let displaysViewModel = DisplaysSettingsPaneViewModel(
-            keyboardVisualizerSettings: keyboardVisualizerSettings,
-            startSettingKeyboardVisualizerPosition: startSettingKeyboardVisualizerPosition,
-            stopSettingKeyboardVisualizerPosition: stopSettingKeyboardVisualizerPosition
-        )
-        self.displaysViewModel = displaysViewModel
-
+    init(context: SettingsContext, displaysViewModel: DisplaysSettingsPaneViewModel) {
         self.entries = [
             SettingsPaneEntry(
                 id: .general,
@@ -48,8 +29,11 @@ struct SettingsPaneRegistry {
                 makeView: {
                     AnyView(
                         GeneralSettingsPane(
-                            shortcutManager: shortcutManager,
-                            appSettings: appSettings
+                            shortcutManager: context.shortcutManager,
+                            appSettings: context.appSettings,
+                            onResetAllSettingsToDefaults: {
+                                context.resetAllSettingsToDefaults()
+                            }
                         )
                     )
                 }
@@ -59,7 +43,7 @@ struct SettingsPaneRegistry {
                 title: SettingsPaneIdentifier.keyboard.label,
                 systemImageName: SettingsPaneIdentifier.keyboard.sfSymbolName,
                 makeView: {
-                    AnyView(KeyboardSettingsPane(settings: keyboardVisualizerSettings))
+                    AnyView(KeyboardSettingsPane(settings: context.keyboardVisualizerSettings))
                 }
             ),
             SettingsPaneEntry(
@@ -69,9 +53,9 @@ struct SettingsPaneRegistry {
                 makeView: {
                     AnyView(
                         MouseSettingsPane(
-                            pointerRingVisualizer: pointerRingVisualizer,
-                            pointerRingSettings: pointerRingSettings,
-                            pointerIconSettings: pointerIconSettings
+                            pointerRingVisualizer: context.pointerRingVisualizer,
+                            pointerRingSettings: context.pointerRingSettings,
+                            pointerIconSettings: context.pointerIconSettings
                         )
                     )
                 }
@@ -93,7 +77,7 @@ struct SettingsPaneRegistry {
                 title: SettingsPaneIdentifier.permissions.label,
                 systemImageName: SettingsPaneIdentifier.permissions.sfSymbolName,
                 makeView: {
-                    AnyView(PermissionsSettingsPane(permissionsService: permissionsService))
+                    AnyView(PermissionsSettingsPane(permissionsService: context.permissionsService))
                 }
             ),
             SettingsPaneEntry(
@@ -101,7 +85,7 @@ struct SettingsPaneRegistry {
                 title: SettingsPaneIdentifier.update.label,
                 systemImageName: SettingsPaneIdentifier.update.sfSymbolName,
                 makeView: {
-                    AnyView(UpdateSettingsPane(updater: updater))
+                    AnyView(UpdateSettingsPane(updater: context.updater))
                 }
             ),
             SettingsPaneEntry(
@@ -117,9 +101,5 @@ struct SettingsPaneRegistry {
 
     func entry(for identifier: SettingsPaneIdentifier) -> SettingsPaneEntry? {
         self.entries.first { $0.id == identifier }
-    }
-
-    func finishTransientWork() {
-        self.displaysViewModel.finishCustomPositionSetting()
     }
 }

@@ -63,6 +63,14 @@
 "general.stop_capturing" = "停用";
 "general.show_settings_at_launch" = "启动时显示设置";
 "general.show_settings_at_launch_subtitle" = "Keyty 启动时自动重新打开设置窗口。";
+"general.settings_section_title" = "设置";
+"general.reset_all_settings_title" = "重置所有设置";
+"general.reset_all_settings_subtitle" = "将键盘、鼠标、显示、应用和快捷键设置恢复为默认值。";
+"general.reset_all_settings_button" = "重置";
+"general.reset_all_settings_confirmation_title" = "要重置所有设置吗？";
+"general.reset_all_settings_confirmation_message" = "这将把键盘、鼠标、显示、应用和快捷键设置恢复为默认值。";
+"general.reset_all_settings_confirmation_button" = "重置设置";
+"general.reset_all_settings_cancel_button" = "取消";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "无法开始监测键盘输入。需要“辅助功能”权限。";

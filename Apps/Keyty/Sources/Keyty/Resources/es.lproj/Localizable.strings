@@ -63,6 +63,14 @@
 "general.stop_capturing" = "Desactivar";
 "general.show_settings_at_launch" = "Mostrar los ajustes al iniciar";
 "general.show_settings_at_launch_subtitle" = "Volver a abrir automáticamente la ventana de ajustes al iniciar Keyty.";
+"general.settings_section_title" = "Ajustes";
+"general.reset_all_settings_title" = "Restablecer todos los ajustes";
+"general.reset_all_settings_subtitle" = "Restablece la configuración de teclado, ratón, pantalla, aplicación y atajos a sus valores predeterminados.";
+"general.reset_all_settings_button" = "Restablecer";
+"general.reset_all_settings_confirmation_title" = "¿Restablecer todos los ajustes?";
+"general.reset_all_settings_confirmation_message" = "Esto restablecerá la configuración de teclado, ratón, pantalla, aplicación y atajos a sus valores predeterminados.";
+"general.reset_all_settings_confirmation_button" = "Restablecer ajustes";
+"general.reset_all_settings_cancel_button" = "Cancelar";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "No se ha podido iniciar la captura del teclado. Se necesita el permiso de Accesibilidad.";

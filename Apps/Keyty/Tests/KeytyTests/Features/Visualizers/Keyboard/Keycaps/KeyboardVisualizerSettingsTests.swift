@@ -216,6 +216,29 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         cancellable.cancel()
     }
 
+    func testResetToDefaultsRestoresStoredValuesAndPublishesPlacementChange() {
+        self.settings.registerDefaults()
+        var placementChangeCount = 0
+        let cancellable = self.settings.placementChanges.sink { _ in
+            placementChangeCount += 1
+        }
+
+        self.settings.placementMode = .custom
+        self.settings.customPositionNormalizedX = 0.25
+        self.settings.customPositionNormalizedY = 0.75
+        self.settings.customHorizontalAlignment = .leading
+        self.settings.scale = 1.5
+        self.settings.resetToDefaults()
+
+        XCTAssertEqual(self.settings.placementMode, .anchored)
+        XCTAssertEqual(self.settings.customPositionNormalizedX, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(self.settings.customPositionNormalizedY, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(self.settings.customHorizontalAlignment, .center)
+        XCTAssertEqual(self.settings.scale, 1.0, accuracy: 0.0001)
+        XCTAssertGreaterThanOrEqual(placementChangeCount, 5)
+        cancellable.cancel()
+    }
+
     func testPersistsSharedTimingSettings() {
         self.settings.fadeDelay = 3.5
         self.settings.fadeDuration = 0.45

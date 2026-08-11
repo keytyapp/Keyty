@@ -63,6 +63,14 @@
 "general.stop_capturing" = "Désactiver";
 "general.show_settings_at_launch" = "Afficher les réglages au démarrage";
 "general.show_settings_at_launch_subtitle" = "Rouvrir automatiquement la fenêtre des réglages au démarrage de Keyty.";
+"general.settings_section_title" = "Réglages";
+"general.reset_all_settings_title" = "Réinitialiser tous les réglages";
+"general.reset_all_settings_subtitle" = "Réinitialise les réglages du clavier, de la souris, de l’affichage, de l’app et des raccourcis à leurs valeurs par défaut.";
+"general.reset_all_settings_button" = "Réinitialiser";
+"general.reset_all_settings_confirmation_title" = "Réinitialiser tous les réglages ?";
+"general.reset_all_settings_confirmation_message" = "Cela réinitialisera les réglages du clavier, de la souris, de l’affichage, de l’app et des raccourcis à leurs valeurs par défaut.";
+"general.reset_all_settings_confirmation_button" = "Réinitialiser les réglages";
+"general.reset_all_settings_cancel_button" = "Annuler";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Impossible de démarrer la détection du clavier. L’autorisation d’accessibilité est requise.";

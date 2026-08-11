@@ -63,6 +63,14 @@
 "general.stop_capturing" = "Deaktivieren";
 "general.show_settings_at_launch" = "Einstellungen beim Start anzeigen";
 "general.show_settings_at_launch_subtitle" = "Das Einstellungsfenster beim Start von Keyty automatisch wieder öffnen.";
+"general.settings_section_title" = "Einstellungen";
+"general.reset_all_settings_title" = "Alle Einstellungen zurücksetzen";
+"general.reset_all_settings_subtitle" = "Tastatur-, Maus-, Anzeige-, App- und Tastaturkurzbefehl-Einstellungen auf die Standardwerte zurücksetzen.";
+"general.reset_all_settings_button" = "Zurücksetzen";
+"general.reset_all_settings_confirmation_title" = "Alle Einstellungen zurücksetzen?";
+"general.reset_all_settings_confirmation_message" = "Dadurch werden die Tastatur-, Maus-, Anzeige-, App- und Tastaturkurzbefehl-Einstellungen auf ihre Standardwerte zurückgesetzt.";
+"general.reset_all_settings_confirmation_button" = "Einstellungen zurücksetzen";
+"general.reset_all_settings_cancel_button" = "Abbrechen";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Die Tastaturerfassung konnte nicht gestartet werden. Die Berechtigung für Bedienungshilfen ist erforderlich.";

@@ -63,6 +63,14 @@
 "general.stop_capturing" = "Вимкнути";
 "general.show_settings_at_launch" = "Показувати параметри після запуску";
 "general.show_settings_at_launch_subtitle" = "Автоматично відкривати вікно параметрів після запуску Keyty.";
+"general.settings_section_title" = "Параметри";
+"general.reset_all_settings_title" = "Скинути всі параметри";
+"general.reset_all_settings_subtitle" = "Скидає параметри клавіатури, миші, дисплея, програми та клавіатурних скорочень до стандартних значень.";
+"general.reset_all_settings_button" = "Скинути";
+"general.reset_all_settings_confirmation_title" = "Скинути всі параметри?";
+"general.reset_all_settings_confirmation_message" = "Буде скинуто параметри клавіатури, миші, дисплея, програми та клавіатурних скорочень до стандартних значень.";
+"general.reset_all_settings_confirmation_button" = "Скинути параметри";
+"general.reset_all_settings_cancel_button" = "Скасувати";
 
 /* Event capture */
 "event_tap.key_tap_creation_failed" = "Не вдалося почати відстеження клавіатури. Потрібен дозвіл «Доступність».";

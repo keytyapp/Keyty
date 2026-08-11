@@ -60,16 +60,17 @@ struct GeneralSettingsPane: View {
                 }
             }
 
-            HStack {
-                Spacer(minLength: Spacing.none)
-
-                Button(L10n.General.resetAllSettingsButton) {
-                    self.isShowingResetConfirmation = true
+            SettingsSectionView(title: L10n.General.settingsSectionTitle) {
+                SettingsControlRow(
+                    title: L10n.General.resetAllSettingsTitle,
+                    subtitle: L10n.General.resetAllSettingsSubtitle
+                ) {
+                    Button(L10n.General.resetAllSettingsButton) {
+                        self.isShowingResetConfirmation = true
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.regular)
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
-
-                Spacer(minLength: Spacing.none)
             }
         }
         .alert(isPresented: self.$isShowingResetConfirmation) {

@@ -18,5 +18,5 @@ protocol PointerVisualizer: AnyObject {
     var isPresentationActive: Bool { get set }
 
     /// Handles a captured mouse event and updates the visualizer if needed.
-    func noteMouseEvent(_ mouseEvent: MouseEvent)
+    func display(_ mouseEvent: MouseEvent)
 }

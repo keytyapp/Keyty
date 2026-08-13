@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Cancelar";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "No se ha podido iniciar la captura del teclado. Se necesita el permiso de Accesibilidad.";
-"event_tap.mouse_and_flags_tap_creation_failed" = "No se ha podido iniciar la captura del ratón y las teclas modificadoras.";
+"event_tap.creation_failed" = "No se ha podido iniciar la captura de entradas. Se necesita el permiso de Accesibilidad.";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

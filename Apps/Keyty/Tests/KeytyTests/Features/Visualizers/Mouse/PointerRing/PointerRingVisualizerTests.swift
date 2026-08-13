@@ -40,7 +40,7 @@ final class PointerRingVisualizerTests: XCTestCase {
         let cgEvent = CGEvent(scrollWheelEvent2Source: nil, units: .pixel,
                               wheelCount: 1, wheel1: 10, wheel2: 0, wheel3: 0)!
         let nsEvent = NSEvent(cgEvent: cgEvent)!
-        XCTAssertNoThrow(self.visualizer.noteMouseEvent(MouseEvent(nsEvent: nsEvent)))
+        XCTAssertNoThrow(self.visualizer.display(MouseEvent(nsEvent: nsEvent)))
     }
 
     func testRegistersDefaultColor() {

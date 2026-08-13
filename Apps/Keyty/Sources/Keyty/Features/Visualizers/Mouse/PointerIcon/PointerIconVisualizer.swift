@@ -82,7 +82,7 @@ extension PointerIconVisualizer {
 
 // MARK: - PointerVisualizer
 extension PointerIconVisualizer: PointerVisualizer {
-    func noteMouseEvent(_ mouseEvent: MouseEvent) {
+    func display(_ mouseEvent: MouseEvent) {
         guard self.isEnabled else { return }
         self.pointerContentView.handle(mouseEvent: mouseEvent)
         self.syncPresentation()

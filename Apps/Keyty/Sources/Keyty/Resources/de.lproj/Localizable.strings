@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Abbrechen";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "Die Tastaturerfassung konnte nicht gestartet werden. Die Berechtigung für Bedienungshilfen ist erforderlich.";
-"event_tap.mouse_and_flags_tap_creation_failed" = "Die Erfassung von Maus und Sondertasten konnte nicht gestartet werden.";
+"event_tap.creation_failed" = "Die Eingabeerfassung konnte nicht gestartet werden. Die Berechtigung für Bedienungshilfen ist erforderlich.";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

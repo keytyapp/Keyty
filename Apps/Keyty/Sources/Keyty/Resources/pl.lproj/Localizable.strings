@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Anuluj";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń klawiatury. Wymagane jest uprawnienie Dostępność.";
-"event_tap.mouse_and_flags_tap_creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń myszy i modyfikatorów.";
+"event_tap.creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń. Wymagane jest uprawnienie Dostępność.";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

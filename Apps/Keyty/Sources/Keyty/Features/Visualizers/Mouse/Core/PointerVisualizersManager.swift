@@ -29,10 +29,10 @@ final class PointerVisualizersManager {
         icon = PointerIconVisualizer(settings: pointerIconSettings)
     }
 
-    func noteMouseEvent(_ mouseEvent: MouseEvent) {
+    func display(_ mouseEvent: MouseEvent) {
         guard self.isPresentationActive else { return }
         for visualizer in all where visualizer.isEnabled {
-            visualizer.noteMouseEvent(mouseEvent)
+            visualizer.display(mouseEvent)
         }
     }
 }

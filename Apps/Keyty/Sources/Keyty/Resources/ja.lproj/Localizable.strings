@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "キャンセル";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "キーボード入力の検出を開始できませんでした。アクセシビリティへのアクセス権が必要です。";
-"event_tap.mouse_and_flags_tap_creation_failed" = "マウスと修飾キーの入力検出を開始できませんでした。";
+"event_tap.creation_failed" = "入力の検出を開始できませんでした。アクセシビリティへのアクセス権が必要です。";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

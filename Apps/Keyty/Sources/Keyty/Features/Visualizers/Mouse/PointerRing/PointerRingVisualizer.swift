@@ -48,7 +48,7 @@ public final class PointerRingVisualizer {
 // MARK: - PointerVisualizer
 
 extension PointerRingVisualizer: PointerVisualizer {
-    public func noteMouseEvent(_ mouseEvent: MouseEvent) {
+    public func display(_ mouseEvent: MouseEvent) {
         guard self.isEnabled else { return }
         if mouseEvent.type == .scrollWheel { return }
         self.visualizerWindow?.update(with: mouseEvent)

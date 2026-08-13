@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Скасувати";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "Не вдалося почати відстеження клавіатури. Потрібен дозвіл «Доступність».";
-"event_tap.mouse_and_flags_tap_creation_failed" = "Не вдалося почати відстеження миші та клавіш-модифікаторів.";
+"event_tap.creation_failed" = "Не вдалося почати відстеження введення. Потрібен дозвіл «Доступність».";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

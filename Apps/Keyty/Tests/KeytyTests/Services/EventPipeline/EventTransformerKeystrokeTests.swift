@@ -19,7 +19,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        self.transformer = EventTransformer(keyboardLayout: try TestKeyboardLayouts.requireUSEnglish())
+        self.transformer = EventTransformer(keyboardLayout: try TISInputSource.usEnglish())
     }
 }
 
@@ -57,7 +57,7 @@ extension EventTransformerKeystrokeTests {
 
     func test_modifierGlyphsPrecedeTheLegendInCanonicalOrder() {
         for (modifiers, name) in Self.allModifierCombinations {
-            let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.digit7.rawValue, modifiers: modifiers)
+            let keystroke = StandardKeyEvent.stub(keyCode: .digit7, modifiers: modifiers)
 
             XCTAssertEqual(
                 self.transform(keystroke),
@@ -70,7 +70,7 @@ extension EventTransformerKeystrokeTests {
     /// A digit has no distinct uppercase form, so only letters show the casing rule.
     func test_letterLegendIsUppercasedOnlyWhenModified() {
         for (modifiers, name) in Self.allModifierCombinations {
-            let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.a.rawValue, modifiers: modifiers)
+            let keystroke = StandardKeyEvent.stub(keyCode: .a, modifiers: modifiers)
             let expectedLegend = modifiers.isEmpty ? "a" : "A"
 
             XCTAssertEqual(
@@ -87,7 +87,7 @@ extension EventTransformerKeystrokeTests {
         let cases: [(KeyboardKeyCode, String)] = [(.u, "U"), (.e, "E"), (.grave, "`")]
 
         for (keyCode, expectedLegend) in cases {
-            let keystroke = TestKeystrokes.make(keyCode: keyCode.rawValue, modifiers: TestModifierFlags.option)
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode, modifiers: .recorded(.option))
 
             XCTAssertEqual(
                 self.transform(keystroke),
@@ -103,8 +103,8 @@ extension EventTransformerKeystrokeTests {
 extension EventTransformerKeystrokeTests {
     /// German ß uppercases to "SS", which would misreport the key's legend.
     func test_legendThatExpandsWhenUppercasedIsLeftAlone() throws {
-        let german = EventTransformer(keyboardLayout: try TestKeyboardLayouts.requireGerman())
-        let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.minus.rawValue, modifiers: TestModifierFlags.command)
+        let german = EventTransformer(keyboardLayout: try TISInputSource.german())
+        let keystroke = StandardKeyEvent.stub(keyCode: .minus, modifiers: .recorded(.command))
 
         XCTAssertEqual(german.transform(.keystroke(keystroke)), KeyboardGlyphCatalog.command + "ß")
     }
@@ -123,7 +123,7 @@ extension EventTransformerKeystrokeTests {
         ]
 
         for (keyCode, expected) in cases {
-            let keystroke = TestKeystrokes.make(keyCode: keyCode.rawValue)
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode)
             XCTAssertEqual(self.transform(keystroke), expected, "for \(keyCode)")
         }
     }
@@ -137,16 +137,16 @@ extension EventTransformerKeystrokeTests {
         ]
 
         for (keyCode, expected) in cases {
-            let keystroke = TestKeystrokes.make(keyCode: keyCode.rawValue)
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode)
             XCTAssertEqual(self.transform(keystroke), expected, "for \(keyCode)")
         }
     }
 
     func test_modifiersPrefixASpecialKeySymbol() {
-        let character = TestKeyboardCharacters.functionKeyCharacter(NSUpArrowFunctionKey)
-        let keystroke = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.upArrow.rawValue,
-            modifiers: TestModifierFlags.functionOptionShiftNumericPad,
+        let character = String.functionKey(NSUpArrowFunctionKey)
+        let keystroke = StandardKeyEvent.stub(
+            keyCode: .upArrow,
+            modifiers: .recorded([.function, .option, .shift, .numericPad]),
             characters: character,
             charactersIgnoringModifiers: character
         )
@@ -166,7 +166,7 @@ extension EventTransformerKeystrokeTests {
         ]
 
         for (keyCode, expected) in cases {
-            let keystroke = TestKeystrokes.make(keyCode: keyCode.rawValue, modifiers: TestModifierFlags.function)
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode, modifiers: .recorded(.function))
             XCTAssertEqual(self.transform(keystroke), expected, "for \(keyCode)")
         }
     }
@@ -175,7 +175,7 @@ extension EventTransformerKeystrokeTests {
         let cases: [(KeyboardKeyCode, KeyboardSpecialKey)] = [(.eisu, .eisu), (.kana, .kana)]
 
         for (keyCode, specialKey) in cases {
-            let keystroke = TestKeystrokes.make(keyCode: keyCode.rawValue)
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode)
             XCTAssertEqual(self.transform(keystroke), specialKey.displayText, "for \(keyCode)")
         }
     }
@@ -187,23 +187,23 @@ extension EventTransformerKeystrokeTests {
     /// macOS reuses the Help key code for Insert on many external keyboards, so
     /// these three keys are told apart by the event's characters, not the key code.
     func test_helpKeyCodeResolvesFromTheEventCharacters() {
-        let insertCharacter = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
-        let insert = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.help.rawValue,
+        let insertCharacter = String.functionKey(NSInsertFunctionKey)
+        let insert = StandardKeyEvent.stub(
+            keyCode: .help,
             characters: insertCharacter,
             charactersIgnoringModifiers: insertCharacter
         )
         XCTAssertEqual(self.transform(insert), KeyboardSpecialKey.insert.displayText)
 
-        let helpCharacter = TestKeyboardCharacters.functionKeyCharacter(NSHelpFunctionKey)
-        let help = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.help.rawValue,
+        let helpCharacter = String.functionKey(NSHelpFunctionKey)
+        let help = StandardKeyEvent.stub(
+            keyCode: .help,
             characters: helpCharacter,
             charactersIgnoringModifiers: helpCharacter
         )
         XCTAssertEqual(self.transform(help), "help")
 
-        let withoutCharacters = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue)
+        let withoutCharacters = StandardKeyEvent.stub(keyCode: .help)
         XCTAssertEqual(self.transform(withoutCharacters), KeyboardSpecialKey.insert.displayText)
     }
 }

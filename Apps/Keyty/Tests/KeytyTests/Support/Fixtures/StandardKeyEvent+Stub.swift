@@ -1,5 +1,5 @@
 //
-//  TestKeystrokes.swift
+//  StandardKeyEvent+Stub.swift
 //  KeytyTests
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -9,12 +9,12 @@
 import AppKit
 @testable import Keyty
 
-enum TestKeystrokes {
-    /// The transformer resolves a legend from the key code and the layout, so
-    /// `characters` only matters for keys whose meaning comes from the event
-    /// itself — Help versus Insert, and the arrow function keys.
-    static func make(
-        keyCode: UInt16,
+extension StandardKeyEvent {
+    // The transformer resolves a legend from the key code and the layout, so
+    // `characters` only matters for keys whose meaning comes from the event
+    // itself — Help versus Insert, and the arrow function keys.
+    static func stub(
+        keyCode: KeyboardKeyCode,
         modifiers: NSEvent.ModifierFlags = [],
         characters: String = "",
         charactersIgnoringModifiers: String = ""
@@ -29,7 +29,7 @@ enum TestKeystrokes {
             characters: characters,
             charactersIgnoringModifiers: charactersIgnoringModifiers,
             isARepeat: false,
-            keyCode: keyCode
+            keyCode: keyCode.rawValue
         )!
         return StandardKeyEvent(nsEvent: event)
     }

@@ -44,8 +44,8 @@ final class KeyboardVisualizerTests: XCTestCase {
         self.settings.isEnabled = true
         self.visualizer.isPresentationActive = true
 
-        let keystroke = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.k.rawValue,
+        let keystroke = StandardKeyEvent.stub(
+            keyCode: .k,
             characters: "k",
             charactersIgnoringModifiers: "k"
         )

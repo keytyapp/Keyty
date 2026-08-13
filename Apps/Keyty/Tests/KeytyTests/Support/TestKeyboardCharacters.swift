@@ -12,6 +12,4 @@ enum TestKeyboardCharacters {
     static func functionKeyCharacter(_ key: Int) -> String {
         String(UnicodeScalar(key)!)
     }
-
-    static let backTab = String(UnicodeScalar(NSBackTabCharacter)!)
 }

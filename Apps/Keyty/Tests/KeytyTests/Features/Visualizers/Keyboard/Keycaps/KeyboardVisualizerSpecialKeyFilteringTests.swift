@@ -29,7 +29,7 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
 
     func testClassifiesContextMenuKeyAsSystemKey() {
         XCTAssertEqual(KeyboardSpecialKeyResolver.specialKey(for: KeyboardKeyCode.contextMenu.rawValue), .system(.contextMenu))
-        XCTAssertEqual(KeyboardSpecialKey.SystemKey.contextMenu.displayText, UnicodeToken.contextMenu.string)
+        XCTAssertEqual(KeyboardSpecialKey.SystemKey.contextMenu.displayText, "menu")
     }
 
     func testResolverClassifiesInsertFunctionKeyAsSpecial() {

@@ -60,9 +60,9 @@ extension KeyboardSpecialKey {
         case .keypadEnter:
             return UnicodeToken.keypadEnter.string
         case .space:
-            return UnicodeToken.visibleSpace.string + UnicodeToken.zeroWidthSpace.string
+            return UnicodeToken.visibleSpace.string
         case .help:
-            return UnicodeToken.questionMark.string + UnicodeToken.enclosingCircle.string
+            return "help"
         case .insert:
             return "ins"
         case .keypadClear:

@@ -105,22 +105,22 @@ extension EventTransformerKeystrokeTests {
 extension EventTransformerKeystrokeTests {
     func test_convertsFnF1ToBrightnessDecrease() {
         let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessDown.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(keystroke), UnicodeToken.brightnessDown.string)
+        XCTAssertEqual(self.transform(keystroke), "dimmer")
     }
 
     func test_convertsFnF2ToBrightnessIncrease() {
         let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.brightnessUp.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(keystroke), UnicodeToken.brightnessUp.string)
+        XCTAssertEqual(self.transform(keystroke), "brighter")
     }
 
     func test_convertsFnF3ToMissionControl() {
         let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.missionControl.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(keystroke), UnicodeToken.missionControl.string)
+        XCTAssertEqual(self.transform(keystroke), "mission")
     }
 
     func test_convertsFnF4ToLauncher() {
         let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.launchpad.rawValue, modifiers: TestModifierFlags.function, characters: "", charactersIgnoringModifiers: "")
-        XCTAssertEqual(self.transform(keystroke), UnicodeToken.launchpad.string)
+        XCTAssertEqual(self.transform(keystroke), "launchpad")
     }
 }
 
@@ -224,7 +224,7 @@ extension EventTransformerKeystrokeTests {
     func test_helpFunctionKeyDisplaysHelpForHelpKeyCode() {
         let ch = TestKeyboardCharacters.functionKeyCharacter(NSHelpFunctionKey)
         let keystroke = TestKeystrokes.make(keyCode: KeyboardKeyCode.help.rawValue, modifiers: [], characters: ch, charactersIgnoringModifiers: ch)
-        XCTAssertEqual(self.transform(keystroke), UnicodeToken.questionMark.string + UnicodeToken.enclosingCircle.string)
+        XCTAssertEqual(self.transform(keystroke), "help")
     }
 
     func test_helpKeyCodeWithoutSemanticCharactersDefaultsToInsert() {

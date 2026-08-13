@@ -28,8 +28,6 @@ enum UnicodeToken {
     static let returnKey: Unicode.Scalar = "\u{21A9}"
     static let keypadEnter: Unicode.Scalar = "\u{2305}"
     
-    static let questionMark: Unicode.Scalar = "\u{003F}"
-    static let enclosingCircle: Unicode.Scalar = "\u{20DD}"
     static let home: Unicode.Scalar = "\u{2196}"
     static let end: Unicode.Scalar = "\u{2198}"
     static let pageUp: Unicode.Scalar = "\u{21DE}"
@@ -52,16 +50,9 @@ enum UnicodeToken {
     static let bulletOperator: Unicode.Scalar = "\u{2022}"
 
     static let visibleSpace: Unicode.Scalar = "\u{2423}"
-    static let zeroWidthSpace: Unicode.Scalar = "\u{200B}"
 
-    static let contextMenu: Unicode.Scalar = "\u{25A4}"
     static let brightnessDown: Unicode.Scalar = "\u{1F505}"
     static let brightnessUp: Unicode.Scalar = "\u{1F506}"
-    static let missionControl: Unicode.Scalar = "\u{1F5A5}"
-    static let spotlight: Unicode.Scalar = "\u{1F50D}"
-    static let dictation: Unicode.Scalar = "\u{1F3A4}"
-    static let launchpad: Unicode.Scalar = "\u{1F680}"
-    static let doNotDisturb: Unicode.Scalar = "\u{23FE}"
 
     static let speakerMuted: Unicode.Scalar = "\u{1F507}"
     static let speakerLow: Unicode.Scalar = "\u{1F509}"

@@ -35,7 +35,7 @@
 "anchor.center" = "Centre";
 "anchor.right" = "Droite";
 "anchor.top" = "Haut";
-"anchor.vertical_center" = "Centre";
+"anchor.vertical_center" = "Milieu";
 "anchor.bottom" = "Bas";
 
 /* Displays settings pane */

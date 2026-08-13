@@ -35,7 +35,7 @@
 "anchor.center" = "По центру";
 "anchor.right" = "Праворуч";
 "anchor.top" = "Вгорі";
-"anchor.vertical_center" = "По центру";
+"anchor.vertical_center" = "Посередині";
 "anchor.bottom" = "Внизу";
 
 /* Displays settings pane */

@@ -35,7 +35,7 @@
 "anchor.center" = "Mitte";
 "anchor.right" = "Rechts";
 "anchor.top" = "Oben";
-"anchor.vertical_center" = "Mitte";
+"anchor.vertical_center" = "Mittig";
 "anchor.bottom" = "Unten";
 
 /* Displays settings pane */

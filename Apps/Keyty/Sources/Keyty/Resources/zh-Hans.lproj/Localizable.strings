@@ -35,7 +35,7 @@
 "anchor.center" = "居中";
 "anchor.right" = "右侧";
 "anchor.top" = "顶部";
-"anchor.vertical_center" = "居中";
+"anchor.vertical_center" = "中间";
 "anchor.bottom" = "底部";
 
 /* Displays settings pane */

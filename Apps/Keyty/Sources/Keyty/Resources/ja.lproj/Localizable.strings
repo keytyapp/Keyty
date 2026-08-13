@@ -35,7 +35,7 @@
 "anchor.center" = "中央";
 "anchor.right" = "右";
 "anchor.top" = "上";
-"anchor.vertical_center" = "中央";
+"anchor.vertical_center" = "中段";
 "anchor.bottom" = "下";
 
 /* Displays settings pane */

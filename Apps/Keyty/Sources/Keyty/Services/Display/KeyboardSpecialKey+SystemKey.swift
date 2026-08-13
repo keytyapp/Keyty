@@ -23,28 +23,25 @@ extension KeyboardSpecialKey {
 }
 
 extension KeyboardSpecialKey.SystemKey {
-    /// Text rendered inside the keycap for this system key.
-    ///
-    /// System keys are represented by platform glyphs when available, and by a
-    /// compact readable name when no suitable glyph exists.
+    /// Short text name for this key; keycaps normally render an SF Symbol instead.
     var displayText: String {
         switch self {
         case .contextMenu:
-            return UnicodeToken.contextMenu.string
+            return "menu"
         case .brightnessUp:
-            return UnicodeToken.brightnessUp.string
+            return "brighter"
         case .brightnessDown:
-            return UnicodeToken.brightnessDown.string
+            return "dimmer"
         case .missionControl:
-            return UnicodeToken.missionControl.string
+            return "mission"
         case .launchpad:
-            return UnicodeToken.launchpad.string
+            return "launchpad"
         case .spotlight:
-            return UnicodeToken.spotlight.string
+            return "search"
         case .dictation:
-            return UnicodeToken.dictation.string
+            return "dictation"
         case .doNotDisturb:
-            return UnicodeToken.doNotDisturb.string
+            return "focus"
         }
     }
 

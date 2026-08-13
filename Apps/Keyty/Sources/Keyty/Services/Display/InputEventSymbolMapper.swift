@@ -34,6 +34,7 @@ enum InputEventSymbolMapper {
         case .brightnessDown: return "sun.min.fill"
         case .missionControl: return "square.grid.2x2.fill"
         case .launchpad: return "square.grid.3x3.fill"
+        case .contextMenu: return "contextualmenu.and.cursorarrow"
         default: return nil
         }
     }

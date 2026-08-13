@@ -10,16 +10,11 @@ import Cocoa
 
 extension EventTap {
     enum Error: LocalizedError, Equatable {
-        case keyTapCreationFailed
-        case mouseAndFlagsTapCreationFailed
+        /// A tap could not be created.
+        case creationFailed(Kind)
 
         var errorDescription: String? {
-            switch self {
-            case .keyTapCreationFailed:
-                return L10n.EventTap.keyTapCreationFailed
-            case .mouseAndFlagsTapCreationFailed:
-                return L10n.EventTap.mouseAndFlagsTapCreationFailed
-            }
+            L10n.EventTap.creationFailed
         }
     }
 }

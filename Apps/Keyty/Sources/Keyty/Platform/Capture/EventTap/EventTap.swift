@@ -9,19 +9,15 @@
 import Cocoa
 import IOKit.hidsystem
 
-protocol EventTapDelegate: AnyObject {
-    func eventTap(_ tap: EventTap, noteKeystroke keystroke: StandardKeyEvent)
-    func eventTap(_ tap: EventTap, noteMouseEvent mouseEvent: MouseEvent)
-    func eventTap(_ tap: EventTap, noteFlagsChanged flags: NSEvent.ModifierFlags)
-    func eventTap(_ tap: EventTap, noteMediaKey mediaKey: MediaKeyEvent)
-    func eventTap(_ tap: EventTap, didChangeState state: EventTap.State)
-}
-
 final class EventTap {
+    /// Receives every captured event and lifecycle change. Called on the run loop
+    /// the tap was installed on, never on a background queue.
+    var onOutput: ((Output) -> Void)?
+
     private(set) var state: EventTap.State = .idle {
         didSet {
             guard oldValue != self.state else { return }
-            self.delegate?.eventTap(self, didChangeState: self.state)
+            self.onOutput?(.stateChanged(self.state))
         }
     }
 
@@ -32,64 +28,26 @@ final class EventTap {
         return false
     }
 
-    private var keyEventTap: CFMachPort?
-    private var mouseAndFlagsEventTap: CFMachPort?
-    
-    private var keyEventTapSource: CFRunLoopSource?
-    private var mouseAndFlagsEventTapSource: CFRunLoopSource?
-    
-    weak var delegate: EventTapDelegate?
+    fileprivate var installedTaps: [Kind: InstalledTap] = [:]
 
     deinit {
         if self.isInstalled { self.remove() }
     }
+}
 
-    // MARK: - Public
-
+// MARK: - Public API
+extension EventTap {
     func install() throws(EventTap.Error) {
         guard !self.isInstalled else { return }
 
-        // We have to try to tap the keydown event independently because CGEventTapCreate will
-        // succeed if it can install the event tap for the flags changed event, which apparently
-        // doesn't require universal access to be enabled. Thus, the call would succeed but
-        // Keyty would be, um, useless.
-        self.keyEventTap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .listenOnly,
-            eventsOfInterest: cgEventMask(.keyDown, .keyUp, .systemDefined),
-            callback: keyTapCallback,
-            userInfo: Unmanaged.passUnretained(self).toOpaque()
-        )
-        guard self.keyEventTap != nil else {
-            self.state = .failed(.keyTapCreationFailed)
-            throw EventTap.Error.keyTapCreationFailed
+        for kind in Kind.allCases {
+            guard let installedTap = self.makeTap(kind) else {
+                self.resetInstalledResources()
+                self.state = .failed(.creationFailed(kind))
+                throw .creationFailed(kind)
+            }
+            self.installedTaps[kind] = installedTap
         }
-
-        self.mouseAndFlagsEventTap = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .listenOnly,
-            eventsOfInterest: cgEventMask(.leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp,
-                                          .leftMouseDragged, .rightMouseDragged,
-                                          .flagsChanged,
-                                          .otherMouseDown, .otherMouseUp, .otherMouseDragged,
-                                          .scrollWheel),
-            callback: mouseFlagsTapCallback,
-            userInfo: Unmanaged.passUnretained(self).toOpaque()
-        )
-        guard self.mouseAndFlagsEventTap != nil else {
-            self.resetInstalledResources()
-            self.state = .failed(.mouseAndFlagsTapCreationFailed)
-            throw EventTap.Error.mouseAndFlagsTapCreationFailed
-        }
-
-        self.keyEventTapSource = CFMachPortCreateRunLoopSource(nil, self.keyEventTap, 0)
-        self.mouseAndFlagsEventTapSource = CFMachPortCreateRunLoopSource(nil, self.mouseAndFlagsEventTap, 0)
-
-        let runLoop = CFRunLoopGetCurrent()
-        CFRunLoopAddSource(runLoop, self.keyEventTapSource, .commonModes)
-        CFRunLoopAddSource(runLoop, self.mouseAndFlagsEventTapSource, .commonModes)
 
         self.state = .installed
     }
@@ -99,25 +57,88 @@ final class EventTap {
         self.resetInstalledResources()
         self.state = .idle
     }
+}
 
-    // MARK: - Fileprivate (called from C callbacks)
+// MARK: - Tap Resources
+private extension EventTap {
+    func makeTap(_ kind: Kind) -> InstalledTap? {
+        guard let machPort = CGEvent.tapCreate(
+            tap: .cgSessionEventTap,
+            place: .headInsertEventTap,
+            options: .listenOnly,
+            eventsOfInterest: kind.eventsOfInterest,
+            callback: tapCallback(for: kind),
+            userInfo: Unmanaged.passUnretained(self).toOpaque()
+        ) else {
+            return nil
+        }
 
-    fileprivate func handleKeyEvent(_ cgEvent: CGEvent) {
-        guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.delegate?.eventTap(self, noteKeystroke: StandardKeyEvent(nsEvent: nsEvent))
+        guard let runLoopSource = CFMachPortCreateRunLoopSource(nil, machPort, 0) else {
+            CFMachPortInvalidate(machPort)
+            return nil
+        }
+
+        CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
+        return InstalledTap(machPort: machPort, runLoopSource: runLoopSource)
     }
 
-    fileprivate func handleFlagsChanged(_ cgEvent: CGEvent) {
+    func resetInstalledResources() {
+        for installedTap in self.installedTaps.values {
+            CFRunLoopSourceInvalidate(installedTap.runLoopSource)
+        }
+        self.installedTaps.removeAll()
+    }
+
+    func reenableTap(_ kind: Kind) {
+        guard let installedTap = self.installedTaps[kind] else { return }
+        CGEvent.tapEnable(tap: installedTap.machPort, enable: true)
+        self.state = .installed
+    }
+}
+
+// MARK: - Event Routing
+extension EventTap {
+    /// Single entry point for both taps. `kind` matters only for disable notifications,
+    /// which report the same event type whichever tap the system turned off.
+    fileprivate func handleTapCallback(type: CGEventType, event: CGEvent, kind: Kind) {
+        switch type {
+        case .tapDisabledByTimeout, .tapDisabledByUserInput:
+            self.handleTapDisabled(type, kind: kind)
+        case .keyDown, .keyUp:
+            self.handleKeyEvent(event)
+        case .systemDefined:
+            self.handleSystemDefined(event)
+        case .flagsChanged:
+            self.handleFlagsChanged(event)
+        case .leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp,
+             .leftMouseDragged, .rightMouseDragged,
+             .otherMouseDown, .otherMouseUp, .otherMouseDragged,
+             .scrollWheel:
+            self.handleMouseEvent(event)
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - Event Handling
+private extension EventTap {
+    func handleKeyEvent(_ cgEvent: CGEvent) {
+        guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
+        self.onOutput?(.keystroke(StandardKeyEvent(nsEvent: nsEvent)))
+    }
+
+    func handleFlagsChanged(_ cgEvent: CGEvent) {
         let flags = NSEvent.ModifierFlags(cgEventFlags: cgEvent.flags)
-        self.delegate?.eventTap(self, noteFlagsChanged: flags)
+        self.onOutput?(.modifierFlags(flags))
     }
 
-    fileprivate func handleMouseEvent(_ cgEvent: CGEvent) {
+    func handleMouseEvent(_ cgEvent: CGEvent) {
         guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.delegate?.eventTap(self, noteMouseEvent: MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent))
+        self.onOutput?(.mouse(MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent)))
     }
 
-    fileprivate func handleSystemDefined(_ cgEvent: CGEvent) {
+    func handleSystemDefined(_ cgEvent: CGEvent) {
         // Media keys arrive as system-defined events with the aux-control-buttons subtype.
         // Other system-defined subtypes (screen changes, etc.) are ignored,
         // and reading `data1` is only safe once the subtype is confirmed.
@@ -128,11 +149,11 @@ final class EventTap {
         else {
             return
         }
-        
-        self.delegate?.eventTap(self, noteMediaKey: MediaKeyEvent(nsEvent: nsEvent))
+
+        self.onOutput?(.mediaKey(MediaKeyEvent(nsEvent: nsEvent)))
     }
 
-    fileprivate func handleTapDisabled(_ type: CGEventType, kind: EventTap.TapKind) {
+    func handleTapDisabled(_ type: CGEventType, kind: Kind) {
         let reason: EventTap.DisableReason
         switch type {
         case .tapDisabledByTimeout:
@@ -145,44 +166,20 @@ final class EventTap {
         self.state = .temporarilyDisabled(reason)
         self.reenableTap(kind)
     }
-
-    private func reenableTap(_ kind: EventTap.TapKind) {
-        let machPort: CFMachPort?
-        switch kind {
-        case .key:
-            machPort = self.keyEventTap
-        case .mouseAndFlags:
-            machPort = self.mouseAndFlagsEventTap
-        }
-
-        guard let machPort else { return }
-        CGEvent.tapEnable(tap: machPort, enable: true)
-        self.state = .installed
-    }
-
-    private func resetInstalledResources() {
-        if let keyEventTapSource = self.keyEventTapSource {
-            CFRunLoopSourceInvalidate(keyEventTapSource)
-        }
-        if let mouseAndFlagsEventTapSource = self.mouseAndFlagsEventTapSource {
-            CFRunLoopSourceInvalidate(mouseAndFlagsEventTapSource)
-        }
-
-        self.keyEventTapSource = nil
-        self.mouseAndFlagsEventTapSource = nil
-        self.keyEventTap = nil
-        self.mouseAndFlagsEventTap = nil
-    }
-}
-
-// MARK: - CGEventMask helper
-
-private func cgEventMask(_ types: CGEventType...) -> CGEventMask {
-    types.reduce(0) { $0 | CGEventMask(1 << $1.rawValue) }
 }
 
 // MARK: - C event tap callbacks
-// Must be file-scope functions (no captures) to satisfy @convention(c) requirement.
+// Must be file-scope functions (no captures) to satisfy the @convention(c) requirement,
+// so each tap gets a trampoline that supplies its own `Kind`.
+
+private func tapCallback(for kind: EventTap.Kind) -> CGEventTapCallBack {
+    switch kind {
+    case .key:
+        return keyTapCallback
+    case .mouseAndFlags:
+        return mouseFlagsTapCallback
+    }
+}
 
 private func keyTapCallback(
     proxy: CGEventTapProxy,
@@ -190,17 +187,7 @@ private func keyTapCallback(
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
-    if let refcon {
-        let tap = Unmanaged<EventTap>.fromOpaque(refcon).takeUnretainedValue()
-        if type == .tapDisabledByTimeout || type == .tapDisabledByUserInput {
-            tap.handleTapDisabled(type, kind: .key)
-        } else if [.keyDown, .keyUp].contains(type) {
-            tap.handleKeyEvent(event)
-        } else if type == .systemDefined {
-            tap.handleSystemDefined(event)
-        }
-    }
-    return .passUnretained(event)
+    dispatchTapCallback(type: type, event: event, refcon: refcon, kind: .key)
 }
 
 private func mouseFlagsTapCallback(
@@ -209,21 +196,18 @@ private func mouseFlagsTapCallback(
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
+    dispatchTapCallback(type: type, event: event, refcon: refcon, kind: .mouseAndFlags)
+}
+
+private func dispatchTapCallback(
+    type: CGEventType,
+    event: CGEvent,
+    refcon: UnsafeMutableRawPointer?,
+    kind: EventTap.Kind
+) -> Unmanaged<CGEvent>? {
     if let refcon {
         let tap = Unmanaged<EventTap>.fromOpaque(refcon).takeUnretainedValue()
-        switch type {
-        case .tapDisabledByTimeout, .tapDisabledByUserInput:
-            tap.handleTapDisabled(type, kind: .mouseAndFlags)
-        case .leftMouseDown, .rightMouseDown, .leftMouseUp, .rightMouseUp,
-             .leftMouseDragged, .rightMouseDragged,
-             .otherMouseDown, .otherMouseUp, .otherMouseDragged,
-             .scrollWheel:
-            tap.handleMouseEvent(event)
-        case .flagsChanged:
-            tap.handleFlagsChanged(event)
-        default:
-            break
-        }
+        tap.handleTapCallback(type: type, event: event, kind: kind)
     }
     return .passUnretained(event)
 }

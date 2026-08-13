@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Annuler";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "Impossible de démarrer la détection du clavier. L’autorisation d’accessibilité est requise.";
-"event_tap.mouse_and_flags_tap_creation_failed" = "Impossible de démarrer la détection de la souris et des touches de modification.";
+"event_tap.creation_failed" = "Impossible de démarrer la détection des entrées. L’autorisation d’accessibilité est requise.";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

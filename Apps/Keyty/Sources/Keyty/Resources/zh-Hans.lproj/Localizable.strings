@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "取消";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "无法开始监测键盘输入。需要“辅助功能”权限。";
-"event_tap.mouse_and_flags_tap_creation_failed" = "无法开始监测鼠标和修饰键输入。";
+"event_tap.creation_failed" = "无法开始监测输入。需要“辅助功能”权限。";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

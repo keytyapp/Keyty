@@ -73,8 +73,7 @@
 "general.reset_all_settings_cancel_button" = "Annuleren";
 
 /* Event capture */
-"event_tap.key_tap_creation_failed" = "Kon geen toetsgebeurtenis-tap maken. Toegankelijkheidstoestemming is vereist.";
-"event_tap.mouse_and_flags_tap_creation_failed" = "Kon geen muis- en modificatietoetsen-tap maken.";
+"event_tap.creation_failed" = "Kon geen invoergebeurtenis-tap maken. Toegankelijkheidstoestemming is vereist.";
 
 /* Info settings pane */
 "info.github_label" = "GitHub";

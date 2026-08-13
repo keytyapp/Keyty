@@ -32,7 +32,9 @@ final class CaptureController {
         self.pointerVisualizersManager = pointerVisualizersManager
         self.keyboardVisualizer = keyboardVisualizer
         self.permissionsService = permissionsService
-        self.eventTap.delegate = self
+        self.eventTap.onOutput = { [weak self] output in
+            self?.handle(output)
+        }
         self.eventProcessor.onItemProduced = { [keyboardVisualizer] item in
             keyboardVisualizer.display(item)
         }
@@ -166,9 +168,35 @@ private extension CaptureController {
     }
 }
 
-// MARK: - EventTapDelegate
-extension CaptureController: EventTapDelegate {
-    func eventTap(_ tap: EventTap, didChangeState state: EventTap.State) {
+// MARK: - Event Tap Output
+private extension CaptureController {
+    func handle(_ output: EventTap.Output) {
+        switch output {
+        case .stateChanged(let state):
+            self.handleTapStateChange(state)
+
+        case .keystroke(let keystroke):
+            guard self.isCapturing else { return }
+            self.eventProcessor.processKeystroke(keystroke)
+
+        case .modifierFlags(let flags):
+            guard self.isCapturing else { return }
+            self.eventProcessor.processFlagsChanged(flags)
+
+        case .mediaKey(let mediaKey):
+            guard self.isCapturing, mediaKey.isRecognized else { return }
+            self.eventProcessor.processMediaKey(mediaKey)
+
+        case .mouse(let mouseEvent):
+            guard self.isCapturing else { return }
+            Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
+                pointerVisualizersManager.display(mouseEvent)
+            }
+            self.eventProcessor.processMouseEvent(mouseEvent)
+        }
+    }
+
+    func handleTapStateChange(_ state: EventTap.State) {
         self.updateTapState(from: state)
 
         switch state {
@@ -181,28 +209,5 @@ extension CaptureController: EventTapDelegate {
         case .failed:
             self.handleTapFailure()
         }
-    }
-
-    func eventTap(_ tap: EventTap, noteKeystroke keystroke: StandardKeyEvent) {
-        guard self.isCapturing else { return }
-        self.eventProcessor.processKeystroke(keystroke)
-    }
-
-    func eventTap(_ tap: EventTap, noteFlagsChanged flags: NSEvent.ModifierFlags) {
-        guard self.isCapturing else { return }
-        self.eventProcessor.processFlagsChanged(flags)
-    }
-
-    func eventTap(_ tap: EventTap, noteMediaKey mediaKey: MediaKeyEvent) {
-        guard self.isCapturing, mediaKey.isRecognized else { return }
-        self.eventProcessor.processMediaKey(mediaKey)
-    }
-
-    func eventTap(_ tap: EventTap, noteMouseEvent mouseEvent: MouseEvent) {
-        guard self.isCapturing else { return }
-        Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
-            pointerVisualizersManager.noteMouseEvent(mouseEvent)
-        }
-        self.eventProcessor.processMouseEvent(mouseEvent)
     }
 }

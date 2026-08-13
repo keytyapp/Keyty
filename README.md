@@ -18,6 +18,7 @@
 <p align="center">
   <a href="README.md">English</a> |
   <a href="Docs/README.de.md">Deutsch</a> |
+  <a href="Docs/README.nl.md">Nederlands</a> |
   <a href="Docs/README.es.md">Español</a> |
   <a href="Docs/README.fr.md">Français</a> |
   <a href="Docs/README.pl.md">Polski</a> |

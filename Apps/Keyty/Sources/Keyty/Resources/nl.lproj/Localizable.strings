@@ -1,0 +1,246 @@
+/* Main menu */
+"main_menu.about" = "Over %@";
+"main_menu.close_window" = "Venster sluiten";
+"main_menu.file" = "Archief";
+"main_menu.settings" = "Instellingen…";
+"main_menu.quit" = "%@ stoppen";
+
+/* About window */
+"about.version" = "Versie %@ (%@)";
+"about.tab.license" = "Licentie";
+"about.tab.contributors" = "Bijdragers";
+"about.tab.credits" = "Dankwoord";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3-clausulelicentie";
+"about.contributors.title" = "Bijdragers";
+"about.contributors.subtitle" = "Mensen die hebben geholpen om Keyty beter te maken.";
+"about.credits.sparkle_subtitle" = "MIT-licentie";
+"about.credits.app_mover_subtitle" = "MIT-licentie";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "De licentietekst kon niet worden geladen.";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "Instellingen";
+"settings.sidebar_version" = "versie %@ (%@)";
+"settings.pane.general" = "Algemeen";
+"settings.pane.keyboard" = "Toetsenbord";
+"settings.pane.mouse" = "Muis";
+"settings.pane.displays" = "Beeldschermen";
+"settings.pane.permissions" = "Machtigingen";
+"settings.pane.update" = "Updates";
+"settings.pane.info" = "Info";
+
+/* Anchor labels */
+"anchor.left" = "Links";
+"anchor.center" = "Midden";
+"anchor.right" = "Rechts";
+"anchor.top" = "Boven";
+"anchor.vertical_center" = "Midden";
+"anchor.bottom" = "Onder";
+
+/* Displays settings pane */
+"displays.display_label" = "Beeldscherm";
+"displays.display_subtitle" = "Beeldscherm waarop de toetsenbordoverlay wordt getoond";
+"displays.placement.custom" = "Aangepast";
+"displays.anchor_label" = "Anker";
+"displays.anchor_subtitle" = "Uitlijning en groeipunt van de overlay.";
+"displays.margin_label" = "Scherminzet";
+"displays.margin_subtitle" = "Afstand tussen de overlay en de geselecteerde schermrand.";
+"displays.custom_position.label" = "Positie";
+"displays.custom_position.set_subtitle" = "Kies waar de overlay op het geselecteerde beeldscherm verschijnt.";
+"displays.custom_position.start_setting_button" = "Plaatsen...";
+"displays.custom_position.stop_setting_button" = "Toepassen";
+"displays.custom_content_alignment_label" = "Inhoudsuitlijning";
+"displays.custom_content_alignment_subtitle" = "Kies hoe de overlay zich horizontaal uitbreidt vanaf de aangepaste positie.";
+
+/* General settings pane */
+"general.appearance_section_title" = "App";
+"general.shortcut_section_title" = "Sneltoets";
+"general.settings_section_title" = "Instellingen";
+"general.toggle_capturing_label" = "Registratie in- of uitschakelen";
+"general.toggle_capturing_subtitle" = "Algemene sneltoets om de registratie overal te starten of te stoppen.";
+"general.shortcut_validation_fallback" = "Deze sneltoets kan niet worden gebruikt.";
+"general.start_capturing" = "Inschakelen";
+"general.stop_capturing" = "Uitschakelen";
+"general.show_settings_at_launch" = "Instellingen tonen bij opstarten";
+"general.show_settings_at_launch_subtitle" = "Het instellingenvenster automatisch opnieuw openen wanneer Keyty start.";
+"general.reset_all_settings_title" = "Alle instellingen resetten";
+"general.reset_all_settings_subtitle" = "Toetsenbord-, muis-, beeldscherm-, app- en sneltoetsinstellingen terugzetten naar de standaardwaarden.";
+"general.reset_all_settings_button" = "Reset";
+"general.reset_all_settings_confirmation_title" = "Alle instellingen resetten?";
+"general.reset_all_settings_confirmation_message" = "Hiermee worden toetsenbord-, muis-, beeldscherm-, app- en sneltoetsinstellingen teruggezet naar de standaardwaarden.";
+"general.reset_all_settings_confirmation_button" = "Instellingen resetten";
+"general.reset_all_settings_cancel_button" = "Annuleren";
+
+/* Event capture */
+"event_tap.key_tap_creation_failed" = "Kon geen toetsgebeurtenis-tap maken. Toegankelijkheidstoestemming is vereist.";
+"event_tap.mouse_and_flags_tap_creation_failed" = "Kon geen muis- en modificatietoetsen-tap maken.";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "Website";
+"info.email_label" = "E-mail";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "Live-overlay";
+"keyboard_visualizer.live_overlay_section_subtitle" = "Dit is een echte, renderer-gestuurde voorbeeldweergave met de huidige instellingen van de toetsenbordvisualisatie.";
+"keyboard_visualizer.general_section_title" = "Algemeen";
+"keyboard_visualizer.general_section_subtitle" = "Bepaal de zichtbaarheid en weergave van de toetsenbordoverlay.";
+"keyboard_visualizer.theme_section_title" = "Thema";
+"keyboard_visualizer.theme_section_subtitle" = "Geef elk toetstype een eigen kleurenpalet.";
+"keyboard_visualizer.history_section_title" = "Geschiedenis";
+"keyboard_visualizer.history_section_subtitle" = "Bepaal hoeveel toetsen zichtbaar blijven en hoe opeenvolgende groepen worden gestapeld.";
+"keyboard_visualizer.timing_section_title" = "Timing";
+"keyboard_visualizer.timing_section_subtitle" = "Breng leesbaarheid en reactiesnelheid in balans door te bepalen hoe lang toetsen zichtbaar blijven en hoe snel ze vervagen.";
+"keyboard_visualizer.filter_section_title" = "Filter";
+"keyboard_visualizer.filter_section_subtitle" = "Kies welke toetsenbordgebeurtenissen in de overlay verschijnen.";
+"keyboard_visualizer.enabled_label" = "Ingeschakeld";
+"keyboard_visualizer.enabled_subtitle" = "Zichtbaarheid van de toetsenbordoverlay.";
+"keyboard_visualizer.axis_label" = "As";
+"keyboard_visualizer.axis_subtitle" = "Richting waarin opeenvolgende toetsgroepen worden gestapeld.";
+"keyboard_visualizer.anchor_label" = "Positie";
+"keyboard_visualizer.anchor_subtitle" = "Schermrand waaraan de overlay is vastgemaakt.";
+"keyboard_visualizer.axis.vertical" = "Verticaal";
+"keyboard_visualizer.axis.horizontal" = "Horizontaal";
+"keyboard_visualizer.max_count_label" = "Maximumaantal";
+"keyboard_visualizer.max_count_subtitle" = "Maximaal aantal zichtbare toetsen in de stapel.";
+"keyboard_visualizer.size_label" = "Grootte";
+"keyboard_visualizer.size_subtitle" = "Algemene schaal van de weergegeven toetsen.";
+"keyboard_visualizer.style_label" = "Stijl";
+"keyboard_visualizer.style_subtitle" = "Algemene toetsconstructie en oppervlaktebehandeling.";
+"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "Minimaal";
+"keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.linger_time_label" = "Blijftijd";
+"keyboard_visualizer.linger_time_subtitle" = "Hoe lang toetsen volledig zichtbaar blijven voordat ze vervagen.";
+"keyboard_visualizer.linger_time.short" = "Kort";
+"keyboard_visualizer.linger_time.long" = "Lang";
+"keyboard_visualizer.fade_duration_label" = "Vervaagduur";
+"keyboard_visualizer.fade_duration_subtitle" = "Hoe snel toetsen verdwijnen zodra het vervagen begint.";
+"keyboard_visualizer.fade_duration.fast" = "Snel";
+"keyboard_visualizer.fade_duration.slow" = "Langzaam";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "Alleen toetscombinaties tonen";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Toon alleen toetsen die met Command, Control, Option of Shift worden ingedrukt.";
+"keyboard_visualizer.show_special_keys_label" = "Speciale toetsen";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, pijlen, fn, functietoetsen en vergelijkbare toetsen.";
+"keyboard_visualizer.show_media_key_buttons_label" = "Mediatoetsen";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "Afspelen, volume, helderheid en vergelijkbare mediatoetsen.";
+"keyboard_visualizer.show_mouse_events_label" = "Muisgebeurtenissen";
+"keyboard_visualizer.show_mouse_events_subtitle" = "Muisklikken en scrollgebeurtenissen.";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "Thema";
+"keyboard_visualizer.theme_subtitle" = "Kleurenpalet dat wordt toegepast op de geselecteerde toetsstijl.";
+"keyboard_visualizer.legend_color_label" = "Legenda-kleur";
+"keyboard_visualizer.legend_color_subtitle" = "Kleur voor tekst, symbolen en muispictogrammen op toetsen.";
+"keyboard_visualizer.choose_color" = "Kleur kiezen…";
+"keyboard_visualizer.theme_custom" = "Aangepast…";
+"keyboard_visualizer.regular_theme_label" = "Gewone toetsen";
+"keyboard_visualizer.regular_theme_subtitle" = "Thema voor letters, cijfers en andere teksttoetsen.";
+"keyboard_visualizer.modifier_theme_label" = "Modificatietoetsen";
+"keyboard_visualizer.modifier_theme_subtitle" = "Thema voor Command, Shift, Option, Control en fn.";
+"keyboard_visualizer.special_theme_label" = "Speciale toetsen";
+"keyboard_visualizer.special_theme_subtitle" = "Thema voor Tab, Return, pijlen, functietoetsen en andere niet-teksttoetsen.";
+"keyboard_visualizer.media_theme_label" = "Mediatoetsen";
+"keyboard_visualizer.media_theme_subtitle" = "Thema voor afspeel- en helderheidsregelaars.";
+"keyboard_visualizer.mouse_theme_label" = "Muisgebeurtenissen";
+"keyboard_visualizer.mouse_theme_subtitle" = "Thema voor muisklikken en scrollgebeurtenissen.";
+"keyboard_visualizer.group_background_theme_label" = "Groepsachtergrond";
+"keyboard_visualizer.group_background_theme_subtitle" = "Thema voor het paneel achter elke toetsgroep.";
+"keyboard_visualizer.theme.citrus" = "Citrus";
+"keyboard_visualizer.theme.blue" = "Blauw";
+"keyboard_visualizer.theme.green" = "Groen";
+"keyboard_visualizer.theme.white" = "Wit";
+"keyboard_visualizer.theme.dark" = "Donker";
+"keyboard_visualizer.theme.red" = "Rood";
+"keyboard_visualizer.theme.indigo" = "Indigo";
+"keyboard_visualizer.theme.rose" = "Roos";
+"keyboard_visualizer.theme.purple" = "Paars";
+"keyboard_visualizer.theme.yellow" = "Geel";
+"keyboard_visualizer.theme.orange" = "Oranje";
+"keyboard_visualizer.theme.pink" = "Roze";
+"keyboard_visualizer.color.automatic" = "Automatisch";
+"keyboard_visualizer.color.red" = "Rood";
+"keyboard_visualizer.color.orange" = "Oranje";
+"keyboard_visualizer.color.yellow" = "Geel";
+"keyboard_visualizer.color.green" = "Groen";
+"keyboard_visualizer.color.blue" = "Blauw";
+"keyboard_visualizer.color.purple" = "Paars";
+"keyboard_visualizer.color.pink" = "Roze";
+"keyboard_visualizer.color.white" = "Wit";
+"keyboard_visualizer.color.black" = "Zwart";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "Ring";
+"mouse.tab_icon" = "Pictogram";
+"mouse.pointer_ring_label" = "Aanwijzerring";
+"mouse.enabled" = "Ingeschakeld";
+"mouse.enabled_subtitle" = "Zichtbaarheid van de aanwijzerring.";
+"mouse.always_visible_label" = "Altijd zichtbaar";
+"mouse.always_visible_subtitle" = "De ring blijft zichtbaar terwijl de aanwijzer stil staat.";
+"mouse.ring_color_label" = "Kleur";
+"mouse.ring_color_subtitle" = "Voorinstelling of aangepaste kleur van de aanwijzerring.";
+"mouse.ring_size_label" = "Grootte";
+"mouse.ring_size_subtitle" = "Diameter van de aanwijzerring.";
+"mouse.ring_thickness_label" = "Dikte";
+"mouse.ring_thickness_subtitle" = "Lijndikte van de aanwijzerring.";
+"mouse.ring_shape_label" = "Vorm";
+"mouse.ring_shape_subtitle" = "Omtrekgeometrie van de aanwijzerring.";
+"mouse.pointer_icon_label" = "Aanwijzerpictogram";
+"mouse.pointer_icon_enabled" = "Ingeschakeld";
+"mouse.pointer_icon_enabled_subtitle" = "Zichtbaarheid van de aanwijzerpictogram-overlay.";
+"mouse.pointer_icon_always_visible_label" = "Altijd zichtbaar";
+"mouse.pointer_icon_always_visible_subtitle" = "Het pictogram blijft zichtbaar wanneer geen muisknoppen actief zijn.";
+"mouse.pointer_icon_anchor_label" = "Anker";
+"mouse.pointer_icon_anchor_subtitle" = "Rand van de aanwijzer die als anker voor het pictogram dient.";
+"mouse.pointer_icon_offset_label" = "Offset";
+"mouse.pointer_icon_offset_subtitle" = "Afstand tussen de aanwijzer en de pictogram-overlay.";
+"mouse.icon_size_label" = "Pictogramgrootte";
+"mouse.icon_size_subtitle" = "Schaal van de aanwijzerpictogram-overlay.";
+"mouse.icon_background_label" = "Achtergrondkleur";
+"mouse.icon_background_subtitle" = "Opvulkleur achter het aanwijzerpictogram.";
+"mouse.icon_tint_label" = "Pictogramkleur";
+"mouse.icon_tint_subtitle" = "Voorgrondkleur van het aanwijzerpictogram.";
+"mouse.choose_color" = "Kleur kiezen…";
+"mouse.color.automatic" = "Automatisch";
+"mouse.color.red" = "Rood";
+"mouse.color.orange" = "Oranje";
+"mouse.color.yellow" = "Geel";
+"mouse.color.green" = "Groen";
+"mouse.color.blue" = "Blauw";
+"mouse.color.purple" = "Paars";
+"mouse.color.pink" = "Roze";
+"mouse.color.graphite" = "Grafiet";
+"mouse.color.white" = "Wit";
+"mouse.color.black" = "Zwart";
+"mouse.shape.circle" = "Cirkel";
+"mouse.shape.rhomb" = "Ruit";
+"mouse.shape.squircle" = "Squircle";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "Toegankelijkheid";
+"permissions.section_subtitle" = "Keyty heeft toegankelijkheidstoestemming nodig om je invoergebeurtenissen te observeren en weer te geven.";
+"permissions.status.granted" = "Toegestaan";
+"permissions.status.not_granted" = "Niet toegestaan";
+"permissions.grant_access_button" = "Toestaan…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Keyty instellen";
+"permissions_onboarding.subtitle" = "Om toetsenbord- en muisvisualisatie in te schakelen,\ngeef je Keyty toegang via Toegankelijkheid in macOS.";
+"permissions_onboarding.accessibility.title" = "Toegankelijkheid";
+"permissions_onboarding.accessibility.detail" = "Vereist om toetsenbord- en muisinvoer weer te geven.";
+"permissions_onboarding.accessibility.grant_button" = "Toestaan…";
+"permissions_onboarding.privacy" = "Alle invoer wordt lokaal op je Mac verwerkt. Er wordt niets geüpload of opgeslagen.";
+"permissions_onboarding.learn_more" = "Meer informatie";
+"permissions_onboarding.continue" = "Doorgaan";
+"permissions_onboarding.continue_hint" = "Ga verder zodra Toegankelijkheid is toegestaan.";
+
+/* Update settings pane */
+"update.check_at_startup" = "Bij opstarten op updates controleren";
+"update.check_at_startup_subtitle" = "Sparkle controleert periodiek op nieuwe versies.";
+"update.include_system_profile" = "Anoniem systeemprofiel opnemen";
+"update.include_system_profile_subtitle" = "Stuur een basis-hardwareprofiel mee bij het controleren op updates.";
+"update.last_checked_label" = "Laatst gecontroleerd";
+"update.never" = "Nooit";
+"update.check_now_button" = "Controleer op updates";

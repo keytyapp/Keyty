@@ -13,11 +13,10 @@ final class CaptureController {
     var onCapturingChanged: ((Bool) -> Void)?
     private var shouldCapture: Bool = true
     private var state: State = .idle
-    private var tapState: TapState = .idle
     private var tapDisableCount: Int = 0
     private let maxTapDisableCountBeforeReinstall = 3
 
-    private let eventTap = EventTap()
+    private let eventTap: any EventTapping
     private let eventProcessor = EventProcessor()
     private let pointerVisualizersManager: PointerVisualizersManager
     private let keyboardVisualizer: KeyboardVisualizer
@@ -27,13 +26,18 @@ final class CaptureController {
     init(
         pointerVisualizersManager: PointerVisualizersManager,
         keyboardVisualizer: KeyboardVisualizer,
-        permissionsService: any PermissionsService
+        permissionsService: any PermissionsService,
+        eventTap: any EventTapping = EventTap()
     ) {
         self.pointerVisualizersManager = pointerVisualizersManager
         self.keyboardVisualizer = keyboardVisualizer
         self.permissionsService = permissionsService
-        self.eventTap.onOutput = { [weak self] output in
-            self?.handle(output)
+        self.eventTap = eventTap
+        self.eventTap.onEvent = { [weak self] event in
+            self?.handle(event)
+        }
+        self.eventTap.onStateChanged = { [weak self] state in
+            self?.handleTapStateChange(state)
         }
         self.eventProcessor.onItemProduced = { [keyboardVisualizer] item in
             keyboardVisualizer.display(item)
@@ -119,7 +123,6 @@ private extension CaptureController {
 // MARK: - Capture Lifecycle
 private extension CaptureController {
     func applyCapturing(_ capturing: Bool) {
-        guard !capturing || self.eventTap.isInstalled else { return }
         let wasCapturing = self.isCapturing
         Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager, keyboardVisualizer = self.keyboardVisualizer] in
             pointerVisualizersManager.isPresentationActive = capturing
@@ -153,42 +156,25 @@ private extension CaptureController {
         self.stopCapture()
         self.state = .blockedByTapFailure
     }
-
-    func updateTapState(from state: EventTap.State) {
-        switch state {
-        case .idle:
-            self.tapState = .idle
-        case .installed:
-            self.tapState = .active
-        case .temporarilyDisabled:
-            self.tapState = .recovering
-        case .failed:
-            self.tapState = .failed
-        }
-    }
 }
 
-// MARK: - Event Tap Output
+// MARK: - Captured Events
 private extension CaptureController {
-    func handle(_ output: EventTap.Output) {
-        switch output {
-        case .stateChanged(let state):
-            self.handleTapStateChange(state)
+    func handle(_ event: EventTap.Event) {
+        guard self.isCapturing else { return }
 
+        switch event {
         case .keystroke(let keystroke):
-            guard self.isCapturing else { return }
             self.eventProcessor.processKeystroke(keystroke)
 
         case .modifierFlags(let flags):
-            guard self.isCapturing else { return }
             self.eventProcessor.processFlagsChanged(flags)
 
         case .mediaKey(let mediaKey):
-            guard self.isCapturing, mediaKey.isRecognized else { return }
+            guard mediaKey.isRecognized else { return }
             self.eventProcessor.processMediaKey(mediaKey)
 
         case .mouse(let mouseEvent):
-            guard self.isCapturing else { return }
             Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
                 pointerVisualizersManager.display(mouseEvent)
             }
@@ -197,15 +183,18 @@ private extension CaptureController {
     }
 
     func handleTapStateChange(_ state: EventTap.State) {
-        self.updateTapState(from: state)
-
         switch state {
-        case .idle, .installed:
+        case .idle:
             self.tapDisableCount = 0
-        case .temporarilyDisabled:
+        case .installed:
+            break
+        case .disabled:
             self.tapDisableCount += 1
-            guard self.tapDisableCount >= self.maxTapDisableCountBeforeReinstall else { return }
-            self.reinstallEventTap()
+            if self.tapDisableCount >= self.maxTapDisableCountBeforeReinstall {
+                self.reinstallEventTap()
+            } else {
+                self.eventTap.reenable()
+            }
         case .failed:
             self.handleTapFailure()
         }

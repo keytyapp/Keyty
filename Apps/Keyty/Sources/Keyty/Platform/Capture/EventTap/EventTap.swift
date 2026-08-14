@@ -10,43 +10,36 @@ import Cocoa
 import IOKit.hidsystem
 
 final class EventTap {
-    /// Receives every captured event and lifecycle change. Called on the run loop
-    /// the tap was installed on, never on a background queue.
-    var onOutput: ((Output) -> Void)?
+    /// Sends every captured event.
+    var onEvent: ((Event) -> Void)?
+
+    /// Send every lifecycle change
+    var onStateChanged: ((State) -> Void)?
 
     private(set) var state: EventTap.State = .idle {
         didSet {
             guard oldValue != self.state else { return }
-            self.onOutput?(.stateChanged(self.state))
+            self.onStateChanged?(self.state)
         }
     }
-
-    var isInstalled: Bool {
-        if case .installed = state {
-            return true
-        }
-        return false
-    }
-
-    fileprivate var installedTaps: [Kind: InstalledTap] = [:]
+    
+    private var handle: Handle?
 
     deinit {
-        if self.isInstalled { self.remove() }
+        if self.handle != nil { self.remove() }
     }
 }
 
 // MARK: - Public API
 extension EventTap {
     func install() throws(EventTap.Error) {
-        guard !self.isInstalled else { return }
+        guard self.handle == nil else { return }
 
-        for kind in Kind.allCases {
-            guard let installedTap = self.makeTap(kind) else {
-                self.resetInstalledResources()
-                self.state = .failed(.creationFailed(kind))
-                throw .creationFailed(kind)
-            }
-            self.installedTaps[kind] = installedTap
+        do {
+            self.handle = try Handle(owner: self, eventsOfInterest: Self.eventsOfInterest)
+        } catch {
+            self.state = .failed(error)
+            throw error
         }
 
         self.state = .installed
@@ -54,56 +47,80 @@ extension EventTap {
 
     func remove() {
         guard self.state != .idle else { return }
-        self.resetInstalledResources()
+        self.handle?.invalidate()
+        self.handle = nil
         self.state = .idle
+    }
+
+    func reenable() {
+        guard case .disabled = self.state, let handle = self.handle else { return }
+        handle.enable()
+        self.state = .installed
     }
 }
 
 // MARK: - Tap Resources
 private extension EventTap {
-    func makeTap(_ kind: Kind) -> InstalledTap? {
-        guard let machPort = CGEvent.tapCreate(
-            tap: .cgSessionEventTap,
-            place: .headInsertEventTap,
-            options: .listenOnly,
-            eventsOfInterest: kind.eventsOfInterest,
-            callback: tapCallback(for: kind),
-            userInfo: Unmanaged.passUnretained(self).toOpaque()
-        ) else {
-            return nil
+    /// Every event type the app visualizes. Creation fails as a whole when the
+    /// Accessibility grant is missing, so a `nil` port is a truthful capability signal.
+    static let eventsOfInterest: CGEventMask = [
+        .keyDown, .keyUp, .systemDefined, .flagsChanged,
+        .leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp,
+        .leftMouseDragged, .rightMouseDragged,
+        .otherMouseDown, .otherMouseUp, .otherMouseDragged,
+        .scrollWheel
+    ].eventMask
+}
+
+// MARK: - Tap Handle
+private extension EventTap {
+    /// Tap's `CFMachPort` and `CFRunLoopSource`.
+    /// 
+    /// Owns them for their whole lifetime, so they are always created and invalidated as a unit.
+    struct Handle {
+        let machPort: CFMachPort
+        let runLoopSource: CFRunLoopSource
+
+        /// `owner` is captured unretained as the callback's `userInfo`.
+        init(owner: EventTap, eventsOfInterest: CGEventMask) throws(EventTap.Error) {
+            guard let machPort = CGEvent.tapCreate(
+                tap: .cgSessionEventTap,
+                place: .headInsertEventTap,
+                options: .listenOnly,
+                eventsOfInterest: eventsOfInterest,
+                callback: tapCallback,
+                userInfo: Unmanaged.passUnretained(owner).toOpaque()
+            ) else {
+                throw .portCreationFailed
+            }
+
+            guard let runLoopSource = CFMachPortCreateRunLoopSource(nil, machPort, 0) else {
+                CFMachPortInvalidate(machPort)
+                throw .runLoopSourceCreationFailed
+            }
+
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
+            self.machPort = machPort
+            self.runLoopSource = runLoopSource
         }
 
-        guard let runLoopSource = CFMachPortCreateRunLoopSource(nil, machPort, 0) else {
-            CFMachPortInvalidate(machPort)
-            return nil
+        func invalidate() {
+            CFRunLoopSourceInvalidate(self.runLoopSource)
+            CFMachPortInvalidate(self.machPort)
         }
 
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
-        return InstalledTap(machPort: machPort, runLoopSource: runLoopSource)
-    }
-
-    func resetInstalledResources() {
-        for installedTap in self.installedTaps.values {
-            CFRunLoopSourceInvalidate(installedTap.runLoopSource)
+        func enable() {
+            CGEvent.tapEnable(tap: self.machPort, enable: true)
         }
-        self.installedTaps.removeAll()
-    }
-
-    func reenableTap(_ kind: Kind) {
-        guard let installedTap = self.installedTaps[kind] else { return }
-        CGEvent.tapEnable(tap: installedTap.machPort, enable: true)
-        self.state = .installed
     }
 }
 
 // MARK: - Event Routing
 extension EventTap {
-    /// Single entry point for both taps. `kind` matters only for disable notifications,
-    /// which report the same event type whichever tap the system turned off.
-    fileprivate func handleTapCallback(type: CGEventType, event: CGEvent, kind: Kind) {
+    fileprivate func handleTapCallback(type: CGEventType, event: CGEvent) {
         switch type {
         case .tapDisabledByTimeout, .tapDisabledByUserInput:
-            self.handleTapDisabled(type, kind: kind)
+            self.handleTapDisabled(type)
         case .keyDown, .keyUp:
             self.handleKeyEvent(event)
         case .systemDefined:
@@ -125,23 +142,20 @@ extension EventTap {
 private extension EventTap {
     func handleKeyEvent(_ cgEvent: CGEvent) {
         guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.onOutput?(.keystroke(StandardKeyEvent(nsEvent: nsEvent)))
+        self.onEvent?(.keystroke(StandardKeyEvent(nsEvent: nsEvent)))
     }
 
     func handleFlagsChanged(_ cgEvent: CGEvent) {
         let flags = NSEvent.ModifierFlags(cgEventFlags: cgEvent.flags)
-        self.onOutput?(.modifierFlags(flags))
+        self.onEvent?(.modifierFlags(flags))
     }
 
     func handleMouseEvent(_ cgEvent: CGEvent) {
         guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.onOutput?(.mouse(MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent)))
+        self.onEvent?(.mouse(MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent)))
     }
 
     func handleSystemDefined(_ cgEvent: CGEvent) {
-        // Media keys arrive as system-defined events with the aux-control-buttons subtype.
-        // Other system-defined subtypes (screen changes, etc.) are ignored,
-        // and reading `data1` is only safe once the subtype is confirmed.
         guard
             let nsEvent = NSEvent(cgEvent: cgEvent),
             nsEvent.type == .systemDefined,
@@ -150,64 +164,25 @@ private extension EventTap {
             return
         }
 
-        self.onOutput?(.mediaKey(MediaKeyEvent(nsEvent: nsEvent)))
+        self.onEvent?(.mediaKey(MediaKeyEvent(nsEvent: nsEvent)))
     }
 
-    func handleTapDisabled(_ type: CGEventType, kind: Kind) {
-        let reason: EventTap.DisableReason
-        switch type {
-        case .tapDisabledByTimeout:
-            reason = .timeout
-        case .tapDisabledByUserInput:
-            reason = .userInput
-        default:
-            return
-        }
-        self.state = .temporarilyDisabled(reason)
-        self.reenableTap(kind)
+    func handleTapDisabled(_ type: CGEventType) {
+        guard let reason = EventTap.DisableReason(eventType: type) else { return }
+        self.state = .disabled(reason)
     }
 }
 
-// MARK: - C event tap callbacks
-// Must be file-scope functions (no captures) to satisfy the @convention(c) requirement,
-// so each tap gets a trampoline that supplies its own `Kind`.
-
-private func tapCallback(for kind: EventTap.Kind) -> CGEventTapCallBack {
-    switch kind {
-    case .key:
-        return keyTapCallback
-    case .mouseAndFlags:
-        return mouseFlagsTapCallback
-    }
-}
-
-private func keyTapCallback(
+// MARK: - C event tap callback
+private func tapCallback(
     proxy: CGEventTapProxy,
     type: CGEventType,
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
-) -> Unmanaged<CGEvent>? {
-    dispatchTapCallback(type: type, event: event, refcon: refcon, kind: .key)
-}
-
-private func mouseFlagsTapCallback(
-    proxy: CGEventTapProxy,
-    type: CGEventType,
-    event: CGEvent,
-    refcon: UnsafeMutableRawPointer?
-) -> Unmanaged<CGEvent>? {
-    dispatchTapCallback(type: type, event: event, refcon: refcon, kind: .mouseAndFlags)
-}
-
-private func dispatchTapCallback(
-    type: CGEventType,
-    event: CGEvent,
-    refcon: UnsafeMutableRawPointer?,
-    kind: EventTap.Kind
 ) -> Unmanaged<CGEvent>? {
     if let refcon {
         let tap = Unmanaged<EventTap>.fromOpaque(refcon).takeUnretainedValue()
-        tap.handleTapCallback(type: type, event: event, kind: kind)
+        tap.handleTapCallback(type: type, event: event)
     }
     return .passUnretained(event)
 }

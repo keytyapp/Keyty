@@ -10,8 +10,11 @@ import Cocoa
 
 extension EventTap {
     enum Error: LocalizedError, Equatable {
-        /// The tap could not be created.
-        case creationFailed
+        /// The system refused to create the tap's mach port, which is how a missing Accessibility grant surfaces.
+        case portCreationFailed
+
+        /// The mach port could not be attached to a run loop.
+        case runLoopSourceCreationFailed
 
         var errorDescription: String? {
             L10n.EventTap.creationFailed

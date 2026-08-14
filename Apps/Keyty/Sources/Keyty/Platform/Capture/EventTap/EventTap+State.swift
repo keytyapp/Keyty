@@ -14,8 +14,8 @@ extension EventTap {
         /// The tap is installed and the system is delivering events.
         case installed
 
-        /// Still installed, but the system turned the tap off; it is re-enabled automatically.
-        case temporarilyDisabled(EventTap.DisableReason)
+        /// Installed, but the system turned the tap off. 
+        case disabled(EventTap.DisableReason)
 
         /// The tap could not be created, so nothing is installed.
         case failed(EventTap.Error)

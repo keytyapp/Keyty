@@ -8,14 +8,17 @@
 
 import Foundation
 
-/// The capture surface `CaptureController` drives. Installing a real tap requires the
-/// Accessibility grant, so the state machine is only testable behind this abstraction.
+/// Abstraction to mock `EventTap`
 protocol EventTapping: AnyObject {
-    /// Receives every captured event and lifecycle change.
-    var onOutput: ((EventTap.Output) -> Void)? { get set }
+    /// Receives every captured event.
+    var onEvent: ((EventTap.Event) -> Void)? { get set }
+
+    /// Receives every lifecycle change.
+    var onStateChanged: ((EventTap.State) -> Void)? { get set }
 
     func install() throws(EventTap.Error)
     func remove()
+    func reenable()
 }
 
 extension EventTap: EventTapping {}

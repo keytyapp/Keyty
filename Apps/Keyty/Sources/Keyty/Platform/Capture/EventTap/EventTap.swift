@@ -10,19 +10,19 @@ import Cocoa
 import IOKit.hidsystem
 
 final class EventTap {
-    /// Receives every captured event and lifecycle change. Called on the run loop
-    /// the tap was installed on, never on a background queue.
-    var onOutput: ((Output) -> Void)?
+    /// Sends every captured event.
+    var onEvent: ((Event) -> Void)?
+
+    /// Send every lifecycle change
+    var onStateChanged: ((State) -> Void)?
 
     private(set) var state: EventTap.State = .idle {
         didSet {
             guard oldValue != self.state else { return }
-            self.onOutput?(.stateChanged(self.state))
+            self.onStateChanged?(self.state)
         }
     }
-
-    /// Non-nil exactly while the tap is installed. `state` cannot stand in for this:
-    /// it reports `.temporarilyDisabled` while the tap is still installed.
+    
     private var handle: Handle?
 
     deinit {
@@ -35,15 +35,13 @@ extension EventTap {
     func install() throws(EventTap.Error) {
         guard self.handle == nil else { return }
 
-        guard let handle = Handle(
-            owner: self,
-            eventsOfInterest: Self.eventsOfInterest
-        ) else {
-            self.state = .failed(.creationFailed)
-            throw .creationFailed
+        do {
+            self.handle = try Handle(owner: self, eventsOfInterest: Self.eventsOfInterest)
+        } catch {
+            self.state = .failed(error)
+            throw error
         }
 
-        self.handle = handle
         self.state = .installed
     }
 
@@ -52,6 +50,12 @@ extension EventTap {
         self.handle?.invalidate()
         self.handle = nil
         self.state = .idle
+    }
+
+    func reenable() {
+        guard case .disabled = self.state, let handle = self.handle else { return }
+        handle.enable()
+        self.state = .installed
     }
 }
 
@@ -66,25 +70,19 @@ private extension EventTap {
         .otherMouseDown, .otherMouseUp, .otherMouseDragged,
         .scrollWheel
     ].eventMask
-
-    func reenableTap() {
-        guard let handle = self.handle else { return }
-        handle.enable()
-        self.state = .installed
-    }
 }
 
 // MARK: - Tap Handle
 private extension EventTap {
-    /// The tap's mach port and its run loop source. Owns both for their whole lifetime,
-    /// so they are always created and invalidated as a unit.
+    /// Tap's `CFMachPort` and `CFRunLoopSource`.
+    /// 
+    /// Owns them for their whole lifetime, so they are always created and invalidated as a unit.
     struct Handle {
         let machPort: CFMachPort
         let runLoopSource: CFRunLoopSource
 
-        /// Fails when the tap cannot be created, which is how a missing Accessibility
-        /// grant surfaces. `owner` is captured unretained as the callback's `userInfo`.
-        init?(owner: EventTap, eventsOfInterest: CGEventMask) {
+        /// `owner` is captured unretained as the callback's `userInfo`.
+        init(owner: EventTap, eventsOfInterest: CGEventMask) throws(EventTap.Error) {
             guard let machPort = CGEvent.tapCreate(
                 tap: .cgSessionEventTap,
                 place: .headInsertEventTap,
@@ -93,12 +91,12 @@ private extension EventTap {
                 callback: tapCallback,
                 userInfo: Unmanaged.passUnretained(owner).toOpaque()
             ) else {
-                return nil
+                throw .portCreationFailed
             }
 
             guard let runLoopSource = CFMachPortCreateRunLoopSource(nil, machPort, 0) else {
                 CFMachPortInvalidate(machPort)
-                return nil
+                throw .runLoopSourceCreationFailed
             }
 
             CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
@@ -144,23 +142,20 @@ extension EventTap {
 private extension EventTap {
     func handleKeyEvent(_ cgEvent: CGEvent) {
         guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.onOutput?(.keystroke(StandardKeyEvent(nsEvent: nsEvent)))
+        self.onEvent?(.keystroke(StandardKeyEvent(nsEvent: nsEvent)))
     }
 
     func handleFlagsChanged(_ cgEvent: CGEvent) {
         let flags = NSEvent.ModifierFlags(cgEventFlags: cgEvent.flags)
-        self.onOutput?(.modifierFlags(flags))
+        self.onEvent?(.modifierFlags(flags))
     }
 
     func handleMouseEvent(_ cgEvent: CGEvent) {
         guard let nsEvent = NSEvent(cgEvent: cgEvent) else { return }
-        self.onOutput?(.mouse(MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent)))
+        self.onEvent?(.mouse(MouseEvent(nsEvent: nsEvent, cgEvent: cgEvent)))
     }
 
     func handleSystemDefined(_ cgEvent: CGEvent) {
-        // Media keys arrive as system-defined events with the aux-control-buttons subtype.
-        // Other system-defined subtypes (screen changes, etc.) are ignored,
-        // and reading `data1` is only safe once the subtype is confirmed.
         guard
             let nsEvent = NSEvent(cgEvent: cgEvent),
             nsEvent.type == .systemDefined,
@@ -169,21 +164,12 @@ private extension EventTap {
             return
         }
 
-        self.onOutput?(.mediaKey(MediaKeyEvent(nsEvent: nsEvent)))
+        self.onEvent?(.mediaKey(MediaKeyEvent(nsEvent: nsEvent)))
     }
 
     func handleTapDisabled(_ type: CGEventType) {
-        let reason: EventTap.DisableReason
-        switch type {
-        case .tapDisabledByTimeout:
-            reason = .timeout
-        case .tapDisabledByUserInput:
-            reason = .userInput
-        default:
-            return
-        }
-        self.state = .temporarilyDisabled(reason)
-        self.reenableTap()
+        guard let reason = EventTap.DisableReason(eventType: type) else { return }
+        self.state = .disabled(reason)
     }
 }
 

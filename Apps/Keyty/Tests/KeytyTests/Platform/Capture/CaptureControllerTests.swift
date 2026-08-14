@@ -87,7 +87,7 @@ final class CaptureControllerTests: XCTestCase {
 
     func testCapturingStopsWhenTapCannotBeInstalled() {
         self.permissionsService.currentStatus = .granted
-        self.eventTap.installError = .creationFailed
+        self.eventTap.installError = .portCreationFailed
 
         self.controller.start()
 
@@ -110,20 +110,43 @@ final class CaptureControllerTests: XCTestCase {
         self.permissionsService.currentStatus = .granted
         self.controller.start()
 
-        self.eventTap.simulateTemporaryDisable()
-        self.eventTap.simulateTemporaryDisable()
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
 
         XCTAssertEqual(self.eventTap.installCount, 1)
         XCTAssertTrue(self.controller.isCapturing)
+    }
+
+    func testTapIsReenabledBelowTheDisableThreshold() {
+        self.permissionsService.currentStatus = .granted
+        self.controller.start()
+
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
+
+        XCTAssertEqual(self.eventTap.reenableCount, 2)
+        XCTAssertFalse(self.eventTap.isDisabled)
+    }
+
+    func testTapIsReinstalledRatherThanReenabledAtTheDisableThreshold() {
+        self.permissionsService.currentStatus = .granted
+        self.controller.start()
+
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
+
+        XCTAssertEqual(self.eventTap.reenableCount, 2)
+        XCTAssertEqual(self.eventTap.installCount, 2)
     }
 
     func testTapIsReinstalledAfterRepeatedDisables() {
         self.permissionsService.currentStatus = .granted
         self.controller.start()
 
-        self.eventTap.simulateTemporaryDisable()
-        self.eventTap.simulateTemporaryDisable()
-        self.eventTap.simulateTemporaryDisable()
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
 
         XCTAssertEqual(self.eventTap.installCount, 2)
         XCTAssertTrue(self.controller.isCapturing)
@@ -133,15 +156,15 @@ final class CaptureControllerTests: XCTestCase {
         self.permissionsService.currentStatus = .granted
         self.controller.start()
 
-        for _ in 0..<3 { self.eventTap.simulateTemporaryDisable() }
+        for _ in 0..<3 { self.eventTap.simulateDisable() }
         XCTAssertEqual(self.eventTap.installCount, 2)
 
         // A fresh run of disables must be needed before the next reinstall.
-        self.eventTap.simulateTemporaryDisable()
-        self.eventTap.simulateTemporaryDisable()
+        self.eventTap.simulateDisable()
+        self.eventTap.simulateDisable()
         XCTAssertEqual(self.eventTap.installCount, 2)
 
-        self.eventTap.simulateTemporaryDisable()
+        self.eventTap.simulateDisable()
         XCTAssertEqual(self.eventTap.installCount, 3)
     }
 
@@ -158,41 +181,51 @@ final class CaptureControllerTests: XCTestCase {
 // MARK: - Test Doubles
 
 private final class TestEventTap: EventTapping {
-    var onOutput: ((EventTap.Output) -> Void)?
+    var onEvent: ((EventTap.Event) -> Void)?
+    var onStateChanged: ((EventTap.State) -> Void)?
     var installError: EventTap.Error?
 
     private(set) var isInstalled = false
+    private(set) var isDisabled = false
     private(set) var installCount = 0
     private(set) var removeCount = 0
+    private(set) var reenableCount = 0
 
     func install() throws(EventTap.Error) {
         if let installError = self.installError { throw installError }
         guard !self.isInstalled else { return }
         self.isInstalled = true
+        self.isDisabled = false
         self.installCount += 1
-        self.onOutput?(.stateChanged(.installed))
+        self.onStateChanged?(.installed)
     }
 
     func remove() {
         guard self.isInstalled else { return }
         self.isInstalled = false
+        self.isDisabled = false
         self.removeCount += 1
-        self.onOutput?(.stateChanged(.idle))
+        self.onStateChanged?(.idle)
     }
 
-    /// Mirrors `EventTap`: the system disables the tap and it re-enables itself immediately.
-    /// The trailing `.installed` is suppressed when the owner reinstalled in response,
-    /// matching the real tap's de-duplicated state changes.
-    func simulateTemporaryDisable(_ reason: EventTap.DisableReason = .timeout) {
-        let installCountBeforeDisable = self.installCount
-        self.onOutput?(.stateChanged(.temporarilyDisabled(reason)))
-        guard self.isInstalled, self.installCount == installCountBeforeDisable else { return }
-        self.onOutput?(.stateChanged(.installed))
+    func reenable() {
+        guard self.isInstalled, self.isDisabled else { return }
+        self.isDisabled = false
+        self.reenableCount += 1
+        self.onStateChanged?(.installed)
+    }
+
+    /// The system turns the tap off; it stays off until the owner acts.
+    func simulateDisable(_ reason: EventTap.DisableReason = .timeout) {
+        guard self.isInstalled else { return }
+        self.isDisabled = true
+        self.onStateChanged?(.disabled(reason))
     }
 
     func simulateFailure() {
         self.isInstalled = false
-        self.onOutput?(.stateChanged(.failed(.creationFailed)))
+        self.isDisabled = false
+        self.onStateChanged?(.failed(.portCreationFailed))
     }
 }
 

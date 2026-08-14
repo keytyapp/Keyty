@@ -23,6 +23,17 @@ extension KeyboardVisualizerAlignment {
         }
     }
 
+    /// Bottom edge of `height` when this alignment's edge sits on `y`.
+    ///
+    /// AppKit's y grows upward, so `leading` is the bottom edge and `trailing` the top one.
+    func originY(for height: CGFloat, anchoredAt y: CGFloat) -> CGFloat {
+        switch self {
+        case .leading:  return y
+        case .center:   return y - height / 2
+        case .trailing: return y - height
+        }
+    }
+
     /// This alignment's edge of `frame` — the point the stored normalized position names.
     func anchorX(in frame: CGRect) -> CGFloat {
         switch self {
@@ -32,14 +43,29 @@ extension KeyboardVisualizerAlignment {
         }
     }
 
-    /// Frame of `size` whose aligned edge sits on the normalized position and which is
-    /// vertically centered on it, clamped inside `visibleFrame`.
-    func frame(for size: CGSize, atNormalized position: CGPoint, in visibleFrame: CGRect) -> CGRect {
+    /// This alignment's edge of `frame` on the vertical axis.
+    func anchorY(in frame: CGRect) -> CGFloat {
+        switch self {
+        case .leading:  return frame.minY
+        case .center:   return frame.midY
+        case .trailing: return frame.maxY
+        }
+    }
+
+    /// Frame of `size` whose aligned edges sit on the normalized position, clamped inside
+    /// `visibleFrame`.
+    static func frame(
+        for size: CGSize,
+        atNormalized position: CGPoint,
+        in visibleFrame: CGRect,
+        horizontal: KeyboardVisualizerAlignment,
+        vertical: KeyboardVisualizerAlignment
+    ) -> CGRect {
         let anchor = visibleFrame.point(forNormalized: position)
         let origin = CGPoint(
-            x: self.originX(for: size.width, anchoredAt: anchor.x)
+            x: horizontal.originX(for: size.width, anchoredAt: anchor.x)
                 .clamped(minimum: visibleFrame.minX, maximum: visibleFrame.maxX - size.width),
-            y: (anchor.y - size.height / 2)
+            y: vertical.originY(for: size.height, anchoredAt: anchor.y)
                 .clamped(minimum: visibleFrame.minY, maximum: visibleFrame.maxY - size.height)
         )
 

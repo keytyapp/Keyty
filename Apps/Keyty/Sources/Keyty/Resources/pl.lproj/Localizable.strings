@@ -50,8 +50,10 @@
 "displays.custom_position.set_subtitle" = "Wybierz miejsce wyświetlania nakładki na wybranym ekranie.";
 "displays.custom_position.start_setting_button" = "Ustaw...";
 "displays.custom_position.stop_setting_button" = "Zastosuj";
-"displays.custom_content_alignment_label" = "Wyrównanie zawartości";
-"displays.custom_content_alignment_subtitle" = "Wybierz, jak nakładka ma rozszerzać się poziomo od własnej pozycji.";
+"displays.custom_horizontal_alignment_label" = "Wyrównanie w poziomie";
+"displays.custom_horizontal_alignment_subtitle" = "Wybierz, jak nakładka ma rozszerzać się poziomo od własnej pozycji.";
+"displays.custom_vertical_alignment_label" = "Wyrównanie w pionie";
+"displays.custom_vertical_alignment_subtitle" = "Wybierz, jak nakładka ma rozszerzać się pionowo od własnej pozycji.";
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplikacja";

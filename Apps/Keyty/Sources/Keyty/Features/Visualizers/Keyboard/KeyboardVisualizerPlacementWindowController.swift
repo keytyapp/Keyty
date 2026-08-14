@@ -11,19 +11,13 @@ import Combine
 
 @MainActor
 final class KeyboardVisualizerPlacementWindowController: NSWindowController, KeyboardVisualizerPlacementCoordinating {
-    struct Placement {
-        let screenID: CGDirectDisplayID
-        let positionX: CGFloat
-        let positionY: CGFloat
-    }
-
     typealias PlacementChangeHandler = @MainActor (Placement) -> Void
 
     private let settings: KeyboardVisualizerSettings
     private let screensService: any ScreenServiceProvider
     private var onPlacementChanged: PlacementChangeHandler?
     private var placementCancellable: AnyCancellable?
-    private var appliedHorizontalAlignment: KeyboardVisualizerAlignment?
+    private var appliedAlignment: Alignment?
 
     init(
         settings: KeyboardVisualizerSettings,
@@ -40,6 +34,26 @@ final class KeyboardVisualizerPlacementWindowController: NSWindowController, Key
     }
 }
 
+// MARK: - Placement
+extension KeyboardVisualizerPlacementWindowController {
+    /// Display and position the preview window resolved to,
+    /// normalized to that display's visible frame.
+    struct Placement {
+        let screenID: CGDirectDisplayID
+        let positionX: CGFloat
+        let positionY: CGFloat
+    }
+}
+
+// MARK: - Alignment
+extension KeyboardVisualizerPlacementWindowController {
+    /// Alignment pair the preview window is currently anchored with.
+    struct Alignment: Equatable {
+        let horizontal: KeyboardVisualizerAlignment
+        let vertical: KeyboardVisualizerAlignment
+    }
+}
+
 // MARK: - Public API
 extension KeyboardVisualizerPlacementWindowController {
     func startSettingPosition(onPlacementChanged: @escaping PlacementChangeHandler) {
@@ -53,20 +67,23 @@ extension KeyboardVisualizerPlacementWindowController {
         guard let visibleFrame = self.resolvedVisibleFrame() else { return }
 
         let contentView = KeyboardVisualizerGroupView(items: Self.previewItems(settings: self.settings), settings: self.settings)
-        let frame = self.previewHorizontalAlignment.frame(
+        let previewAlignment = self.previewAlignment
+        let frame = KeyboardVisualizerAlignment.frame(
             for: contentView.preferredSize,
             atNormalized: CGPoint(
                 x: self.settings.customPositionNormalizedX,
                 y: self.settings.customPositionNormalizedY
             ),
-            in: visibleFrame
+            in: visibleFrame,
+            horizontal: previewAlignment.horizontal,
+            vertical: previewAlignment.vertical
         )
         let window = Window(frame: frame, contentView: contentView)
         window.onMoveEnded = { [weak self] in
             self?.notifyPlacementChanged()
         }
         self.window = window
-        self.appliedHorizontalAlignment = self.previewHorizontalAlignment
+        self.appliedAlignment = previewAlignment
         self.observePlacementChanges()
         window.orderFrontRegardless()
     }
@@ -78,7 +95,7 @@ extension KeyboardVisualizerPlacementWindowController {
         window.close()
         self.onPlacementChanged = nil
         self.placementCancellable = nil
-        self.appliedHorizontalAlignment = nil
+        self.appliedAlignment = nil
         self.window = nil
         return placement
     }
@@ -135,8 +152,11 @@ private extension KeyboardVisualizerPlacementWindowController {
         self.screensService.visibleFrame(preferring: self.settings.screenID)
     }
 
-    var previewHorizontalAlignment: KeyboardVisualizerAlignment {
-        self.settings.effectiveHorizontalAlignment
+    var previewAlignment: Alignment {
+        Alignment(
+            horizontal: self.settings.effectiveHorizontalAlignment,
+            vertical: self.settings.customVerticalAlignment
+        )
     }
 
     func observePlacementChanges() {
@@ -149,9 +169,9 @@ private extension KeyboardVisualizerPlacementWindowController {
     }
 
     func republishAnchorOnAlignmentChange() {
-        let alignment = self.previewHorizontalAlignment
-        guard alignment != self.appliedHorizontalAlignment else { return }
-        self.appliedHorizontalAlignment = alignment
+        let alignment = self.previewAlignment
+        guard alignment != self.appliedAlignment else { return }
+        self.appliedAlignment = alignment
 
         self.notifyPlacementChanged()
     }
@@ -171,9 +191,11 @@ private extension KeyboardVisualizerPlacementWindowController {
     }
 
     func previewAnchorPoint(in frame: CGRect) -> CGPoint {
-        CGPoint(
-            x: self.previewHorizontalAlignment.anchorX(in: frame),
-            y: frame.midY
+        let alignment = self.previewAlignment
+
+        return CGPoint(
+            x: alignment.horizontal.anchorX(in: frame),
+            y: alignment.vertical.anchorY(in: frame)
         )
     }
 

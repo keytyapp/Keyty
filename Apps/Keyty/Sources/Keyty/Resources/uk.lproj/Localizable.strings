@@ -50,8 +50,10 @@
 "displays.custom_position.set_subtitle" = "Виберіть, де накладка з’являтиметься на вибраному дисплеї.";
 "displays.custom_position.start_setting_button" = "Розмістити...";
 "displays.custom_position.stop_setting_button" = "Застосувати";
-"displays.custom_content_alignment_label" = "Вирівнювання вмісту";
-"displays.custom_content_alignment_subtitle" = "Виберіть, як накладка розширюється горизонтально від користувацької позиції.";
+"displays.custom_horizontal_alignment_label" = "Горизонтальне вирівнювання";
+"displays.custom_horizontal_alignment_subtitle" = "Виберіть, як накладка розширюється горизонтально від користувацької позиції.";
+"displays.custom_vertical_alignment_label" = "Вертикальне вирівнювання";
+"displays.custom_vertical_alignment_subtitle" = "Виберіть, як накладка розширюється вертикально від користувацької позиції.";
 
 /* General settings pane */
 "general.appearance_section_title" = "Програма";

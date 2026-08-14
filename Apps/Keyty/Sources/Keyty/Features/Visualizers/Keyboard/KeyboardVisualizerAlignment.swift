@@ -16,7 +16,7 @@ enum KeyboardVisualizerAlignment: Int, CaseIterable {
     /// Pinned to the cross-axis end (right for a vertical stack, top for a horizontal stack).
     case trailing = 2
 
-    var label: String {
+    var horizontalLabel: String {
         switch self {
         case .leading:
             L10n.Anchor.left
@@ -24,6 +24,17 @@ enum KeyboardVisualizerAlignment: Int, CaseIterable {
             L10n.Anchor.center
         case .trailing:
             L10n.Anchor.right
+        }
+    }
+
+    var verticalLabel: String {
+        switch self {
+        case .leading:
+            L10n.Anchor.bottom
+        case .center:
+            L10n.Anchor.verticalCenter
+        case .trailing:
+            L10n.Anchor.top
         }
     }
 }

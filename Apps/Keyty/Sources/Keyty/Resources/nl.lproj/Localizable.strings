@@ -50,8 +50,10 @@
 "displays.custom_position.set_subtitle" = "Kies waar de overlay op het geselecteerde beeldscherm verschijnt.";
 "displays.custom_position.start_setting_button" = "Plaatsen...";
 "displays.custom_position.stop_setting_button" = "Toepassen";
-"displays.custom_content_alignment_label" = "Inhoudsuitlijning";
-"displays.custom_content_alignment_subtitle" = "Kies hoe de overlay zich horizontaal uitbreidt vanaf de aangepaste positie.";
+"displays.custom_horizontal_alignment_label" = "Horizontale uitlijning";
+"displays.custom_horizontal_alignment_subtitle" = "Kies hoe de overlay zich horizontaal uitbreidt vanaf de aangepaste positie.";
+"displays.custom_vertical_alignment_label" = "Verticale uitlijning";
+"displays.custom_vertical_alignment_subtitle" = "Kies hoe de overlay zich verticaal uitbreidt vanaf de aangepaste positie.";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";

@@ -11,12 +11,22 @@ import CoreGraphics
 public extension CGRect {
     /// Returns `point` as a normalized coordinate within this rectangle.
     ///
-    /// The returned point is clamped to `0...1` on both axes. Empty dimensions are
-    /// treated as `1` to avoid division by zero.
+    /// The returned point is clamped to `0...1` on both axes.
+    /// Empty dimensions are treated as `1` to avoid division by zero.
     func normalizedPoint(for point: CGPoint) -> CGPoint {
         CGPoint(
             x: ((point.x - self.minX) / Swift.max(self.width, 1)).clamped(to: 0...1),
             y: ((point.y - self.minY) / Swift.max(self.height, 1)).clamped(to: 0...1)
+        )
+    }
+
+    /// Returns the point a normalized coordinate refers to within this rectangle.
+    ///
+    /// Inverse of `normalizedPoint(for:)`.
+    func point(forNormalized position: CGPoint) -> CGPoint {
+        CGPoint(
+            x: self.minX + self.width * position.x,
+            y: self.minY + self.height * position.y
         )
     }
 }

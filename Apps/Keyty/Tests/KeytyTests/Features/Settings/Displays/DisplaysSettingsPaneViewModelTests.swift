@@ -211,69 +211,9 @@ private final class FakeKeyboardVisualizerPlacementCoordinator: KeyboardVisualiz
 
 @MainActor
 final class KeyboardVisualizerPlacementWindowControllerTests: XCTestCase {
-    func testFramePlacesHandleCenterAtNormalizedPosition() {
-        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
-        let size = CGSize(width: 120, height: 80)
 
-        let frame = KeyboardVisualizerPlacementWindowController.frame(
-            forNormalizedPosition: CGPoint(x: 0.25, y: 0.75),
-            in: area,
-            size: size
-        )
 
-        XCTAssertEqual(frame.midX, 300, accuracy: 0.0001)
-        XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
-    }
 
-    func testFramePlacesLeadingAlignedHandleAtNormalizedPosition() {
-        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
-        let size = CGSize(width: 120, height: 80)
-
-        let frame = KeyboardVisualizerPlacementWindowController.frame(
-            forNormalizedPosition: CGPoint(x: 0.25, y: 0.75),
-            in: area,
-            size: size,
-            horizontalAlignment: .leading
-        )
-
-        XCTAssertEqual(frame.minX, 300, accuracy: 0.0001)
-        XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
-    }
-
-    func testFramePlacesTrailingAlignedHandleAtNormalizedPosition() {
-        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
-        let size = CGSize(width: 120, height: 80)
-
-        let frame = KeyboardVisualizerPlacementWindowController.frame(
-            forNormalizedPosition: CGPoint(x: 0.25, y: 0.75),
-            in: area,
-            size: size,
-            horizontalAlignment: .trailing
-        )
-
-        XCTAssertEqual(frame.maxX, 300, accuracy: 0.0001)
-        XCTAssertEqual(frame.midY, 650, accuracy: 0.0001)
-    }
-
-    func testAnchorXUsesAlignmentSpecificAnchorPoint() {
-        let frame = CGRect(x: 180, y: 200, width: 120, height: 80)
-
-        XCTAssertEqual(
-            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .leading),
-            180,
-            accuracy: 0.0001
-        )
-        XCTAssertEqual(
-            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .center),
-            240,
-            accuracy: 0.0001
-        )
-        XCTAssertEqual(
-            KeyboardVisualizerPlacementWindowController.anchorX(in: frame, alignment: .trailing),
-            300,
-            accuracy: 0.0001
-        )
-    }
 
     func testAlignmentChangeKeepsPreviewInPlaceAndMovesAnchorToNewEdge() {
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
@@ -326,31 +266,7 @@ final class KeyboardVisualizerPlacementWindowControllerTests: XCTestCase {
         _ = controller.stopSettingPosition()
     }
 
-    func testFrameClampsHandleInsideVisibleFrame() {
-        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
-        let size = CGSize(width: 120, height: 80)
 
-        let frame = KeyboardVisualizerPlacementWindowController.frame(
-            forNormalizedPosition: CGPoint(x: 0, y: 1),
-            in: area,
-            size: size
-        )
-
-        XCTAssertEqual(frame.minX, area.minX, accuracy: 0.0001)
-        XCTAssertEqual(frame.maxY, area.maxY, accuracy: 0.0001)
-    }
-
-    func testNormalizedPositionClampsPointToVisibleFrame() {
-        let area = CGRect(x: 100, y: 200, width: 800, height: 600)
-
-        let position = KeyboardVisualizerPlacementWindowController.normalizedPosition(
-            for: CGPoint(x: 980, y: 140),
-            in: area
-        )
-
-        XCTAssertEqual(position.x, 1, accuracy: 0.0001)
-        XCTAssertEqual(position.y, 0, accuracy: 0.0001)
-    }
 
     func testPlacementUsesScreenContainingPoint() {
         let placement = KeyboardVisualizerPlacementWindowController.placement(

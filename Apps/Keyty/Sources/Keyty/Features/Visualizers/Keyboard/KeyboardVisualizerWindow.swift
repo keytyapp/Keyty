@@ -210,29 +210,22 @@ final class KeyboardVisualizerWindow: NSWindow {
     }
 
     private func customFrame(size: NSSize, in area: CGRect) -> NSRect {
-        let center = CGPoint(
-            x: area.minX + area.width * self.settings.customPositionNormalizedX,
-            y: area.minY + area.height * self.settings.customPositionNormalizedY
+        self.settings.effectiveHorizontalAlignment.frame(
+            for: size,
+            atNormalized: self.customNormalizedPosition,
+            in: area
         )
-        let origin = CGPoint(
-            x: Self.customHorizontalOriginX(
-                for: size.width,
-                anchoredAt: center.x,
-                alignment: self.settings.customHorizontalAlignment
-            ),
-            y: center.y - size.height / 2
-        )
-        let clampedOrigin = CGPoint(
-            x: origin.x.clamped(minimum: area.minX, maximum: area.maxX - size.width),
-            y: origin.y.clamped(minimum: area.minY, maximum: area.maxY - size.height)
-        )
+    }
 
-        return NSRect(origin: clampedOrigin, size: size)
+    private var customNormalizedPosition: CGPoint {
+        CGPoint(
+            x: self.settings.customPositionNormalizedX,
+            y: self.settings.customPositionNormalizedY
+        )
     }
 
     private func resolvedVisibleFrame() -> CGRect? {
-        self.screensService.visibleFrame(for: self.settings.screenID)
-            ?? self.screensService.mainVisibleFrame()
+        self.screensService.visibleFrame(preferring: self.settings.screenID)
     }
 
     private func alignmentOffset(free: CGFloat, alignment: KeyboardVisualizerAlignment) -> CGFloat {
@@ -250,10 +243,9 @@ final class KeyboardVisualizerWindow: NSWindow {
         customAnchorX: CGFloat?
     ) -> CGFloat {
         if let customAnchorX {
-            return Self.customHorizontalOriginX(
+            return self.settings.effectiveHorizontalAlignment.originX(
                 for: width,
-                anchoredAt: customAnchorX,
-                alignment: self.settings.customHorizontalAlignment
+                anchoredAt: customAnchorX
             )
         }
 
@@ -268,34 +260,7 @@ final class KeyboardVisualizerWindow: NSWindow {
             return nil
         }
 
-        return Self.customHorizontalAnchorX(
-            in: frame,
-            visibleFrame: area,
-            normalizedX: self.settings.customPositionNormalizedX
-        )
-    }
-
-    static func customHorizontalOriginX(
-        for width: CGFloat,
-        anchoredAt x: CGFloat,
-        alignment: KeyboardVisualizerAlignment
-    ) -> CGFloat {
-        switch alignment {
-        case .leading:
-            return x
-        case .center:
-            return x - width / 2
-        case .trailing:
-            return x - width
-        }
-    }
-
-    static func customHorizontalAnchorX(
-        in windowFrame: NSRect,
-        visibleFrame: CGRect,
-        normalizedX: CGFloat
-    ) -> CGFloat {
-        let anchorX = visibleFrame.minX + visibleFrame.width * normalizedX
-        return anchorX - windowFrame.minX
+        // Expressed in window coordinates, since it positions groups inside `rootView`.
+        return area.point(forNormalized: self.customNormalizedPosition).x - frame.minX
     }
 }

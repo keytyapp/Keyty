@@ -53,12 +53,13 @@ extension KeyboardVisualizerPlacementWindowController {
         guard let visibleFrame = self.resolvedVisibleFrame() else { return }
 
         let contentView = KeyboardVisualizerGroupView(items: Self.previewItems(settings: self.settings), settings: self.settings)
-        let size = contentView.preferredSize
-        let frame = Self.frame(
-            forNormalizedPosition: CGPoint(x: self.settings.customPositionNormalizedX, y: self.settings.customPositionNormalizedY),
-            in: visibleFrame,
-            size: size,
-            horizontalAlignment: self.previewHorizontalAlignment
+        let frame = self.previewHorizontalAlignment.frame(
+            for: contentView.preferredSize,
+            atNormalized: CGPoint(
+                x: self.settings.customPositionNormalizedX,
+                y: self.settings.customPositionNormalizedY
+            ),
+            in: visibleFrame
         )
         let window = Window(frame: frame, contentView: contentView)
         window.onMoveEnded = { [weak self] in
@@ -84,32 +85,6 @@ extension KeyboardVisualizerPlacementWindowController {
 }
 
 extension KeyboardVisualizerPlacementWindowController {
-    static func frame(
-        forNormalizedPosition position: CGPoint,
-        in area: CGRect,
-        size: CGSize,
-        horizontalAlignment: KeyboardVisualizerAlignment = .center
-    ) -> CGRect {
-        let center = CGPoint(
-            x: area.minX + area.width * position.x,
-            y: area.minY + area.height * position.y
-        )
-        let origin = CGPoint(
-            x: KeyboardVisualizerWindow.customHorizontalOriginX(
-                for: size.width,
-                anchoredAt: center.x,
-                alignment: horizontalAlignment
-            ).clamped(minimum: area.minX, maximum: area.maxX - size.width),
-            y: (center.y - size.height / 2).clamped(minimum: area.minY, maximum: area.maxY - size.height)
-        )
-
-        return CGRect(origin: origin, size: size)
-    }
-
-    static func normalizedPosition(for point: CGPoint, in area: CGRect) -> CGPoint {
-        area.normalizedPoint(for: point)
-    }
-
     static func placement(
         for point: CGPoint,
         in visibleFrames: [(screenID: CGDirectDisplayID, frame: CGRect)]
@@ -120,7 +95,7 @@ extension KeyboardVisualizerPlacementWindowController {
             return nil
         }
 
-        let position = Self.normalizedPosition(for: point, in: visibleFrame.frame)
+        let position = visibleFrame.frame.normalizedPoint(for: point)
 
         return Placement(
             screenID: visibleFrame.screenID,
@@ -138,16 +113,6 @@ extension KeyboardVisualizerPlacementWindowController {
         ]
     }
 
-    static func anchorX(in frame: CGRect, alignment: KeyboardVisualizerAlignment) -> CGFloat {
-        switch alignment {
-        case .leading:
-            return frame.minX
-        case .center:
-            return frame.midX
-        case .trailing:
-            return frame.maxX
-        }
-    }
 }
 
 private extension KeyboardVisualizerPlacementWindowController {
@@ -167,17 +132,11 @@ private extension KeyboardVisualizerPlacementWindowController {
     }
 
     func resolvedVisibleFrame() -> CGRect? {
-        self.screensService.visibleFrame(for: self.settings.screenID)
-            ?? self.screensService.mainVisibleFrame()
+        self.screensService.visibleFrame(preferring: self.settings.screenID)
     }
 
     var previewHorizontalAlignment: KeyboardVisualizerAlignment {
-        switch self.settings.stackAxis {
-        case .vertical:
-            return self.settings.customHorizontalAlignment
-        case .horizontal:
-            return .center
-        }
+        self.settings.effectiveHorizontalAlignment
     }
 
     func observePlacementChanges() {
@@ -213,7 +172,7 @@ private extension KeyboardVisualizerPlacementWindowController {
 
     func previewAnchorPoint(in frame: CGRect) -> CGPoint {
         CGPoint(
-            x: Self.anchorX(in: frame, alignment: self.previewHorizontalAlignment),
+            x: self.previewHorizontalAlignment.anchorX(in: frame),
             y: frame.midY
         )
     }

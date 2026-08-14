@@ -1,6 +1,6 @@
 name: Feature request
 description: Suggest an improvement or new capability for Keyty.
-title: "[Feature]: "
+title: "[Feature] "
 labels:
   - enhancement
 body:

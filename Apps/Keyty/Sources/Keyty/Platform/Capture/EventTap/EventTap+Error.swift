@@ -10,8 +10,8 @@ import Cocoa
 
 extension EventTap {
     enum Error: LocalizedError, Equatable {
-        /// A tap could not be created.
-        case creationFailed(Kind)
+        /// The tap could not be created.
+        case creationFailed
 
         var errorDescription: String? {
             L10n.EventTap.creationFailed

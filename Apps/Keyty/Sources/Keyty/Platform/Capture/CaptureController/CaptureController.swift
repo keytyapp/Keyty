@@ -17,7 +17,7 @@ final class CaptureController {
     private var tapDisableCount: Int = 0
     private let maxTapDisableCountBeforeReinstall = 3
 
-    private let eventTap = EventTap()
+    private let eventTap: any EventTapping
     private let eventProcessor = EventProcessor()
     private let pointerVisualizersManager: PointerVisualizersManager
     private let keyboardVisualizer: KeyboardVisualizer
@@ -27,11 +27,13 @@ final class CaptureController {
     init(
         pointerVisualizersManager: PointerVisualizersManager,
         keyboardVisualizer: KeyboardVisualizer,
-        permissionsService: any PermissionsService
+        permissionsService: any PermissionsService,
+        eventTap: any EventTapping = EventTap()
     ) {
         self.pointerVisualizersManager = pointerVisualizersManager
         self.keyboardVisualizer = keyboardVisualizer
         self.permissionsService = permissionsService
+        self.eventTap = eventTap
         self.eventTap.onOutput = { [weak self] output in
             self?.handle(output)
         }
@@ -119,7 +121,6 @@ private extension CaptureController {
 // MARK: - Capture Lifecycle
 private extension CaptureController {
     func applyCapturing(_ capturing: Bool) {
-        guard !capturing || self.eventTap.isInstalled else { return }
         let wasCapturing = self.isCapturing
         Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager, keyboardVisualizer = self.keyboardVisualizer] in
             pointerVisualizersManager.isPresentationActive = capturing
@@ -200,8 +201,13 @@ private extension CaptureController {
         self.updateTapState(from: state)
 
         switch state {
-        case .idle, .installed:
+        case .idle:
             self.tapDisableCount = 0
+        case .installed:
+            // `.installed` also follows every automatic re-enable, so it must not reset the
+            // count; otherwise repeated disables never reach the reinstall threshold. A real
+            // reinstall clears it by way of `remove()` driving the tap back to `.idle`.
+            break
         case .temporarilyDisabled:
             self.tapDisableCount += 1
             guard self.tapDisableCount >= self.maxTapDisableCountBeforeReinstall else { return }

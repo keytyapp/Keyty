@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Carbon
 import Combine
 
 final class KeyboardVisualizer {
@@ -29,6 +30,9 @@ final class KeyboardVisualizer {
     private let visualizerSettings: KeyboardVisualizerSettings
     private let visualizerWindow: KeyboardVisualizerWindow
     private let eventCoordinator = KeycapEventCoordinator<KeyboardVisualizerGroupView, KeycapItem>()
+
+    // Rebuilt only when the selected keyboard layout changes.
+    private var cachedLegendResolver: (source: TISInputSource, resolver: EventLegendResolver)?
     private var cancellables = Set<AnyCancellable>()
     private var currentModifierFlags: NSEvent.ModifierFlags = []
     private var lastModifierFlags: NSEvent.ModifierFlags = []
@@ -141,7 +145,11 @@ final class KeyboardVisualizer {
             return
         }
 
-        let items = KeycapItemFactory.keycapItems(for: keystroke, palette: self.visualizerSettings.palette)
+        let items = KeycapItemFactory.keycapItems(
+            for: keystroke,
+            legend: self.legendResolver.legend(for: .keystroke(keystroke)),
+            palette: self.visualizerSettings.palette
+        )
         guard !items.isEmpty else { return }
 
         self.prepareForNextContentEvent()
@@ -237,5 +245,19 @@ final class KeyboardVisualizer {
 
     private var currentTrackedFlags: NSEvent.ModifierFlags {
         self.currentModifierFlags.intersection(Self.trackedModifierFlags)
+    }
+}
+
+// MARK: - Legend Resolution
+private extension KeyboardVisualizer {
+    var legendResolver: EventLegendResolver {
+        let source = KeyboardInputSourceManager.shared.currentInputSource
+        if let cached = self.cachedLegendResolver, cached.source === source {
+            return cached.resolver
+        }
+
+        let resolver = EventLegendResolver(keyboardLayout: source)
+        self.cachedLegendResolver = (source, resolver)
+        return resolver
     }
 }

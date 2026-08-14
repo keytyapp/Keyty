@@ -23,9 +23,6 @@ enum KeyboardGlyphCatalog {
     
     static let tab = UnicodeToken.tab.string
 
-    /// Glyphs that can prefix a chord in display strings.
-    static let modifierSymbols: [String] = KeyboardModifierKey.Kind.allCases.map(\.glyph)
-
     /// Physical key codes for left and right command, shift, option, and control keys.
     static let modifierKeyCodes: Set<KeyboardKeyCode> = Set(KeyboardModifierKey.Kind.allCases.flatMap(\.keyCodes))
 
@@ -39,26 +36,4 @@ enum KeyboardGlyphCatalog {
         key.displayText
     }
 
-    /// Returns the normalized display symbol we show for fallback display text.
-    static func displaySymbol(for text: String) -> String {
-        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        switch trimmed.uppercased() {
-        case "ESC":
-            return UnicodeToken.escape.string
-        case "DELETE", "BACKSPACE":
-            return UnicodeToken.delete.string
-        case "DEL", "FORWARD DELETE":
-            return UnicodeToken.forwardDelete.string
-        case "RETURN":
-            return UnicodeToken.returnKey.string
-        case "ENTER":
-            return UnicodeToken.keypadEnter.string
-        case "TAB":
-            return tab
-        case "SPACE":
-            return UnicodeToken.visibleSpace.string
-        default:
-            return trimmed.uppercased()
-        }
-    }
 }

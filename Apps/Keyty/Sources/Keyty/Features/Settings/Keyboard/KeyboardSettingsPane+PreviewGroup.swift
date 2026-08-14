@@ -109,13 +109,13 @@ extension KeyboardSettingsPane.PreviewGroup {
             [
                 .key(
                     keyCode: KeyboardKeyCode.a.rawValue,
-                    displayString: "A"
+                    legend: Self.previewLegend(for: .a)
                 )
             ],
             [
                 .key(
                     keyCode: KeyboardKeyCode.space.rawValue,
-                    displayString: "Space"
+                    legend: Self.previewLegend(for: .space)
                 )
             ],
         ]
@@ -129,7 +129,7 @@ extension KeyboardSettingsPane.PreviewGroup {
                 ),
                 .key(
                     keyCode: 0x28,
-                    displayString: "K"
+                    legend: Self.previewLegend(for: .k)
                 ),
             ],
             [
@@ -138,7 +138,7 @@ extension KeyboardSettingsPane.PreviewGroup {
                 ),
                 .key(
                     keyCode: KeyboardKeyCode.escape.rawValue,
-                    displayString: KeyboardGlyphCatalog.symbol(for: KeyboardSpecialKey.escape)
+                    legend: Self.previewLegend(for: .escape)
                 ),
             ],
         ]
@@ -152,13 +152,13 @@ extension KeyboardSettingsPane.PreviewGroup {
                 ),
                 .key(
                     keyCode: KeyboardKeyCode.tab.rawValue,
-                    displayString: KeyboardGlyphCatalog.tab
+                    legend: Self.previewLegend(for: .tab)
                 )
             ],
             [
                 .key(
                     keyCode: KeyboardKeyCode.returnKey.rawValue,
-                    displayString: KeyboardGlyphCatalog.symbol(for: KeyboardSpecialKey.returnKey)
+                    legend: Self.previewLegend(for: .returnKey)
                 )
             ],
         ]
@@ -215,5 +215,13 @@ extension KeyboardSettingsPane {
 
         /// The stable identifier derived from the preview category and variant.
         var id: String { "\(self.category.rawValue)-\(self.variant)" }
+    }
+}
+
+// MARK: - Preview Legends
+private extension KeyboardSettingsPane.PreviewGroup {
+    static func previewLegend(for keyCode: KeyboardKeyCode) -> EventLegend {
+        EventLegendResolver(keyboardLayout: KeyboardInputSourceManager.shared.currentInputSource)
+            .legend(forKeyCode: keyCode)
     }
 }

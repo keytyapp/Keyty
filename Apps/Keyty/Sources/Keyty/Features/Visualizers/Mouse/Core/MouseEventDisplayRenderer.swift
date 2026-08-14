@@ -34,37 +34,6 @@ enum MouseEventDisplayRenderer {
         return image
     }
 
-    static func attributedRepresentation(forBezel event: MouseEvent, font: NSFont, color textColor: NSColor) -> NSAttributedString {
-        let targetHeight = font.ascender + (-font.descender)
-        guard let icon = Self.iconImage(for: event, height: targetHeight, color: textColor) else {
-            return NSAttributedString()
-        }
-
-        let attachment = NSTextAttachment()
-        attachment.image = icon
-        attachment.bounds = NSRect(x: 0, y: font.descender, width: icon.size.width, height: icon.size.height)
-
-        if event.kind.isScroll {
-            return NSAttributedString(attachment: attachment)
-        }
-
-        let text = event.displayString
-        let splitIndex: String.Index
-        if let asciiIndex = text.firstIndex(where: { character in
-            character.unicodeScalars.contains { $0.value < 128 }
-        }) {
-            splitIndex = asciiIndex
-        } else {
-            splitIndex = text.endIndex
-        }
-
-        let result = NSMutableAttributedString()
-        if splitIndex > text.startIndex {
-            result.append(NSAttributedString(string: String(text[..<splitIndex])))
-        }
-        result.append(NSAttributedString(attachment: attachment))
-        return result
-    }
 
     static func sourceIcon(for kind: MouseEvent.Kind) -> NSImage? {
         switch kind {

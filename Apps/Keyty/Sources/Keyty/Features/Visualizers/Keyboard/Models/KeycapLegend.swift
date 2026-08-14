@@ -38,6 +38,23 @@ struct KeycapLegend {
 
 // MARK: - Helpers
 extension KeycapLegend {
+    /// Renders a resolved legend, loading its resource at this renderer's size.
+    init(_ legend: EventLegend, mouseIconHeight: CGFloat) {
+        switch legend.kind {
+        case .text:
+            self.init(symbol: legend.text, label: legend.label)
+        case .symbol(let name):
+            self.init(sfSymbolName: name, label: legend.label)
+        case .mouseIcon(let kind):
+            self.init(
+                symbol: legend.text,
+                image: MouseEventDisplayRenderer.templateIconImage(for: kind, height: mouseIconHeight),
+                imageBadgeText: kind.otherButtonNumber.map(String.init),
+                label: legend.label
+            )
+        }
+    }
+
     static func modifier(_ modifier: KeyboardModifierKey.Kind) -> KeycapLegend {
         KeycapLegend(symbol: modifier.glyph, label: modifier.label)
     }

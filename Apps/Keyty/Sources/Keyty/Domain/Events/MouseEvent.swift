@@ -47,10 +47,6 @@ public struct MouseEvent {
         .mouse(self)
     }
 
-    public var displayString: String {
-        EventTransformer.shared.transform(inputEvent)
-    }
-
     public var hasZeroScrollDelta: Bool {
         self.scrollingDeltaX == 0.0 && self.scrollingDeltaY == 0.0
     }

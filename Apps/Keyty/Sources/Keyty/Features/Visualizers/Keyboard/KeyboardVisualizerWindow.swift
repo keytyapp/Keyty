@@ -161,10 +161,11 @@ final class KeyboardVisualizerWindow: NSWindow {
         self.setFrame(targetFrame, display: true, animate: false)
     }
 
-    /// Re-pins the window to its anchor using the current content size, without adding
-    /// or removing any groups. Driven by anchor-setting and screen-layout changes.
+    /// Re-pins the window to its anchor without adding or removing any groups. Driven by
+    /// anchor-setting and screen-layout changes. Group origins are recomputed too: in custom
+    /// placement they are resolved against the anchor point, so alignment changes move them.
     @objc private func repositionToAnchor() {
-        self.setFrame(self.anchoredFrame(for: self.rootView.frame.size), display: true, animate: false)
+        self.layoutGroups()
     }
 
     /// Frame that places `contentSize` against the main screen's visible area for the

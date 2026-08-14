@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Combine
 
 @MainActor
 final class KeyboardVisualizerPlacementWindowController: NSWindowController, KeyboardVisualizerPlacementCoordinating {
@@ -21,6 +22,8 @@ final class KeyboardVisualizerPlacementWindowController: NSWindowController, Key
     private let settings: KeyboardVisualizerSettings
     private let screensService: any ScreenServiceProvider
     private var onPlacementChanged: PlacementChangeHandler?
+    private var placementCancellable: AnyCancellable?
+    private var appliedHorizontalAlignment: KeyboardVisualizerAlignment?
 
     init(
         settings: KeyboardVisualizerSettings,
@@ -62,6 +65,8 @@ extension KeyboardVisualizerPlacementWindowController {
             self?.notifyPlacementChanged()
         }
         self.window = window
+        self.appliedHorizontalAlignment = self.previewHorizontalAlignment
+        self.observePlacementChanges()
         window.orderFrontRegardless()
     }
 
@@ -71,6 +76,8 @@ extension KeyboardVisualizerPlacementWindowController {
         let placement = self.placement(for: self.previewAnchorPoint(in: window.frame))
         window.close()
         self.onPlacementChanged = nil
+        self.placementCancellable = nil
+        self.appliedHorizontalAlignment = nil
         self.window = nil
         return placement
     }
@@ -171,6 +178,23 @@ private extension KeyboardVisualizerPlacementWindowController {
         case .horizontal:
             return .center
         }
+    }
+
+    func observePlacementChanges() {
+        self.placementCancellable = self.settings.placementChanges
+            .sink { [weak self] _ in
+                MainActor.assumeIsolated {
+                    self?.republishAnchorOnAlignmentChange()
+                }
+            }
+    }
+
+    func republishAnchorOnAlignmentChange() {
+        let alignment = self.previewHorizontalAlignment
+        guard alignment != self.appliedHorizontalAlignment else { return }
+        self.appliedHorizontalAlignment = alignment
+
+        self.notifyPlacementChanged()
     }
 
     func placement(for point: CGPoint) -> Placement? {

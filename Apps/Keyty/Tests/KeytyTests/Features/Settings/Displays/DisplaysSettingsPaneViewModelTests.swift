@@ -275,6 +275,57 @@ final class KeyboardVisualizerPlacementWindowControllerTests: XCTestCase {
         )
     }
 
+    func testAlignmentChangeKeepsPreviewInPlaceAndMovesAnchorToNewEdge() {
+        let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
+        settings.placementMode = .custom
+        settings.stackAxis = .vertical
+        settings.customHorizontalAlignment = .center
+        settings.customPositionNormalizedX = 0.25
+        settings.customPositionNormalizedY = 0.5
+
+        let screensService = TestScreenService()
+        let screenWidth = screensService.screens[0].frame.width
+        let controller = KeyboardVisualizerPlacementWindowController(
+            settings: settings,
+            screensService: screensService
+        )
+        controller.startSettingPosition { placement in
+            settings.applyCustomPlacement(
+                screenID: placement.screenID,
+                normalizedX: placement.positionX,
+                normalizedY: placement.positionY
+            )
+        }
+
+        guard let window = controller.window else {
+            return XCTFail("Expected the preview window to be created")
+        }
+        let previewFrame = window.frame
+        XCTAssertEqual(previewFrame.midX, 480, accuracy: 0.0001)
+
+        settings.customHorizontalAlignment = .leading
+        RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+
+        XCTAssertEqual(window.frame, previewFrame)
+        XCTAssertEqual(
+            settings.customPositionNormalizedX,
+            previewFrame.minX / screenWidth,
+            accuracy: 0.0001
+        )
+
+        settings.customHorizontalAlignment = .trailing
+        RunLoop.main.run(until: Date().addingTimeInterval(0.1))
+
+        XCTAssertEqual(window.frame, previewFrame)
+        XCTAssertEqual(
+            settings.customPositionNormalizedX,
+            previewFrame.maxX / screenWidth,
+            accuracy: 0.0001
+        )
+
+        _ = controller.stopSettingPosition()
+    }
+
     func testFrameClampsHandleInsideVisibleFrame() {
         let area = CGRect(x: 100, y: 200, width: 800, height: 600)
         let size = CGSize(width: 120, height: 80)

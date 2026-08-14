@@ -7,6 +7,7 @@
 //
 
 import AppKit
+import Carbon
 import XCTest
 @testable import Keyty
 
@@ -97,14 +98,14 @@ final class KeycapItemFactoryTests: XCTestCase {
 
         let returnItems = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.returnKey.rawValue,
-            displayString: KeyboardSpecialKey.returnKey.displayText,
+            legend: EventLegend(text: KeyboardSpecialKey.returnKey.displayText, label: KeyboardSpecialKey.returnKey.label),
             modifierFlags: [],
             isPressed: true,
             palette: palette
         )
         let enterItems = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.keypadEnter.rawValue,
-            displayString: KeyboardSpecialKey.keypadEnter.displayText,
+            legend: EventLegend(text: KeyboardSpecialKey.keypadEnter.displayText, label: KeyboardSpecialKey.keypadEnter.label),
             modifierFlags: [],
             isPressed: true,
             palette: palette
@@ -123,14 +124,14 @@ final class KeycapItemFactoryTests: XCTestCase {
 
         let deleteItems = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.delete.rawValue,
-            displayString: KeyboardSpecialKey.delete.displayText,
+            legend: EventLegend(text: KeyboardSpecialKey.delete.displayText, label: KeyboardSpecialKey.delete.label),
             modifierFlags: [],
             isPressed: true,
             palette: palette
         )
         let forwardDeleteItems = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.forwardDelete.rawValue,
-            displayString: KeyboardSpecialKey.forwardDelete.displayText,
+            legend: EventLegend(text: KeyboardSpecialKey.forwardDelete.displayText, label: KeyboardSpecialKey.forwardDelete.label),
             modifierFlags: [],
             isPressed: true,
             palette: palette
@@ -175,6 +176,28 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(downItem.identity, .media(.play))
         XCTAssertTrue(downItem.isPressed)
         XCTAssertFalse(upItem.isPressed)
+    }
+
+    /// The runtime path: resolver to factory. Guards the labels that hand-built
+    /// legends in the tests above do not exercise.
+    func testResolvedLegendsCarryTheirLabelsThroughToKeycaps() throws {
+        let resolver = EventLegendResolver(keyboardLayout: try TISInputSource.usEnglish())
+        let palette = Self.makePalette()
+        let expected: [(KeyboardKeyCode, String)] = [
+            (.tab, "tab"), (.escape, "esc"), (.delete, "delete"),
+            (.returnKey, "return"), (.keypadEnter, "enter")
+        ]
+
+        for (keyCode, label) in expected {
+            let keystroke = StandardKeyEvent.stub(keyCode: keyCode)
+            let items = KeycapItemFactory.keycapItems(
+                for: keystroke,
+                legend: resolver.legend(for: InputEvent.keystroke(keystroke)),
+                palette: palette
+            )
+
+            XCTAssertEqual(items.first?.label, label, "for \(keyCode)")
+        }
     }
 
     private static func makePalette(

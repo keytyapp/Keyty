@@ -11,7 +11,7 @@ import AppKit
 enum KeycapPreviewSample {
     case key(
         keyCode: UInt16,
-        displayString: String,
+        legend: EventLegend,
         modifierFlags: NSEvent.ModifierFlags = [],
         isPressed: Bool = false
     )
@@ -32,10 +32,14 @@ enum KeycapItemFactory {
     private static let mouseIconHeight: CGFloat = 44
     private static let orderedModifierLocations: [KeyboardModifierKey.Location] = [.left, .right]
 
-    static func keycapItems(for keystroke: StandardKeyEvent, palette: KeycapThemePalette) -> [KeycapItem] {
+    static func keycapItems(
+        for keystroke: StandardKeyEvent,
+        legend: EventLegend,
+        palette: KeycapThemePalette
+    ) -> [KeycapItem] {
         Self.keycapItems(
             keyCode: keystroke.keyCode,
-            displayString: keystroke.displayString,
+            legend: legend,
             modifierFlags: keystroke.modifierFlags,
             isPressed: keystroke.type != .keyUp,
             palette: palette
@@ -44,7 +48,7 @@ enum KeycapItemFactory {
 
     static func keycapItems(
         keyCode: UInt16,
-        displayString: String,
+        legend: EventLegend,
         modifierFlags: NSEvent.ModifierFlags,
         isPressed: Bool,
         palette: KeycapThemePalette
@@ -54,34 +58,14 @@ enum KeycapItemFactory {
             releasedFlags: [],
             palette: palette
         )
-        let stripped = Self.stripModifierPrefixes(from: displayString)
-        guard !stripped.isEmpty else { return result }
-
-        if let symbolName = InputEventSymbolMapper.keystrokeSymbolName(for: keyCode) {
-            let identity = KeycapIdentity.keyCode(keyCode)
-            result.append(KeycapItem(
-                identity: identity,
-                legend: KeycapLegend(sfSymbolName: symbolName),
-                state: KeycapState(isPressed: isPressed),
-                appearance: palette.appearance(for: identity)
-            ))
-            return result
-        }
-
-        if let specialItem = Self.specialKeycapItem(
-            keyCode: keyCode,
-            isPressed: isPressed,
-            palette: palette
-        ) {
-            result.append(specialItem)
-            return result
-        }
+        guard !legend.text.isEmpty || legend.kind != .text else { return result }
 
         let identity = KeycapIdentity.keyCode(keyCode)
         result.append(KeycapItem(
             identity: identity,
-            legend: KeycapLegend(symbol: KeyboardGlyphCatalog.displaySymbol(for: stripped)),
+            legend: Self.keycapLegend(for: keyCode, legend: legend),
             state: KeycapState(isPressed: isPressed),
+            layoutHints: Self.layoutHints(forKeyCode: keyCode),
             appearance: palette.appearance(for: identity)
         ))
         return result
@@ -190,10 +174,10 @@ enum KeycapItemFactory {
 
     static func items(for sample: KeycapPreviewSample, palette: KeycapThemePalette) -> [KeycapItem] {
         switch sample {
-        case let .key(keyCode, displayString, modifierFlags, isPressed):
+        case let .key(keyCode, legend, modifierFlags, isPressed):
             return Self.keycapItems(
                 keyCode: keyCode,
-                displayString: displayString,
+                legend: legend,
                 modifierFlags: modifierFlags,
                 isPressed: isPressed,
                 palette: palette
@@ -207,77 +191,28 @@ enum KeycapItemFactory {
         }
     }
 
-    private static func specialKeycapItem(
-        keyCode: UInt16,
-        isPressed: Bool,
-        palette: KeycapThemePalette
-    ) -> KeycapItem? {
-        guard let specialKey = KeyboardSpecialKeyResolver.specialKey(for: keyCode) else { return nil }
-
-        let identity = KeycapIdentity.keyCode(keyCode)
-        let appearance = palette.appearance(for: identity)
-        switch specialKey {
+    // Legend for a key, with the two keys whose keycap styling differs from
+    // what the resolved legend alone describes.
+    private static func keycapLegend(for keyCode: UInt16, legend: EventLegend) -> KeycapLegend {
+        switch KeyboardSpecialKeyResolver.specialKey(for: keyCode) {
         case .function:
-            return KeycapItem(
-                identity: identity,
-                legend: .function,
-                state: KeycapState(isPressed: isPressed),
-                appearance: appearance
-            )
-        case .tab:
-            return KeycapItem(
-                identity: identity,
-                legend: .tab,
-                state: KeycapState(isPressed: isPressed),
-                layoutHints: KeycapLayoutHints(alignment: .left),
-                appearance: appearance
-            )
-        case .escape:
-            return KeycapItem(
-                identity: identity,
-                legend: .escape,
-                state: KeycapState(isPressed: isPressed),
-                layoutHints: KeycapLayoutHints(alignment: .left),
-                appearance: appearance
-            )
-        case .delete:
-            return KeycapItem(
-                identity: identity,
-                legend: .delete,
-                state: KeycapState(isPressed: isPressed),
-                appearance: appearance
-            )
-        case .forwardDelete:
-            return KeycapItem(
-                identity: identity,
-                legend: .forwardDelete,
-                state: KeycapState(isPressed: isPressed),
-                appearance: appearance
-            )
-        case .returnKey:
-            return KeycapItem(
-                identity: identity,
-                legend: .return,
-                state: KeycapState(isPressed: isPressed),
-                appearance: appearance
-            )
-        case .keypadEnter:
-            return KeycapItem(
-                identity: identity,
-                legend: .enter,
-                state: KeycapState(isPressed: isPressed),
-                appearance: appearance
-            )
-        case .space:
-            return KeycapItem(
-                identity: identity,
-                legend: .space,
-                state: KeycapState(isPressed: isPressed),
-                layoutHints: KeycapLayoutHints(fixedWidth: 256),
-                appearance: appearance
-            )
+            return .function
+        case .capsLock:
+            return .capsLock
         default:
-            return nil
+            return KeycapLegend(legend, mouseIconHeight: Self.mouseIconHeight)
+        }
+    }
+
+    // Layout is a rendering concern, so it stays here rather than in the legend.
+    private static func layoutHints(forKeyCode keyCode: UInt16) -> KeycapLayoutHints {
+        switch KeyboardSpecialKeyResolver.specialKey(for: keyCode) {
+        case .tab, .escape:
+            return KeycapLayoutHints(alignment: .left)
+        case .space:
+            return KeycapLayoutHints(fixedWidth: 256)
+        default:
+            return KeycapLayoutHints()
         }
     }
 
@@ -331,18 +266,6 @@ enum KeycapItemFactory {
         )
     }
 
-    private static func stripModifierPrefixes(from text: String) -> String {
-        var remainder = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        var changed = true
-        while changed {
-            changed = false
-            for sym in KeyboardGlyphCatalog.modifierSymbols where remainder.hasPrefix(sym) {
-                remainder.removeFirst(sym.count)
-                changed = true
-            }
-        }
-        return remainder.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
 }
 
 private extension KeyboardModifierKey {

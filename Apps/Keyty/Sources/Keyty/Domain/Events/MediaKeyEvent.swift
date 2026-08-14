@@ -70,7 +70,4 @@ public struct MediaKeyEvent {
         .mediaKey(self)
     }
 
-    public var displayString: String {
-        EventTransformer.shared.transform(inputEvent)
-    }
 }

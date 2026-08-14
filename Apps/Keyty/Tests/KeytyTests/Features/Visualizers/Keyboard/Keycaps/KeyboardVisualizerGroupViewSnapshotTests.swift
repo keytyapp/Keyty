@@ -15,14 +15,14 @@ import XCTest
 final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
     func testRendersAppleBlackKeycap() {
         self.assertAppleBlackSnapshot(
-            items: self.keycapItems(keyCode: KeyboardKeyCode.a.rawValue, displayString: "A"),
+            items: self.keycapItems(keyCode: KeyboardKeyCode.a.rawValue, legend: EventLegend(text: "A")),
             named: "apple-black-keycap"
         )
     }
 
     func testRendersAppleBlackTabKeycap() {
         self.assertAppleBlackSnapshot(
-            items: self.keycapItems(keyCode: KeyboardKeyCode.tab.rawValue, displayString: KeyboardGlyphCatalog.tab),
+            items: self.keycapItems(keyCode: KeyboardKeyCode.tab.rawValue, legend: EventLegend(text: KeyboardGlyphCatalog.tab, label: KeyboardSpecialKey.tab.label)),
             named: "apple-black-tab-keycap"
         )
     }
@@ -38,7 +38,7 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
         self.assertAppleBlackSnapshot(
             items: self.keycapItems(
                 keyCode: KeyboardKeyCode.escape.rawValue,
-                displayString: KeyboardGlyphCatalog.symbol(for: .escape)
+                legend: EventLegend(text: KeyboardGlyphCatalog.symbol(for: .escape), label: KeyboardSpecialKey.escape.label)
             ),
             named: "apple-black-escape-keycap"
         )
@@ -52,12 +52,12 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
 
     func keycapItems(
         keyCode: UInt16,
-        displayString: String,
+        legend: EventLegend,
         modifierFlags: NSEvent.ModifierFlags = []
     ) -> [KeycapItem] {
         KeycapItemFactory.keycapItems(
             keyCode: keyCode,
-            displayString: displayString,
+            legend: legend,
             modifierFlags: modifierFlags,
             isPressed: false,
             palette: self.appleBlackSettings.palette
@@ -73,7 +73,7 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
         )
         + KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.k.rawValue,
-            displayString: "K",
+            legend: EventLegend(text: "K"),
             modifierFlags: [],
             isPressed: false,
             palette: settings.palette

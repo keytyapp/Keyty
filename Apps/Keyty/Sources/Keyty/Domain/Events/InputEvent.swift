@@ -35,7 +35,4 @@ public enum InputEvent {
         }
     }
 
-    public var displayString: String {
-        EventTransformer.shared.transform(self)
-    }
 }

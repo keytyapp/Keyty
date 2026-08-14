@@ -115,17 +115,24 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     ))
     var stackAxis: KeyboardVisualizerStackAxis
 
-    /// Cross-axis alignment used by group layout. Preset anchors derive this from the
-    /// pinned edge; custom placement uses an explicit horizontal alignment only for
-    /// vertical stacks, while horizontal stacks remain vertically centered.
+    /// Horizontal alignment applied to custom placement.
+    ///
+    /// Only vertical stacks can be aligned horizontally - horizontal stacks always grow from a centered anchor.
+    var effectiveHorizontalAlignment: KeyboardVisualizerAlignment {
+        switch self.stackAxis {
+        case .vertical:
+            return self.customHorizontalAlignment
+        case .horizontal:
+            return .center
+        }
+    }
+
+    /// Cross-axis alignment used by group layout.
+    ///
+    /// Preset anchors derive this from the pinned edge - custom placement uses `effectiveHorizontalAlignment`.
     var alignment: KeyboardVisualizerAlignment {
         if self.placementMode == .custom {
-            switch self.stackAxis {
-            case .vertical:
-                return self.customHorizontalAlignment
-            case .horizontal:
-                return .center
-            }
+            return self.effectiveHorizontalAlignment
         }
 
         switch stackAxis {

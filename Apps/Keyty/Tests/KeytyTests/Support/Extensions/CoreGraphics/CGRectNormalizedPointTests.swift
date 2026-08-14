@@ -42,4 +42,21 @@ final class CGRectNormalizedPointTests: XCTestCase {
         XCTAssertEqual(point.x, 0.5, accuracy: 0.0001)
         XCTAssertEqual(point.y, 0.25, accuracy: 0.0001)
     }
+
+    func testPointForNormalizedReturnsPointInsideRect() {
+        let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
+        let point = rect.point(forNormalized: CGPoint(x: 0.25, y: 0.5))
+
+        XCTAssertEqual(point.x, 35, accuracy: 0.0001)
+        XCTAssertEqual(point.y, 45, accuracy: 0.0001)
+    }
+
+    func testPointForNormalizedInvertsNormalizedPoint() {
+        let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
+        let original = CGPoint(x: 35, y: 45)
+        let point = rect.point(forNormalized: rect.normalizedPoint(for: original))
+
+        XCTAssertEqual(point.x, original.x, accuracy: 0.0001)
+        XCTAssertEqual(point.y, original.y, accuracy: 0.0001)
+    }
 }

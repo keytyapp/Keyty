@@ -58,12 +58,6 @@ extension MouseEvent {
     }
 
     private static func cgEventFlags(for modifierFlags: NSEvent.ModifierFlags) -> CGEventFlags {
-        var flags: CGEventFlags = []
-        if modifierFlags.contains(.shift) { flags.insert(.maskShift) }
-        if modifierFlags.contains(.command) { flags.insert(.maskCommand) }
-        if modifierFlags.contains(.control) { flags.insert(.maskControl) }
-        if modifierFlags.contains(.option) { flags.insert(.maskAlternate) }
-        if modifierFlags.contains(.function) { flags.insert(.maskSecondaryFn) }
-        return flags
+        CGEventFlags(rawValue: UInt64(modifierFlags.rawValue))
     }
 }

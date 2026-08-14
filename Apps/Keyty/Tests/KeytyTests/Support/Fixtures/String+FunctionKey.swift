@@ -7,10 +7,11 @@
 //
 
 import AppKit
+@testable import Keyty
 
 extension String {
     // The character AppKit reports for a function key such as `NSHelpFunctionKey`.
     static func functionKey(_ key: Int) -> String {
-        String(UnicodeScalar(key)!)
+        UnicodeScalar(key)!.string
     }
 }

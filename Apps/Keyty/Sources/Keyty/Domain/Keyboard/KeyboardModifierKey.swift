@@ -53,10 +53,7 @@ extension KeyboardModifierKey {
     }
 
     static func keys(in flags: NSEvent.ModifierFlags) -> Set<KeyboardModifierKey> {
-        let rawValue = flags.rawValue
-        return Set(Self.deviceModifierKeys.compactMap { mask, key in
-            rawValue & mask == 0 ? nil : key
-        })
+        Set(Self.all.filter { flags.rawValue & $0.deviceMask != 0 })
     }
 }
 
@@ -71,14 +68,24 @@ extension KeyboardModifierKey {
     static let leftControl = KeyboardModifierKey(.control, location: .left)
     static let rightControl = KeyboardModifierKey(.control, location: .right)
 
-    private static let deviceModifierKeys: [(mask: UInt, key: KeyboardModifierKey)] = [
-        (UInt(NX_DEVICELCMDKEYMASK), .leftCommand),
-        (UInt(NX_DEVICERCMDKEYMASK), .rightCommand),
-        (UInt(NX_DEVICELSHIFTKEYMASK), .leftShift),
-        (UInt(NX_DEVICERSHIFTKEYMASK), .rightShift),
-        (UInt(NX_DEVICELALTKEYMASK), .leftOption),
-        (UInt(NX_DEVICERALTKEYMASK), .rightOption),
-        (UInt(NX_DEVICELCTLKEYMASK), .leftControl),
-        (UInt(NX_DEVICERCTLKEYMASK), .rightControl),
+    static let all: [KeyboardModifierKey] = [
+        .leftCommand, .rightCommand,
+        .leftShift, .rightShift,
+        .leftOption, .rightOption,
+        .leftControl, .rightControl
     ]
+
+    // The device-dependent bit macOS sets for this specific physical key.
+    var deviceMask: UInt {
+        switch (self.kind, self.location) {
+        case (.command, .left):  return UInt(NX_DEVICELCMDKEYMASK)
+        case (.command, .right): return UInt(NX_DEVICERCMDKEYMASK)
+        case (.shift, .left):    return UInt(NX_DEVICELSHIFTKEYMASK)
+        case (.shift, .right):   return UInt(NX_DEVICERSHIFTKEYMASK)
+        case (.option, .left):   return UInt(NX_DEVICELALTKEYMASK)
+        case (.option, .right):  return UInt(NX_DEVICERALTKEYMASK)
+        case (.control, .left):  return UInt(NX_DEVICELCTLKEYMASK)
+        case (.control, .right): return UInt(NX_DEVICERCTLKEYMASK)
+        }
+    }
 }

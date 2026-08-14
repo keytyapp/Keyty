@@ -22,7 +22,6 @@ enum KeyboardGlyphCatalog {
     static let control = KeyboardModifierKey.Kind.control.glyph
     
     static let tab = UnicodeToken.tab.string
-    static let backTab = UnicodeToken.backTab.string
 
     /// Glyphs that can prefix a chord in display strings.
     static let modifierSymbols: [String] = KeyboardModifierKey.Kind.allCases.map(\.glyph)

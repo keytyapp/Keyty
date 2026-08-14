@@ -11,18 +11,18 @@ import XCTest
 
 final class MouseEventTests: XCTestCase {
     func testKindClassifiesButtonsAndScrollDirections() {
-        XCTAssertEqual(TestMouseEvents.make(type: .leftMouseDown, buttonNumber: 0).kind, .leftButton)
-        XCTAssertEqual(TestMouseEvents.make(type: .rightMouseDown, buttonNumber: 1).kind, .rightButton)
-        XCTAssertEqual(TestMouseEvents.make(type: .otherMouseDown, buttonNumber: 2).kind, .middleButton)
-        XCTAssertEqual(TestMouseEvents.make(type: .otherMouseDown, buttonNumber: 3).kind, .otherButton(4))
-        XCTAssertEqual(makeScrollEvent(deltaX: 0, deltaY: 1).kind, .wheelUp)
-        XCTAssertEqual(makeScrollEvent(deltaX: 0, deltaY: -1).kind, .wheelDown)
-        XCTAssertEqual(makeScrollEvent(deltaX: -1, deltaY: 0).kind, .wheelLeft)
-        XCTAssertEqual(makeScrollEvent(deltaX: 1, deltaY: 0).kind, .wheelRight)
+        XCTAssertEqual(MouseEvent.stub(type: .leftMouseDown, buttonNumber: 0).kind, .leftButton)
+        XCTAssertEqual(MouseEvent.stub(type: .rightMouseDown, buttonNumber: 1).kind, .rightButton)
+        XCTAssertEqual(MouseEvent.stub(type: .otherMouseDown, buttonNumber: 2).kind, .middleButton)
+        XCTAssertEqual(MouseEvent.stub(type: .otherMouseDown, buttonNumber: 3).kind, .otherButton(4))
+        XCTAssertEqual(MouseEvent.scrollStub(deltaX: 0, deltaY: 1).kind, .wheelUp)
+        XCTAssertEqual(MouseEvent.scrollStub(deltaX: 0, deltaY: -1).kind, .wheelDown)
+        XCTAssertEqual(MouseEvent.scrollStub(deltaX: -1, deltaY: 0).kind, .wheelLeft)
+        XCTAssertEqual(MouseEvent.scrollStub(deltaX: 1, deltaY: 0).kind, .wheelRight)
     }
 
     func testKindTreatsZeroDeltaScrollEventAsGeneric() {
-        XCTAssertEqual(makeScrollEvent(deltaX: 0, deltaY: 0).kind, .generic)
+        XCTAssertEqual(MouseEvent.scrollStub(deltaX: 0, deltaY: 0).kind, .generic)
     }
 
     func testKindIsScrollRecognizesOnlyWheelCases() {
@@ -66,10 +66,5 @@ final class MouseEventTests: XCTestCase {
 
         XCTAssertEqual(location.x, 1600)
         XCTAssertEqual(location.y, 980)
-    }
-
-    private func makeScrollEvent(deltaX: CGFloat, deltaY: CGFloat) -> MouseEvent {
-        let cgEvent = CGEvent(scrollWheelEvent2Source: nil, units: .pixel, wheelCount: 2, wheel1: Int32(deltaY), wheel2: Int32(deltaX), wheel3: 0)!
-        return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
     }
 }

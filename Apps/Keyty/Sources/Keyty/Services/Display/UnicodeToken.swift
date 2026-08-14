@@ -19,7 +19,6 @@ enum UnicodeToken {
     static let control: Unicode.Scalar = "\u{2303}"
 
     static let tab: Unicode.Scalar = "\u{21E5}"
-    static let backTab: Unicode.Scalar = "\u{21E4}"
     static let escape: Unicode.Scalar = "\u{238B}"
     static let delete: Unicode.Scalar = "\u{232B}"
     static let keypadClear: Unicode.Scalar = "\u{2327}"

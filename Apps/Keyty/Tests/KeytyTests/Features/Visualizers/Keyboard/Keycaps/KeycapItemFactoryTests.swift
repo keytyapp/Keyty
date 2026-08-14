@@ -148,11 +148,11 @@ final class KeycapItemFactoryTests: XCTestCase {
         let palette = Self.makePalette()
 
         let downItem = KeycapItemFactory.mouseItem(
-            for: TestMouseEvents.make(type: .leftMouseDown),
+            for: MouseEvent.stub(type: .leftMouseDown),
             palette: palette
         )
         let upItem = KeycapItemFactory.mouseItem(
-            for: TestMouseEvents.make(type: .leftMouseUp),
+            for: MouseEvent.stub(type: .leftMouseUp),
             palette: palette
         )
 

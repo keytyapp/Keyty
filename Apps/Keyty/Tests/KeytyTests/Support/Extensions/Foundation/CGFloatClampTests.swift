@@ -11,19 +11,19 @@ import XCTest
 @testable import Keyty
 
 final class CGFloatClampTests: XCTestCase {
-    func test_clampedToRange_keepsValueInsideRange() {
+    func testClampedToRangeKeepsValueInsideRange() {
         XCTAssertEqual(CGFloat(4).clamped(to: 1...8), 4)
     }
 
-    func test_clampedToRange_limitsValueBelowRange() {
+    func testClampedToRangeLimitsValueBelowRange() {
         XCTAssertEqual(CGFloat(-2).clamped(to: 1...8), 1)
     }
 
-    func test_clampedToRange_limitsValueAboveRange() {
+    func testClampedToRangeLimitsValueAboveRange() {
         XCTAssertEqual(CGFloat(10).clamped(to: 1...8), 8)
     }
 
-    func test_clampedMinimumMaximum_returnsMinimumWhenMaximumIsBelowMinimum() {
+    func testClampedMinimumMaximumReturnsMinimumWhenMaximumIsBelowMinimum() {
         XCTAssertEqual(CGFloat(4).clamped(minimum: 8, maximum: 1), 8)
     }
 }

@@ -125,7 +125,7 @@ final class PointerIconVisualizerTests: XCTestCase {
         XCTAssertEqual(view.displayedKind, .rightButton)
         XCTAssertTrue(view.isTransientlyVisible)
 
-        view.handle(mouseEvent: try makeScrollEvent(deltaX: 0, deltaY: 0))
+        view.handle(mouseEvent: MouseEvent.scrollStub())
 
         XCTAssertEqual(view.displayedKind, .rightButton)
         XCTAssertTrue(view.isTransientlyVisible)
@@ -186,20 +186,6 @@ final class PointerIconVisualizerTests: XCTestCase {
             throw TestError.eventCreationFailed
         }
         cgEvent.setIntegerValueField(.mouseEventButtonNumber, value: Int64(buttonNumber))
-        return MouseEvent(nsEvent: nsEvent)
-    }
-
-    private func makeScrollEvent(deltaX: Int32 = 0, deltaY: Int32) throws -> MouseEvent {
-        guard let cgEvent = CGEvent(
-            scrollWheelEvent2Source: nil,
-            units: .pixel,
-            wheelCount: 2,
-            wheel1: deltaY,
-            wheel2: deltaX,
-            wheel3: 0
-        ), let nsEvent = NSEvent(cgEvent: cgEvent) else {
-            throw TestError.eventCreationFailed
-        }
         return MouseEvent(nsEvent: nsEvent)
     }
 

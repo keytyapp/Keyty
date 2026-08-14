@@ -1,5 +1,5 @@
 //
-//  TestMouseEvents.swift
+//  MouseEvent+Stub.swift
 //  KeytyTests
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -9,8 +9,8 @@
 import AppKit
 @testable import Keyty
 
-enum TestMouseEvents {
-    static func make(
+extension MouseEvent {
+    static func stub(
         type: NSEvent.EventType,
         buttonNumber: Int = 0,
         modifiers: NSEvent.ModifierFlags = []
@@ -23,6 +23,18 @@ enum TestMouseEvents {
         )!
         cgEvent.setIntegerValueField(.mouseEventButtonNumber, value: Int64(buttonNumber))
         cgEvent.flags = Self.cgEventFlags(for: modifiers)
+        return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
+    }
+
+    static func scrollStub(deltaX: Int32 = 0, deltaY: Int32 = 0) -> MouseEvent {
+        let cgEvent = CGEvent(
+            scrollWheelEvent2Source: nil,
+            units: .pixel,
+            wheelCount: 2,
+            wheel1: deltaY,
+            wheel2: deltaX,
+            wheel3: 0
+        )!
         return MouseEvent(nsEvent: NSEvent(cgEvent: cgEvent)!)
     }
 
@@ -46,12 +58,6 @@ enum TestMouseEvents {
     }
 
     private static func cgEventFlags(for modifierFlags: NSEvent.ModifierFlags) -> CGEventFlags {
-        var flags: CGEventFlags = []
-        if modifierFlags.contains(.shift) { flags.insert(.maskShift) }
-        if modifierFlags.contains(.command) { flags.insert(.maskCommand) }
-        if modifierFlags.contains(.control) { flags.insert(.maskControl) }
-        if modifierFlags.contains(.option) { flags.insert(.maskAlternate) }
-        if modifierFlags.contains(.function) { flags.insert(.maskSecondaryFn) }
-        return flags
+        CGEventFlags(rawValue: UInt64(modifierFlags.rawValue))
     }
 }

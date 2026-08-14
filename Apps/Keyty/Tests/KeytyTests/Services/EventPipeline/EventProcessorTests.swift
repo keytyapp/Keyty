@@ -15,7 +15,7 @@ final class EventProcessorTests: XCTestCase {
         var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
-        processor.processMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
+        processor.processMouseEvent(MouseEvent.stub(type: .leftMouseUp, buttonNumber: 0, modifiers: [.command]))
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {
@@ -38,7 +38,7 @@ final class EventProcessorTests: XCTestCase {
         var items: [DisplayEvent] = []
         processor.onItemProduced = { items.append($0) }
 
-        processor.processMouseEvent(TestMouseEvents.make(type: .leftMouseUp, buttonNumber: 0, modifiers: []))
+        processor.processMouseEvent(MouseEvent.stub(type: .leftMouseUp, buttonNumber: 0, modifiers: []))
 
         XCTAssertEqual(items.count, 2)
         switch items[0] {

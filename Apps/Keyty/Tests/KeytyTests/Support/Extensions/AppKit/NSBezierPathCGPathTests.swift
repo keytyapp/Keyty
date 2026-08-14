@@ -11,14 +11,14 @@ import XCTest
 @testable import Keyty
 
 final class NSBezierPathCGPathTests: XCTestCase {
-    func test_cgPath_emptyPathProducesEmptyCGPath() {
+    func testCGPathEmptyPathProducesEmptyCGPath() {
         let path = NSBezierPath()
 
         XCTAssertTrue(path.cgPath.isEmpty)
         XCTAssertEqual(path.cgPath.pathElements.map(\.type), [])
     }
 
-    func test_cgPath_linePathPreservesElementTypes() {
+    func testCGPathLinePathPreservesElementTypes() {
         let path = NSBezierPath()
         path.move(to: NSPoint(x: 10, y: 10))
         path.line(to: NSPoint(x: 30, y: 10))
@@ -38,7 +38,7 @@ final class NSBezierPathCGPathTests: XCTestCase {
         )
     }
 
-    func test_cgPath_curvePathPreservesCurveElement() {
+    func testCGPathCurvePathPreservesCurveElement() {
         let path = NSBezierPath()
         path.move(to: NSPoint(x: 0, y: 0))
         path.curve(
@@ -58,7 +58,7 @@ final class NSBezierPathCGPathTests: XCTestCase {
         XCTAssertEqual(elements[1].points.count, 3)
     }
 
-    func test_cgPath_boundingBoxMatchesBezierPathBounds() {
+    func testCGPathBoundingBoxMatchesBezierPathBounds() {
         let path = NSBezierPath(
             roundedRect: NSRect(x: 12, y: 18, width: 44, height: 28),
             xRadius: 14,

@@ -33,9 +33,9 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
     }
 
     func testResolverClassifiesInsertFunctionKeyAsSpecial() {
-        let ch = TestKeyboardCharacters.functionKeyCharacter(NSInsertFunctionKey)
-        let event = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.help.rawValue,
+        let ch = String.functionKey(NSInsertFunctionKey)
+        let event = StandardKeyEvent.stub(
+            keyCode: .help,
             characters: ch,
             charactersIgnoringModifiers: ch
         )
@@ -44,8 +44,8 @@ final class KeyboardVisualizerSpecialKeyFilteringTests: XCTestCase {
     }
 
     func testResolverClassifiesPrintableLetterAsNonSpecial() {
-        let event = TestKeystrokes.make(
-            keyCode: KeyboardKeyCode.a.rawValue,
+        let event = StandardKeyEvent.stub(
+            keyCode: .a,
             characters: "a",
             charactersIgnoringModifiers: "a"
         )

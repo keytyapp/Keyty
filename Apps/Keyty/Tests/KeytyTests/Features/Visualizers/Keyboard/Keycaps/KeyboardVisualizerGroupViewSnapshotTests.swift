@@ -47,11 +47,7 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
 
 private extension KeyboardVisualizerGroupViewSnapshotTests {
     static var commandShiftFlags: NSEvent.ModifierFlags {
-        NSEvent.ModifierFlags(
-            [.command, .shift],
-            deviceMasks: UInt(NX_DEVICELCMDKEYMASK),
-            UInt(NX_DEVICELSHIFTKEYMASK)
-        )
+        .recorded([.command, .shift])
     }
 
     func keycapItems(

@@ -11,25 +11,25 @@ import XCTest
 @testable import Keyty
 
 final class CGRectDistanceTests: XCTestCase {
-    func test_squaredDistanceToPoint_returnsZeroForPointInsideRect() {
+    func testSquaredDistanceToPointReturnsZeroForPointInsideRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
 
         XCTAssertEqual(rect.squaredDistance(to: CGPoint(x: 40, y: 30)), 0)
     }
 
-    func test_squaredDistanceToPoint_usesHorizontalDistanceOutsideRect() {
+    func testSquaredDistanceToPointUsesHorizontalDistanceOutsideRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
 
         XCTAssertEqual(rect.squaredDistance(to: CGPoint(x: 4, y: 30)), 36)
     }
 
-    func test_squaredDistanceToPoint_usesVerticalDistanceOutsideRect() {
+    func testSquaredDistanceToPointUsesVerticalDistanceOutsideRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
 
         XCTAssertEqual(rect.squaredDistance(to: CGPoint(x: 40, y: 75)), 25)
     }
 
-    func test_squaredDistanceToPoint_usesDiagonalDistanceOutsideRect() {
+    func testSquaredDistanceToPointUsesDiagonalDistanceOutsideRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
 
         XCTAssertEqual(rect.squaredDistance(to: CGPoint(x: 4, y: 75)), 61)

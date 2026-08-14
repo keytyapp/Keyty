@@ -42,6 +42,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 0.5, accuracy: 0.0001)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0.5, accuracy: 0.0001)
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.customHorizontalAlignment), KeyboardVisualizerAlignment.center.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.customVerticalAlignment), KeyboardVisualizerAlignment.center.rawValue)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.windowPadding), Double(Size.KeyboardVisualizer.windowPadding), accuracy: 0.0001)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes), false)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showSpecialKeys), true)
@@ -154,10 +155,22 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.settings.alignment, .trailing)
     }
 
-    func testCustomPlacementKeepsHorizontalStacksVerticallyCentered() {
+    func testPersistsCustomVerticalAlignment() {
+        self.settings.customVerticalAlignment = .trailing
+
+        XCTAssertEqual(self.settings.customVerticalAlignment, .trailing)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.customVerticalAlignment), KeyboardVisualizerAlignment.trailing.rawValue)
+    }
+
+    func testCustomPlacementUsesCustomVerticalAlignmentForHorizontalStacks() {
         self.settings.placementMode = .custom
         self.settings.stackAxis = .horizontal
         self.settings.customHorizontalAlignment = .trailing
+        self.settings.customVerticalAlignment = .leading
+
+        XCTAssertEqual(self.settings.alignment, .leading)
+
+        self.settings.customVerticalAlignment = .center
 
         XCTAssertEqual(self.settings.alignment, .center)
     }

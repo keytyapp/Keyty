@@ -50,8 +50,10 @@
 "displays.custom_position.set_subtitle" = "Wähle, wo die Einblendung auf dem ausgewählten Display erscheint.";
 "displays.custom_position.start_setting_button" = "Anordnen...";
 "displays.custom_position.stop_setting_button" = "Anwenden";
-"displays.custom_content_alignment_label" = "Inhaltsausrichtung";
-"displays.custom_content_alignment_subtitle" = "Wähle, wie sich die Einblendung horizontal von der benutzerdefinierten Position aus ausdehnt.";
+"displays.custom_horizontal_alignment_label" = "Horizontale Ausrichtung";
+"displays.custom_horizontal_alignment_subtitle" = "Wähle, wie sich die Einblendung horizontal von der benutzerdefinierten Position aus ausdehnt.";
+"displays.custom_vertical_alignment_label" = "Vertikale Ausrichtung";
+"displays.custom_vertical_alignment_subtitle" = "Wähle, wie sich die Einblendung vertikal von der benutzerdefinierten Position aus ausdehnt.";
 
 /* General settings pane */
 "general.appearance_section_title" = "App";

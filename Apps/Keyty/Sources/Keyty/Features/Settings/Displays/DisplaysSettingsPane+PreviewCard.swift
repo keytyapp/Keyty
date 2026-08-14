@@ -19,6 +19,8 @@ extension DisplaysSettingsPane {
         let windowPadding: Double
         let customPositionNormalizedX: Double
         let customPositionNormalizedY: Double
+        let customHorizontalAlignment: KeyboardVisualizerAlignment
+        let customVerticalAlignment: KeyboardVisualizerAlignment
         let onSelectScreen: (Screen) -> Void
 
         private let previewHeight = Spacing.grid(48)
@@ -186,15 +188,26 @@ private extension DisplaysSettingsPane.PreviewCard {
     func customPositionOffset(in size: CGSize, markerSize: CGSize) -> CGSize {
         let halfMarkerWidth = markerSize.width / 2
         let halfMarkerHeight = markerSize.height / 2
-        let x = (size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2)
+        let anchorX = size.width * CGFloat(self.customPositionNormalizedX) - size.width / 2
+        let anchorY = size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY)
+
+        let x = (anchorX + self.markerShift(for: self.customHorizontalAlignment, half: halfMarkerWidth))
             .clamped(minimum: -size.width / 2 + halfMarkerWidth, maximum: size.width / 2 - halfMarkerWidth)
-        let y = (size.height / 2 - size.height * CGFloat(self.customPositionNormalizedY))
+        let y = (anchorY - self.markerShift(for: self.customVerticalAlignment, half: halfMarkerHeight))
             .clamped(minimum: -size.height / 2 + halfMarkerHeight, maximum: size.height / 2 - halfMarkerHeight)
 
         return CGSize(
             width: x,
             height: y
         )
+    }
+
+    func markerShift(for alignment: KeyboardVisualizerAlignment, half: CGFloat) -> CGFloat {
+        switch alignment {
+        case .leading:  return half
+        case .center:   return 0
+        case .trailing: return -half
+        }
     }
 }
 

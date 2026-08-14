@@ -27,6 +27,8 @@ struct DisplaysSettingsPane: View {
                 windowPadding: self.model.windowPadding,
                 customPositionNormalizedX: self.model.customPositionNormalizedX,
                 customPositionNormalizedY: self.model.customPositionNormalizedY,
+                customHorizontalAlignment: self.model.customHorizontalAlignment,
+                customVerticalAlignment: self.model.customVerticalAlignment,
                 onSelectScreen: { screen in
                     self.model.selectedScreenID = screen.id
                 }
@@ -109,16 +111,32 @@ private extension DisplaysSettingsPane {
             Divider()
 
             SettingsControlRow(
-                title: L10n.Displays.customContentAlignmentLabel,
-                subtitle: L10n.Displays.customContentAlignmentSubtitle
+                title: L10n.Displays.customHorizontalAlignmentLabel,
+                subtitle: L10n.Displays.customHorizontalAlignmentSubtitle
             ) {
                 Picker("", selection: self.$model.customHorizontalAlignment) {
                     ForEach(KeyboardVisualizerAlignment.allCases, id: \.rawValue) { alignment in
-                        Text(alignment.label).tag(alignment)
+                        Text(alignment.horizontalLabel).tag(alignment)
                     }
                 }
                 .labelsHidden()
-                .accessibilityLabel(L10n.Displays.customContentAlignmentLabel)
+                .accessibilityLabel(L10n.Displays.customHorizontalAlignmentLabel)
+                .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
+            }
+
+            Divider()
+
+            SettingsControlRow(
+                title: L10n.Displays.customVerticalAlignmentLabel,
+                subtitle: L10n.Displays.customVerticalAlignmentSubtitle
+            ) {
+                Picker("", selection: self.$model.customVerticalAlignment) {
+                    ForEach(KeyboardVisualizerAlignment.allCases, id: \.rawValue) { alignment in
+                        Text(alignment.verticalLabel).tag(alignment)
+                    }
+                }
+                .labelsHidden()
+                .accessibilityLabel(L10n.Displays.customVerticalAlignmentLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
             }
         }

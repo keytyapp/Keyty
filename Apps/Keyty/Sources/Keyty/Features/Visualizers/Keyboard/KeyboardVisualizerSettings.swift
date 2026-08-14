@@ -38,6 +38,8 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var customPositionNormalizedY: CGFloat { get set }
     /// Horizontal alignment used when custom placement is selected.
     var customHorizontalAlignment: KeyboardVisualizerAlignment { get set }
+    /// Vertical alignment used when custom placement is selected.
+    var customVerticalAlignment: KeyboardVisualizerAlignment { get set }
 
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
@@ -129,10 +131,14 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     /// Cross-axis alignment used by group layout.
     ///
-    /// Preset anchors derive this from the pinned edge - custom placement uses `effectiveHorizontalAlignment`.
+    /// Preset anchors derive this from the pinned edge - custom placement uses whichever custom
+    /// alignment names the cross axis of the current stack.
     var alignment: KeyboardVisualizerAlignment {
         if self.placementMode == .custom {
-            return self.effectiveHorizontalAlignment
+            switch self.stackAxis {
+            case .vertical:   return self.effectiveHorizontalAlignment
+            case .horizontal: return self.customVerticalAlignment
+            }
         }
 
         switch stackAxis {
@@ -238,6 +244,15 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     var customHorizontalAlignment: KeyboardVisualizerAlignment {
         didSet {
             guard oldValue != self.customHorizontalAlignment else { return }
+            self.placementChangesSubject.send(())
+        }
+    }
+
+    /// Vertical alignment applied to custom placement.
+    @Stored(.enum(KeyboardVisualizerSettingsKeys.customVerticalAlignment, default: .center))
+    var customVerticalAlignment: KeyboardVisualizerAlignment {
+        didSet {
+            guard oldValue != self.customVerticalAlignment else { return }
             self.placementChangesSubject.send(())
         }
     }

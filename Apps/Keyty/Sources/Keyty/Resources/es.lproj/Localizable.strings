@@ -50,8 +50,10 @@
 "displays.custom_position.set_subtitle" = "Elige dónde aparece la superposición en la pantalla seleccionada.";
 "displays.custom_position.start_setting_button" = "Organizar...";
 "displays.custom_position.stop_setting_button" = "Aplicar";
-"displays.custom_content_alignment_label" = "Alineación del contenido";
-"displays.custom_content_alignment_subtitle" = "Elige cómo se expande horizontalmente la superposición desde la posición personalizada.";
+"displays.custom_horizontal_alignment_label" = "Alineación horizontal";
+"displays.custom_horizontal_alignment_subtitle" = "Elige cómo se expande horizontalmente la superposición desde la posición personalizada.";
+"displays.custom_vertical_alignment_label" = "Alineación vertical";
+"displays.custom_vertical_alignment_subtitle" = "Elige cómo se expande verticalmente la superposición desde la posición personalizada.";
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplicación";

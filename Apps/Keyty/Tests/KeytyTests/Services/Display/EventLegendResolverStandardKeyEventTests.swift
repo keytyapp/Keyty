@@ -51,12 +51,13 @@ extension EventLegendResolverStandardKeyEventTests {
         }
     }
 
-    /// A digit has no distinct uppercase form, so only letters show the casing rule.
-    func testLetterTextIsUppercasedOnlyWhenModified() {
-        for (modifiers, kinds, name) in Self.allModifierCombinations {
+    /// A legend is the label printed on the key, which is uppercase whether or
+    /// not a modifier is held.
+    func testLetterTextIsAlwaysUppercased() {
+        for (modifiers, _, name) in Self.allModifierCombinations {
             let legend = self.legend(.stub(keyCode: .a, modifiers: modifiers))
 
-            XCTAssertEqual(legend.text, kinds.isEmpty ? "a" : "A", "for \(name)")
+            XCTAssertEqual(legend.text, "A", "for \(name)")
             XCTAssertEqual(legend.kind, .text, "for \(name)")
         }
     }

@@ -90,10 +90,10 @@ private extension EventLegendResolver {
 
 // MARK: - Layout Translation
 private extension EventLegendResolver {
-    // The legend printed on the physical key, cased for a modified chord.
+    // The legend printed on the physical key, which is uppercase on a real
+    // keyboard whether or not a modifier is held.
     func translatedKey(_ keystroke: StandardKeyEvent) -> String {
-        let translated = self.uchrData.translatedKeyCode(keystroke.keyCode)
-        return keystroke.isModified ? Self.legendCased(translated) : translated
+        Self.legendCased(self.uchrData.translatedKeyCode(keystroke.keyCode))
     }
 
     // Uppercases a legend only when the result keeps its length.

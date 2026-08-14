@@ -28,11 +28,7 @@ public struct StandardKeyEvent {
     }
 
     public var displayString: String {
-        EventTransformer.shared.transform(inputEvent)
-    }
-
-    public var isCommand: Bool {
-        !self.modifierFlags.intersection([.control, .command]).isEmpty
+        EventTransformer.shared.transform(self.inputEvent)
     }
 
     public var isModified: Bool {

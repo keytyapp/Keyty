@@ -10,19 +10,19 @@ import XCTest
 @testable import Keyty
 
 final class NSPointOffsetTests: XCTestCase {
-    func test_offsetBy_addsPositiveOffsets() {
+    func testOffsetByAddsPositiveOffsets() {
         let point = NSPoint(x: 10, y: 20)
 
         XCTAssertEqual(point.offsetBy(dx: 3, dy: 4), NSPoint(x: 13, y: 24))
     }
 
-    func test_offsetBy_addsNegativeOffsets() {
+    func testOffsetByAddsNegativeOffsets() {
         let point = NSPoint(x: 10, y: 20)
 
         XCTAssertEqual(point.offsetBy(dx: -3, dy: -4), NSPoint(x: 7, y: 16))
     }
 
-    func test_offsetBy_doesNotMutateOriginalPoint() {
+    func testOffsetByDoesNotMutateOriginalPoint() {
         let point = NSPoint(x: 10, y: 20)
 
         _ = point.offsetBy(dx: 3, dy: 4)

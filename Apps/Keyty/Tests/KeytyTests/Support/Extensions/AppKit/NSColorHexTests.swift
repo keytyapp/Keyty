@@ -13,32 +13,32 @@ final class NSColorHexTests: XCTestCase {
 
     // MARK: - NSColor → hex string
 
-    func test_hexString_white() {
+    func testHexStringWhite() {
         XCTAssertEqual(NSColor.white.hexString, "#FFFFFFFF")
     }
 
-    func test_hexString_black() {
+    func testHexStringBlack() {
         XCTAssertEqual(NSColor.black.hexString, "#000000FF")
     }
 
-    func test_hexString_red() {
+    func testHexStringRed() {
         let color = NSColor(srgbRed: 1, green: 0, blue: 0, alpha: 1)
         XCTAssertEqual(color.hexString, "#FF0000FF")
     }
 
-    func test_hexString_semiTransparent() {
+    func testHexStringSemiTransparent() {
         let color = NSColor(srgbRed: 0, green: 0, blue: 0, alpha: 0.5)
         XCTAssertEqual(color.hexString, "#00000080")
     }
 
-    func test_hexString_fullyTransparent() {
+    func testHexStringFullyTransparent() {
         let color = NSColor(srgbRed: 1, green: 1, blue: 1, alpha: 0)
         XCTAssertEqual(color.hexString, "#FFFFFF00")
     }
 
     // MARK: - hex string → NSColor
 
-    func test_init_eightCharHex() {
+    func testInitEightCharHex() {
         let color = NSColor(hexString: "#FF0000FF")
         XCTAssertNotNil(color)
         XCTAssertEqual(color?.redComponent ?? 0, 1.0, accuracy: 0.01)
@@ -47,46 +47,46 @@ final class NSColorHexTests: XCTestCase {
         XCTAssertEqual(color?.alphaComponent ?? 0, 1.0, accuracy: 0.01)
     }
 
-    func test_init_sixCharHex_defaultsAlphaToOne() {
+    func testInitSixCharHexDefaultsAlphaToOne() {
         let color = NSColor(hexString: "#FF0000")
         XCTAssertNotNil(color)
         XCTAssertEqual(color?.alphaComponent ?? 0, 1.0, accuracy: 0.01)
     }
 
-    func test_init_withoutHashPrefix() {
+    func testInitWithoutHashPrefix() {
         let color = NSColor(hexString: "FF0000FF")
         XCTAssertNotNil(color)
         XCTAssertEqual(color?.redComponent ?? 0, 1.0, accuracy: 0.01)
     }
 
-    func test_init_lowercaseHex() {
+    func testInitLowercaseHex() {
         let color = NSColor(hexString: "#ff0000ff")
         XCTAssertNotNil(color)
         XCTAssertEqual(color?.redComponent ?? 0, 1.0, accuracy: 0.01)
     }
 
-    func test_init_withLeadingAndTrailingWhitespace() {
+    func testInitWithLeadingAndTrailingWhitespace() {
         let color = NSColor(hexString: "  #FF0000FF  ")
         XCTAssertNotNil(color)
     }
 
-    func test_init_invalidLength_returnsNil() {
+    func testInitInvalidLengthReturnsNil() {
         XCTAssertNil(NSColor(hexString: "#FFF"))
         XCTAssertNil(NSColor(hexString: "#FFFFF"))
         XCTAssertNil(NSColor(hexString: "#FFFFFFFFF"))
     }
 
-    func test_init_nonHexCharacters_returnsNil() {
+    func testInitNonHexCharactersReturnsNil() {
         XCTAssertNil(NSColor(hexString: "#GGHHIIJJ"))
     }
 
-    func test_init_emptyString_returnsNil() {
+    func testInitEmptyStringReturnsNil() {
         XCTAssertNil(NSColor(hexString: ""))
     }
 
     // MARK: - Round-trip
 
-    func test_roundTrip_preservesColor() {
+    func testRoundTripPreservesColor() {
         let original = NSColor(srgbRed: 0.2, green: 0.5, blue: 0.8, alpha: 0.75)
         let recovered = NSColor(hexString: original.hexString)
         XCTAssertNotNil(recovered)
@@ -96,12 +96,12 @@ final class NSColorHexTests: XCTestCase {
         XCTAssertEqual(original.alphaComponent, recovered!.alphaComponent, accuracy: 0.01)
     }
 
-    func test_roundTrip_black() {
+    func testRoundTripBlack() {
         let original = NSColor.black
         XCTAssertEqual(NSColor(hexString: original.hexString)?.hexString, original.hexString)
     }
 
-    func test_roundTrip_white() {
+    func testRoundTripWhite() {
         let original = NSColor.white
         XCTAssertEqual(NSColor(hexString: original.hexString)?.hexString, original.hexString)
     }

@@ -1,5 +1,5 @@
 //
-//  EventTransformerMouseTests.swift
+//  EventTransformerMouseEventTests.swift
 //  KeytyTests
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,7 +10,7 @@ import Carbon
 import XCTest
 @testable import Keyty
 
-final class EventTransformerMouseTests: XCTestCase {
+final class EventTransformerMouseEventTests: XCTestCase {
     var keyboardLayout: TISInputSource!
 
     func transform(_ event: MouseEvent) -> String {
@@ -24,37 +24,37 @@ final class EventTransformerMouseTests: XCTestCase {
 
     // MARK: - Mouse buttons
 
-    func test_MouseEvent_leftMouseDownIsLMB() {
+    func testLeftMouseDownIsLMB() {
         let event = MouseEvent.stub(type: .leftMouseDown, buttonNumber: 0, modifiers: [])
         XCTAssertEqual(transform(event), "LMB")
     }
 
-    func test_MouseEvent_rightMouseDownIsRMB() {
+    func testRightMouseDownIsRMB() {
         let event = MouseEvent.stub(type: .rightMouseDown, buttonNumber: 1, modifiers: [])
         XCTAssertEqual(transform(event), "RMB")
     }
 
-    func test_MouseEvent_middleMouseDownIsMMB() {
+    func testMiddleMouseDownIsMMB() {
         let event = MouseEvent.stub(type: .otherMouseDown, buttonNumber: 2, modifiers: [])
         XCTAssertEqual(transform(event), "MMB")
     }
 
-    func test_MouseEvent_fourthButtonIsMB4() {
+    func testFourthButtonIsMB4() {
         let event = MouseEvent.stub(type: .otherMouseDown, buttonNumber: 3, modifiers: [])
         XCTAssertEqual(transform(event), "MB4")
     }
 
-    func test_MouseEvent_fifthButtonIsMB5() {
+    func testFifthButtonIsMB5() {
         let event = MouseEvent.stub(type: .otherMouseDown, buttonNumber: 4, modifiers: [])
         XCTAssertEqual(transform(event), "MB5")
     }
 
-    func test_MouseEvent_commandLeftClickShowsCommandLMB() {
+    func testCommandLeftClickShowsCommandLMB() {
         let event = MouseEvent.stub(type: .leftMouseDown, buttonNumber: 0, modifiers: .command)
         XCTAssertEqual(transform(event), KeyboardGlyphCatalog.command + "LMB")
     }
 
-    func test_MouseEvent_optionShiftRightClickShowsModifiersWithRMB() {
+    func testOptionShiftRightClickShowsModifiersWithRMB() {
         let event = MouseEvent.stub(type: .rightMouseDown, buttonNumber: 1, modifiers: [.option, .shift])
         XCTAssertEqual(transform(event), KeyboardGlyphCatalog.option + KeyboardGlyphCatalog.shift + "RMB")
     }

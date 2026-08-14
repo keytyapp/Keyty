@@ -1,5 +1,5 @@
 //
-//  EventTransformerKeystrokeTests.swift
+//  EventTransformerStandardKeyEventTests.swift
 //  KeytyTests
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,7 +10,7 @@ import Carbon
 import XCTest
 @testable import Keyty
 
-final class EventTransformerKeystrokeTests: XCTestCase {
+final class EventTransformerStandardKeyEventTests: XCTestCase {
     var transformer: EventTransformer!
 
     func transform(_ event: StandardKeyEvent) -> String {
@@ -25,7 +25,7 @@ final class EventTransformerKeystrokeTests: XCTestCase {
 
 // MARK: - Modifier Glyphs
 
-extension EventTransformerKeystrokeTests {
+extension EventTransformerStandardKeyEventTests {
     /// The order the glyphs are expected in, written out independently of the
     /// `canonicalDisplayOrder` the transformer reads, so a reordering there fails here.
     private static let expectedGlyphOrder: [(flag: NSEvent.ModifierFlags, glyph: String)] = [
@@ -55,7 +55,7 @@ extension EventTransformerKeystrokeTests {
             .joined()
     }
 
-    func test_modifierGlyphsPrecedeTheLegendInCanonicalOrder() {
+    func testModifierGlyphsPrecedeTheLegendInCanonicalOrder() {
         for (modifiers, name) in Self.allModifierCombinations {
             let keystroke = StandardKeyEvent.stub(keyCode: .digit7, modifiers: modifiers)
 
@@ -68,7 +68,7 @@ extension EventTransformerKeystrokeTests {
     }
 
     /// A digit has no distinct uppercase form, so only letters show the casing rule.
-    func test_letterLegendIsUppercasedOnlyWhenModified() {
+    func testLetterLegendIsUppercasedOnlyWhenModified() {
         for (modifiers, name) in Self.allModifierCombinations {
             let keystroke = StandardKeyEvent.stub(keyCode: .a, modifiers: modifiers)
             let expectedLegend = modifiers.isEmpty ? "a" : "A"
@@ -83,7 +83,7 @@ extension EventTransformerKeystrokeTests {
 
     /// Option produces a dead key or an alternate character, but the legend stays
     /// the one printed on the key.
-    func test_optionLegendIgnoresTheAlternateCharacter() {
+    func testOptionLegendIgnoresTheAlternateCharacter() {
         let cases: [(KeyboardKeyCode, String)] = [(.u, "U"), (.e, "E"), (.grave, "`")]
 
         for (keyCode, expectedLegend) in cases {
@@ -100,9 +100,9 @@ extension EventTransformerKeystrokeTests {
 
 // MARK: - Legend Casing
 
-extension EventTransformerKeystrokeTests {
+extension EventTransformerStandardKeyEventTests {
     /// German ß uppercases to "SS", which would misreport the key's legend.
-    func test_legendThatExpandsWhenUppercasedIsLeftAlone() throws {
+    func testLegendThatExpandsWhenUppercasedIsLeftAlone() throws {
         let german = EventTransformer(keyboardLayout: try TISInputSource.german())
         let keystroke = StandardKeyEvent.stub(keyCode: .minus, modifiers: .recorded(.command))
 
@@ -112,8 +112,8 @@ extension EventTransformerKeystrokeTests {
 
 // MARK: - Keys Named by the Layout
 
-extension EventTransformerKeystrokeTests {
-    func test_editingKeysUseDistinctSymbols() {
+extension EventTransformerStandardKeyEventTests {
+    func testEditingKeysUseDistinctSymbols() {
         let cases: [(KeyboardKeyCode, String)] = [
             (.tab, KeyboardGlyphCatalog.tab),
             (.returnKey, UnicodeToken.returnKey.string),
@@ -128,7 +128,7 @@ extension EventTransformerKeystrokeTests {
         }
     }
 
-    func test_arrowKeysUseFilledTriangleSymbols() {
+    func testArrowKeysUseFilledTriangleSymbols() {
         let cases: [(KeyboardKeyCode, String)] = [
             (.leftArrow, UnicodeToken.leftArrow.string),
             (.upArrow, UnicodeToken.upArrow.string),
@@ -142,7 +142,7 @@ extension EventTransformerKeystrokeTests {
         }
     }
 
-    func test_modifiersPrefixASpecialKeySymbol() {
+    func testModifiersPrefixASpecialKeySymbol() {
         let character = String.functionKey(NSUpArrowFunctionKey)
         let keystroke = StandardKeyEvent.stub(
             keyCode: .upArrow,
@@ -157,7 +157,7 @@ extension EventTransformerKeystrokeTests {
         )
     }
 
-    func test_systemKeysUseTheirOwnNames() {
+    func testSystemKeysUseTheirOwnNames() {
         let cases: [(KeyboardKeyCode, String)] = [
             (.brightnessDown, "dimmer"),
             (.brightnessUp, "brighter"),
@@ -171,7 +171,7 @@ extension EventTransformerKeystrokeTests {
         }
     }
 
-    func test_japaneseInputKeysUseTheirOwnLabels() {
+    func testJapaneseInputKeysUseTheirOwnLabels() {
         let cases: [(KeyboardKeyCode, KeyboardSpecialKey)] = [(.eisu, .eisu), (.kana, .kana)]
 
         for (keyCode, specialKey) in cases {
@@ -183,10 +183,10 @@ extension EventTransformerKeystrokeTests {
 
 // MARK: - Keys Named by the Event
 
-extension EventTransformerKeystrokeTests {
+extension EventTransformerStandardKeyEventTests {
     /// macOS reuses the Help key code for Insert on many external keyboards, so
     /// these three keys are told apart by the event's characters, not the key code.
-    func test_helpKeyCodeResolvesFromTheEventCharacters() {
+    func testHelpKeyCodeResolvesFromTheEventCharacters() {
         let insertCharacter = String.functionKey(NSInsertFunctionKey)
         let insert = StandardKeyEvent.stub(
             keyCode: .help,

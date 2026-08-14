@@ -11,7 +11,7 @@ import XCTest
 @testable import Keyty
 
 final class CGRectNormalizedPointTests: XCTestCase {
-    func test_normalizedPoint_returnsPointRelativeToRect() {
+    func testNormalizedPointReturnsPointRelativeToRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
         let point = rect.normalizedPoint(for: CGPoint(x: 35, y: 45))
 
@@ -19,7 +19,7 @@ final class CGRectNormalizedPointTests: XCTestCase {
         XCTAssertEqual(point.y, 0.5, accuracy: 0.0001)
     }
 
-    func test_normalizedPoint_clampsPointBelowRect() {
+    func testNormalizedPointClampsPointBelowRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
         let point = rect.normalizedPoint(for: CGPoint(x: 0, y: 10))
 
@@ -27,7 +27,7 @@ final class CGRectNormalizedPointTests: XCTestCase {
         XCTAssertEqual(point.y, 0, accuracy: 0.0001)
     }
 
-    func test_normalizedPoint_clampsPointAboveRect() {
+    func testNormalizedPointClampsPointAboveRect() {
         let rect = CGRect(x: 10, y: 20, width: 100, height: 50)
         let point = rect.normalizedPoint(for: CGPoint(x: 120, y: 80))
 
@@ -35,7 +35,7 @@ final class CGRectNormalizedPointTests: XCTestCase {
         XCTAssertEqual(point.y, 1, accuracy: 0.0001)
     }
 
-    func test_normalizedPoint_usesOneForEmptyDimensions() {
+    func testNormalizedPointUsesOneForEmptyDimensions() {
         let rect = CGRect(x: 10, y: 20, width: 0, height: 0)
         let point = rect.normalizedPoint(for: CGPoint(x: 10.5, y: 20.25))
 

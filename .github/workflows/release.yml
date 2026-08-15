@@ -167,3 +167,38 @@ jobs:
       - name: Skip Homebrew tap update dispatch
         if: ${{ env.HOMEBREW_TAP_DISPATCH_TOKEN == '' }}
         run: echo "::notice::Skipping Homebrew tap update dispatch because HOMEBREW_TAP_DISPATCH_TOKEN is not configured."
+
+  sync-appcast-website:
+    if: ${{ !endsWith(github.ref_name, '-test') }}
+    runs-on: ubuntu-latest
+    needs: release
+    env:
+      KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN: ${{ secrets.KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN }}
+      KEYTY_APPCAST_WEBSITE_REPOSITORY: ${{ vars.KEYTY_APPCAST_WEBSITE_REPOSITORY || 'esphynox/keyty.app' }}
+
+    steps:
+      - name: Dispatch website appcast sync
+        if: ${{ env.KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN != '' }}
+        env:
+          GH_TOKEN: ${{ env.KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          gh api "repos/${KEYTY_APPCAST_WEBSITE_REPOSITORY}/dispatches" \
+            --method POST \
+            --input - <<EOF
+          {
+            "event_type": "keyty_appcast_release",
+            "client_payload": {
+              "version": "${GITHUB_REF_NAME#v}",
+              "tag": "${GITHUB_REF_NAME}",
+              "source_repo": "${GITHUB_REPOSITORY}",
+              "run_id": "${GITHUB_RUN_ID}"
+            }
+          }
+          EOF
+
+      - name: Skip website appcast sync dispatch
+        if: ${{ env.KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN == '' }}
+        run: echo "::notice::Skipping website appcast sync because KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN is not configured."

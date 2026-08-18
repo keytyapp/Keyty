@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Кільце";
+"mouse.tab_click_ring" = "Кільце кліку";
 "mouse.tab_icon" = "Піктограма";
 "mouse.pointer_ring_label" = "Кільце вказівника";
 "mouse.enabled" = "Увімкнено";
 "mouse.enabled_subtitle" = "Видимість кільця вказівника.";
+"mouse.click_ring_enabled_subtitle" = "Видимість анімованого кільця кліку.";
 "mouse.always_visible_label" = "Завжди показувати";
 "mouse.always_visible_subtitle" = "Кільце залишається видимим, коли вказівник не рухається.";
 "mouse.ring_color_label" = "Колір";
 "mouse.ring_color_subtitle" = "Готовий або власний колір кільця вказівника.";
+"mouse.click_ring_color_subtitle" = "Готовий або власний колір кільця кліку.";
 "mouse.ring_size_label" = "Розмір";
 "mouse.ring_size_subtitle" = "Діаметр кільця вказівника.";
+"mouse.click_ring_size_subtitle" = "Діаметр кожного створеного кільця кліку.";
 "mouse.ring_thickness_label" = "Товщина";
 "mouse.ring_thickness_subtitle" = "Товщина контуру кільця вказівника.";
+"mouse.click_ring_thickness_subtitle" = "Товщина контуру кожного створеного кільця кліку.";
 "mouse.ring_shape_label" = "Форма";
 "mouse.ring_shape_subtitle" = "Форма контуру кільця вказівника.";
+"mouse.click_ring_shape_subtitle" = "Форма контуру кожного створеного кільця кліку.";
 "mouse.pointer_icon_label" = "Піктограма вказівника";
 "mouse.pointer_icon_enabled" = "Увімкнено";
 "mouse.pointer_icon_enabled_subtitle" = "Видимість піктограми вказівника.";

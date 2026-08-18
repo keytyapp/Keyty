@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Ring";
+"mouse.tab_click_ring" = "Klikring";
 "mouse.tab_icon" = "Pictogram";
 "mouse.pointer_ring_label" = "Aanwijzerring";
 "mouse.enabled" = "Ingeschakeld";
 "mouse.enabled_subtitle" = "Zichtbaarheid van de aanwijzerring.";
+"mouse.click_ring_enabled_subtitle" = "Zichtbaarheid van de geanimeerde klikring.";
 "mouse.always_visible_label" = "Altijd zichtbaar";
 "mouse.always_visible_subtitle" = "De ring blijft zichtbaar terwijl de aanwijzer stil staat.";
 "mouse.ring_color_label" = "Kleur";
 "mouse.ring_color_subtitle" = "Voorinstelling of aangepaste kleur van de aanwijzerring.";
+"mouse.click_ring_color_subtitle" = "Voorinstelling of aangepaste kleur van de klikring.";
 "mouse.ring_size_label" = "Grootte";
 "mouse.ring_size_subtitle" = "Diameter van de aanwijzerring.";
+"mouse.click_ring_size_subtitle" = "Diameter van elke gemaakte klikring.";
 "mouse.ring_thickness_label" = "Dikte";
 "mouse.ring_thickness_subtitle" = "Lijndikte van de aanwijzerring.";
+"mouse.click_ring_thickness_subtitle" = "Lijndikte van elke gemaakte klikring.";
 "mouse.ring_shape_label" = "Vorm";
 "mouse.ring_shape_subtitle" = "Omtrekgeometrie van de aanwijzerring.";
+"mouse.click_ring_shape_subtitle" = "Omtrekgeometrie van elke gemaakte klikring.";
 "mouse.pointer_icon_label" = "Aanwijzerpictogram";
 "mouse.pointer_icon_enabled" = "Ingeschakeld";
 "mouse.pointer_icon_enabled_subtitle" = "Zichtbaarheid van de aanwijzerpictogram-overlay.";

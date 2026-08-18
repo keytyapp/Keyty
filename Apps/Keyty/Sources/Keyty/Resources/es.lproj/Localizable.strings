@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Anillo";
+"mouse.tab_click_ring" = "Anillo de clic";
 "mouse.tab_icon" = "Icono";
 "mouse.pointer_ring_label" = "Anillo del puntero";
 "mouse.enabled" = "Activado";
 "mouse.enabled_subtitle" = "Visibilidad del anillo del puntero.";
+"mouse.click_ring_enabled_subtitle" = "Visibilidad del anillo de clic animado.";
 "mouse.always_visible_label" = "Siempre visible";
 "mouse.always_visible_subtitle" = "El anillo permanece visible mientras el puntero está inactivo.";
 "mouse.ring_color_label" = "Color";
 "mouse.ring_color_subtitle" = "Color predefinido o personalizado del anillo del puntero.";
+"mouse.click_ring_color_subtitle" = "Color predefinido o personalizado del anillo de clic.";
 "mouse.ring_size_label" = "Tamaño";
 "mouse.ring_size_subtitle" = "Diámetro del anillo del puntero.";
+"mouse.click_ring_size_subtitle" = "Diámetro de cada anillo de clic generado.";
 "mouse.ring_thickness_label" = "Grosor";
 "mouse.ring_thickness_subtitle" = "Grosor del trazo del anillo del puntero.";
+"mouse.click_ring_thickness_subtitle" = "Grosor del trazo de cada anillo de clic generado.";
 "mouse.ring_shape_label" = "Forma";
 "mouse.ring_shape_subtitle" = "Geometría del contorno del anillo del puntero.";
+"mouse.click_ring_shape_subtitle" = "Geometría del contorno de cada anillo de clic generado.";
 "mouse.pointer_icon_label" = "Icono del puntero";
 "mouse.pointer_icon_enabled" = "Activado";
 "mouse.pointer_icon_enabled_subtitle" = "Visibilidad de la superposición del icono del puntero.";

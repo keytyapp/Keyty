@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "リング";
+"mouse.tab_click_ring" = "クリックリング";
 "mouse.tab_icon" = "アイコン";
 "mouse.pointer_ring_label" = "ポインタリング";
 "mouse.enabled" = "有効";
 "mouse.enabled_subtitle" = "ポインタリングの表示状態です。";
+"mouse.click_ring_enabled_subtitle" = "アニメーションするクリックリングの表示状態です。";
 "mouse.always_visible_label" = "常に表示";
 "mouse.always_visible_subtitle" = "ポインタを操作していない間もリングを表示します。";
 "mouse.ring_color_label" = "カラー";
 "mouse.ring_color_subtitle" = "ポインタリングのプリセットカラーまたはカスタムカラーです。";
+"mouse.click_ring_color_subtitle" = "クリックリングのプリセットカラーまたはカスタムカラーです。";
 "mouse.ring_size_label" = "サイズ";
 "mouse.ring_size_subtitle" = "ポインタリングの直径です。";
+"mouse.click_ring_size_subtitle" = "生成される各クリックリングの直径です。";
 "mouse.ring_thickness_label" = "太さ";
 "mouse.ring_thickness_subtitle" = "ポインタリングの線の太さです。";
+"mouse.click_ring_thickness_subtitle" = "生成される各クリックリングの線の太さです。";
 "mouse.ring_shape_label" = "形状";
 "mouse.ring_shape_subtitle" = "ポインタリングの輪郭の形状です。";
+"mouse.click_ring_shape_subtitle" = "生成される各クリックリングの輪郭の形状です。";
 "mouse.pointer_icon_label" = "ポインタアイコン";
 "mouse.pointer_icon_enabled" = "有効";
 "mouse.pointer_icon_enabled_subtitle" = "ポインタアイコンオーバーレイの表示状態です。";

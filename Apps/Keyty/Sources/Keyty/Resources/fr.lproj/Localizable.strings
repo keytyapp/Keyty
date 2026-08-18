@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Anneau";
+"mouse.tab_click_ring" = "Anneau de clic";
 "mouse.tab_icon" = "Icône";
 "mouse.pointer_ring_label" = "Anneau du pointeur";
 "mouse.enabled" = "Activé";
 "mouse.enabled_subtitle" = "Visibilité de l’anneau du pointeur.";
+"mouse.click_ring_enabled_subtitle" = "Visibilité de l’anneau de clic animé.";
 "mouse.always_visible_label" = "Toujours visible";
 "mouse.always_visible_subtitle" = "L’anneau reste visible lorsque le pointeur est inactif.";
 "mouse.ring_color_label" = "Couleur";
 "mouse.ring_color_subtitle" = "Couleur prédéfinie ou personnalisée de l’anneau du pointeur.";
+"mouse.click_ring_color_subtitle" = "Couleur prédéfinie ou personnalisée de l’anneau de clic.";
 "mouse.ring_size_label" = "Taille";
 "mouse.ring_size_subtitle" = "Diamètre de l’anneau du pointeur.";
+"mouse.click_ring_size_subtitle" = "Diamètre de chaque anneau de clic généré.";
 "mouse.ring_thickness_label" = "Épaisseur";
 "mouse.ring_thickness_subtitle" = "Épaisseur du trait de l’anneau du pointeur.";
+"mouse.click_ring_thickness_subtitle" = "Épaisseur du trait de chaque anneau de clic généré.";
 "mouse.ring_shape_label" = "Forme";
 "mouse.ring_shape_subtitle" = "Forme du contour de l’anneau du pointeur.";
+"mouse.click_ring_shape_subtitle" = "Forme du contour de chaque anneau de clic généré.";
 "mouse.pointer_icon_label" = "Icône du pointeur";
 "mouse.pointer_icon_enabled" = "Activé";
 "mouse.pointer_icon_enabled_subtitle" = "Visibilité de la superposition de l’icône du pointeur.";

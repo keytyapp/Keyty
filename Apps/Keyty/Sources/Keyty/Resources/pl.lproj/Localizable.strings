@@ -180,20 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Pierścień";
+"mouse.tab_click_ring" = "Pierścień kliknięcia";
 "mouse.tab_icon" = "Ikona";
 "mouse.pointer_ring_label" = "Pierścień wskaźnika";
 "mouse.enabled" = "Włączone";
 "mouse.enabled_subtitle" = "Widoczność pierścienia wskaźnika.";
+"mouse.click_ring_enabled_subtitle" = "Widoczność animowanego pierścienia kliknięcia.";
 "mouse.always_visible_label" = "Zawsze widoczny";
 "mouse.always_visible_subtitle" = "Pierścień pozostaje widoczny, gdy wskaźnik jest bezczynny.";
 "mouse.ring_color_label" = "Kolor";
 "mouse.ring_color_subtitle" = "Kolor pierścienia wskaźnika z predefiniowanego zestawu lub własny.";
+"mouse.click_ring_color_subtitle" = "Kolor pierścienia kliknięcia z predefiniowanego zestawu lub własny.";
 "mouse.ring_size_label" = "Rozmiar";
 "mouse.ring_size_subtitle" = "Średnica pierścienia wskaźnika.";
+"mouse.click_ring_size_subtitle" = "Średnica każdego tworzonego pierścienia kliknięcia.";
 "mouse.ring_thickness_label" = "Grubość";
 "mouse.ring_thickness_subtitle" = "Szerokość obrysu pierścienia wskaźnika.";
+"mouse.click_ring_thickness_subtitle" = "Szerokość obrysu każdego tworzonego pierścienia kliknięcia.";
 "mouse.ring_shape_label" = "Kształt";
 "mouse.ring_shape_subtitle" = "Geometria obrysu pierścienia wskaźnika.";
+"mouse.click_ring_shape_subtitle" = "Geometria obrysu każdego tworzonego pierścienia kliknięcia.";
 "mouse.pointer_icon_label" = "Ikona wskaźnika";
 "mouse.pointer_icon_enabled" = "Włączone";
 "mouse.pointer_icon_enabled_subtitle" = "Widoczność nakładki ikony wskaźnika.";

@@ -11,24 +11,14 @@ import SwiftUI
 
 extension MouseSettingsPane {
     struct PreviewCard: View {
-        private static let holdDuration: TimeInterval = 1.75
-        private static let idleDuration: TimeInterval = 0.82
-
         @ObservedObject var model: MouseSettingsPaneViewModel
-        @State private var ringPreviewTask: Task<Void, Never>?
-        @State private var ringPreviewAnimationState = PointerRingAnimation.VisualState.idle(alwaysVisible: false)
-        @State private var clickRingPreviewTask: Task<Void, Never>?
-        @State private var clickRingPreviewRipples: [ClickRingPreviewRipple] = []
-        @State private var clickRingPreviewCursorOffset: CGSize = .zero
-        @State private var iconPreviewTask: Task<Void, Never>?
-        @State private var iconPreviewVisualState = PointerIconContentView.VisualState.idle
 
         var body: some View {
             ZStack(alignment: .topLeading) {
                 RoundedRectangle(cornerRadius: Radius.lg, style: .continuous)
                     .fill(Color.Theme.Surface.surfaceBackground)
 
-                self.cursorPreview
+                self.selectedVisualizerPreview
             }
             .frame(height: Spacing.grid(40))
             .clipShape(RoundedRectangle(cornerRadius: Radius.lg, style: .continuous))
@@ -38,43 +28,37 @@ extension MouseSettingsPane {
             )
         }
 
-        private var cursorPreview: some View {
-            GeometryReader { geometry in
-                ZStack {
-                    self.selectedVisualizerPreview(in: geometry.size)
-                    self.cursorImage
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-            }
-            .onAppear {
-                self.updatePreviewAnimations()
-            }
-            .onDisappear {
-                self.stopRingPreviewAnimation()
-                self.stopClickRingPreviewAnimation()
-                self.stopIconPreviewAnimation()
-            }
-            .onChange(of: self.model.selectedSettingsTab) { _ in
-                self.updatePreviewAnimations()
-            }
-            .onChange(of: self.model.ring.alwaysVisible) { alwaysVisible in
-                guard
-                    self.model.selectedSettingsTab == .ring,
-                    self.ringPreviewAnimationState.scale == 1
-                else {
-                    return
-                }
+    }
+}
 
-                self.ringPreviewAnimationState = .idle(alwaysVisible: alwaysVisible)
-            }
+extension MouseSettingsPane.PreviewCard {
+    static let holdDuration: TimeInterval = 1.75
+    static let idleDuration: TimeInterval = 0.82
+}
+
+private extension MouseSettingsPane.PreviewCard {
+    @ViewBuilder
+    var selectedVisualizerPreview: some View {
+        switch self.model.selectedSettingsTab {
+        case .ring:
+            PointerRingPreview(model: self.model)
+        case .clickRing:
+            PointerClickRingPreview(model: self.model)
+        case .icon:
+            PointerIconPreview(model: self.model)
         }
+    }
+}
 
-        private var cursorImage: some View {
+extension MouseSettingsPane.PreviewCard {
+    struct CursorImageView: View {
+        let previewOffset: CGSize
+
+        var body: some View {
             let cursor = NSCursor.current
-            let offset = self.cursorOffset(for: cursor)
-            let previewOffset = self.previewCursorOffset
+            let offset = Self.cursorOffset(for: cursor)
 
-            return Image(nsImage: cursor.image)
+            Image(nsImage: cursor.image)
                 .interpolation(.none)
                 .offset(
                     x: offset.width + previewOffset.width.rounded(),
@@ -82,7 +66,7 @@ extension MouseSettingsPane {
                 )
         }
 
-        private func cursorOffset(for cursor: NSCursor) -> CGSize {
+        private static func cursorOffset(for cursor: NSCursor) -> CGSize {
             let imageSize = cursor.image.size
             let hotspot = cursor.hotSpot
 
@@ -90,446 +74,6 @@ extension MouseSettingsPane {
                 width: imageSize.width / 2 - hotspot.x,
                 height: imageSize.height / 2 - hotspot.y
             )
-        }
-    }
-}
-
-// MARK: - Visualizer Preview
-private extension MouseSettingsPane.PreviewCard {
-    @ViewBuilder
-    func selectedVisualizerPreview(in size: CGSize) -> some View {
-        switch self.model.selectedSettingsTab {
-        case .ring:
-            self.pointerRingPreview(in: size)
-        case .clickRing:
-            self.pointerClickRingPreview(in: size)
-        case .icon:
-            self.pointerIconPreview(in: size)
-        }
-    }
-}
-
-// MARK: - Ring Preview
-private extension MouseSettingsPane.PreviewCard {
-    func pointerRingPreview(in size: CGSize) -> some View {
-        PointerRingPreviewShape(shape: self.model.ring.shape)
-            .stroke(
-                Color(appKitColor: self.model.ring.color),
-                style: StrokeStyle(
-                    lineWidth: self.previewRingThickness,
-                    lineCap: .round,
-                    lineJoin: .round
-                )
-            )
-            .frame(
-                width: self.previewRingSize(in: size),
-                height: self.previewRingSize(in: size)
-            )
-            .scaleEffect(self.ringPreviewAnimationState.scale)
-            .opacity(self.previewRingOpacity)
-    }
-
-    var previewRingOpacity: Double {
-        self.model.ring.alwaysVisible
-            ? PointerRingAnimation.visibleOpacity
-            : self.ringPreviewAnimationState.opacity
-    }
-
-    func pointerClickRingPreview(in size: CGSize) -> some View {
-        ZStack {
-            ForEach(self.clickRingPreviewRipples) { ripple in
-                PointerRingPreviewShape(shape: self.model.clickRing.shape)
-                    .stroke(
-                        Color(appKitColor: self.model.clickRing.color),
-                        style: StrokeStyle(
-                            lineWidth: self.previewClickRingThickness,
-                            lineCap: .round,
-                            lineJoin: .round
-                        )
-                    )
-                    .frame(
-                        width: self.previewClickRingSize(in: size),
-                        height: self.previewClickRingSize(in: size)
-                    )
-                    .scaleEffect(ripple.visualState.scale)
-                    .opacity(ripple.visualState.opacity)
-                    .offset(ripple.offset)
-            }
-        }
-    }
-
-    func previewRingSize(in size: CGSize) -> CGFloat {
-        let maximumSize = min(size.width, size.height) * 0.72
-        return min(maximumSize, self.model.ring.size)
-    }
-
-    var previewRingThickness: CGFloat {
-        let scale = self.previewScale(for: self.model.ring.size)
-        return max(StrokeWidth.standard, self.model.ring.thickness * scale)
-    }
-
-    func previewScale(for ringSize: CGFloat) -> CGFloat {
-        guard ringSize > 0 else { return 1 }
-
-        return min(1, Spacing.grid(40) * 0.72 / ringSize)
-    }
-
-    func previewClickRingSize(in size: CGSize) -> CGFloat {
-        let maximumSize = min(size.width, size.height) * 0.72
-        return min(maximumSize, self.model.clickRing.size)
-    }
-
-    var previewClickRingThickness: CGFloat {
-        let scale = self.previewScale(for: self.model.clickRing.size)
-        return max(StrokeWidth.standard, self.model.clickRing.thickness * scale)
-    }
-}
-
-// MARK: - Icon Preview
-private extension MouseSettingsPane.PreviewCard {
-    func pointerIconPreview(in size: CGSize) -> some View {
-        let image = self.pointerIconPreviewImage
-        let scale = self.previewIconScale(for: image.size, in: size)
-        let offset = self.previewIconOffset(for: image.size, scale: scale)
-
-        return Image(nsImage: image)
-            .resizable()
-            .frame(width: image.size.width * scale, height: image.size.height * scale)
-            .offset(x: offset.width, y: offset.height)
-            .opacity(self.previewIconOpacity)
-    }
-
-    var pointerIconPreviewImage: NSImage {
-        PointerIconContentView.renderedImage(
-            icon: self.iconPreviewVisualState.icon,
-            displayedKind: self.iconPreviewVisualState.displayedKind,
-            iconSize: self.model.icon.size,
-            backgroundColor: self.model.icon.backgroundColor,
-            tintColor: self.model.icon.tintColor
-        )
-    }
-
-    var previewIconOpacity: Double {
-        self.model.icon.alwaysVisible || self.iconPreviewVisualState.isTransientlyVisible
-            ? PointerRingAnimation.visibleOpacity
-            : PointerRingAnimation.hiddenOpacity
-    }
-
-    func previewIconScale(for iconSize: NSSize, in containerSize: CGSize) -> CGFloat {
-        let offset = CGFloat(self.model.icon.offset)
-        let horizontalExtent = iconSize.width + offset
-        let verticalExtent = iconSize.height + offset
-        guard horizontalExtent > 0, verticalExtent > 0 else { return 1 }
-
-        let availableWidth = containerSize.width * 0.42
-        let availableHeight = containerSize.height * 0.42
-        return min(1, availableWidth / horizontalExtent, availableHeight / verticalExtent)
-    }
-
-    func previewIconOffset(for iconSize: NSSize, scale: CGFloat) -> CGSize {
-        let horizontalOffset = (iconSize.width / 2 + CGFloat(self.model.icon.offset)) * scale
-        let verticalOffset = (iconSize.height / 2 + CGFloat(self.model.icon.offset)) * scale
-
-        switch self.model.icon.anchorValue {
-        case .bottomRight:
-            return CGSize(width: horizontalOffset, height: verticalOffset)
-        case .bottomLeft:
-            return CGSize(width: -horizontalOffset, height: verticalOffset)
-        case .topRight:
-            return CGSize(width: horizontalOffset, height: -verticalOffset)
-        case .topLeft:
-            return CGSize(width: -horizontalOffset, height: -verticalOffset)
-        }
-    }
-}
-
-// MARK: - Preview Animation
-private extension MouseSettingsPane.PreviewCard {
-    func updatePreviewAnimations() {
-        self.updateRingPreviewAnimation()
-        self.updateClickRingPreviewAnimation()
-        self.updateIconPreviewAnimation()
-    }
-
-    func updateRingPreviewAnimation() {
-        if self.model.selectedSettingsTab == .ring {
-            self.startRingPreviewAnimation()
-        } else {
-            self.stopRingPreviewAnimation()
-        }
-    }
-
-    func updateClickRingPreviewAnimation() {
-        if self.model.selectedSettingsTab == .clickRing {
-            self.startClickRingPreviewAnimation()
-        } else {
-            self.stopClickRingPreviewAnimation()
-        }
-    }
-
-    func startRingPreviewAnimation() {
-        self.ringPreviewTask?.cancel()
-        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ring.alwaysVisible)
-        self.ringPreviewTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
-            await self.runRingPreviewAnimationLoop()
-        }
-    }
-
-    func stopRingPreviewAnimation() {
-        self.ringPreviewTask?.cancel()
-        self.ringPreviewTask = nil
-        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.ring.alwaysVisible)
-    }
-
-    func runRingPreviewAnimationLoop() async {
-        while self.canContinueRingPreviewAnimation {
-            withAnimation(.easeOut(duration: PointerRingAnimation.pressAnimationDuration)) {
-                self.ringPreviewAnimationState = .pressed
-            }
-
-            let holdDuration = self.model.selectedSettingsTab == .ring ? Self.holdDuration : PointerRingAnimation.spawnAnimationDuration
-            try? await Task.sleep(nanoseconds: holdDuration.nanoseconds)
-            guard self.canContinueRingPreviewAnimation else { return }
-
-            withAnimation(.easeOut(duration: PointerRingAnimation.releaseAnimationDuration)) {
-                self.ringPreviewAnimationState = .released(
-                    alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ring.alwaysVisible
-                )
-            }
-
-            try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
-        }
-    }
-
-    var canContinueRingPreviewAnimation: Bool {
-        !Task.isCancelled && self.model.selectedSettingsTab == .ring
-    }
-
-    func startClickRingPreviewAnimation() {
-        self.clickRingPreviewTask?.cancel()
-        self.clickRingPreviewRipples = []
-        self.clickRingPreviewCursorOffset = self.clickRingPreviewOffsets.first ?? .zero
-        self.clickRingPreviewTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
-            await self.runClickRingPreviewAnimationLoop()
-        }
-    }
-
-    func stopClickRingPreviewAnimation() {
-        self.clickRingPreviewTask?.cancel()
-        self.clickRingPreviewTask = nil
-        self.clickRingPreviewRipples = []
-        self.clickRingPreviewCursorOffset = .zero
-    }
-
-    func runClickRingPreviewAnimationLoop() async {
-        while self.canContinueClickRingPreviewAnimation {
-            guard let firstOffset = self.clickRingPreviewOffsets.first else { return }
-
-            self.clickRingPreviewCursorOffset = firstOffset
-            self.spawnClickRingPreviewRipple(at: firstOffset)
-            try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.initialClickHoldDuration.nanoseconds)
-
-            for offset in self.clickRingPreviewOffsets.dropFirst() {
-                guard self.canContinueClickRingPreviewAnimation else { return }
-                await self.animateClickRingCursorMove(to: offset)
-                guard self.canContinueClickRingPreviewAnimation else { return }
-                self.spawnClickRingPreviewRipple(at: offset)
-            }
-
-            guard self.canContinueClickRingPreviewAnimation else { return }
-            withAnimation(.easeInOut(duration: PreviewClickRingAnimation.cursorReturnDuration)) {
-                self.clickRingPreviewCursorOffset = firstOffset
-            }
-
-            try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.cursorReturnDuration.nanoseconds)
-            guard self.canContinueClickRingPreviewAnimation else { return }
-
-            try? await Task.sleep(
-                nanoseconds: (PointerRingAnimation.spawnAnimationDuration + Self.idleDuration).nanoseconds
-            )
-        }
-    }
-
-    var canContinueClickRingPreviewAnimation: Bool {
-        !Task.isCancelled && self.model.selectedSettingsTab == .clickRing
-    }
-
-    var clickRingPreviewOffsets: [CGSize] {
-        [
-            CGSize(width: -Spacing.grid(11), height: 0),
-            CGSize(width: 0, height: 0),
-            CGSize(width: Spacing.grid(11), height: 0)
-        ]
-    }
-
-    func spawnClickRingPreviewRipple(at offset: CGSize) {
-        let ripple = ClickRingPreviewRipple(
-            offset: offset,
-            visualState: .initial
-        )
-        self.clickRingPreviewRipples.append(ripple)
-
-        withAnimation(.easeOut(duration: PointerRingAnimation.spawnAnimationDuration)) {
-            self.updateClickRingPreviewRipple(
-                id: ripple.id,
-                visualState: .expanded
-            )
-        }
-
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: PointerRingAnimation.spawnAnimationDuration.nanoseconds)
-            self.clickRingPreviewRipples.removeAll { $0.id == ripple.id }
-        }
-    }
-
-    func updateClickRingPreviewRipple(
-        id: UUID,
-        visualState: ClickRingPreviewVisualState
-    ) {
-        guard let index = self.clickRingPreviewRipples.firstIndex(where: { $0.id == id }) else {
-            return
-        }
-        self.clickRingPreviewRipples[index].visualState = visualState
-    }
-
-    func animateClickRingCursorMove(to offset: CGSize) async {
-        withAnimation(.linear(duration: PreviewClickRingAnimation.cursorTravelDuration)) {
-            self.clickRingPreviewCursorOffset = offset
-        }
-        try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.cursorTravelDuration.nanoseconds)
-    }
-
-    func updateIconPreviewAnimation() {
-        if self.model.selectedSettingsTab == .icon {
-            self.startIconPreviewAnimation()
-        } else {
-            self.stopIconPreviewAnimation()
-        }
-    }
-
-    func startIconPreviewAnimation() {
-        self.iconPreviewTask?.cancel()
-        self.iconPreviewVisualState = .idle
-        self.iconPreviewTask = Task { @MainActor in
-            try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
-            await self.runIconPreviewAnimationLoop()
-        }
-    }
-
-    func stopIconPreviewAnimation() {
-        self.iconPreviewTask?.cancel()
-        self.iconPreviewTask = nil
-        self.iconPreviewVisualState = .idle
-    }
-
-    func runIconPreviewAnimationLoop() async {
-        while self.canContinueIconPreviewAnimation {
-            for event in PreviewIconEvent.allCases {
-                guard self.canContinueIconPreviewAnimation else { return }
-                self.iconPreviewVisualState = event.visualState
-
-                try? await Task.sleep(nanoseconds: event.duration.nanoseconds)
-                guard self.canContinueIconPreviewAnimation else { return }
-
-                self.iconPreviewVisualState = .idle
-
-                try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
-            }
-            self.iconPreviewVisualState = .idle
-            try? await Task.sleep(nanoseconds: Self.idleDuration.nanoseconds)
-        }
-    }
-
-    var canContinueIconPreviewAnimation: Bool {
-        !Task.isCancelled && self.model.selectedSettingsTab == .icon
-    }
-}
-
-// MARK: - Preview Types
-private extension MouseSettingsPane.PreviewCard {
-    private enum PreviewClickRingAnimation {
-        static let initialClickHoldDuration: TimeInterval = 0.16
-        static let cursorTravelDuration: TimeInterval = 0.6
-        static let cursorReturnDuration: TimeInterval = 0.2
-    }
-
-    private enum PreviewIconAnimation {
-        static let clickDuration: TimeInterval = 1.2
-        static let scrollDuration: TimeInterval = 1.0
-    }
-
-    struct ClickRingPreviewVisualState {
-        let opacity: Double
-        let scale: CGFloat
-
-        static let initial = Self(
-            opacity: PointerRingAnimation.visibleOpacity,
-            scale: PointerRingAnimation.spawnStartScale
-        )
-        static let expanded = Self(
-            opacity: PointerRingAnimation.hiddenOpacity,
-            scale: PointerRingAnimation.spawnEndScale
-        )
-    }
-
-    struct ClickRingPreviewRipple: Identifiable {
-        let id = UUID()
-        let offset: CGSize
-        var visualState: ClickRingPreviewVisualState
-    }
-
-    var previewCursorOffset: CGSize {
-        switch self.model.selectedSettingsTab {
-        case .clickRing:
-            return self.clickRingPreviewCursorOffset
-        case .ring, .icon:
-            return .zero
-        }
-    }
-
-    private enum PreviewIconEvent: CaseIterable {
-        case leftClick
-        case rightClick
-        case scrollUp
-        case scrollDown
-
-        var visualState: PointerIconContentView.VisualState {
-            switch self {
-            case .leftClick:
-                return .leftClick
-            case .rightClick:
-                return .rightClick
-            case .scrollUp:
-                return .scrollUp
-            case .scrollDown:
-                return .scrollDown
-            }
-        }
-
-        var duration: TimeInterval {
-            switch self {
-            case .leftClick, .rightClick:
-                return PreviewIconAnimation.clickDuration
-            case .scrollUp, .scrollDown:
-                return PreviewIconAnimation.scrollDuration
-            }
-        }
-    }
-}
-
-extension MouseSettingsPane.PreviewCard {
-    private struct PointerRingPreviewShape: Shape {
-        let shape: PointerRingShape
-
-        func path(in rect: CGRect) -> Path {
-            let path = PointerRingVisualizerWindow.makeVisualizerPath(
-                shape: self.shape,
-                rect: NSRect(origin: .zero, size: rect.size)
-            )
-
-            return Path(path.cgPath)
         }
     }
 }

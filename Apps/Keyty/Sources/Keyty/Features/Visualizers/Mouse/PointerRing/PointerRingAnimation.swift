@@ -50,6 +50,9 @@ enum PointerRingAnimation {
 
     static let pressAnimationDuration: TimeInterval = 0.25
     static let releaseAnimationDuration: TimeInterval = 0.25
+    static let spawnAnimationDuration: TimeInterval = 1.0
+    static let spawnStartScale: CGFloat = 0.5
+    static let spawnEndScale: CGFloat = 1.35
 
     static func eventPhase(for eventType: NSEvent.EventType) -> EventPhase {
         switch eventType {

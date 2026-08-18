@@ -25,15 +25,26 @@ final class MouseSettingsPaneViewModel: ObservableObject {
 
     private let ringVisualizer: PointerRingVisualizer
     private let ringSettings: any PointerRingSettingsProtocol
+    private let clickRingVisualizer: PointerClickRingVisualizer
+    private let clickRingSettings: any PointerClickRingSettingsProtocol
     private let iconSettings: any PointerIconSettingsProtocol
     private var ringColorSelectionOverride: String?
+    private var clickRingColorSelectionOverride: String?
     private var iconBackgroundColorSelectionOverride: String?
     private var iconTintColorSelectionOverride: String?
 
     @Published var selectedSettingsTab = SettingsTab.ring
 
     @Published var ringEnabled: Bool {
-        didSet { self.ringVisualizer.isEnabled = self.ringEnabled }
+        didSet {
+            self.ringVisualizer.isEnabled = self.ringEnabled
+        }
+    }
+
+    @Published var clickRingEnabled: Bool {
+        didSet {
+            self.clickRingVisualizer.isEnabled = self.clickRingEnabled
+        }
     }
 
     @Published var ringColor: NSColor {
@@ -60,6 +71,28 @@ final class MouseSettingsPaneViewModel: ObservableObject {
 
     @Published var ringShape: PointerRingShape {
         didSet { self.ringSettings.shape = self.ringShape }
+    }
+
+    @Published var clickRingColor: NSColor {
+        didSet { self.clickRingSettings.color = self.clickRingColor }
+    }
+
+    @Published var clickRingSize: Double {
+        didSet {
+            let clamped = min(max(self.clickRingSize, Self.ringSizeRange.lowerBound), Self.ringSizeRange.upperBound)
+            self.clickRingSettings.size = CGFloat(clamped)
+        }
+    }
+
+    @Published var clickRingThickness: Double {
+        didSet {
+            let clamped = min(max(self.clickRingThickness, Self.ringThicknessRange.lowerBound), Self.ringThicknessRange.upperBound)
+            self.clickRingSettings.thickness = CGFloat(clamped)
+        }
+    }
+
+    @Published var clickRingShape: PointerRingShape {
+        didSet { self.clickRingSettings.shape = self.clickRingShape }
     }
 
     @Published var iconEnabled: Bool {
@@ -97,10 +130,14 @@ final class MouseSettingsPaneViewModel: ObservableObject {
     init(
         ringVisualizer: PointerRingVisualizer,
         ringSettings: any PointerRingSettingsProtocol,
+        clickRingVisualizer: PointerClickRingVisualizer,
+        clickRingSettings: any PointerClickRingSettingsProtocol,
         iconSettings: any PointerIconSettingsProtocol
     ) {
         self.ringVisualizer = ringVisualizer
         self.ringSettings = ringSettings
+        self.clickRingVisualizer = clickRingVisualizer
+        self.clickRingSettings = clickRingSettings
         self.iconSettings = iconSettings
 
         self.ringEnabled = ringVisualizer.isEnabled
@@ -109,6 +146,11 @@ final class MouseSettingsPaneViewModel: ObservableObject {
         self.ringSize = Double(ringSettings.size)
         self.ringThickness = Double(ringSettings.thickness)
         self.ringShape = ringSettings.shape
+        self.clickRingEnabled = clickRingVisualizer.isEnabled
+        self.clickRingColor = clickRingSettings.color
+        self.clickRingSize = Double(clickRingSettings.size)
+        self.clickRingThickness = Double(clickRingSettings.thickness)
+        self.clickRingShape = clickRingSettings.shape
 
         self.iconEnabled = iconSettings.isEnabled
         self.iconAlwaysVisible = iconSettings.alwaysVisible
@@ -127,12 +169,21 @@ final class MouseSettingsPaneViewModel: ObservableObject {
     }
 
     var ringColorSelectionID: String {
-        if let override = self.ringColorSelectionOverride {
-            return override
-        }
+        self.selectionID(
+            for: self.ringColor,
+            presets: MouseSettingsPaneViewModel.ColorPreset.ringColorPresets,
+            selectionOverride: self.ringColorSelectionOverride,
+            customSelectionID: Self.customRingColorSelectionID
+        )
+    }
 
-        return MouseSettingsPaneViewModel.ColorPreset.ringColorPresets.first { $0.color.hexString == self.ringColor.hexString }?.color.hexString
-            ?? Self.customRingColorSelectionID
+    var clickRingColorSelectionID: String {
+        self.selectionID(
+            for: self.clickRingColor,
+            presets: MouseSettingsPaneViewModel.ColorPreset.ringColorPresets,
+            selectionOverride: self.clickRingColorSelectionOverride,
+            customSelectionID: Self.customRingColorSelectionID
+        )
     }
 
     var iconBackgroundColorSelectionID: String {
@@ -164,12 +215,12 @@ final class MouseSettingsPaneViewModel: ObservableObject {
     }
 
     func selectRingColor(with selectionID: String) {
-        guard let preset = MouseSettingsPaneViewModel.ColorPreset.ringColorPresets.first(where: { $0.color.hexString == selectionID }) else {
-            return
-        }
-
-        self.ringColorSelectionOverride = nil
-        self.ringColor = preset.color
+        self.selectColor(
+            with: selectionID,
+            presets: MouseSettingsPaneViewModel.ColorPreset.ringColorPresets,
+            selectionOverride: &self.ringColorSelectionOverride,
+            applyColor: { self.ringColor = $0 }
+        )
     }
 
     func beginChoosingCustomRingColor() {
@@ -179,6 +230,38 @@ final class MouseSettingsPaneViewModel: ObservableObject {
     func applyCustomRingColor(_ color: NSColor) {
         self.ringColor = color
         self.ringColorSelectionOverride = Self.customRingColorSelectionID
+    }
+
+    func selectClickRingColor(with selectionID: String) {
+        self.selectColor(
+            with: selectionID,
+            presets: MouseSettingsPaneViewModel.ColorPreset.ringColorPresets,
+            selectionOverride: &self.clickRingColorSelectionOverride,
+            applyColor: { self.clickRingColor = $0 }
+        )
+    }
+
+    func beginChoosingCustomClickRingColor() {
+        self.clickRingColorSelectionOverride = Self.customRingColorSelectionID
+    }
+
+    func applyCustomClickRingColor(_ color: NSColor) {
+        self.clickRingColor = color
+        self.clickRingColorSelectionOverride = Self.customRingColorSelectionID
+    }
+
+    private func selectionID(
+        for color: NSColor,
+        presets: [ColorPreset],
+        selectionOverride: String?,
+        customSelectionID: String
+    ) -> String {
+        if let selectionOverride {
+            return selectionOverride
+        }
+
+        return presets.first { $0.color.hexString == color.hexString }?.color.hexString
+            ?? customSelectionID
     }
 
     func selectIconBackgroundColor(with selectionID: String) {
@@ -249,17 +332,34 @@ final class MouseSettingsPaneViewModel: ObservableObject {
         selectionOverride = nil
         applyColor(preset.color)
     }
+
+    private func selectColor(
+        with selectionID: String,
+        presets: [ColorPreset],
+        selectionOverride: inout String?,
+        applyColor: (NSColor) -> Void
+    ) {
+        guard let preset = presets.first(where: { $0.color.hexString == selectionID }) else {
+            return
+        }
+
+        selectionOverride = nil
+        applyColor(preset.color)
+    }
 }
 
 extension MouseSettingsPaneViewModel {
     enum SettingsTab: CaseIterable {
         case ring
+        case clickRing
         case icon
 
         var title: String {
             switch self {
             case .ring:
                 return L10n.Mouse.tabRing
+            case .clickRing:
+                return L10n.Mouse.tabClickRing
             case .icon:
                 return L10n.Mouse.tabIcon
             }

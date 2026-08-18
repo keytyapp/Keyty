@@ -7,7 +7,6 @@
 //
 
 import AppKit
-import CoreGraphics
 import XCTest
 @testable import Keyty
 
@@ -117,6 +116,18 @@ final class PointerRingVisualizerTests: XCTestCase {
             self.store.object(forKey: PointerRingSettingsKeys.isEnabled) as? Bool,
             true
         )
+    }
+
+    func testExternalSettingsDisableUpdatesVisualizer() async {
+        self.visualizer.isEnabled = true
+        self.visualizer.isPresentationActive = true
+        XCTAssertTrue(self.visualizer.isPresented)
+
+        self.settings.isEnabled = false
+        await Task.yield()
+
+        XCTAssertFalse(self.visualizer.isEnabled)
+        XCTAssertFalse(self.visualizer.isPresented)
     }
 
     func testEnabledVisualizerWaitsForPresentationActivation() {

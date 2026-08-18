@@ -14,6 +14,8 @@ import XCTest
 final class MouseSettingsPaneViewModelTests: XCTestCase {
     private var ringSettings: PointerRingSettings!
     private var ringVisualizer: PointerRingVisualizer!
+    private var clickRingSettings: PointerClickRingSettings!
+    private var clickRingVisualizer: PointerClickRingVisualizer!
     private var iconSettings: PointerIconSettings!
     private var model: MouseSettingsPaneViewModel!
 
@@ -23,6 +25,9 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         self.ringSettings = PointerRingSettings(store: InMemoryKeyValueStore())
         self.ringSettings.registerDefaults()
         self.ringVisualizer = PointerRingVisualizer(settings: self.ringSettings)
+        self.clickRingSettings = PointerClickRingSettings(store: InMemoryKeyValueStore())
+        self.clickRingSettings.registerDefaults()
+        self.clickRingVisualizer = PointerClickRingVisualizer(settings: self.clickRingSettings)
 
         self.iconSettings = PointerIconSettings(store: InMemoryKeyValueStore())
         self.iconSettings.registerDefaults()
@@ -30,6 +35,8 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         self.model = MouseSettingsPaneViewModel(
             ringVisualizer: self.ringVisualizer,
             ringSettings: self.ringSettings,
+            clickRingVisualizer: self.clickRingVisualizer,
+            clickRingSettings: self.clickRingSettings,
             iconSettings: self.iconSettings
         )
     }
@@ -37,6 +44,8 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     override func tearDown() {
         self.model = nil
         self.iconSettings = nil
+        self.clickRingVisualizer = nil
+        self.clickRingSettings = nil
         self.ringVisualizer = nil
         self.ringSettings = nil
 
@@ -75,6 +84,22 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         let span = range.upperBound - range.lowerBound
 
         XCTAssertEqual(span.truncatingRemainder(dividingBy: MouseSettingsPaneViewModel.ringThicknessStep), 0)
+    }
+
+    func testClickRingEnabledUpdatesSettings() {
+        self.model.clickRingEnabled = true
+
+        XCTAssertTrue(self.clickRingSettings.isEnabled)
+    }
+
+    func testEnablingRingDoesNotDisableClickRing() {
+        self.model.clickRingEnabled = true
+        self.model.ringEnabled = true
+
+        XCTAssertTrue(self.model.clickRingEnabled)
+        XCTAssertTrue(self.clickRingSettings.isEnabled)
+        XCTAssertTrue(self.model.ringEnabled)
+        XCTAssertTrue(self.ringSettings.isEnabled)
     }
 
     func testDefaultIconColorsUsePresetSelections() {

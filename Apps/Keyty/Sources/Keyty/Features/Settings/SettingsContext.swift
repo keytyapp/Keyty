@@ -13,12 +13,14 @@ final class SettingsContext {
     let settings: AppSettingsContainer
     let shortcutManager: ShortcutManager
     let pointerRingVisualizer: PointerRingVisualizer
+    let pointerClickRingVisualizer: PointerClickRingVisualizer
     let permissionsService: any PermissionsService
     let updater: SPUUpdater
     let placementCoordinator: any KeyboardVisualizerPlacementCoordinating
 
     var appSettings: any AppSettingsProtocol { self.settings.appSettings }
     var pointerRingSettings: any PointerRingSettingsProtocol { self.settings.pointerRingSettings }
+    var pointerClickRingSettings: any PointerClickRingSettingsProtocol { self.settings.pointerClickRingSettings }
     var pointerIconSettings: any PointerIconSettingsProtocol { self.settings.pointerIconSettings }
     var keyboardVisualizerSettings: KeyboardVisualizerSettings { self.settings.keyboardVisualizerSettings }
 
@@ -26,6 +28,7 @@ final class SettingsContext {
         settings: AppSettingsContainer,
         shortcutManager: ShortcutManager,
         pointerRingVisualizer: PointerRingVisualizer,
+        pointerClickRingVisualizer: PointerClickRingVisualizer,
         permissionsService: any PermissionsService,
         updater: SPUUpdater,
         placementCoordinator: any KeyboardVisualizerPlacementCoordinating
@@ -33,6 +36,7 @@ final class SettingsContext {
         self.settings = settings
         self.shortcutManager = shortcutManager
         self.pointerRingVisualizer = pointerRingVisualizer
+        self.pointerClickRingVisualizer = pointerClickRingVisualizer
         self.permissionsService = permissionsService
         self.updater = updater
         self.placementCoordinator = placementCoordinator

@@ -18,11 +18,15 @@ struct MouseSettingsPane: View {
     init(
         pointerRingVisualizer: PointerRingVisualizer,
         pointerRingSettings: any PointerRingSettingsProtocol,
+        pointerClickRingVisualizer: PointerClickRingVisualizer,
+        pointerClickRingSettings: any PointerClickRingSettingsProtocol,
         pointerIconSettings: any PointerIconSettingsProtocol
     ) {
         _model = StateObject(wrappedValue: MouseSettingsPaneViewModel(
             ringVisualizer: pointerRingVisualizer,
             ringSettings: pointerRingSettings,
+            clickRingVisualizer: pointerClickRingVisualizer,
+            clickRingSettings: pointerClickRingSettings,
             iconSettings: pointerIconSettings
         ))
     }
@@ -39,6 +43,8 @@ struct MouseSettingsPane: View {
                 switch self.model.selectedSettingsTab {
                 case .ring:
                     self.pointerRingSettingsSection
+                case .clickRing:
+                    self.pointerClickRingSettingsSection
                 case .icon:
                     self.pointerIconSettingsSection
                 }

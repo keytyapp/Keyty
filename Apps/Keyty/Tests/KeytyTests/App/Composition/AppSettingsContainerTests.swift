@@ -30,6 +30,8 @@ final class AppSettingsContainerTests: XCTestCase {
         self.container.appSettings.visibleAtLaunch = false
         self.container.pointerRingSettings.isEnabled = true
         self.container.pointerRingSettings.color = .systemRed
+        self.container.pointerClickRingSettings.isEnabled = true
+        self.container.pointerClickRingSettings.thickness = 9
         self.container.pointerIconSettings.isEnabled = true
         self.container.pointerIconSettings.offset = 42
         self.container.shortcutSettings.capturingHotKeyData = nil
@@ -42,6 +44,8 @@ final class AppSettingsContainerTests: XCTestCase {
         XCTAssertTrue(self.container.appSettings.visibleAtLaunch)
         XCTAssertEqual(self.container.pointerRingSettings.isEnabled, PointerRingSettingsKeys.defaultIsEnabled)
         XCTAssertEqual(self.container.pointerRingSettings.color.hexString, PointerRingSettingsKeys.automaticVisualizerColor.hexString)
+        XCTAssertEqual(self.container.pointerClickRingSettings.isEnabled, PointerClickRingSettingsKeys.defaultIsEnabled)
+        XCTAssertEqual(self.container.pointerClickRingSettings.thickness, PointerClickRingSettingsKeys.defaultThickness)
         XCTAssertFalse(self.container.pointerIconSettings.isEnabled)
         XCTAssertEqual(self.container.pointerIconSettings.offset, PointerIconSettingsKeys.defaultOffset, accuracy: 0.0001)
         XCTAssertEqual(self.container.shortcutSettings.capturingHotKeyData, ShortcutArchiver.defaultShortcutData())

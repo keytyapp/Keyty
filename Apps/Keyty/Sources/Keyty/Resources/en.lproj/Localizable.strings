@@ -180,20 +180,27 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Ring";
+"mouse.tab_click_ring" = "Click Ring";
 "mouse.tab_icon" = "Icon";
 "mouse.pointer_ring_label" = "Pointer Ring";
+"mouse.pointer_click_ring_label" = "Click Ring";
 "mouse.enabled" = "Enabled";
 "mouse.enabled_subtitle" = "Pointer ring visibility.";
+"mouse.click_ring_enabled_subtitle" = "Animated click ring visibility.";
 "mouse.always_visible_label" = "Always Visible";
 "mouse.always_visible_subtitle" = "Ring remains visible while the pointer is idle.";
 "mouse.ring_color_label" = "Color";
 "mouse.ring_color_subtitle" = "Preset or custom color of the pointer ring.";
+"mouse.click_ring_color_subtitle" = "Preset or custom color of the click ring.";
 "mouse.ring_size_label" = "Size";
 "mouse.ring_size_subtitle" = "Diameter of the pointer ring.";
+"mouse.click_ring_size_subtitle" = "Diameter of each spawned click ring.";
 "mouse.ring_thickness_label" = "Thickness";
 "mouse.ring_thickness_subtitle" = "Stroke width of the pointer ring.";
+"mouse.click_ring_thickness_subtitle" = "Stroke width of each spawned click ring.";
 "mouse.ring_shape_label" = "Shape";
 "mouse.ring_shape_subtitle" = "Outline geometry of the pointer ring.";
+"mouse.click_ring_shape_subtitle" = "Outline geometry of each spawned click ring.";
 "mouse.pointer_icon_label" = "Pointer Icon";
 "mouse.pointer_icon_enabled" = "Enabled";
 "mouse.pointer_icon_enabled_subtitle" = "Pointer icon overlay visibility.";

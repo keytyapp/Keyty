@@ -7,12 +7,14 @@
 //
 
 import AppKit
+import Combine
 
 @MainActor
 public final class PointerRingVisualizer {
     private let settings: any PointerRingSettingsProtocol & ReactiveSettings
     private var visualizerWindow: PointerRingVisualizerWindow?
     private var tracker: DisplayTracker?
+    private var cancellables = Set<AnyCancellable>()
 
     var isPresentationActive: Bool = false {
         didSet {
@@ -35,6 +37,13 @@ public final class PointerRingVisualizer {
     init(settings: any PointerRingSettingsProtocol & ReactiveSettings = PointerRingSettings()) {
         self.settings = settings
         self.isEnabled = settings.isEnabled
+        self.settings.changes
+            .sink { [weak self] in
+                Task { @MainActor in
+                    self?.settingsDidChange()
+                }
+            }
+            .store(in: &self.cancellables)
         self.presentationStateDidChange()
     }
 
@@ -58,6 +67,16 @@ extension PointerRingVisualizer: PointerVisualizer {
 // MARK: - Private API
 
 private extension PointerRingVisualizer {
+    func settingsDidChange() {
+        let isEnabled = self.settings.isEnabled
+        guard self.isEnabled != isEnabled else {
+            self.presentationStateDidChange()
+            return
+        }
+
+        self.isEnabled = isEnabled
+    }
+
     func presentationStateDidChange() {
         self.isEnabled && self.isPresentationActive ? self.show() : self.hide()
     }

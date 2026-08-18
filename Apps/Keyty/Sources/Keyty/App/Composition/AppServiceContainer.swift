@@ -22,6 +22,7 @@ final class AppServiceContainer {
     ) {
         let pointerVisualizersManager = PointerVisualizersManager(
             pointerRingSettings: settings.pointerRingSettings,
+            pointerClickRingSettings: settings.pointerClickRingSettings,
             pointerIconSettings: settings.pointerIconSettings
         )
         let keyboardVisualizer = KeyboardVisualizer(settings: settings.keyboardVisualizerSettings)

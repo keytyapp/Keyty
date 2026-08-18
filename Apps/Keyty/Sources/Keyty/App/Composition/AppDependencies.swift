@@ -21,6 +21,7 @@ final class AppDependencies {
     var permissionsOnboardingWindowController: PermissionsOnboardingWindowController { self.ui.permissionsOnboardingWindowController }
     var pointerVisualizersManager: PointerVisualizersManager { self.services.pointerVisualizersManager }
     var pointerRingSettings: any PointerRingSettingsProtocol { self.settings.pointerRingSettings }
+    var pointerClickRingSettings: any PointerClickRingSettingsProtocol { self.settings.pointerClickRingSettings }
     var pointerIconSettings: any PointerIconSettingsProtocol { self.settings.pointerIconSettings }
     var aboutWindowController: AboutWindowController { self.ui.aboutWindowController }
     var settingsWindowController: SettingsWindowController { self.ui.settingsWindowController }

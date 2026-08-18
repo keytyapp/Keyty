@@ -53,7 +53,7 @@ extension MouseSettingsPane {
             .onChange(of: self.model.selectedSettingsTab) { _ in
                 self.updatePreviewAnimations()
             }
-            .onChange(of: self.model.ringAlwaysVisible) { alwaysVisible in
+            .onChange(of: self.model.ring.alwaysVisible) { alwaysVisible in
                 guard
                     self.model.selectedSettingsTab == .ring,
                     self.ringPreviewAnimationState.scale == 1
@@ -103,9 +103,9 @@ private extension MouseSettingsPane.PreviewCard {
 // MARK: - Ring Preview
 private extension MouseSettingsPane.PreviewCard {
     func pointerRingPreview(in size: CGSize) -> some View {
-        PointerRingPreviewShape(shape: self.model.ringShape)
+        PointerRingPreviewShape(shape: self.model.ring.shape)
             .stroke(
-                Color(appKitColor: self.model.ringColor),
+                Color(appKitColor: self.model.ring.color),
                 style: StrokeStyle(
                     lineWidth: self.previewRingThickness,
                     lineCap: .round,
@@ -121,15 +121,15 @@ private extension MouseSettingsPane.PreviewCard {
     }
 
     var previewRingOpacity: Double {
-        self.model.ringAlwaysVisible
+        self.model.ring.alwaysVisible
             ? PointerRingAnimation.visibleOpacity
             : self.ringPreviewAnimationState.opacity
     }
 
     func pointerClickRingPreview(in size: CGSize) -> some View {
-        PointerRingPreviewShape(shape: self.model.clickRingShape)
+        PointerRingPreviewShape(shape: self.model.clickRing.shape)
             .stroke(
-                Color(appKitColor: self.model.clickRingColor),
+                Color(appKitColor: self.model.clickRing.color),
                 style: StrokeStyle(
                     lineWidth: self.previewClickRingThickness,
                     lineCap: .round,
@@ -146,12 +146,12 @@ private extension MouseSettingsPane.PreviewCard {
 
     func previewRingSize(in size: CGSize) -> CGFloat {
         let maximumSize = min(size.width, size.height) * 0.72
-        return min(maximumSize, self.model.ringSize)
+        return min(maximumSize, self.model.ring.size)
     }
 
     var previewRingThickness: CGFloat {
-        let scale = self.previewScale(for: self.model.ringSize)
-        return max(StrokeWidth.standard, self.model.ringThickness * scale)
+        let scale = self.previewScale(for: self.model.ring.size)
+        return max(StrokeWidth.standard, self.model.ring.thickness * scale)
     }
 
     func previewScale(for ringSize: CGFloat) -> CGFloat {
@@ -162,12 +162,12 @@ private extension MouseSettingsPane.PreviewCard {
 
     func previewClickRingSize(in size: CGSize) -> CGFloat {
         let maximumSize = min(size.width, size.height) * 0.72
-        return min(maximumSize, self.model.clickRingSize)
+        return min(maximumSize, self.model.clickRing.size)
     }
 
     var previewClickRingThickness: CGFloat {
-        let scale = self.previewScale(for: self.model.clickRingSize)
-        return max(StrokeWidth.standard, self.model.clickRingThickness * scale)
+        let scale = self.previewScale(for: self.model.clickRing.size)
+        return max(StrokeWidth.standard, self.model.clickRing.thickness * scale)
     }
 }
 
@@ -189,20 +189,20 @@ private extension MouseSettingsPane.PreviewCard {
         PointerIconContentView.renderedImage(
             icon: self.iconPreviewVisualState.icon,
             displayedKind: self.iconPreviewVisualState.displayedKind,
-            iconSize: self.model.iconSize,
-            backgroundColor: self.model.iconBackgroundColor,
-            tintColor: self.model.iconTintColor
+            iconSize: self.model.icon.size,
+            backgroundColor: self.model.icon.backgroundColor,
+            tintColor: self.model.icon.tintColor
         )
     }
 
     var previewIconOpacity: Double {
-        self.model.iconAlwaysVisible || self.iconPreviewVisualState.isTransientlyVisible
+        self.model.icon.alwaysVisible || self.iconPreviewVisualState.isTransientlyVisible
             ? PointerRingAnimation.visibleOpacity
             : PointerRingAnimation.hiddenOpacity
     }
 
     func previewIconScale(for iconSize: NSSize, in containerSize: CGSize) -> CGFloat {
-        let offset = CGFloat(self.model.iconOffset)
+        let offset = CGFloat(self.model.icon.offset)
         let horizontalExtent = iconSize.width + offset
         let verticalExtent = iconSize.height + offset
         guard horizontalExtent > 0, verticalExtent > 0 else { return 1 }
@@ -213,10 +213,10 @@ private extension MouseSettingsPane.PreviewCard {
     }
 
     func previewIconOffset(for iconSize: NSSize, scale: CGFloat) -> CGSize {
-        let horizontalOffset = (iconSize.width / 2 + CGFloat(self.model.iconOffset)) * scale
-        let verticalOffset = (iconSize.height / 2 + CGFloat(self.model.iconOffset)) * scale
+        let horizontalOffset = (iconSize.width / 2 + CGFloat(self.model.icon.offset)) * scale
+        let verticalOffset = (iconSize.height / 2 + CGFloat(self.model.icon.offset)) * scale
 
-        switch self.model.iconAnchorValue {
+        switch self.model.icon.anchorValue {
         case .bottomRight:
             return CGSize(width: horizontalOffset, height: verticalOffset)
         case .bottomLeft:
@@ -246,7 +246,7 @@ private extension MouseSettingsPane.PreviewCard {
 
     func startRingPreviewAnimation() {
         self.ringPreviewTask?.cancel()
-        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ringAlwaysVisible)
+        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ring.alwaysVisible)
         self.ringPreviewTask = Task { @MainActor in
             try? await Task.sleep(nanoseconds: (Self.idleDuration / 2).nanoseconds)
             await self.runRingPreviewAnimationLoop()
@@ -256,7 +256,7 @@ private extension MouseSettingsPane.PreviewCard {
     func stopRingPreviewAnimation() {
         self.ringPreviewTask?.cancel()
         self.ringPreviewTask = nil
-        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ringAlwaysVisible)
+        self.ringPreviewAnimationState = .idle(alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ring.alwaysVisible)
     }
 
     func runRingPreviewAnimationLoop() async {
@@ -271,7 +271,7 @@ private extension MouseSettingsPane.PreviewCard {
 
             withAnimation(.easeOut(duration: PointerRingAnimation.releaseAnimationDuration)) {
                 self.ringPreviewAnimationState = .released(
-                    alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ringAlwaysVisible
+                    alwaysVisible: self.model.selectedSettingsTab == .ring && self.model.ring.alwaysVisible
                 )
             }
 

@@ -55,10 +55,10 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     func testRingSizeIsClampedToItsRangeBeforeReachingSettings() {
         let range = MouseSettingsPaneViewModel.ringSizeRange
 
-        self.model.ringSize = range.upperBound + 100
+        self.model.ring.size = range.upperBound + 100
         XCTAssertEqual(self.ringSettings.size, CGFloat(range.upperBound))
 
-        self.model.ringSize = range.lowerBound - 100
+        self.model.ring.size = range.lowerBound - 100
         XCTAssertEqual(self.ringSettings.size, CGFloat(range.lowerBound))
     }
 
@@ -72,10 +72,10 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     func testRingThicknessIsClampedToItsRangeBeforeReachingSettings() {
         let range = MouseSettingsPaneViewModel.ringThicknessRange
 
-        self.model.ringThickness = range.upperBound + 100
+        self.model.ring.thickness = range.upperBound + 100
         XCTAssertEqual(self.ringSettings.thickness, CGFloat(range.upperBound))
 
-        self.model.ringThickness = range.lowerBound - 100
+        self.model.ring.thickness = range.lowerBound - 100
         XCTAssertEqual(self.ringSettings.thickness, CGFloat(range.lowerBound))
     }
 
@@ -87,28 +87,28 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     }
 
     func testClickRingEnabledUpdatesSettings() {
-        self.model.clickRingEnabled = true
+        self.model.clickRing.enabled = true
 
         XCTAssertTrue(self.clickRingSettings.isEnabled)
     }
 
     func testEnablingRingDoesNotDisableClickRing() {
-        self.model.clickRingEnabled = true
-        self.model.ringEnabled = true
+        self.model.clickRing.enabled = true
+        self.model.ring.enabled = true
 
-        XCTAssertTrue(self.model.clickRingEnabled)
+        XCTAssertTrue(self.model.clickRing.enabled)
         XCTAssertTrue(self.clickRingSettings.isEnabled)
-        XCTAssertTrue(self.model.ringEnabled)
+        XCTAssertTrue(self.model.ring.enabled)
         XCTAssertTrue(self.ringSettings.isEnabled)
     }
 
     func testDefaultIconColorsUsePresetSelections() {
         XCTAssertEqual(
-            self.model.iconBackgroundColorSelectionID,
+            self.model.icon.backgroundColorSelectionID,
             PointerIconSettingsKeys.defaultBackgroundColor.hexString
         )
         XCTAssertEqual(
-            self.model.iconTintColorSelectionID,
+            self.model.icon.tintColorSelectionID,
             PointerIconSettingsKeys.defaultTintColor.hexString
         )
     }
@@ -116,14 +116,14 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     func testIconBackgroundSelectionUsesBackgroundPresetSections() {
         let preset = MouseSettingsPaneViewModel.ColorPreset.iconBackgroundColorSections[0][0]
 
-        self.model.selectIconBackgroundColor(with: preset.color.hexString)
+        self.model.icon.selectBackgroundColor(with: preset.color.hexString)
 
-        XCTAssertEqual(self.model.iconBackgroundColorSelectionID, preset.color.hexString)
+        XCTAssertEqual(self.model.icon.backgroundColorSelectionID, preset.color.hexString)
     }
 
     func testIconTintSelectionUsesTintPresetSections() {
-        self.model.selectIconTintColor(with: NSColor.black.hexString)
+        self.model.icon.selectTintColor(with: NSColor.black.hexString)
 
-        XCTAssertEqual(self.model.iconTintColorSelectionID, NSColor.black.hexString)
+        XCTAssertEqual(self.model.icon.tintColorSelectionID, NSColor.black.hexString)
     }
 }

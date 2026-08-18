@@ -88,6 +88,10 @@ struct MouseSettingsPane: View {
 }
 
 extension MouseSettingsPane {
+    func binding<Value>(get: @escaping () -> Value, set: @escaping (Value) -> Void) -> Binding<Value> {
+        Binding(get: get, set: set)
+    }
+
     func colorMenuItem(title: String, swatchColor: NSColor, tag: String) -> some View {
         HStack(spacing: Spacing.xs) {
             SwiftUI.Image(nsImage: swatchColor.swatchImage())

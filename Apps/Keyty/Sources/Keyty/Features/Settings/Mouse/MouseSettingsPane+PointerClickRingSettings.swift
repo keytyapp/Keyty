@@ -10,9 +10,11 @@ import SwiftUI
 
 extension MouseSettingsPane {
     var pointerClickRingSettingsSection: some View {
-        SettingsSectionView {
+        let clickRing = self.model.clickRing
+
+        return SettingsSectionView {
             SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.clickRingEnabledSubtitle) {
-                Toggle("", isOn: self.$model.clickRingEnabled)
+                Toggle("", isOn: self.binding(get: { clickRing.enabled }, set: { clickRing.enabled = $0 }))
                     .labelsHidden()
                     .accessibilityLabel(L10n.Mouse.enabled)
                     .toggleStyle(.switch)
@@ -22,7 +24,7 @@ extension MouseSettingsPane {
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.clickRingShapeSubtitle) {
-                Picker("", selection: self.$model.clickRingShape) {
+                Picker("", selection: self.binding(get: { clickRing.shape }, set: { clickRing.shape = $0 })) {
                     ForEach(PointerRingShape.allCases) { shape in
                         Text(shape.label).tag(shape)
                     }
@@ -30,57 +32,57 @@ extension MouseSettingsPane {
                 .labelsHidden()
                 .accessibilityLabel(L10n.Mouse.ringShapeLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
-                .disabled(!self.model.clickRingEnabled)
+                .disabled(!clickRing.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.clickRingColorSubtitle) {
                 self.clickRingColorControls
-                    .disabled(!self.model.clickRingEnabled)
+                    .disabled(!clickRing.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.clickRingSizeSubtitle) {
                 Slider(
-                    value: self.$model.clickRingSize,
+                    value: self.binding(get: { clickRing.size }, set: { clickRing.size = $0 }),
                     in: MouseSettingsPaneViewModel.ringSizeRange,
                     step: MouseSettingsPaneViewModel.ringSizeStep
                 )
                 .frame(width: Spacing.grid(42))
                 .accessibilityLabel(L10n.Mouse.ringSizeLabel)
-                .disabled(!self.model.clickRingEnabled)
+                .disabled(!clickRing.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.clickRingThicknessSubtitle) {
                 Slider(
-                    value: self.$model.clickRingThickness,
+                    value: self.binding(get: { clickRing.thickness }, set: { clickRing.thickness = $0 }),
                     in: MouseSettingsPaneViewModel.ringThicknessRange,
                     step: MouseSettingsPaneViewModel.ringThicknessStep
                 )
                 .frame(width: Spacing.grid(42))
                 .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
-                .disabled(!self.model.clickRingEnabled)
+                .disabled(!clickRing.enabled)
             }
         }
     }
 
     private var clickRingColorControls: some View {
-        Picker(
+        return Picker(
             "",
             selection: Binding(
-                get: { self.model.clickRingColorSelectionID },
+                get: { self.model.clickRing.colorSelectionID },
                 set: { selectionID in
                     if selectionID == MouseSettingsPaneViewModel.customRingColorSelectionID {
-                        self.model.beginChoosingCustomClickRingColor()
-                        self.ringColorPanel.present(initialColor: self.model.clickRingColor)
+                        self.model.clickRing.beginChoosingCustomColor()
+                        self.ringColorPanel.present(initialColor: self.model.clickRing.color)
                         return
                     }
 
-                    self.model.selectClickRingColor(with: selectionID)
+                    self.model.clickRing.selectColor(with: selectionID)
                 }
             )
         ) {
@@ -105,7 +107,7 @@ extension MouseSettingsPane {
             Section {
                 self.colorMenuItem(
                     title: L10n.Mouse.chooseColor,
-                    swatchColor: self.model.clickRingColor,
+                    swatchColor: self.model.clickRing.color,
                     tag: MouseSettingsPaneViewModel.customRingColorSelectionID
                 )
             }

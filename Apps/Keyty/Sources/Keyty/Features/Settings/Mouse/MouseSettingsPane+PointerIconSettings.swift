@@ -11,9 +11,11 @@ import SwiftUI
 
 extension MouseSettingsPane {
     var pointerIconSettingsSection: some View {
-        SettingsSectionView {
+        let icon = self.model.icon
+
+        return SettingsSectionView {
             SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.pointerIconEnabledSubtitle) {
-                Toggle("", isOn: self.$model.iconEnabled)
+                Toggle("", isOn: self.binding(get: { icon.enabled }, set: { icon.enabled = $0 }))
                     .labelsHidden()
                     .accessibilityLabel(L10n.Mouse.enabled)
                     .toggleStyle(.switch)
@@ -23,18 +25,18 @@ extension MouseSettingsPane {
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.pointerIconAlwaysVisibleLabel, subtitle: L10n.Mouse.pointerIconAlwaysVisibleSubtitle) {
-                Toggle("", isOn: self.$model.iconAlwaysVisible)
+                Toggle("", isOn: self.binding(get: { icon.alwaysVisible }, set: { icon.alwaysVisible = $0 }))
                     .labelsHidden()
                     .accessibilityLabel(L10n.Mouse.pointerIconAlwaysVisibleLabel)
                     .toggleStyle(.switch)
                     .controlSize(.small)
-                    .disabled(!self.model.iconEnabled)
+                    .disabled(!icon.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.pointerIconAnchorLabel, subtitle: L10n.Mouse.pointerIconAnchorSubtitle) {
-                Picker("", selection: self.$model.iconAnchor) {
+                Picker("", selection: self.binding(get: { icon.anchor }, set: { icon.anchor = $0 })) {
                     ForEach(PointerIconAnchor.allCases, id: \.rawValue) { anchor in
                         Text(anchor.label).tag(anchor.rawValue)
                     }
@@ -42,80 +44,80 @@ extension MouseSettingsPane {
                 .labelsHidden()
                 .accessibilityLabel(L10n.Mouse.pointerIconAnchorLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
-                .disabled(!self.model.iconEnabled)
+                .disabled(!icon.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.pointerIconOffsetLabel, subtitle: L10n.Mouse.pointerIconOffsetSubtitle) {
-                Slider(value: self.$model.iconOffset, in: 0...80)
+                Slider(value: self.binding(get: { icon.offset }, set: { icon.offset = $0 }), in: 0...80)
                     .frame(width: Spacing.grid(42))
                     .accessibilityLabel(L10n.Mouse.pointerIconOffsetLabel)
-                    .disabled(!self.model.iconEnabled)
+                    .disabled(!icon.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.iconSizeLabel, subtitle: L10n.Mouse.iconSizeSubtitle) {
-                Slider(value: self.$model.iconSizeIndex, in: 0...9, step: 1)
+                Slider(value: self.binding(get: { icon.sizeIndex }, set: { icon.sizeIndex = $0 }), in: 0...9, step: 1)
                     .frame(width: Spacing.grid(42))
                     .accessibilityLabel(L10n.Mouse.iconSizeLabel)
-                    .disabled(!self.model.iconEnabled)
+                    .disabled(!icon.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.iconBackgroundLabel, subtitle: L10n.Mouse.iconBackgroundSubtitle) {
                 self.iconBackgroundColorControls
-                    .disabled(!self.model.iconEnabled)
+                    .disabled(!icon.enabled)
             }
 
             Divider()
 
             SettingsControlRow(title: L10n.Mouse.iconTintLabel, subtitle: L10n.Mouse.iconTintSubtitle) {
                 self.iconTintColorControls
-                    .disabled(!self.model.iconEnabled)
+                    .disabled(!icon.enabled)
             }
         }
     }
 
     private var iconBackgroundColorControls: some View {
-        self.iconColorControls(
+        return self.iconColorControls(
             selection: Binding(
-                get: { self.model.iconBackgroundColorSelectionID },
+                get: { self.model.icon.backgroundColorSelectionID },
                 set: { selectionID in
                     if selectionID == MouseSettingsPaneViewModel.customIconBackgroundColorSelectionID {
-                        self.model.beginChoosingCustomIconBackgroundColor()
-                        self.iconBackgroundColorPanel.present(initialColor: self.model.iconBackgroundColor)
+                        self.model.icon.beginChoosingCustomBackgroundColor()
+                        self.iconBackgroundColorPanel.present(initialColor: self.model.icon.backgroundColor)
                         return
                     }
 
-                    self.model.selectIconBackgroundColor(with: selectionID)
+                    self.model.icon.selectBackgroundColor(with: selectionID)
                 }
             ),
             sections: MouseSettingsPaneViewModel.ColorPreset.iconBackgroundColorSections,
-            currentColor: self.model.iconBackgroundColor,
+            currentColor: self.model.icon.backgroundColor,
             customSelectionID: MouseSettingsPaneViewModel.customIconBackgroundColorSelectionID,
             accessibilityLabel: L10n.Mouse.iconBackgroundLabel
         )
     }
 
     private var iconTintColorControls: some View {
-        self.iconColorControls(
+        return self.iconColorControls(
             selection: Binding(
-                get: { self.model.iconTintColorSelectionID },
+                get: { self.model.icon.tintColorSelectionID },
                 set: { selectionID in
                     if selectionID == MouseSettingsPaneViewModel.customIconTintColorSelectionID {
-                        self.model.beginChoosingCustomIconTintColor()
-                        self.iconTintColorPanel.present(initialColor: self.model.iconTintColor)
+                        self.model.icon.beginChoosingCustomTintColor()
+                        self.iconTintColorPanel.present(initialColor: self.model.icon.tintColor)
                         return
                     }
 
-                    self.model.selectIconTintColor(with: selectionID)
+                    self.model.icon.selectTintColor(with: selectionID)
                 }
             ),
             sections: MouseSettingsPaneViewModel.ColorPreset.iconTintColorSections,
-            currentColor: self.model.iconTintColor,
+            currentColor: self.model.icon.tintColor,
             customSelectionID: MouseSettingsPaneViewModel.customIconTintColorSelectionID,
             accessibilityLabel: L10n.Mouse.iconTintLabel
         )

@@ -17,15 +17,9 @@ final class AppDependencies {
 
     var captureController: CaptureController { self.services.captureController }
     var appSettings: any AppSettingsProtocol { self.settings.appSettings }
-    var permissionsService: any PermissionsService { self.services.permissionsService }
     var permissionsOnboardingWindowController: PermissionsOnboardingWindowController { self.ui.permissionsOnboardingWindowController }
-    var pointerVisualizersManager: PointerVisualizersManager { self.services.pointerVisualizersManager }
-    var pointerRingSettings: any PointerRingSettingsProtocol { self.settings.pointerRingSettings }
-    var pointerClickRingSettings: any PointerClickRingSettingsProtocol { self.settings.pointerClickRingSettings }
-    var pointerIconSettings: any PointerIconSettingsProtocol { self.settings.pointerIconSettings }
     var aboutWindowController: AboutWindowController { self.ui.aboutWindowController }
     var settingsWindowController: SettingsWindowController { self.ui.settingsWindowController }
-    var shortcutManager: ShortcutManager { self.services.shortcutManager }
 
     init(
         statusShortcutItem: NSMenuItem,

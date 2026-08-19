@@ -11,7 +11,6 @@ import AppKit
 public struct MouseEvent {
     public let type: NSEvent.EventType
     public let modifierFlags: NSEvent.ModifierFlags
-    public let locationInWindow: NSPoint
     public let screenLocation: NSPoint
     public let buttonNumber: Int
     public let scrollingDeltaX: CGFloat
@@ -22,7 +21,6 @@ public struct MouseEvent {
     public init(nsEvent event: NSEvent) {
         self.type = event.type
         self.modifierFlags = event.modifierFlags
-        self.locationInWindow = event.locationInWindow
         self.screenLocation = event.locationInWindow
         self.buttonNumber = event.buttonNumber
         self.scrollingDeltaX = event.type == .scrollWheel ? event.scrollingDeltaX : .zero
@@ -34,7 +32,6 @@ public struct MouseEvent {
     public init(nsEvent event: NSEvent, cgEvent: CGEvent) {
         self.type = event.type
         self.modifierFlags = event.modifierFlags
-        self.locationInWindow = event.locationInWindow
         self.screenLocation = event.locationInWindow
         self.buttonNumber = event.buttonNumber
         self.scrollingDeltaX = event.type == .scrollWheel ? event.scrollingDeltaX : .zero

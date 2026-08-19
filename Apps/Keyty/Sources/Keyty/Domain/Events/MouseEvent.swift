@@ -23,10 +23,10 @@ public struct MouseEvent {
         self.modifierFlags = event.modifierFlags
         self.screenLocation = event.locationInWindow
         self.buttonNumber = event.buttonNumber
-        self.scrollingDeltaX = event.type == .scrollWheel ? event.scrollingDeltaX : .zero
-        self.scrollingDeltaY = event.type == .scrollWheel ? event.scrollingDeltaY : .zero
-        self.phase = event.type == .scrollWheel ? event.phase : []
-        self.hasPreciseScrollingDeltas = event.type == .scrollWheel ? event.hasPreciseScrollingDeltas : false
+        self.scrollingDeltaX = self.type == .scrollWheel ? event.scrollingDeltaX : .zero
+        self.scrollingDeltaY = self.type == .scrollWheel ? event.scrollingDeltaY : .zero
+        self.phase = self.type == .scrollWheel ? event.phase : []
+        self.hasPreciseScrollingDeltas = self.type == .scrollWheel ? event.hasPreciseScrollingDeltas : false
     }
 
     public init(nsEvent event: NSEvent, cgEvent: CGEvent) {
@@ -34,10 +34,10 @@ public struct MouseEvent {
         self.modifierFlags = event.modifierFlags
         self.screenLocation = event.locationInWindow
         self.buttonNumber = event.buttonNumber
-        self.scrollingDeltaX = event.type == .scrollWheel ? event.scrollingDeltaX : .zero
-        self.scrollingDeltaY = event.type == .scrollWheel ? event.scrollingDeltaY : .zero
-        self.phase = event.type == .scrollWheel ? event.phase : []
-        self.hasPreciseScrollingDeltas = event.type == .scrollWheel ? event.hasPreciseScrollingDeltas : false
+        self.scrollingDeltaX = self.type == .scrollWheel ? event.scrollingDeltaX : .zero
+        self.scrollingDeltaY = self.type == .scrollWheel ? event.scrollingDeltaY : .zero
+        self.phase = self.type == .scrollWheel ? event.phase : []
+        self.hasPreciseScrollingDeltas = self.type == .scrollWheel ? event.hasPreciseScrollingDeltas : false
     }
 
     public var inputEvent: InputEvent {
@@ -69,15 +69,15 @@ extension MouseEvent {
         case .rightMouseDown, .rightMouseUp, .rightMouseDragged:
             return .rightButton
         case .otherMouseDown, .otherMouseUp, .otherMouseDragged:
-            return buttonNumber == 2 ? .middleButton : .otherButton(buttonNumber + 1)
+            return self.buttonNumber == 2 ? .middleButton : .otherButton(self.buttonNumber + 1)
         case .scrollWheel:
-            guard scrollingDeltaX != 0 || scrollingDeltaY != 0 else {
+            guard self.scrollingDeltaX != 0 || self.scrollingDeltaY != 0 else {
                 return .generic
             }
-            if abs(scrollingDeltaY) >= abs(scrollingDeltaX) {
-                return scrollingDeltaY > 0 ? .wheelUp : .wheelDown
+            if abs(self.scrollingDeltaY) >= abs(self.scrollingDeltaX) {
+                return self.scrollingDeltaY > 0 ? .wheelUp : .wheelDown
             }
-            return scrollingDeltaX > 0 ? .wheelRight : .wheelLeft
+            return self.scrollingDeltaX > 0 ? .wheelRight : .wheelLeft
         default:
             return .generic
         }

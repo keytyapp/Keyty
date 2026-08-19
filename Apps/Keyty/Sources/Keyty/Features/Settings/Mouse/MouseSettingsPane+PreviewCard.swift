@@ -42,8 +42,8 @@ private extension MouseSettingsPane.PreviewCard {
         switch self.model.selectedSettingsTab {
         case .ring:
             PointerRingPreview(model: self.model)
-        case .clickRing:
-            PointerClickRingPreview(model: self.model)
+        case .ripples:
+            PointerRipplesPreview(model: self.model)
         case .icon:
             PointerIconPreview(model: self.model)
         }

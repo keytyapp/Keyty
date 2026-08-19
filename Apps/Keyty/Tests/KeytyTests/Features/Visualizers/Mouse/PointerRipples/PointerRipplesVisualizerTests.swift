@@ -1,5 +1,5 @@
 //
-//  PointerClickRingVisualizerTests.swift
+//  PointerRipplesVisualizerTests.swift
 //  KeytyTests
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -12,17 +12,17 @@ import XCTest
 @testable import Keyty
 
 @MainActor
-final class PointerClickRingVisualizerTests: XCTestCase {
-    private var visualizer: PointerClickRingVisualizer!
+final class PointerRipplesVisualizerTests: XCTestCase {
+    private var visualizer: PointerRipplesVisualizer!
     private var store: InMemoryKeyValueStore!
-    private var settings: PointerClickRingSettings!
+    private var settings: PointerRipplesSettings!
 
     override func setUp() {
         super.setUp()
         self.store = InMemoryKeyValueStore()
-        self.settings = PointerClickRingSettings(store: self.store)
+        self.settings = PointerRipplesSettings(store: self.store)
         self.settings.registerDefaults()
-        self.visualizer = PointerClickRingVisualizer(settings: self.settings)
+        self.visualizer = PointerRipplesVisualizer(settings: self.settings)
     }
 
     override func tearDown() {
@@ -38,19 +38,19 @@ final class PointerClickRingVisualizerTests: XCTestCase {
 
     func testRegistersDefaultColor() {
         XCTAssertEqual(
-            self.store.string(forKey: PointerClickRingSettingsKeys.color),
-            PointerClickRingSettingsKeys.defaultColor
+            self.store.string(forKey: PointerRipplesSettingsKeys.color),
+            PointerRipplesSettingsKeys.defaultColor
         )
     }
 
     func testRegistersDefaultShape() {
         XCTAssertEqual(
-            self.store.string(forKey: PointerClickRingSettingsKeys.shape),
-            PointerClickRingSettingsKeys.defaultShape.rawValue
+            self.store.string(forKey: PointerRipplesSettingsKeys.shape),
+            PointerRipplesSettingsKeys.defaultShape.rawValue
         )
     }
 
-    func testClickRingSpawnsTransientRingOnPress() async {
+    func testRipplesSpawnsTransientRingOnPress() async {
         self.visualizer.isEnabled = true
         self.visualizer.isPresentationActive = true
 
@@ -63,7 +63,7 @@ final class PointerClickRingVisualizerTests: XCTestCase {
         XCTAssertFalse(self.visualizer.isPresented)
     }
 
-    func testPresentationDeactivationRemovesActiveClickRings() {
+    func testPresentationDeactivationRemovesActiveRipples() {
         self.visualizer.isEnabled = true
         self.visualizer.isPresentationActive = true
 
@@ -75,7 +75,7 @@ final class PointerClickRingVisualizerTests: XCTestCase {
         XCTAssertFalse(self.visualizer.isPresented)
     }
 
-    func testExternalSettingsDisableRemovesActiveClickRings() async {
+    func testExternalSettingsDisableRemovesActiveRipples() async {
         self.visualizer.isEnabled = true
         self.visualizer.isPresentationActive = true
 
@@ -89,7 +89,7 @@ final class PointerClickRingVisualizerTests: XCTestCase {
     }
 }
 
-private extension PointerClickRingVisualizerTests {
+private extension PointerRipplesVisualizerTests {
     func mouseEvent(type: CGEventType) -> MouseEvent {
         let cgEvent = CGEvent(
             mouseEventSource: nil,

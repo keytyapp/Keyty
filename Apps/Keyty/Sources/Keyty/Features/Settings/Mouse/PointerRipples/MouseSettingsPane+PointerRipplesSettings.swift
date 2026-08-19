@@ -1,5 +1,5 @@
 //
-//  MouseSettingsPane+PointerClickRingSettings.swift
+//  MouseSettingsPane+PointerRipplesSettings.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -9,12 +9,12 @@
 import SwiftUI
 
 extension MouseSettingsPane {
-    var pointerClickRingSettingsSection: some View {
-        let clickRing = self.model.clickRing
+    var pointerRipplesSettingsSection: some View {
+        let ripples = self.model.ripples
 
         return SettingsSectionView {
-            SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.clickRingEnabledSubtitle) {
-                Toggle("", isOn: self.binding(get: { clickRing.enabled }, set: { clickRing.enabled = $0 }))
+            SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.ripplesEnabledSubtitle) {
+                Toggle("", isOn: self.binding(get: { ripples.enabled }, set: { ripples.enabled = $0 }))
                     .labelsHidden()
                     .accessibilityLabel(L10n.Mouse.enabled)
                     .toggleStyle(.switch)
@@ -23,8 +23,8 @@ extension MouseSettingsPane {
 
             Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.clickRingShapeSubtitle) {
-                Picker("", selection: self.binding(get: { clickRing.shape }, set: { clickRing.shape = $0 })) {
+            SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.ripplesShapeSubtitle) {
+                Picker("", selection: self.binding(get: { ripples.shape }, set: { ripples.shape = $0 })) {
                     ForEach(PointerRingShape.allCases) { shape in
                         Text(shape.label).tag(shape)
                     }
@@ -32,57 +32,57 @@ extension MouseSettingsPane {
                 .labelsHidden()
                 .accessibilityLabel(L10n.Mouse.ringShapeLabel)
                 .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
-                .disabled(!clickRing.enabled)
+                .disabled(!ripples.enabled)
             }
 
             Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.clickRingColorSubtitle) {
-                self.clickRingColorControls
-                    .disabled(!clickRing.enabled)
+            SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.ripplesColorSubtitle) {
+                self.ripplesColorControls
+                    .disabled(!ripples.enabled)
             }
 
             Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.clickRingSizeSubtitle) {
+            SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.ripplesSizeSubtitle) {
                 Slider(
-                    value: self.binding(get: { clickRing.size }, set: { clickRing.size = $0 }),
+                    value: self.binding(get: { ripples.size }, set: { ripples.size = $0 }),
                     in: MouseSettingsPaneViewModel.ringSizeRange,
                     step: MouseSettingsPaneViewModel.ringSizeStep
                 )
                 .frame(width: Spacing.grid(42))
                 .accessibilityLabel(L10n.Mouse.ringSizeLabel)
-                .disabled(!clickRing.enabled)
+                .disabled(!ripples.enabled)
             }
 
             Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.clickRingThicknessSubtitle) {
+            SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.ripplesThicknessSubtitle) {
                 Slider(
-                    value: self.binding(get: { clickRing.thickness }, set: { clickRing.thickness = $0 }),
+                    value: self.binding(get: { ripples.thickness }, set: { ripples.thickness = $0 }),
                     in: MouseSettingsPaneViewModel.ringThicknessRange,
                     step: MouseSettingsPaneViewModel.ringThicknessStep
                 )
                 .frame(width: Spacing.grid(42))
                 .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
-                .disabled(!clickRing.enabled)
+                .disabled(!ripples.enabled)
             }
         }
     }
 
-    private var clickRingColorControls: some View {
+    private var ripplesColorControls: some View {
         return Picker(
             "",
             selection: Binding(
-                get: { self.model.clickRing.colorSelectionID },
+                get: { self.model.ripples.colorSelectionID },
                 set: { selectionID in
                     if selectionID == MouseSettingsPaneViewModel.customRingColorSelectionID {
-                        self.model.clickRing.beginChoosingCustomColor()
-                        self.ringColorPanel.present(initialColor: self.model.clickRing.color)
+                        self.model.ripples.beginChoosingCustomColor()
+                        self.ringColorPanel.present(initialColor: self.model.ripples.color)
                         return
                     }
 
-                    self.model.clickRing.selectColor(with: selectionID)
+                    self.model.ripples.selectColor(with: selectionID)
                 }
             )
         ) {
@@ -107,7 +107,7 @@ extension MouseSettingsPane {
             Section {
                 self.colorMenuItem(
                     title: L10n.Mouse.chooseColor,
-                    swatchColor: self.model.clickRing.color,
+                    swatchColor: self.model.ripples.color,
                     tag: MouseSettingsPaneViewModel.customRingColorSelectionID
                 )
             }

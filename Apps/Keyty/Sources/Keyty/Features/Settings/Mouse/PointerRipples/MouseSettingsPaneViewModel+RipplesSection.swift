@@ -1,5 +1,5 @@
 //
-//  MouseSettingsPaneViewModel+ClickRingSection.swift
+//  MouseSettingsPaneViewModel+RipplesSection.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,9 +10,9 @@ import AppKit
 
 extension MouseSettingsPaneViewModel {
     @MainActor
-    final class ClickRingSection {
-        private let visualizer: PointerClickRingVisualizer
-        private let settings: any PointerClickRingSettingsProtocol
+    final class RipplesSection {
+        private let visualizer: PointerRipplesVisualizer
+        private let settings: any PointerRipplesSettingsProtocol
         var onChange: (() -> Void)?
         private var colorSelectionOverride: String?
 
@@ -54,8 +54,8 @@ extension MouseSettingsPaneViewModel {
         }
 
         init(
-            visualizer: PointerClickRingVisualizer,
-            settings: any PointerClickRingSettingsProtocol
+            visualizer: PointerRipplesVisualizer,
+            settings: any PointerRipplesSettingsProtocol
         ) {
             self.visualizer = visualizer
             self.settings = settings

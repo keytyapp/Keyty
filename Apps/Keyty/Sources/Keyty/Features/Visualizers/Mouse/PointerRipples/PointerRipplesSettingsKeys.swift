@@ -1,5 +1,5 @@
 //
-//  PointerClickRingSettingsKeys.swift
+//  PointerRipplesSettingsKeys.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -8,7 +8,8 @@
 
 import AppKit
 
-enum PointerClickRingSettingsKeys {
+enum PointerRipplesSettingsKeys {
+    // Keep the persisted key names stable to preserve existing user preferences.
     static let isEnabled = "pointer_click_ring.isEnabled"
     static let color = "pointer_click_ring.color"
     static let size = "pointer_click_ring.size"

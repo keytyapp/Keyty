@@ -11,7 +11,7 @@ import Foundation
 @MainActor
 final class PointerVisualizersManager {
     let ring: PointerRingVisualizer
-    let clickRing: PointerClickRingVisualizer
+    let ripples: PointerRipplesVisualizer
     let icon: PointerIconVisualizer
 
     var isPresentationActive: Bool = false {
@@ -20,15 +20,15 @@ final class PointerVisualizersManager {
         }
     }
 
-    private var all: [any PointerVisualizer] { [ring, clickRing, icon] }
+    private var all: [any PointerVisualizer] { [ring, ripples, icon] }
 
     init(
         pointerRingSettings: any PointerRingSettingsProtocol & ReactiveSettings = PointerRingSettings(),
-        pointerClickRingSettings: any PointerClickRingSettingsProtocol & ReactiveSettings = PointerClickRingSettings(),
+        pointerRipplesSettings: any PointerRipplesSettingsProtocol & ReactiveSettings = PointerRipplesSettings(),
         pointerIconSettings: any PointerIconSettingsProtocol & ReactiveSettings = PointerIconSettings()
     ) {
         self.ring = PointerRingVisualizer(settings: pointerRingSettings)
-        self.clickRing = PointerClickRingVisualizer(settings: pointerClickRingSettings)
+        self.ripples = PointerRipplesVisualizer(settings: pointerRipplesSettings)
         self.icon = PointerIconVisualizer(settings: pointerIconSettings)
     }
 

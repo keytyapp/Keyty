@@ -26,23 +26,23 @@ final class MouseSettingsPaneViewModel: ObservableObject {
     @Published var selectedSettingsTab = SettingsTab.ring
 
     let ring: RingSection
-    let clickRing: ClickRingSection
+    let ripples: RipplesSection
     let icon: IconSection
 
     init(
         ringVisualizer: PointerRingVisualizer,
         ringSettings: any PointerRingSettingsProtocol,
-        clickRingVisualizer: PointerClickRingVisualizer,
-        clickRingSettings: any PointerClickRingSettingsProtocol,
+        ripplesVisualizer: PointerRipplesVisualizer,
+        ripplesSettings: any PointerRipplesSettingsProtocol,
         iconSettings: any PointerIconSettingsProtocol
     ) {
         self.ring = RingSection(
             visualizer: ringVisualizer,
             settings: ringSettings
         )
-        self.clickRing = ClickRingSection(
-            visualizer: clickRingVisualizer,
-            settings: clickRingSettings
+        self.ripples = RipplesSection(
+            visualizer: ripplesVisualizer,
+            settings: ripplesSettings
         )
         self.icon = IconSection(settings: iconSettings)
 
@@ -51,7 +51,7 @@ final class MouseSettingsPaneViewModel: ObservableObject {
             self.objectWillChange.send()
         }
         self.ring.onChange = notifyChange
-        self.clickRing.onChange = notifyChange
+        self.ripples.onChange = notifyChange
         self.icon.onChange = notifyChange
     }
 }
@@ -59,15 +59,15 @@ final class MouseSettingsPaneViewModel: ObservableObject {
 extension MouseSettingsPaneViewModel {
     enum SettingsTab: CaseIterable {
         case ring
-        case clickRing
+        case ripples
         case icon
 
         var title: String {
             switch self {
             case .ring:
                 return L10n.Mouse.tabRing
-            case .clickRing:
-                return L10n.Mouse.tabClickRing
+            case .ripples:
+                return L10n.Mouse.tabRipples
             case .icon:
                 return L10n.Mouse.tabIcon
             }

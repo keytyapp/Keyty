@@ -12,7 +12,7 @@ final class AppSettingsContainer {
     let store: KeyValueStore
     let appSettings: any AppSettingsProtocol
     let pointerRingSettings: any PointerRingSettingsProtocol & ReactiveSettings
-    let pointerClickRingSettings: any PointerClickRingSettingsProtocol & ReactiveSettings
+    let pointerRipplesSettings: any PointerRipplesSettingsProtocol & ReactiveSettings
     let pointerIconSettings: any PointerIconSettingsProtocol & ReactiveSettings
     let shortcutSettings: any ShortcutSettingsProtocol
     let keyboardVisualizerSettings: KeyboardVisualizerSettings
@@ -22,7 +22,7 @@ final class AppSettingsContainer {
 
         self.appSettings = AppSettings(store: store)
         self.pointerRingSettings = PointerRingSettings(store: store)
-        self.pointerClickRingSettings = PointerClickRingSettings(store: store)
+        self.pointerRipplesSettings = PointerRipplesSettings(store: store)
         self.pointerIconSettings = PointerIconSettings(store: store)
         self.shortcutSettings = ShortcutSettings(store: store)
         self.keyboardVisualizerSettings = KeyboardVisualizerSettings(store: store)
@@ -33,7 +33,7 @@ final class AppSettingsContainer {
     private func registerDefaults() {
         self.appSettings.registerDefaults()
         self.pointerRingSettings.registerDefaults()
-        self.pointerClickRingSettings.registerDefaults()
+        self.pointerRipplesSettings.registerDefaults()
         self.pointerIconSettings.registerDefaults()
         self.shortcutSettings.registerDefaults()
         self.keyboardVisualizerSettings.registerDefaults()
@@ -42,7 +42,7 @@ final class AppSettingsContainer {
     func resetAllSettingsToDefaults() {
         self.appSettings.resetToDefaults()
         self.pointerRingSettings.resetToDefaults()
-        self.pointerClickRingSettings.resetToDefaults()
+        self.pointerRipplesSettings.resetToDefaults()
         self.pointerIconSettings.resetToDefaults()
         self.shortcutSettings.resetToDefaults()
         self.keyboardVisualizerSettings.resetToDefaults()

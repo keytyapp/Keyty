@@ -1,5 +1,5 @@
 //
-//  PointerClickRingWindow.swift
+//  PointerRipplesWindow.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,7 +10,7 @@ import AppKit
 import QuartzCore
 
 @MainActor
-final class PointerClickRingWindow: NSWindow {
+final class PointerRipplesWindow: NSWindow {
     let ringID = UUID()
     private let onFinish: (UUID) -> Void
     private let animationDuration = PointerRingAnimation.spawnAnimationDuration
@@ -24,7 +24,7 @@ final class PointerClickRingWindow: NSWindow {
     ) {
         self.onFinish = onFinish
 
-        let windowDiameter = PointerClickRingWindow.windowDiameter(for: style)
+        let windowDiameter = PointerRipplesWindow.windowDiameter(for: style)
         let origin = NSPoint(x: center.x - windowDiameter / 2, y: center.y - windowDiameter / 2)
 
         super.init(
@@ -139,7 +139,7 @@ final class PointerClickRingWindow: NSWindow {
     }
 }
 
-extension PointerClickRingWindow {
+extension PointerRipplesWindow {
     struct VisualStyle {
         let color: NSColor
         let size: CGFloat

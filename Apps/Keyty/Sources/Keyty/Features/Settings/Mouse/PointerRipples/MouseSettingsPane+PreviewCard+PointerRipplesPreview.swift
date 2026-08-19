@@ -1,5 +1,5 @@
 //
-//  MouseSettingsPane+PreviewCard+PointerClickRingPreview.swift
+//  MouseSettingsPane+PreviewCard+PointerRipplesPreview.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,7 +10,7 @@ import AppKit
 import SwiftUI
 
 extension MouseSettingsPane.PreviewCard {
-    enum PreviewClickRingAnimation {
+    enum PreviewRipplesAnimation {
         static let initialClickHoldDuration: TimeInterval = 0.16
         static let cursorTravelDuration: TimeInterval = 0.6
         static let cursorReturnDuration: TimeInterval = 0.2
@@ -18,7 +18,7 @@ extension MouseSettingsPane.PreviewCard {
 }
 
 extension MouseSettingsPane.PreviewCard {
-    struct ClickRingPreviewVisualState {
+    struct RipplesPreviewVisualState {
         let opacity: Double
         let scale: CGFloat
 
@@ -34,36 +34,36 @@ extension MouseSettingsPane.PreviewCard {
 }
 
 extension MouseSettingsPane.PreviewCard {
-    struct ClickRingPreviewRipple: Identifiable {
+    struct RipplesPreviewRipple: Identifiable {
         let id = UUID()
         let offset: CGSize
-        var visualState: ClickRingPreviewVisualState
+        var visualState: RipplesPreviewVisualState
     }
 }
 
 extension MouseSettingsPane.PreviewCard {
-    struct PointerClickRingPreview: View {
+    struct PointerRipplesPreview: View {
         @ObservedObject var model: MouseSettingsPaneViewModel
         @State private var previewTask: Task<Void, Never>?
-        @State private var ripples: [ClickRingPreviewRipple] = []
+        @State private var ripples: [RipplesPreviewRipple] = []
         @State private var cursorOffset: CGSize = .zero
 
         var body: some View {
             GeometryReader { geometry in
                 ZStack {
                     ForEach(self.ripples) { ripple in
-                        PointerRingPreviewShape(shape: self.model.clickRing.shape)
+                        PointerRingPreviewShape(shape: self.model.ripples.shape)
                             .stroke(
-                                Color(appKitColor: self.model.clickRing.color),
+                                Color(appKitColor: self.model.ripples.color),
                                 style: StrokeStyle(
-                                    lineWidth: self.previewClickRingThickness,
+                                    lineWidth: self.previewRipplesThickness,
                                     lineCap: .round,
                                     lineJoin: .round
                                 )
                             )
                             .frame(
-                                width: self.previewClickRingSize(in: geometry.size),
-                                height: self.previewClickRingSize(in: geometry.size)
+                                width: self.previewRipplesSize(in: geometry.size),
+                                height: self.previewRipplesSize(in: geometry.size)
                             )
                             .scaleEffect(ripple.visualState.scale)
                             .opacity(ripple.visualState.opacity)
@@ -78,7 +78,7 @@ extension MouseSettingsPane.PreviewCard {
             .onDisappear { self.stopAnimation() }
         }
 
-        private var clickRingPreviewOffsets: [CGSize] {
+        private var ripplesPreviewOffsets: [CGSize] {
             [
                 CGSize(width: -Spacing.grid(11), height: 0),
                 CGSize(width: 0, height: 0),
@@ -86,14 +86,14 @@ extension MouseSettingsPane.PreviewCard {
             ]
         }
 
-        private func previewClickRingSize(in size: CGSize) -> CGFloat {
+        private func previewRipplesSize(in size: CGSize) -> CGFloat {
             let maximumSize = min(size.width, size.height) * 0.72
-            return min(maximumSize, self.model.clickRing.size)
+            return min(maximumSize, self.model.ripples.size)
         }
 
-        private var previewClickRingThickness: CGFloat {
-            let scale = self.previewScale(for: self.model.clickRing.size)
-            return max(StrokeWidth.standard, self.model.clickRing.thickness * scale)
+        private var previewRipplesThickness: CGFloat {
+            let scale = self.previewScale(for: self.model.ripples.size)
+            return max(StrokeWidth.standard, self.model.ripples.thickness * scale)
         }
 
         private func previewScale(for ringSize: CGFloat) -> CGFloat {
@@ -104,7 +104,7 @@ extension MouseSettingsPane.PreviewCard {
         private func startAnimation() {
             self.previewTask?.cancel()
             self.ripples = []
-            self.cursorOffset = self.clickRingPreviewOffsets.first ?? .zero
+            self.cursorOffset = self.ripplesPreviewOffsets.first ?? .zero
             self.previewTask = Task { @MainActor in
                 try? await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
                 await self.runAnimationLoop()
@@ -120,13 +120,13 @@ extension MouseSettingsPane.PreviewCard {
 
         private func runAnimationLoop() async {
             while !Task.isCancelled {
-                guard let firstOffset = self.clickRingPreviewOffsets.first else { return }
+                guard let firstOffset = self.ripplesPreviewOffsets.first else { return }
 
                 self.cursorOffset = firstOffset
                 self.spawnRipple(at: firstOffset)
-                try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.initialClickHoldDuration.nanoseconds)
+                try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.initialClickHoldDuration.nanoseconds)
 
-                for offset in self.clickRingPreviewOffsets.dropFirst() {
+                for offset in self.ripplesPreviewOffsets.dropFirst() {
                     guard !Task.isCancelled else { return }
                     await self.animateCursorMove(to: offset)
                     guard !Task.isCancelled else { return }
@@ -134,11 +134,11 @@ extension MouseSettingsPane.PreviewCard {
                 }
 
                 guard !Task.isCancelled else { return }
-                withAnimation(.easeInOut(duration: PreviewClickRingAnimation.cursorReturnDuration)) {
+                withAnimation(.easeInOut(duration: PreviewRipplesAnimation.cursorReturnDuration)) {
                     self.cursorOffset = firstOffset
                 }
 
-                try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.cursorReturnDuration.nanoseconds)
+                try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorReturnDuration.nanoseconds)
                 guard !Task.isCancelled else { return }
 
                 try? await Task.sleep(
@@ -148,7 +148,7 @@ extension MouseSettingsPane.PreviewCard {
         }
 
         private func spawnRipple(at offset: CGSize) {
-            let ripple = ClickRingPreviewRipple(offset: offset, visualState: .initial)
+            let ripple = RipplesPreviewRipple(offset: offset, visualState: .initial)
             self.ripples.append(ripple)
 
             withAnimation(.easeOut(duration: PointerRingAnimation.spawnAnimationDuration)) {
@@ -161,16 +161,16 @@ extension MouseSettingsPane.PreviewCard {
             }
         }
 
-        private func updateRipple(id: UUID, visualState: ClickRingPreviewVisualState) {
+        private func updateRipple(id: UUID, visualState: RipplesPreviewVisualState) {
             guard let index = self.ripples.firstIndex(where: { $0.id == id }) else { return }
             self.ripples[index].visualState = visualState
         }
 
         private func animateCursorMove(to offset: CGSize) async {
-            withAnimation(.linear(duration: PreviewClickRingAnimation.cursorTravelDuration)) {
+            withAnimation(.linear(duration: PreviewRipplesAnimation.cursorTravelDuration)) {
                 self.cursorOffset = offset
             }
-            try? await Task.sleep(nanoseconds: PreviewClickRingAnimation.cursorTravelDuration.nanoseconds)
+            try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorTravelDuration.nanoseconds)
         }
     }
 }

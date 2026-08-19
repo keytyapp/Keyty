@@ -1,5 +1,5 @@
 //
-//  PointerClickRingSettings.swift
+//  PointerRipplesSettings.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -9,7 +9,7 @@
 import AppKit
 import Combine
 
-protocol PointerClickRingSettingsProtocol: AnyObject {
+protocol PointerRipplesSettingsProtocol: AnyObject {
     var isEnabled: Bool { get set }
     var color: NSColor { get set }
     var size: CGFloat { get set }
@@ -20,7 +20,7 @@ protocol PointerClickRingSettingsProtocol: AnyObject {
     func resetToDefaults()
 }
 
-final class PointerClickRingSettings: PointerClickRingSettingsProtocol, ReactiveSettings, HasSettingsStore {
+final class PointerRipplesSettings: PointerRipplesSettingsProtocol, ReactiveSettings, HasSettingsStore {
     let store: KeyValueStore
     private var visualSettingsSnapshot: VisualSettingsSnapshot?
     private let changesSubject = PassthroughSubject<Void, Never>()
@@ -39,16 +39,16 @@ final class PointerClickRingSettings: PointerClickRingSettingsProtocol, Reactive
         self.visualSettingsSnapshot = self.currentVisualSettingsSnapshot
     }
 
-    @Stored(.bool(PointerClickRingSettingsKeys.isEnabled, default: PointerClickRingSettingsKeys.defaultIsEnabled))
+    @Stored(.bool(PointerRipplesSettingsKeys.isEnabled, default: PointerRipplesSettingsKeys.defaultIsEnabled))
     var isEnabled: Bool
 
-    @Stored(.color(PointerClickRingSettingsKeys.color, default: PointerClickRingSettingsKeys.automaticVisualizerColor))
+    @Stored(.color(PointerRipplesSettingsKeys.color, default: PointerRipplesSettingsKeys.automaticVisualizerColor))
     var color: NSColor
 
     @Stored(.cgFloat(
-        PointerClickRingSettingsKeys.size,
-        default: PointerClickRingSettingsKeys.defaultSize,
-        clamp: PointerClickRingSettingsKeys.sizeRange
+        PointerRipplesSettingsKeys.size,
+        default: PointerRipplesSettingsKeys.defaultSize,
+        clamp: PointerRipplesSettingsKeys.sizeRange
     ))
     private var storedSize: CGFloat
 
@@ -58,9 +58,9 @@ final class PointerClickRingSettings: PointerClickRingSettingsProtocol, Reactive
     }
 
     @Stored(.cgFloat(
-        PointerClickRingSettingsKeys.thickness,
-        default: PointerClickRingSettingsKeys.defaultThickness,
-        clamp: PointerClickRingSettingsKeys.thicknessRange
+        PointerRipplesSettingsKeys.thickness,
+        default: PointerRipplesSettingsKeys.defaultThickness,
+        clamp: PointerRipplesSettingsKeys.thicknessRange
     ))
     private var storedThickness: CGFloat
 
@@ -69,7 +69,7 @@ final class PointerClickRingSettings: PointerClickRingSettingsProtocol, Reactive
         set { self.storedThickness = newValue }
     }
 
-    @Stored(.enum(PointerClickRingSettingsKeys.shape, default: PointerClickRingSettingsKeys.defaultShape))
+    @Stored(.enum(PointerRipplesSettingsKeys.shape, default: PointerRipplesSettingsKeys.defaultShape))
     var shape: PointerRingShape
 
     private var currentVisualSettingsSnapshot: VisualSettingsSnapshot {
@@ -99,7 +99,7 @@ final class PointerClickRingSettings: PointerClickRingSettingsProtocol, Reactive
     }
 }
 
-private extension PointerClickRingSettings {
+private extension PointerRipplesSettings {
     struct VisualSettingsSnapshot: Equatable {
         let isEnabled: Bool
         let colorHex: String

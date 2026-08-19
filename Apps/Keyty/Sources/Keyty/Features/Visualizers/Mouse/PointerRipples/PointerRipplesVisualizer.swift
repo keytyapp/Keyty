@@ -1,5 +1,5 @@
 //
-//  PointerClickRingVisualizer.swift
+//  PointerRipplesVisualizer.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -10,22 +10,22 @@ import AppKit
 import Combine
 
 @MainActor
-final class PointerClickRingVisualizer {
-    private let settings: any PointerClickRingSettingsProtocol & ReactiveSettings
-    private var clickRingWindows: [UUID: PointerClickRingWindow] = [:]
+final class PointerRipplesVisualizer {
+    private let settings: any PointerRipplesSettingsProtocol & ReactiveSettings
+    private var ripplesWindows: [UUID: PointerRipplesWindow] = [:]
     private var cancellables = Set<AnyCancellable>()
 
     var isPresentationActive: Bool = false {
         didSet {
             guard self.isPresentationActive else {
-                self.dismissAllClickRings()
+                self.dismissAllRipples()
                 return
             }
         }
     }
 
     var isPresented: Bool {
-        !self.clickRingWindows.isEmpty
+        !self.ripplesWindows.isEmpty
     }
 
     var isEnabled: Bool {
@@ -33,7 +33,7 @@ final class PointerClickRingVisualizer {
         set { self.settings.isEnabled = newValue }
     }
 
-    init(settings: any PointerClickRingSettingsProtocol & ReactiveSettings = PointerClickRingSettings()) {
+    init(settings: any PointerRipplesSettingsProtocol & ReactiveSettings = PointerRipplesSettings()) {
         self.settings = settings
         self.settings.changes
             .sink { [weak self] in
@@ -46,22 +46,22 @@ final class PointerClickRingVisualizer {
 }
 
 // MARK: - PointerVisualizer
-extension PointerClickRingVisualizer: PointerVisualizer {
+extension PointerRipplesVisualizer: PointerVisualizer {
     func display(_ mouseEvent: MouseEvent) {
         guard self.isEnabled, self.isPresentationActive else { return }
         guard PointerRingAnimation.eventPhase(for: mouseEvent.type) == .press else { return }
-        self.presentClickRing(at: mouseEvent.screenLocation)
+        self.presentRipple(at: mouseEvent.screenLocation)
     }
 }
 
-private extension PointerClickRingVisualizer {
+private extension PointerRipplesVisualizer {
     func settingsDidChange() {
         guard !self.settings.isEnabled else { return }
-        self.dismissAllClickRings()
+        self.dismissAllRipples()
     }
 
-    func presentClickRing(at screenLocation: NSPoint) {
-        let window = PointerClickRingWindow(
+    func presentRipple(at screenLocation: NSPoint) {
+        let window = PointerRipplesWindow(
             style: .init(
                 color: self.settings.color,
                 size: self.settings.size,
@@ -70,15 +70,15 @@ private extension PointerClickRingVisualizer {
             ),
             center: screenLocation
         ) { [weak self] identifier in
-            self?.clickRingWindows.removeValue(forKey: identifier)
+            self?.ripplesWindows.removeValue(forKey: identifier)
         }
-        self.clickRingWindows[window.ringID] = window
+        self.ripplesWindows[window.ringID] = window
         window.present()
     }
 
-    func dismissAllClickRings() {
-        let windows = self.clickRingWindows.values
-        self.clickRingWindows.removeAll()
+    func dismissAllRipples() {
+        let windows = self.ripplesWindows.values
+        self.ripplesWindows.removeAll()
         windows.forEach { $0.dismiss() }
     }
 }

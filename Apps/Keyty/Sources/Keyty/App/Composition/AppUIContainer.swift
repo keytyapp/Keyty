@@ -32,7 +32,7 @@ final class AppUIContainer {
             settings: settings,
             shortcutManager: services.shortcutManager,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
-            pointerClickRingVisualizer: services.pointerVisualizersManager.clickRing,
+            pointerRipplesVisualizer: services.pointerVisualizersManager.ripples,
             permissionsService: services.permissionsService,
             updater: updater,
             placementCoordinator: keyboardVisualizerPlacementWindowController

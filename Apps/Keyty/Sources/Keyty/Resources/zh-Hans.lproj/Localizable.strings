@@ -180,26 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "圆环";
-"mouse.tab_click_ring" = "点击圆环";
+"mouse.tab_ripples" = "点击圆环";
 "mouse.tab_icon" = "图标";
 "mouse.pointer_ring_label" = "指针圆环";
 "mouse.enabled" = "启用";
 "mouse.enabled_subtitle" = "指针圆环的可见状态。";
-"mouse.click_ring_enabled_subtitle" = "动画点击圆环的可见状态。";
+"mouse.ripples_enabled_subtitle" = "动画点击圆环的可见状态。";
 "mouse.always_visible_label" = "始终显示";
 "mouse.always_visible_subtitle" = "指针闲置时圆环仍保持可见。";
 "mouse.ring_color_label" = "颜色";
 "mouse.ring_color_subtitle" = "指针圆环的预设或自定义颜色。";
-"mouse.click_ring_color_subtitle" = "点击圆环的预设或自定义颜色。";
+"mouse.ripples_color_subtitle" = "点击圆环的预设或自定义颜色。";
 "mouse.ring_size_label" = "大小";
 "mouse.ring_size_subtitle" = "指针圆环的直径。";
-"mouse.click_ring_size_subtitle" = "每个生成的点击圆环的直径。";
+"mouse.ripples_size_subtitle" = "每个生成的点击圆环的直径。";
 "mouse.ring_thickness_label" = "粗细";
 "mouse.ring_thickness_subtitle" = "指针圆环的线条粗细。";
-"mouse.click_ring_thickness_subtitle" = "每个生成的点击圆环的线条粗细。";
+"mouse.ripples_thickness_subtitle" = "每个生成的点击圆环的线条粗细。";
 "mouse.ring_shape_label" = "形状";
 "mouse.ring_shape_subtitle" = "指针圆环的轮廓形状。";
-"mouse.click_ring_shape_subtitle" = "每个生成的点击圆环的轮廓形状。";
+"mouse.ripples_shape_subtitle" = "每个生成的点击圆环的轮廓形状。";
 "mouse.pointer_icon_label" = "指针图标";
 "mouse.pointer_icon_enabled" = "启用";
 "mouse.pointer_icon_enabled_subtitle" = "指针图标叠加层的可见状态。";

@@ -180,26 +180,26 @@
 
 /* Mouse settings pane */
 "mouse.tab_ring" = "Ring";
-"mouse.tab_click_ring" = "Klickring";
+"mouse.tab_ripples" = "Klickring";
 "mouse.tab_icon" = "Symbol";
 "mouse.pointer_ring_label" = "Zeigerring";
 "mouse.enabled" = "Aktiviert";
 "mouse.enabled_subtitle" = "Sichtbarkeit des Zeigerrings.";
-"mouse.click_ring_enabled_subtitle" = "Sichtbarkeit des animierten Klickrings.";
+"mouse.ripples_enabled_subtitle" = "Sichtbarkeit des animierten Klickrings.";
 "mouse.always_visible_label" = "Immer sichtbar";
 "mouse.always_visible_subtitle" = "Der Ring bleibt sichtbar, wenn der Zeiger nicht bewegt wird.";
 "mouse.ring_color_label" = "Farbe";
 "mouse.ring_color_subtitle" = "Voreingestellte oder eigene Farbe des Zeigerrings.";
-"mouse.click_ring_color_subtitle" = "Voreingestellte oder eigene Farbe des Klickrings.";
+"mouse.ripples_color_subtitle" = "Voreingestellte oder eigene Farbe des Klickrings.";
 "mouse.ring_size_label" = "Größe";
 "mouse.ring_size_subtitle" = "Durchmesser des Zeigerrings.";
-"mouse.click_ring_size_subtitle" = "Durchmesser jedes erzeugten Klickrings.";
+"mouse.ripples_size_subtitle" = "Durchmesser jedes erzeugten Klickrings.";
 "mouse.ring_thickness_label" = "Stärke";
 "mouse.ring_thickness_subtitle" = "Linienstärke des Zeigerrings.";
-"mouse.click_ring_thickness_subtitle" = "Linienstärke jedes erzeugten Klickrings.";
+"mouse.ripples_thickness_subtitle" = "Linienstärke jedes erzeugten Klickrings.";
 "mouse.ring_shape_label" = "Form";
 "mouse.ring_shape_subtitle" = "Form der Umrandung des Zeigerrings.";
-"mouse.click_ring_shape_subtitle" = "Form der Umrandung jedes erzeugten Klickrings.";
+"mouse.ripples_shape_subtitle" = "Form der Umrandung jedes erzeugten Klickrings.";
 "mouse.pointer_icon_label" = "Zeigersymbol";
 "mouse.pointer_icon_enabled" = "Aktiviert";
 "mouse.pointer_icon_enabled_subtitle" = "Sichtbarkeit der Zeigersymboleinblendung.";

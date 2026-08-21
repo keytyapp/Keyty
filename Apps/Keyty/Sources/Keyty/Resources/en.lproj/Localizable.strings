@@ -129,6 +129,8 @@
 "keyboard_visualizer.fade_duration.slow" = "Slow";
 "keyboard_visualizer.only_show_modified_keystrokes_label" = "Show key combinations only";
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Only show keys pressed with Command, Control, Option, or Shift.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "Collapse repeated groups";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "Show a count badge when the same key or key combination is pressed repeatedly in a row.";
 "keyboard_visualizer.show_special_keys_label" = "Special keys";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab, return, arrows, fn, function keys, and similar keys.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Media key buttons";

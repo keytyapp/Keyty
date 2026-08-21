@@ -46,6 +46,7 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var windowPadding: CGFloat { get set }
     var style: KeycapStyle { get set }
     var onlyShowModifiedKeystrokes: Bool { get set }
+    var collapseRepeatedGroups: Bool { get set }
     var showSpecialKeys: Bool { get set }
     var showMediaKeyButtons: Bool { get set }
     var showMouseEvents: Bool { get set }
@@ -313,6 +314,10 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     /// Whether only keystrokes pressed with modifiers should be rendered.
     @Stored(.bool(KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes, default: false))
     var onlyShowModifiedKeystrokes: Bool
+
+    /// Whether identical consecutive finalized groups should reuse the previous group and show a repeat badge.
+    @Stored(.bool(KeyboardVisualizerSettingsKeys.collapseRepeatedGroups, default: false))
+    var collapseRepeatedGroups: Bool
 
     /// Whether non-text keyboard keys (tab, return, arrows, fn, F-keys, etc.) should be rendered.
     @Stored(.bool(KeyboardVisualizerSettingsKeys.showSpecialKeys, default: true))

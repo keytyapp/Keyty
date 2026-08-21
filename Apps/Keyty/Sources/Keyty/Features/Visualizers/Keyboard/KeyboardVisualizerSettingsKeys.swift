@@ -37,6 +37,7 @@ enum KeyboardVisualizerSettingsKeys {
     static let windowPadding = "keyboard_visualizer.windowPadding"
     static let style        = "keyboard_visualizer.style"
     static let onlyShowModifiedKeystrokes = "keyboard_visualizer.onlyShowModifiedKeystrokes"
+    static let collapseRepeatedGroups = "keyboard_visualizer.collapseRepeatedGroups"
     static let showSpecialKeys = "keyboard_visualizer.showSpecialKeys"
     static let showMediaKeyButtons = "keyboard_visualizer.showMediaKeyButtons"
     static let showMouseEvents = "keyboard_visualizer.showMouseEvents"

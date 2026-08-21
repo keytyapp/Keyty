@@ -11,6 +11,7 @@ import AppKit
 final class KeyboardVisualizerGroupView: NSView {
     private var items: [KeycapItem]
     private var settings: KeyboardVisualizerSettings
+    private var repeatCount: Int
     private var fadeWorkItem: DispatchWorkItem?
 
     /// Uniform scale applied to the keycap drawing. Combines the user-selected size with a
@@ -54,9 +55,14 @@ final class KeyboardVisualizerGroupView: NSView {
         true
     }
 
-    init(items: [KeycapItem], settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings()) {
+    init(
+        items: [KeycapItem],
+        settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
+        repeatCount: Int = 1
+    ) {
         self.items = items
         self.settings = settings
+        self.repeatCount = max(1, repeatCount)
         super.init(frame: .zero)
         self.alphaValue = 1
         self.setContentHuggingPriority(.required, for: .horizontal)
@@ -69,11 +75,22 @@ final class KeyboardVisualizerGroupView: NSView {
         fatalError("Use init(items:) instead.")
     }
 
-    func configure(items: [KeycapItem], settings: KeyboardVisualizerSettings) {
+    func configure(items: [KeycapItem], settings: KeyboardVisualizerSettings, repeatCount: Int? = nil) {
         self.items = items
         self.settings = settings
+        if let repeatCount {
+            self.repeatCount = max(1, repeatCount)
+        }
         self.invalidateIntrinsicContentSize()
         self.needsDisplay = true
+    }
+
+    var currentRepeatCount: Int {
+        self.repeatCount
+    }
+
+    var currentItems: [KeycapItem] {
+        self.items
     }
 
     func scheduleFadeOut(onCompletion completion: @escaping () -> Void) {
@@ -115,6 +132,10 @@ final class KeyboardVisualizerGroupView: NSView {
                 in: rect
             )
             x += size.width + groupSpacing
+        }
+
+        if self.repeatCount > 1 {
+            self.drawRepeatBadge()
         }
 
         NSGraphicsContext.restoreGraphicsState()
@@ -170,5 +191,67 @@ final class KeyboardVisualizerGroupView: NSView {
         appearance.groupStrokeColor.setStroke()
         path.lineWidth = StrokeWidth.standard
         path.stroke()
+    }
+
+    private func drawRepeatBadge() {
+        let badgeText = String(self.repeatCount)
+        let font = NSFont.systemFont(ofSize: 15, weight: .semibold)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .center
+        let colors = self.repeatBadgeColors
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .foregroundColor: colors.text,
+            .paragraphStyle: paragraphStyle,
+        ]
+        let labelSize = badgeText.size(withAttributes: attributes)
+        let badgeHeight = max(26, labelSize.height + 8)
+        let badgeWidth = max(badgeHeight, labelSize.width + 14)
+        let badgeRect = NSRect(
+            x: self.baseSize.width - badgeWidth - 6,
+            y: self.baseSize.height - badgeHeight - 6,
+            width: badgeWidth,
+            height: badgeHeight
+        )
+
+        let badgePath = NSBezierPath(
+            roundedRect: badgeRect,
+            xRadius: badgeHeight / 2,
+            yRadius: badgeHeight / 2
+        )
+        colors.fill.setFill()
+        badgePath.fill()
+        colors.stroke.setStroke()
+        badgePath.lineWidth = StrokeWidth.standard
+        badgePath.stroke()
+
+        let highlightRect = badgeRect.insetBy(dx: 1, dy: 1)
+        let highlightPath = NSBezierPath(
+            roundedRect: highlightRect,
+            xRadius: highlightRect.height / 2,
+            yRadius: highlightRect.height / 2
+        )
+        colors.highlight.setStroke()
+        highlightPath.lineWidth = 1
+        highlightPath.stroke()
+
+        badgeText.draw(
+            in: NSRect(
+                x: badgeRect.minX,
+                y: badgeRect.midY - labelSize.height / 2,
+                width: badgeRect.width,
+                height: labelSize.height
+            ),
+            withAttributes: attributes
+        )
+    }
+
+    private var repeatBadgeColors: (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
+        return (
+            fill: NSColor(calibratedWhite: 0.16, alpha: 0.90),
+            stroke: NSColor(calibratedWhite: 0.78, alpha: 0.22),
+            highlight: NSColor.white.withAlphaComponent(0.12),
+            text: NSColor(calibratedWhite: 0.98, alpha: 0.96)
+        )
     }
 }

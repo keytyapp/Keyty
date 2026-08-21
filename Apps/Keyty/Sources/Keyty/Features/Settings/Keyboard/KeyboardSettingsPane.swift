@@ -198,6 +198,19 @@ struct KeyboardSettingsPane: View {
 
                 Divider()
 
+                SettingsControlRow(
+                    title: self.collapseRepeatedGroupsLabel,
+                    subtitle: self.collapseRepeatedGroupsSubtitle
+                ) {
+                    Toggle("", isOn: self.$model.collapseRepeatedGroups)
+                        .labelsHidden()
+                        .accessibilityLabel(self.collapseRepeatedGroupsLabel)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
+
+                Divider()
+
                 SettingsControlRow(title: L10n.KeyboardVisualizer.axisLabel, subtitle: L10n.KeyboardVisualizer.axisSubtitle) {
                     self.axisPicker
                 }
@@ -346,6 +359,14 @@ struct KeyboardSettingsPane: View {
             SwiftUI.Image(nsImage: theme.displayColor.swatchImage(trailingPadding: Spacing.xxs))
             Text(theme.title)
         }
+    }
+
+    private var collapseRepeatedGroupsLabel: String {
+        NSLocalizedString("keyboard_visualizer.collapse_repeated_groups_label", comment: "")
+    }
+
+    private var collapseRepeatedGroupsSubtitle: String {
+        NSLocalizedString("keyboard_visualizer.collapse_repeated_groups_subtitle", comment: "")
     }
 
     private func colorMenuItem(title: String, swatchColor: NSColor, tag: String) -> some View {

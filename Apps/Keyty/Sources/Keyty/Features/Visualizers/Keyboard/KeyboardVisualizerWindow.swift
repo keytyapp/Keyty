@@ -90,10 +90,6 @@ final class KeyboardVisualizerWindow: NSWindow {
         self.layoutGroups()
     }
 
-    var debugGroupRepeatCounts: [Int] {
-        self.groupViews.map(\.currentRepeatCount)
-    }
-
     func removeAllGroups() {
         let removedGroups = self.groupViews
         self.groupViews.removeAll()

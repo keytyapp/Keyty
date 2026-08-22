@@ -27,10 +27,6 @@ final class KeyboardVisualizer {
         self.visualizerWindow.groupCount
     }
 
-    var debugVisibleRepeatCounts: [Int] {
-        self.visualizerWindow.debugGroupRepeatCounts
-    }
-
     private let visualizerSettings: KeyboardVisualizerSettings
     private let visualizerWindow: KeyboardVisualizerWindow
     private let eventCoordinator = KeycapEventCoordinator<KeyboardVisualizerGroupView, KeycapItem>()

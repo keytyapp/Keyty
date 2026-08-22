@@ -85,10 +85,6 @@ final class KeyboardVisualizerGroupView: NSView {
         self.needsDisplay = true
     }
 
-    var currentRepeatCount: Int {
-        self.repeatCount
-    }
-
     var currentItems: [KeycapItem] {
         self.items
     }

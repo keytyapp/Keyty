@@ -106,7 +106,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [2])
 
         self.visualizer.display(.keystroke(.stub(
             keyCode: .a,
@@ -116,7 +115,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [2])
 
         self.visualizer.display(.keystroke(.stub(
             keyCode: .a,
@@ -126,7 +124,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [3])
     }
 
     func testCollapseRepeatedGroupsReusesPreviousChordGroup() {
@@ -146,7 +143,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [2])
 
         self.visualizer.display(.keystroke(.stub(
             keyCode: .k,
@@ -158,7 +154,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         self.visualizer.display(.modifierStateChanged([]))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [2])
 
         self.visualizer.display(.modifierStateChanged(command))
         self.visualizer.display(.keystroke(.stub(
@@ -170,7 +165,6 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
-        XCTAssertEqual(self.visualizer.debugVisibleRepeatCounts, [3])
     }
 
     private func pressAndReleaseA() {

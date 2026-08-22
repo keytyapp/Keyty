@@ -129,6 +129,8 @@
 "keyboard_visualizer.fade_duration.slow" = "Lento";
 "keyboard_visualizer.only_show_modified_keystrokes_label" = "Mostrar solo combinaciones";
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Muestra solo las teclas pulsadas con Comando, Control, Opción o Mayúsculas.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "Agrupar repeticiones consecutivas";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "Muestra una insignia con el recuento cuando la misma tecla o combinación se pulsa repetidamente en una fila.";
 "keyboard_visualizer.show_special_keys_label" = "Teclas especiales";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tabulador, Retorno, flechas, fn, teclas de función y otras similares.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Teclas multimedia";

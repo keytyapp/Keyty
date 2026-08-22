@@ -129,6 +129,8 @@
 "keyboard_visualizer.fade_duration.slow" = "Повільно";
 "keyboard_visualizer.only_show_modified_keystrokes_label" = "Лише комбінації клавіш";
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Показувати лише клавіші, натиснуті разом із Command, Control, Option або Shift.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "Об’єднувати повторювані групи";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "Показує бейдж із кількістю, коли ту саму клавішу або комбінацію клавіш натискають кілька разів поспіль.";
 "keyboard_visualizer.show_special_keys_label" = "Спеціальні клавіші";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, стрілки, fn, функціональні та подібні клавіші.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Мультимедійні клавіші";

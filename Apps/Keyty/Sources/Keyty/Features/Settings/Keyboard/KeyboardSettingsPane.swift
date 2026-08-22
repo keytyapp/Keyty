@@ -199,6 +199,15 @@ struct KeyboardSettingsPane: View {
                 Divider()
 
                 SettingsControlRow(
+                    title: L10n.KeyboardVisualizer.axisLabel,
+                    subtitle: L10n.KeyboardVisualizer.axisSubtitle
+                ) {
+                    self.axisPicker
+                }
+
+                Divider()
+
+                SettingsControlRow(
                     title: L10n.KeyboardVisualizer.collapseRepeatedGroupsLabel,
                     subtitle: L10n.KeyboardVisualizer.collapseRepeatedGroupsSubtitle
                 ) {
@@ -207,12 +216,6 @@ struct KeyboardSettingsPane: View {
                         .accessibilityLabel(L10n.KeyboardVisualizer.collapseRepeatedGroupsLabel)
                         .toggleStyle(.switch)
                         .controlSize(.small)
-                }
-
-                Divider()
-
-                SettingsControlRow(title: L10n.KeyboardVisualizer.axisLabel, subtitle: L10n.KeyboardVisualizer.axisSubtitle) {
-                    self.axisPicker
                 }
             }
             .disabled(!self.model.isEnabled)

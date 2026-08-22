@@ -64,7 +64,9 @@ final class KeyboardVisualizer {
             }
             .store(in: &self.cancellables)
     }
+}
 
+extension KeyboardVisualizer {
     func activate() {
         self.updatePresentationState()
     }
@@ -138,7 +140,10 @@ final class KeyboardVisualizer {
             return
         }
     }
+}
 
+// MARK: - Event Display
+private extension KeyboardVisualizer {
     private func displayKeystroke(_ keystroke: StandardKeyEvent) {
         // Track command/shift/option/control exclusively through flagsChanged so a modifier
         // release does not create a separate keystroke group after the chord ends.
@@ -235,7 +240,10 @@ final class KeyboardVisualizer {
             self.finalizeGroupIfNeeded(group)
         }
     }
+}
 
+// MARK: - State
+private extension KeyboardVisualizer {
     private func prepareForNextContentEvent() {
         guard self.hasPendingGroupBreak else { return }
         self.finishCurrentGroup(retaining: self.currentModifierFlags)
@@ -270,18 +278,22 @@ final class KeyboardVisualizer {
     }
 }
 
+// MARK: - Repeat Collapse Models
 private extension KeyboardVisualizer {
+    /// Tracks the last completed visible group and its repeat count for collapse decisions.
     struct FinalizedGroup {
         let group: KeyboardVisualizerGroupView
-        let signature: GroupSignature
+        let identity: GroupIdentity
         let repeatCount: Int
     }
 
-    struct GroupSignature: Hashable {
-        let items: [ItemSignature]
+    /// Semantic identity of a rendered group, used to detect consecutive repeats.
+    struct GroupIdentity: Hashable {
+        let items: [ItemIdentity]
     }
 
-    struct ItemSignature: Hashable {
+    /// Stable comparison shape for a rendered keycap within a grouped overlay.
+    struct ItemIdentity: Hashable {
         let identity: KeycapIdentity
         let symbol: String
         let imageBadgeText: String?
@@ -290,31 +302,34 @@ private extension KeyboardVisualizer {
         let rendersSymbolWithLabel: Bool
         let fixedWidth: CGFloat?
     }
+}
 
+// MARK: - Repeat Collapse
+private extension KeyboardVisualizer {
     func finalizeGroupIfNeeded(_ group: KeyboardVisualizerGroupView?) {
         guard let group else { return }
         let items = self.eventCoordinator.items(for: group)
         guard !items.isEmpty else { return }
 
-        let signature = self.signature(for: items)
+        let identity = self.groupIdentity(for: items)
 
         guard self.visualizerSettings.collapseRepeatedGroups else {
-            self.lastFinalizedGroup = FinalizedGroup(group: group, signature: signature, repeatCount: 1)
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: 1)
             self.visualizerWindow.enforceMaxCount()
             return
         }
 
         if let previous = self.lastFinalizedGroup, previous.group === group {
-            let repeatCount = previous.signature == signature ? previous.repeatCount : 1
-            self.lastFinalizedGroup = FinalizedGroup(group: group, signature: signature, repeatCount: repeatCount)
+            let repeatCount = previous.identity == identity ? previous.repeatCount : 1
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: repeatCount)
             self.visualizerWindow.enforceMaxCount()
             return
         }
 
         guard let previous = self.lastFinalizedGroup,
               previous.group !== group,
-              previous.signature == signature else {
-            self.lastFinalizedGroup = FinalizedGroup(group: group, signature: signature, repeatCount: 1)
+              previous.identity == identity else {
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: 1)
             self.visualizerWindow.enforceMaxCount()
             return
         }
@@ -322,7 +337,7 @@ private extension KeyboardVisualizer {
         let nextRepeatCount = previous.repeatCount + 1
         self.visualizerWindow.updateRepeatCount(nextRepeatCount, for: previous.group)
         self.visualizerWindow.removeGroup(group)
-        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, signature: signature, repeatCount: nextRepeatCount)
+        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, identity: identity, repeatCount: nextRepeatCount)
         self.visualizerWindow.enforceMaxCount()
     }
 
@@ -333,14 +348,14 @@ private extension KeyboardVisualizer {
         let items = self.eventCoordinator.items(for: group)
         guard !items.isEmpty else { return }
 
-        let signature = self.signature(for: items)
-        guard previous.signature == signature else { return }
+        let identity = self.groupIdentity(for: items)
+        guard previous.identity == identity else { return }
 
         let nextRepeatCount = previous.repeatCount + 1
         self.visualizerWindow.updateGroup(previous.group, with: items, repeatCount: nextRepeatCount)
         self.eventCoordinator.replaceGroup(group, with: previous.group, items: items)
         self.visualizerWindow.removeGroup(group)
-        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, signature: signature, repeatCount: nextRepeatCount)
+        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, identity: identity, repeatCount: nextRepeatCount)
         self.visualizerWindow.enforceMaxCount()
     }
 
@@ -349,9 +364,9 @@ private extension KeyboardVisualizer {
         self.lastFinalizedGroup = nil
     }
 
-    func signature(for items: [KeycapItem]) -> GroupSignature {
-        GroupSignature(items: items.map {
-            ItemSignature(
+    func groupIdentity(for items: [KeycapItem]) -> GroupIdentity {
+        GroupIdentity(items: items.map {
+            ItemIdentity(
                 identity: $0.identity,
                 symbol: $0.symbol,
                 imageBadgeText: $0.imageBadgeText,

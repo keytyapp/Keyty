@@ -60,7 +60,7 @@ Descarga la última versión desde [GitHub](https://github.com/keytyapp/Keyty/re
 ### Homebrew
 
 ```bash
-brew install --cask keytyapp/tap/keyty
+brew install --cask keyty
 ```
 
 ### Compilar desde el código fuente

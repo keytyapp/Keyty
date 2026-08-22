@@ -38,6 +38,7 @@ enum AppleKeycapMetrics {
     static let minWidth: CGFloat = 74
     static let itemSpacing: CGFloat = 6
     static let groupPadding = NSEdgeInsets(top: 10, left: 10, bottom: 18, right: 10)
+    static let repeatBadgeInset = CGPoint(x: 6, y: 6)
 }
 
 enum MinimalKeycapMetrics {
@@ -46,6 +47,7 @@ enum MinimalKeycapMetrics {
     static let horizontalPadding: CGFloat = 4
     static let itemSpacing: CGFloat = -8
     static let groupPadding = NSEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
+    static let repeatBadgeInset = CGPoint(x: 0, y: 0)
     static let labelFont = NSFont.systemFont(ofSize: 26, weight: .medium)
     static let symbolFont = NSFont.systemFont(ofSize: 36, weight: .medium)
     static let imageMaxHeight: CGFloat = 36
@@ -64,6 +66,7 @@ enum RetroKeycapMetrics {
     static let horizontalPadding: CGFloat = 24
     static let itemSpacing: CGFloat = 10
     static let groupPadding = NSEdgeInsets(top: 12, left: 12, bottom: 16, right: 12)
+    static let repeatBadgeInset = CGPoint(x: 6, y: 6)
     static let pressedTravel: CGFloat = 3
 }
 
@@ -77,6 +80,7 @@ enum PBTKeycapMetrics {
     static let pressedTravel: CGFloat = 2.5
     static let bodyInset: CGFloat = 2
     static let groupPadding = NSEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    static let repeatBadgeInset = CGPoint(x: 6, y: 6)
 }
 
 extension KeycapStyle {

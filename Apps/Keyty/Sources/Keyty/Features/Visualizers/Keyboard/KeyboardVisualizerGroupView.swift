@@ -175,6 +175,19 @@ private extension KeyboardVisualizerGroupView {
             return AppleKeycapMetrics.itemSpacing
         }
     }
+
+    private var repeatBadgeInset: CGPoint {
+        switch self.settings.style {
+        case .minimal:
+            return MinimalKeycapMetrics.repeatBadgeInset
+        case .retro:
+            return RetroKeycapMetrics.repeatBadgeInset
+        case .apple:
+            return AppleKeycapMetrics.repeatBadgeInset
+        case .pbt:
+            return PBTKeycapMetrics.repeatBadgeInset
+        }
+    }
 }
 
 // MARK: - Drawing
@@ -214,9 +227,10 @@ private extension KeyboardVisualizerGroupView {
         let labelSize = badgeText.size(withAttributes: attributes)
         let badgeHeight = max(26, labelSize.height + 8)
         let badgeWidth = max(badgeHeight, labelSize.width + 14)
+        let inset = self.repeatBadgeInset
         let badgeRect = NSRect(
-            x: self.baseSize.width - badgeWidth - 6,
-            y: self.baseSize.height - badgeHeight - 6,
+            x: self.baseSize.width - badgeWidth - inset.x,
+            y: self.baseSize.height - badgeHeight - inset.y,
             width: badgeWidth,
             height: badgeHeight
         )

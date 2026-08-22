@@ -14,47 +14,6 @@ final class KeyboardVisualizerGroupView: NSView {
     private var repeatCount: Int
     private var fadeWorkItem: DispatchWorkItem?
 
-    /// Uniform scale applied to the keycap drawing. Combines the user-selected size with a
-    /// per-style normalization factor so every style renders at a comparable size.
-    private var scale: CGFloat { settings.style.sizeNormalization * max(0.1, settings.scale) }
-
-    /// Group size in base (unscaled) drawing coordinates.
-    private var baseSize: NSSize {
-        let sizes = itemSizes()
-        let keysWidth = sizes.reduce(CGFloat(0)) { $0 + $1.width }
-            + groupSpacing * CGFloat(max(0, sizes.count - 1))
-        let fallbackHeight: CGFloat
-        switch settings.style {
-        case .minimal:
-            fallbackHeight = MinimalKeycapMetrics.height
-        case .retro:
-            fallbackHeight = RetroKeycapMetrics.height
-        case .apple, .pbt:
-            fallbackHeight = AppleKeycapMetrics.height
-        }
-        let height = sizes.map(\.height).max() ?? fallbackHeight
-        return NSSize(
-            width: groupPadding.left + groupPadding.right + keysWidth,
-            height: groupPadding.top + groupPadding.bottom + height
-        )
-    }
-
-    var preferredSize: NSSize {
-        NSSize(width: baseSize.width * scale, height: baseSize.height * scale)
-    }
-
-    override var intrinsicContentSize: NSSize {
-        self.preferredSize
-    }
-
-    override var fittingSize: NSSize {
-        self.preferredSize
-    }
-
-    override var mouseDownCanMoveWindow: Bool {
-        true
-    }
-
     init(
         items: [KeycapItem],
         settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
@@ -74,7 +33,9 @@ final class KeyboardVisualizerGroupView: NSView {
     required init?(coder: NSCoder) {
         fatalError("Use init(items:) instead.")
     }
+}
 
+extension KeyboardVisualizerGroupView {
     func configure(items: [KeycapItem], settings: KeyboardVisualizerSettings, repeatCount: Int? = nil) {
         self.items = items
         self.settings = settings
@@ -90,9 +51,9 @@ final class KeyboardVisualizerGroupView: NSView {
     }
 
     func scheduleFadeOut(onCompletion completion: @escaping () -> Void) {
-        fadeWorkItem?.cancel()
-        let delay = max(0.1, TimeInterval(settings.fadeDelay))
-        let duration = max(0, TimeInterval(settings.fadeDuration))
+        self.fadeWorkItem?.cancel()
+        let delay = max(0.1, TimeInterval(self.settings.fadeDelay))
+        let duration = max(0, TimeInterval(self.settings.fadeDuration))
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             NSAnimationContext.runAnimationGroup { context in
@@ -102,32 +63,51 @@ final class KeyboardVisualizerGroupView: NSView {
                 completion()
             }
         }
-        fadeWorkItem = workItem
+        self.fadeWorkItem = workItem
         DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+    }
+}
+
+// MARK: - NSView
+extension KeyboardVisualizerGroupView {
+    var preferredSize: NSSize {
+        NSSize(width: self.baseSize.width * self.scale, height: self.baseSize.height * self.scale)
+    }
+
+    override var intrinsicContentSize: NSSize {
+        self.preferredSize
+    }
+
+    override var fittingSize: NSSize {
+        self.preferredSize
+    }
+
+    override var mouseDownCanMoveWindow: Bool {
+        true
     }
 
     override func draw(_ dirtyRect: NSRect) {
         NSGraphicsContext.saveGraphicsState()
         let transform = NSAffineTransform()
-        transform.scale(by: scale)
+        transform.scale(by: self.scale)
         transform.concat()
 
-        drawBackground()
+        self.drawBackground()
 
-        let sizes = itemSizes()
-        var x = groupPadding.left
-        for (item, size) in zip(items, sizes) {
+        let sizes = self.itemSizes()
+        var x = self.groupPadding.left
+        for (item, size) in zip(self.items, sizes) {
             let rect = NSRect(
                 x: x,
-                y: groupPadding.bottom,
+                y: self.groupPadding.bottom,
                 width: size.width,
                 height: size.height
             )
-            KeycapRendererFactory.makeRenderer(for: item, settings: settings).draw(
-                context: KeycapContext(item: item, settings: settings),
+            KeycapRendererFactory.makeRenderer(for: item, settings: self.settings).draw(
+                context: KeycapContext(item: item, settings: self.settings),
                 in: rect
             )
-            x += size.width + groupSpacing
+            x += size.width + self.groupSpacing
         }
 
         if self.repeatCount > 1 {
@@ -136,16 +116,44 @@ final class KeyboardVisualizerGroupView: NSView {
 
         NSGraphicsContext.restoreGraphicsState()
     }
+}
+
+// MARK: - Layout
+private extension KeyboardVisualizerGroupView {
+    /// Uniform scale applied to the keycap drawing. Combines the user-selected size with a
+    /// per-style normalization factor so every style renders at a comparable size.
+    var scale: CGFloat { self.settings.style.sizeNormalization * max(0.1, self.settings.scale) }
+
+    /// Group size in base (unscaled) drawing coordinates.
+    var baseSize: NSSize {
+        let sizes = self.itemSizes()
+        let keysWidth = sizes.reduce(CGFloat(0)) { $0 + $1.width }
+            + self.groupSpacing * CGFloat(max(0, sizes.count - 1))
+        let fallbackHeight: CGFloat
+        switch self.settings.style {
+        case .minimal:
+            fallbackHeight = MinimalKeycapMetrics.height
+        case .retro:
+            fallbackHeight = RetroKeycapMetrics.height
+        case .apple, .pbt:
+            fallbackHeight = AppleKeycapMetrics.height
+        }
+        let height = sizes.map(\.height).max() ?? fallbackHeight
+        return NSSize(
+            width: self.groupPadding.left + self.groupPadding.right + keysWidth,
+            height: self.groupPadding.top + self.groupPadding.bottom + height
+        )
+    }
 
     private func itemSizes() -> [CGSize] {
         self.items.map {
-            KeycapRendererFactory.makeRenderer(for: $0, settings: settings)
-                .size(for: KeycapContext(item: $0, settings: settings))
+            KeycapRendererFactory.makeRenderer(for: $0, settings: self.settings)
+                .size(for: KeycapContext(item: $0, settings: self.settings))
         }
     }
 
     private var groupPadding: NSEdgeInsets {
-        switch settings.style {
+        switch self.settings.style {
         case .minimal:
             return MinimalKeycapMetrics.groupPadding
         case .retro:
@@ -158,7 +166,7 @@ final class KeyboardVisualizerGroupView: NSView {
     }
 
     private var groupSpacing: CGFloat {
-        switch settings.style {
+        switch self.settings.style {
         case .minimal:
             return MinimalKeycapMetrics.itemSpacing
         case .retro:
@@ -167,12 +175,15 @@ final class KeyboardVisualizerGroupView: NSView {
             return AppleKeycapMetrics.itemSpacing
         }
     }
+}
 
+// MARK: - Drawing
+private extension KeyboardVisualizerGroupView {
     private func drawBackground() {
-        let baseBounds = NSRect(origin: .zero, size: baseSize)
+        let baseBounds = NSRect(origin: .zero, size: self.baseSize)
         let insetBounds = baseBounds.insetBy(dx: 1, dy: 1)
         let radius: CGFloat
-        switch settings.style {
+        switch self.settings.style {
         case .minimal:
             radius = insetBounds.height / 2
         case .retro:
@@ -181,7 +192,7 @@ final class KeyboardVisualizerGroupView: NSView {
             radius = 18
         }
         let path = NSBezierPath(roundedRect: insetBounds, xRadius: radius, yRadius: radius)
-        let appearance = settings.groupAppearance
+        let appearance = self.settings.groupAppearance
         appearance.groupBackgroundColor.setFill()
         path.fill()
         appearance.groupStrokeColor.setStroke()

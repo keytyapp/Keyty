@@ -145,6 +145,32 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(forwardDeleteItems.first?.label, "delete")
     }
 
+    func testNavigationKeysUseCenteredTextLegendsAtStandardWidth() {
+        let palette = Self.makePalette()
+        let expected: [(KeyboardKeyCode, String)] = [
+            (.home, "home"),
+            (.end, "end"),
+            (.pageUp, "page\nup"),
+            (.pageDown, "page\ndown"),
+        ]
+
+        for (keyCode, label) in expected {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: palette
+            )
+
+            XCTAssertEqual(items.map(\.identity), [.keyCode(keyCode.rawValue)])
+            XCTAssertEqual(items.first?.symbol, "")
+            XCTAssertEqual(items.first?.label, label)
+            XCTAssertEqual(items.first?.rendersCenteredLabel, true)
+            XCTAssertEqual(items.first.map(keycapWidth(for:)), AppleKeycapMetrics.minWidth)
+        }
+    }
+
     func testMouseItemUsesPressedStateFromMouseEventType() {
         let palette = Self.makePalette()
 

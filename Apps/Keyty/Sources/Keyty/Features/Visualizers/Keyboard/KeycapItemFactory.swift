@@ -199,6 +199,14 @@ enum KeycapItemFactory {
             return .function
         case .capsLock:
             return .capsLock
+        case .home:
+            return Self.navigationKeyLegend("home")
+        case .end:
+            return Self.navigationKeyLegend("end")
+        case .pageUp:
+            return Self.navigationKeyLegend("page\nup")
+        case .pageDown:
+            return Self.navigationKeyLegend("page\ndown")
         default:
             return KeycapLegend(legend, mouseIconHeight: Self.mouseIconHeight)
         }
@@ -264,6 +272,10 @@ enum KeycapItemFactory {
             state: KeycapState(isPressed: isPressed),
             appearance: palette.appearance(for: identity)
         )
+    }
+
+    private static func navigationKeyLegend(_ label: String) -> KeycapLegend {
+        KeycapLegend(label: label, rendersCenteredLabel: true)
     }
 
 }

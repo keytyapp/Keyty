@@ -18,6 +18,7 @@ struct KeycapLegend {
     let sfSymbolName: String?
     let label: String?
     let rendersSymbolWithLabel: Bool
+    let rendersCenteredLabel: Bool
 
     init(
         symbol: String = "",
@@ -25,7 +26,8 @@ struct KeycapLegend {
         imageBadgeText: String? = nil,
         sfSymbolName: String? = nil,
         label: String? = nil,
-        rendersSymbolWithLabel: Bool = false
+        rendersSymbolWithLabel: Bool = false,
+        rendersCenteredLabel: Bool = false
     ) {
         self.symbol = symbol
         self.image = image
@@ -33,6 +35,7 @@ struct KeycapLegend {
         self.sfSymbolName = sfSymbolName
         self.label = label
         self.rendersSymbolWithLabel = rendersSymbolWithLabel
+        self.rendersCenteredLabel = rendersCenteredLabel
     }
 }
 

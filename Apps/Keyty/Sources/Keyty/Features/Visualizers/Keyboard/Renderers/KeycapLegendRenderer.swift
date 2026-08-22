@@ -14,6 +14,35 @@ struct KeycapLegendRenderer {
         centerPara.alignment = .center
 
         if let label = item.label {
+            if item.rendersCenteredLabel {
+                let attrs: [NSAttributedString.Key: Any] = [
+                    .font: CommonKeycapMetrics.labelFont,
+                    .foregroundColor: textColor,
+                    .paragraphStyle: centerPara,
+                ]
+                let bounds = NSRect(
+                    x: keycapRect.minX + CommonKeycapMetrics.horizontalPadding,
+                    y: keycapRect.minY,
+                    width: keycapRect.width - 2 * CommonKeycapMetrics.horizontalPadding,
+                    height: keycapRect.height
+                )
+                let size = label.boundingRect(
+                    with: bounds.size,
+                    options: [.usesLineFragmentOrigin, .usesFontLeading],
+                    attributes: attrs
+                ).integral.size
+                label.draw(
+                    in: NSRect(
+                        x: bounds.minX,
+                        y: keycapRect.midY - size.height / 2,
+                        width: bounds.width,
+                        height: size.height
+                    ),
+                    withAttributes: attrs
+                )
+                return
+            }
+
             let leftPara = NSMutableParagraphStyle()
             leftPara.alignment = .left
 

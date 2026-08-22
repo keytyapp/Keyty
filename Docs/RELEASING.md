@@ -52,6 +52,7 @@ Configure these repository secrets before running the workflow:
 | `NOTARY_ISSUER` | App Store Connect issuer ID |
 | `SPARKLE_ED_KEY_BASE64` | Base64-encoded Sparkle EdDSA private key |
 | `HOMEBREW_TAP_DISPATCH_TOKEN` | Optional token with permission to dispatch workflows in `keytyapp/homebrew-tap`; when present, the release workflow triggers the tap repo's cask-update automation after publishing `v*` release assets |
+| `KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN` | Optional token with permission to dispatch workflows in the website repo; when present, the release workflow triggers the website repo's appcast sync automation after publishing `v*` release assets |
 
 Optionally configure these repository variables:
 
@@ -59,11 +60,13 @@ Optionally configure these repository variables:
 |---|---|
 | `APPCAST_DOWNLOAD_PREFIX` | Sparkle enclosure URL prefix. By default, the release lane uses the current GitHub release asset URL, such as `https://github.com/keytyapp/Keyty/releases/download/v0.8.0/` |
 | `KEYTY_RELEASE_TEAM_ID` | Developer ID team, default `NEVA4MAZBL` |
+| `KEYTY_APPCAST_WEBSITE_REPOSITORY` | Website repository that receives the appcast sync dispatch, default `esphynox/keyty.app` |
 
 The release workflow uploads generated appcast artifacts as an Actions artifact.
-Publish `appcast.xml` from that artifact through the Vercel-hosted site so
-Sparkle reads `https://keyty.app/appcast.xml`. Update archives are hosted as
-GitHub release assets by default.
+When `KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN` is configured, the same workflow
+also dispatches `keyty_appcast_release` to the website repository so it can
+publish `appcast.xml` to `https://keyty.app/appcast.xml`. Update archives are
+hosted as GitHub release assets by default.
 
 When `HOMEBREW_TAP_DISPATCH_TOKEN` is configured, the same workflow also
 dispatches `keyty_release_published` to `keytyapp/homebrew-tap` with the new
@@ -131,7 +134,10 @@ git push --tags
 
 5. Let the GitHub `Release` workflow build, sign, notarize, staple, and create the GitHub release.
 6. Confirm the GitHub release contains both the zipped app and the DMG.
-7. Download the `appcast-artifacts` workflow artifact and publish `appcast.xml` through the Vercel-hosted site.
+7. Confirm the website appcast sync automation completed and published the new `appcast.xml`.
+   If `KEYTY_APPCAST_WEBSITE_DISPATCH_TOKEN` is not configured or the website
+   automation fails, download the `appcast-artifacts` workflow artifact and
+   publish `appcast.xml` through the Vercel-hosted site manually.
 8. Verify the published appcast artifacts are available at the feed host:
    - `https://keyty.app/appcast.xml`
    - `https://github.com/keytyapp/Keyty/releases/download/v<NEW_VERSION>/Keyty.zip`

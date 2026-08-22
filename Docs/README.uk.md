@@ -60,7 +60,7 @@ Keyty можна налаштувати в Settings відповідно до в
 ### Homebrew
 
 ```bash
-brew install --cask keytyapp/tap/keyty
+brew install --cask keyty
 ```
 
 ### Збірка з вихідного коду

@@ -72,7 +72,7 @@ Download the latest release from [GitHub](https://github.com/keytyapp/Keyty/rele
 ### Homebrew
 
 ```bash
-brew install --cask keytyapp/tap/keyty
+brew install --cask keyty
 ```
 
 ### Build from Source

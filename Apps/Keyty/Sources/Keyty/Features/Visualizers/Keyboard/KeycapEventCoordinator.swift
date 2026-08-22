@@ -44,34 +44,56 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
         self.groupItems[ObjectIdentifier(group)] = nil
     }
 
+    func items(for group: GroupView) -> [Item] {
+        self.groupItems[ObjectIdentifier(group)] ?? []
+    }
+
+    func replaceGroup(_ sourceGroup: GroupView, with targetGroup: GroupView, items: [Item]) {
+        if self.pendingModifierGroup === sourceGroup {
+            self.pendingModifierGroup = targetGroup
+        }
+        if self.completedModifierGroup === sourceGroup {
+            self.completedModifierGroup = targetGroup
+        }
+
+        self.activeKeyGroups = self.activeKeyGroups.mapValues { $0 === sourceGroup ? targetGroup : $0 }
+        self.activeButtonGroups = self.activeButtonGroups.mapValues { $0 === sourceGroup ? targetGroup : $0 }
+        self.groupItems[ObjectIdentifier(targetGroup)] = items
+        self.groupItems[ObjectIdentifier(sourceGroup)] = nil
+    }
+
+    @discardableResult
     func handleFlagsChanged(
         currentTrackedFlags: NSEvent.ModifierFlags,
         releasedTrackedFlags: NSEvent.ModifierFlags,
         buildItems: (NSEvent.ModifierFlags, NSEvent.ModifierFlags) -> [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
+    ) -> GroupView? {
         let items = buildItems(currentTrackedFlags, releasedTrackedFlags)
         guard !items.isEmpty else {
             if currentTrackedFlags.isEmpty {
                 self.pendingModifierGroup = nil
                 self.completedModifierGroup = nil
             }
-            return
+            return nil
         }
 
+        let group: GroupView
         if let pendingModifierGroup, self.canAppendModifiers(to: pendingModifierGroup) {
             let merged = self.ordered(items: self.merged(items: items, into: self.storedItems(for: pendingModifierGroup)))
             self.groupItems[ObjectIdentifier(pendingModifierGroup)] = merged
             updateGroup(pendingModifierGroup, merged)
             self.completedModifierGroup = pendingModifierGroup
+            group = pendingModifierGroup
         } else if let completedModifierGroup, self.canRefreshModifiers(in: completedModifierGroup, with: items) {
             let merged = self.ordered(items: self.merged(items: items, into: self.storedItems(for: completedModifierGroup)))
             self.groupItems[ObjectIdentifier(completedModifierGroup)] = merged
             updateGroup(completedModifierGroup, merged)
+            group = completedModifierGroup
         } else {
             let orderedItems = self.ordered(items: items)
-            let group = appendGroup(orderedItems)
+            group = appendGroup(orderedItems)
             self.groupItems[ObjectIdentifier(group)] = orderedItems
             self.pendingModifierGroup = group
             self.completedModifierGroup = group
@@ -81,16 +103,18 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
             self.pendingModifierGroup = nil
             self.completedModifierGroup = nil
         }
+        return group
     }
 
+    @discardableResult
     func handleTrackedKey(
         keyCode: UInt16,
         isKeyDown: Bool,
         items: [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
-        guard !items.isEmpty else { return }
+    ) -> GroupView? {
+        guard !items.isEmpty else { return nil }
 
         if let activeGroup = self.activeKeyGroups[keyCode] {
             let existingItems = self.storedItems(for: activeGroup)
@@ -103,7 +127,7 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
             if !isKeyDown {
                 self.activeKeyGroups[keyCode] = nil
             }
-            return
+            return activeGroup
         }
 
         if let pendingModifierGroup, self.canAbsorbIntoPendingChord(pendingModifierGroup) {
@@ -116,7 +140,7 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
             if !isKeyDown {
                 self.activeKeyGroups[keyCode] = nil
             }
-            return
+            return pendingModifierGroup
         }
 
         let orderedItems = self.ordered(items: items)
@@ -127,15 +151,17 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
         if isKeyDown {
             self.activeKeyGroups[keyCode] = group
         }
+        return group
     }
 
+    @discardableResult
     func handleMouseButton(
         kind: MouseEvent.Kind,
         isPressed: Bool,
         items: [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
+    ) -> GroupView? {
         self.handleTrackedButton(
             identifier: .mouse(kind),
             isPressed: isPressed,
@@ -145,32 +171,35 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
         )
     }
 
+    @discardableResult
     func handleStandalone(
         items: [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
-        guard !items.isEmpty else { return }
+    ) -> GroupView? {
+        guard !items.isEmpty else { return nil }
 
         if let pendingModifierGroup, self.canAbsorbIntoPendingChord(pendingModifierGroup) {
             let merged = self.ordered(items: self.merged(items: items, into: self.storedItems(for: pendingModifierGroup)))
             self.groupItems[ObjectIdentifier(pendingModifierGroup)] = merged
             updateGroup(pendingModifierGroup, merged)
             self.completedModifierGroup = pendingModifierGroup
-            return
+            return pendingModifierGroup
         }
 
         let group = appendGroup(items)
         self.groupItems[ObjectIdentifier(group)] = items
+        return group
     }
 
+    @discardableResult
     func handleMediaKey(
         kind: MediaKeyEvent.Kind,
         isPressed: Bool,
         items: [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
+    ) -> GroupView? {
         self.handleTrackedButton(
             identifier: .media(kind),
             isPressed: isPressed,
@@ -193,8 +222,8 @@ private extension KeycapEventCoordinator {
         items: [Item],
         appendGroup: ([Item]) -> GroupView,
         updateGroup: (GroupView, [Item]) -> Void
-    ) {
-        guard !items.isEmpty else { return }
+    ) -> GroupView? {
+        guard !items.isEmpty else { return nil }
 
         if let activeGroup = self.activeButtonGroups[identifier] {
             let merged = self.ordered(items: self.merged(items: items, into: self.storedItems(for: activeGroup)))
@@ -205,7 +234,7 @@ private extension KeycapEventCoordinator {
             if !isPressed {
                 self.activeButtonGroups[identifier] = nil
             }
-            return
+            return activeGroup
         }
 
         if let pendingModifierGroup, self.canAbsorbIntoPendingChord(pendingModifierGroup) {
@@ -216,7 +245,7 @@ private extension KeycapEventCoordinator {
             if isPressed {
                 self.activeButtonGroups[identifier] = pendingModifierGroup
             }
-            return
+            return pendingModifierGroup
         }
 
         let orderedItems = self.ordered(items: items)
@@ -226,6 +255,7 @@ private extension KeycapEventCoordinator {
         if isPressed {
             self.activeButtonGroups[identifier] = group
         }
+        return group
     }
 
     /// Only pure modifier previews can absorb later modifier-only updates.

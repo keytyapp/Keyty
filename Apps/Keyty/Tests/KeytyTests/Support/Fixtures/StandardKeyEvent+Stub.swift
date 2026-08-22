@@ -15,12 +15,13 @@ extension StandardKeyEvent {
     // itself — Help versus Insert, and the arrow function keys.
     static func stub(
         keyCode: KeyboardKeyCode,
+        type: NSEvent.EventType = .keyDown,
         modifiers: NSEvent.ModifierFlags = [],
         characters: String = "",
         charactersIgnoringModifiers: String = ""
     ) -> StandardKeyEvent {
         let event = NSEvent.keyEvent(
-            with: .keyDown,
+            with: type,
             location: .zero,
             modifierFlags: modifiers,
             timestamp: NSDate.timeIntervalSinceReferenceDate,

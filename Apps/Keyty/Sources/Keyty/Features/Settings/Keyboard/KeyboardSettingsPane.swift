@@ -198,8 +198,24 @@ struct KeyboardSettingsPane: View {
 
                 Divider()
 
-                SettingsControlRow(title: L10n.KeyboardVisualizer.axisLabel, subtitle: L10n.KeyboardVisualizer.axisSubtitle) {
+                SettingsControlRow(
+                    title: L10n.KeyboardVisualizer.axisLabel,
+                    subtitle: L10n.KeyboardVisualizer.axisSubtitle
+                ) {
                     self.axisPicker
+                }
+
+                Divider()
+
+                SettingsControlRow(
+                    title: L10n.KeyboardVisualizer.collapseRepeatedGroupsLabel,
+                    subtitle: L10n.KeyboardVisualizer.collapseRepeatedGroupsSubtitle
+                ) {
+                    Toggle("", isOn: self.$model.collapseRepeatedGroups)
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.collapseRepeatedGroupsLabel)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
             }
             .disabled(!self.model.isEnabled)

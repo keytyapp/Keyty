@@ -37,6 +37,7 @@ final class KeyboardVisualizer {
     private var currentModifierFlags: NSEvent.ModifierFlags = []
     private var lastModifierFlags: NSEvent.ModifierFlags = []
     private var hasPendingGroupBreak = false
+    private var lastFinalizedGroup: FinalizedGroup?
 
     convenience init() {
         self.init(store: UserDefaultsStore())
@@ -51,6 +52,7 @@ final class KeyboardVisualizer {
         self.visualizerWindow = KeyboardVisualizerWindow(settings: settings)
         self.visualizerWindow.onGroupRemoved = { [weak self] group in
             self?.eventCoordinator.removeGroup(group)
+            self?.clearFinalizedGroupIfNeeded(for: group)
         }
         settings.isEnabledChanges
             .sink { [weak self] isEnabled in
@@ -62,7 +64,9 @@ final class KeyboardVisualizer {
             }
             .store(in: &self.cancellables)
     }
+}
 
+extension KeyboardVisualizer {
     func activate() {
         self.updatePresentationState()
     }
@@ -100,13 +104,17 @@ final class KeyboardVisualizer {
                 palette: self.visualizerSettings.palette
             )
             let keycap = KeycapItemFactory.mouseItem(for: mouseEvent, palette: self.visualizerSettings.palette)
-            self.eventCoordinator.handleMouseButton(
+            let group = self.eventCoordinator.handleMouseButton(
                 kind: mouseEvent.kind,
                 isPressed: keycap.isPressed,
                 items: modifierItems + [keycap],
-                appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+                appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
                 updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
             )
+            self.collapseActiveRepeatIfNeeded(group)
+            if !keycap.isPressed, mouseEvent.modifierFlags.intersection(Self.trackedModifierFlags).isEmpty {
+                self.finalizeGroupIfNeeded(group)
+            }
             return
 
         case .mediaKey(let mediaKey):
@@ -114,13 +122,17 @@ final class KeyboardVisualizer {
             self.prepareForNextContentEvent()
 
             let keycap = KeycapItemFactory.mediaKeyItem(for: mediaKey, palette: self.visualizerSettings.palette)
-            self.eventCoordinator.handleMediaKey(
+            let group = self.eventCoordinator.handleMediaKey(
                 kind: mediaKey.kind,
                 isPressed: keycap.isPressed,
                 items: [keycap],
-                appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+                appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
                 updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
             )
+            self.collapseActiveRepeatIfNeeded(group)
+            if !keycap.isPressed {
+                self.finalizeGroupIfNeeded(group)
+            }
             return
 
         case .keystroke(let keystroke):
@@ -128,7 +140,10 @@ final class KeyboardVisualizer {
             return
         }
     }
+}
 
+// MARK: - Event Display
+private extension KeyboardVisualizer {
     private func displayKeystroke(_ keystroke: StandardKeyEvent) {
         // Track command/shift/option/control exclusively through flagsChanged so a modifier
         // release does not create a separate keystroke group after the chord ends.
@@ -155,13 +170,17 @@ final class KeyboardVisualizer {
 
         self.prepareForNextContentEvent()
 
-        self.eventCoordinator.handleTrackedKey(
+        let group = self.eventCoordinator.handleTrackedKey(
             keyCode: keystroke.keyCode,
             isKeyDown: keystroke.type != .keyUp,
             items: items,
-            appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+            appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
             updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
         )
+        self.collapseActiveRepeatIfNeeded(group)
+        if keystroke.type == .keyUp, keystroke.modifierFlags.intersection(Self.trackedModifierFlags).isEmpty {
+            self.finalizeGroupIfNeeded(group)
+        }
     }
 
     private func displayModifierPreview(_ modifierFlags: NSEvent.ModifierFlags) {
@@ -174,7 +193,7 @@ final class KeyboardVisualizer {
         let capsNow = modifierFlags.contains(.capsLock)
         let capsWas = self.lastModifierFlags.contains(.capsLock)
         if self.visualizerSettings.showSpecialKeys, capsNow != capsWas {
-            self.eventCoordinator.handleStandalone(
+            let group = self.eventCoordinator.handleStandalone(
                 items: [KeycapItem(
                     identity: .keyCode(KeyboardKeyCode.capsLock.rawValue),
                     legend: .capsLock,
@@ -182,9 +201,11 @@ final class KeyboardVisualizer {
                     layoutHints: KeycapLayoutHints(alignment: .left),
                     appearance: self.visualizerSettings.palette.appearance(for: .keyCode(KeyboardKeyCode.capsLock.rawValue))
                 )],
-                appendGroup: { self.visualizerWindow.appendGroup(with: $0) },
+                appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
                 updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
             )
+            self.collapseActiveRepeatIfNeeded(group)
+            self.finalizeGroupIfNeeded(group)
         }
 
         self.lastModifierFlags = modifierFlags
@@ -201,7 +222,7 @@ final class KeyboardVisualizer {
             return
         }
 
-        self.eventCoordinator.handleFlagsChanged(
+        let group = self.eventCoordinator.handleFlagsChanged(
             currentTrackedFlags: currentTrackedFlags,
             releasedTrackedFlags: releasedTrackedFlags,
             buildItems: { _, _ in
@@ -211,11 +232,18 @@ final class KeyboardVisualizer {
                     palette: self.visualizerSettings.palette
                 )
             },
-            appendGroup: { visualizerWindow.appendGroup(with: $0) },
+            appendGroup: { visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
             updateGroup: { group, items in visualizerWindow.updateGroup(group, with: items) }
         )
+        self.collapseActiveRepeatIfNeeded(group)
+        if currentTrackedFlags.isEmpty {
+            self.finalizeGroupIfNeeded(group)
+        }
     }
+}
 
+// MARK: - State
+private extension KeyboardVisualizer {
     private func prepareForNextContentEvent() {
         guard self.hasPendingGroupBreak else { return }
         self.finishCurrentGroup(retaining: self.currentModifierFlags)
@@ -232,6 +260,7 @@ final class KeyboardVisualizer {
         self.currentModifierFlags = []
         self.lastModifierFlags = []
         self.hasPendingGroupBreak = false
+        self.lastFinalizedGroup = nil
         self.visualizerWindow.removeAllGroups()
     }
 
@@ -246,6 +275,107 @@ final class KeyboardVisualizer {
 
     private var currentTrackedFlags: NSEvent.ModifierFlags {
         self.currentModifierFlags.intersection(Self.trackedModifierFlags)
+    }
+}
+
+// MARK: - Repeat Collapse Models
+private extension KeyboardVisualizer {
+    /// Tracks the last completed visible group and its repeat count for collapse decisions.
+    struct FinalizedGroup {
+        let group: KeyboardVisualizerGroupView
+        let identity: GroupIdentity
+        let repeatCount: Int
+    }
+
+    /// Semantic identity of a rendered group, used to detect consecutive repeats.
+    struct GroupIdentity: Hashable {
+        let items: [ItemIdentity]
+    }
+
+    /// Stable comparison shape for a rendered keycap within a grouped overlay.
+    struct ItemIdentity: Hashable {
+        let identity: KeycapIdentity
+        let symbol: String
+        let imageBadgeText: String?
+        let sfSymbolName: String?
+        let label: String?
+        let rendersSymbolWithLabel: Bool
+        let fixedWidth: CGFloat?
+    }
+}
+
+// MARK: - Repeat Collapse
+private extension KeyboardVisualizer {
+    func finalizeGroupIfNeeded(_ group: KeyboardVisualizerGroupView?) {
+        guard let group else { return }
+        let items = self.eventCoordinator.items(for: group)
+        guard !items.isEmpty else { return }
+
+        let identity = self.groupIdentity(for: items)
+
+        guard self.visualizerSettings.collapseRepeatedGroups else {
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: 1)
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
+
+        if let previous = self.lastFinalizedGroup, previous.group === group {
+            let repeatCount = previous.identity == identity ? previous.repeatCount : 1
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: repeatCount)
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
+
+        guard let previous = self.lastFinalizedGroup,
+              previous.group !== group,
+              previous.identity == identity else {
+            self.lastFinalizedGroup = FinalizedGroup(group: group, identity: identity, repeatCount: 1)
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
+
+        let nextRepeatCount = previous.repeatCount + 1
+        self.visualizerWindow.updateRepeatCount(nextRepeatCount, for: previous.group)
+        self.visualizerWindow.removeGroup(group)
+        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, identity: identity, repeatCount: nextRepeatCount)
+        self.visualizerWindow.enforceMaxCount()
+    }
+
+    func collapseActiveRepeatIfNeeded(_ group: KeyboardVisualizerGroupView?) {
+        guard self.visualizerSettings.collapseRepeatedGroups, let group else { return }
+        guard let previous = self.lastFinalizedGroup, previous.group !== group else { return }
+
+        let items = self.eventCoordinator.items(for: group)
+        guard !items.isEmpty else { return }
+
+        let identity = self.groupIdentity(for: items)
+        guard previous.identity == identity else { return }
+
+        let nextRepeatCount = previous.repeatCount + 1
+        self.visualizerWindow.updateGroup(previous.group, with: items, repeatCount: nextRepeatCount)
+        self.eventCoordinator.replaceGroup(group, with: previous.group, items: items)
+        self.visualizerWindow.removeGroup(group)
+        self.lastFinalizedGroup = FinalizedGroup(group: previous.group, identity: identity, repeatCount: nextRepeatCount)
+        self.visualizerWindow.enforceMaxCount()
+    }
+
+    func clearFinalizedGroupIfNeeded(for group: KeyboardVisualizerGroupView) {
+        guard self.lastFinalizedGroup?.group === group else { return }
+        self.lastFinalizedGroup = nil
+    }
+
+    func groupIdentity(for items: [KeycapItem]) -> GroupIdentity {
+        GroupIdentity(items: items.map {
+            ItemIdentity(
+                identity: $0.identity,
+                symbol: $0.symbol,
+                imageBadgeText: $0.imageBadgeText,
+                sfSymbolName: $0.sfSymbolName,
+                label: $0.label,
+                rendersSymbolWithLabel: $0.rendersSymbolWithLabel,
+                fixedWidth: $0.fixedWidth
+            )
+        })
     }
 }
 

@@ -45,6 +45,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.customVerticalAlignment), KeyboardVisualizerAlignment.center.rawValue)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.windowPadding), Double(Size.KeyboardVisualizer.windowPadding), accuracy: 0.0001)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes), false)
+        XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.collapseRepeatedGroups), false)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showSpecialKeys), true)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMediaKeyButtons), true)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMouseEvents), true)
@@ -289,6 +290,13 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
 
         XCTAssertTrue(self.settings.onlyShowModifiedKeystrokes)
         XCTAssertTrue(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes))
+    }
+
+    func testPersistsCollapseRepeatedGroups() {
+        self.settings.collapseRepeatedGroups = true
+
+        XCTAssertTrue(self.settings.collapseRepeatedGroups)
+        XCTAssertTrue(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.collapseRepeatedGroups))
     }
 
     func testPersistsShowSpecialKeys() {

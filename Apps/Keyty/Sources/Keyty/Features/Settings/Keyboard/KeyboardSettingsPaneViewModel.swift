@@ -108,6 +108,10 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         didSet { self.settings.onlyShowModifiedKeystrokes = self.onlyShowModifiedKeystrokes }
     }
 
+    @Published var collapseRepeatedGroups: Bool {
+        didSet { self.settings.collapseRepeatedGroups = self.collapseRepeatedGroups }
+    }
+
     @Published var showSpecialKeys: Bool {
         didSet { self.settings.showSpecialKeys = self.showSpecialKeys }
     }
@@ -140,6 +144,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         self.style = settings.style
         self.scale = Double(settings.scale)
         self.onlyShowModifiedKeystrokes = settings.onlyShowModifiedKeystrokes
+        self.collapseRepeatedGroups = settings.collapseRepeatedGroups
         self.showSpecialKeys = settings.showSpecialKeys
         self.showMediaKeyButtons = settings.showMediaKeyButtons
         self.showMouseEvents = settings.showMouseEvents
@@ -162,6 +167,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
             "\(self.anchor.rawValue)",
             "\(self.maxCount)",
             "\(self.onlyShowModifiedKeystrokes)",
+            "\(self.collapseRepeatedGroups)",
             "\(self.showSpecialKeys)",
             "\(self.showMediaKeyButtons)",
             "\(self.showMouseEvents)",
@@ -191,6 +197,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         settings.scale = Self.previewScale
         settings.windowPadding = self.settings.windowPadding
         settings.onlyShowModifiedKeystrokes = self.onlyShowModifiedKeystrokes
+        settings.collapseRepeatedGroups = self.collapseRepeatedGroups
         settings.showSpecialKeys = self.showSpecialKeys
         settings.showMediaKeyButtons = self.showMediaKeyButtons
         settings.showMouseEvents = self.showMouseEvents

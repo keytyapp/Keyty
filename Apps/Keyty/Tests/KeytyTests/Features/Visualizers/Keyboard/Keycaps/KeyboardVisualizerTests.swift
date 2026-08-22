@@ -92,4 +92,112 @@ final class KeyboardVisualizerTests: XCTestCase {
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 0)
     }
+
+    func testCollapseRepeatedGroupsReusesPreviousStandaloneKeyGroup() {
+        self.settings.collapseRepeatedGroups = true
+        self.visualizer.isPresentationActive = true
+
+        self.pressAndReleaseA()
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .a,
+            type: .keyDown,
+            characters: "a",
+            charactersIgnoringModifiers: "a"
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .a,
+            type: .keyUp,
+            characters: "a",
+            charactersIgnoringModifiers: "a"
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .a,
+            type: .keyDown,
+            characters: "a",
+            charactersIgnoringModifiers: "a"
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testCollapseRepeatedGroupsReusesPreviousChordGroup() {
+        self.settings.collapseRepeatedGroups = true
+        self.visualizer.isPresentationActive = true
+
+        let command: NSEvent.ModifierFlags = .recorded([.command])
+
+        self.pressAndReleaseCommandK(command)
+        self.visualizer.display(.modifierStateChanged(command))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .k,
+            type: .keyDown,
+            modifiers: command,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .k,
+            type: .keyUp,
+            modifiers: command,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+        self.visualizer.display(.modifierStateChanged([]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.modifierStateChanged(command))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .k,
+            type: .keyDown,
+            modifiers: command,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    private func pressAndReleaseA() {
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .a,
+            type: .keyDown,
+            characters: "a",
+            charactersIgnoringModifiers: "a"
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .a,
+            type: .keyUp,
+            characters: "a",
+            charactersIgnoringModifiers: "a"
+        )))
+    }
+
+    private func pressAndReleaseCommandK(_ command: NSEvent.ModifierFlags) {
+        self.visualizer.display(.modifierStateChanged(command))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .k,
+            type: .keyDown,
+            modifiers: command,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .k,
+            type: .keyUp,
+            modifiers: command,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+        self.visualizer.display(.modifierStateChanged([]))
+    }
 }

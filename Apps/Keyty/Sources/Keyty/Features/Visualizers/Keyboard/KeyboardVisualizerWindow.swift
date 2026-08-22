@@ -54,22 +54,40 @@ final class KeyboardVisualizerWindow: NSWindow {
     }
 
     @discardableResult
-    func appendGroup(with items: [KeycapItem]) -> KeyboardVisualizerGroupView {
-        let groupView = KeyboardVisualizerGroupView(items: items, settings: self.settings)
+    func appendGroup(
+        with items: [KeycapItem],
+        repeatCount: Int = 1,
+        defersMaxCount: Bool = false
+    ) -> KeyboardVisualizerGroupView {
+        let groupView = KeyboardVisualizerGroupView(items: items, settings: self.settings, repeatCount: repeatCount)
         self.rootView.addSubview(groupView)
         self.groupViews.append(groupView)
-        self.enforceMaxCount()
+        if !defersMaxCount {
+            self.enforceMaxCount()
+        }
         self.layoutGroups()
         self.scheduleFadeOut(for: groupView)
         return groupView
     }
 
-    func updateGroup(_ groupView: KeyboardVisualizerGroupView, with items: [KeycapItem]) {
+    func updateGroup(_ groupView: KeyboardVisualizerGroupView, with items: [KeycapItem], repeatCount: Int? = nil) {
         guard self.groupViews.contains(where: { $0 === groupView }) else { return }
-        groupView.configure(items: items, settings: self.settings)
+        groupView.configure(items: items, settings: self.settings, repeatCount: repeatCount)
         groupView.alphaValue = 1
         self.layoutGroups()
         self.scheduleFadeOut(for: groupView)
+    }
+
+    func updateRepeatCount(_ repeatCount: Int, for groupView: KeyboardVisualizerGroupView) {
+        self.updateGroup(groupView, with: groupView.currentItems, repeatCount: repeatCount)
+    }
+
+    func removeGroup(_ groupView: KeyboardVisualizerGroupView) {
+        guard self.groupViews.contains(where: { $0 === groupView }) else { return }
+        self.groupViews.removeAll { $0 === groupView }
+        groupView.removeFromSuperview()
+        self.onGroupRemoved?(groupView)
+        self.layoutGroups()
     }
 
     func removeAllGroups() {
@@ -93,7 +111,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         }
     }
 
-    private func enforceMaxCount() {
+    func enforceMaxCount() {
         let maxCount = self.settings.maxCount
         while self.groupViews.count > maxCount {
             let view = self.groupViews.removeFirst()

@@ -129,6 +129,8 @@
 "keyboard_visualizer.fade_duration.slow" = "Lente";
 "keyboard_visualizer.only_show_modified_keystrokes_label" = "Afficher uniquement les combinaisons";
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Afficher uniquement les touches utilisées avec Commande, Contrôle, Option ou Majuscule.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "Regrouper les répétitions consécutives";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "Affiche un badge de compteur lorsque la même touche ou combinaison est pressée plusieurs fois de suite.";
 "keyboard_visualizer.show_special_keys_label" = "Touches spéciales";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tabulation, Retour, flèches, fn, touches de fonction et touches similaires.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Touches multimédias";

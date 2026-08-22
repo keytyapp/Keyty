@@ -11,12 +11,20 @@ import AppKit
 struct KeycapThemeTokens {
     let swatchColor: NSColor
     let textColor: NSColor
+    
     let groupBackgroundColor: NSColor
     let groupStrokeColor: NSColor
+    
+    let badgeFillColor: NSColor
+    let badgeStrokeColor: NSColor
+    let badgeHighlightColor: NSColor
+    let badgeTextColor: NSColor
+    
     let surfaceHighlightColor: NSColor
     let surfaceBaseColor: NSColor
     let surfaceShadowColor: NSColor
     let surfaceBorderColor: NSColor
+    
     let recessColor: NSColor
     /// Optional Apple-style underside edge color override. Falls back to `recessColor`.
     let undersideEdgeColor: NSColor?
@@ -60,6 +68,42 @@ enum KeycapAppearance {
         }
     }
 
+    var badgeFillColor: NSColor {
+        switch self {
+        case .apple(let appearance): appearance.badgeFillColor
+        case .pbt(let appearance): appearance.badgeFillColor
+        case .minimal(let appearance): appearance.badgeFillColor
+        case .retro(let appearance): appearance.badgeFillColor
+        }
+    }
+
+    var badgeStrokeColor: NSColor {
+        switch self {
+        case .apple(let appearance): appearance.badgeStrokeColor
+        case .pbt(let appearance): appearance.badgeStrokeColor
+        case .minimal(let appearance): appearance.badgeStrokeColor
+        case .retro(let appearance): appearance.badgeStrokeColor
+        }
+    }
+
+    var badgeHighlightColor: NSColor {
+        switch self {
+        case .apple(let appearance): appearance.badgeHighlightColor
+        case .pbt(let appearance): appearance.badgeHighlightColor
+        case .minimal(let appearance): appearance.badgeHighlightColor
+        case .retro(let appearance): appearance.badgeHighlightColor
+        }
+    }
+
+    var badgeTextColor: NSColor {
+        switch self {
+        case .apple(let appearance): appearance.badgeTextColor
+        case .pbt(let appearance): appearance.badgeTextColor
+        case .minimal(let appearance): appearance.badgeTextColor
+        case .retro(let appearance): appearance.badgeTextColor
+        }
+    }
+
     var apple: Apple? {
         guard case .apple(let appearance) = self else { return nil }
         return appearance
@@ -87,6 +131,10 @@ extension KeycapAppearance {
         let textColor: NSColor
         let groupBackgroundColor: NSColor
         let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
         let strokeColor: NSColor
         let undersideGradient: NSGradient?
         let mainGradient: NSGradient?
@@ -95,6 +143,10 @@ extension KeycapAppearance {
             self.textColor = tokens.textColor
             self.groupBackgroundColor = tokens.groupBackgroundColor
             self.groupStrokeColor = tokens.groupStrokeColor
+            self.badgeFillColor = tokens.badgeFillColor
+            self.badgeStrokeColor = tokens.badgeStrokeColor
+            self.badgeHighlightColor = tokens.badgeHighlightColor
+            self.badgeTextColor = tokens.badgeTextColor
             self.strokeColor = tokens.surfaceBorderColor
             let undersideEdgeColor = tokens.undersideEdgeColor ?? tokens.recessColor
             let undersideCenterColor = tokens.undersideCenterColor ?? tokens.surfaceBaseColor
@@ -114,6 +166,10 @@ extension KeycapAppearance {
         let textColor: NSColor
         let groupBackgroundColor: NSColor
         let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
         let bodyGradient: NSGradient?
         let bodyStrokeColor: NSColor
         let underDishColor: NSColor
@@ -130,6 +186,10 @@ extension KeycapAppearance {
             self.textColor = tokens.textColor
             self.groupBackgroundColor = tokens.groupBackgroundColor
             self.groupStrokeColor = tokens.groupStrokeColor
+            self.badgeFillColor = tokens.badgeFillColor
+            self.badgeStrokeColor = tokens.badgeStrokeColor
+            self.badgeHighlightColor = tokens.badgeHighlightColor
+            self.badgeTextColor = tokens.badgeTextColor
             self.bodyGradient = NSGradient(colorsAndLocations:
                 (bodyTop, 0.0),
                 (bodyMid, 0.48),
@@ -149,11 +209,19 @@ extension KeycapAppearance {
         let textColor: NSColor
         let groupBackgroundColor: NSColor
         let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
 
         init(tokens: KeycapThemeTokens) {
             self.textColor = tokens.textColor
             self.groupBackgroundColor = tokens.groupBackgroundColor
             self.groupStrokeColor = tokens.groupStrokeColor
+            self.badgeFillColor = tokens.badgeFillColor
+            self.badgeStrokeColor = tokens.badgeStrokeColor
+            self.badgeHighlightColor = tokens.badgeHighlightColor
+            self.badgeTextColor = tokens.badgeTextColor
         }
     }
     
@@ -161,6 +229,10 @@ extension KeycapAppearance {
         let textColor: NSColor
         let groupBackgroundColor: NSColor
         let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
         let lipGradient: NSGradient?
         let bodyShadowColor: NSColor
         let bodyGradient: NSGradient?
@@ -191,6 +263,10 @@ extension KeycapAppearance {
             self.textColor = tokens.textColor
             self.groupBackgroundColor = groupBackgroundColor
             self.groupStrokeColor = groupStrokeColor
+            self.badgeFillColor = tokens.badgeFillColor
+            self.badgeStrokeColor = tokens.badgeStrokeColor
+            self.badgeHighlightColor = tokens.badgeHighlightColor
+            self.badgeTextColor = tokens.badgeTextColor
             self.lipGradient = NSGradient(colorsAndLocations:
                 (lipEdge, 0.0),
                 (lipCenter, 0.5),

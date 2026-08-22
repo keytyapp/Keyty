@@ -47,14 +47,38 @@ extension KeyboardVisualizerTheme {
 
 // MARK: - Tokens
 extension KeyboardVisualizerTheme {
+    private static func badgeTokens(swatchColor: NSColor, textColor: NSColor) -> (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
+        let baseFill = swatchColor.relativeLuminance > 0.6
+            ? swatchColor.darkened(by: 0.12)
+            : swatchColor.lightened(by: 0.08)
+        let stroke = baseFill.relativeLuminance > 0.5
+            ? baseFill.darkened(by: 0.12)
+            : baseFill.lightened(by: 0.18)
+
+        return (
+            fill: baseFill.withAlphaComponent(0.96),
+            stroke: stroke.withAlphaComponent(0.56),
+            highlight: NSColor.white.withAlphaComponent(baseFill.relativeLuminance > 0.5 ? 0.12 : 0.18),
+            text: textColor
+        )
+    }
+
     var tokens: KeycapThemeTokens {
         switch self {
         case .white:
+            let textColor = NSColor(calibratedRed: 0.388, green: 0.384, blue: 0.365, alpha: 1)
+            let groupBackgroundColor = NSColor(white: 0.90, alpha: 0.92)
+            let swatchColor = NSColor(white: 0.96, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(white: 0.96, alpha: 1),
-                textColor: NSColor(calibratedRed: 0.388, green: 0.384, blue: 0.365, alpha: 1),
-                groupBackgroundColor: NSColor(white: 0.90, alpha: 0.92),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(white: 0.75, alpha: 0.7),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(white: 0.99, alpha: 1),
                 surfaceBaseColor: NSColor(white: 0.94, alpha: 1),
                 surfaceShadowColor: NSColor(white: 0.88, alpha: 1),
@@ -64,11 +88,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .black:
+            let textColor = NSColor.white
+            let groupBackgroundColor = NSColor(white: 0.09, alpha: 0.95)
+            let swatchColor = NSColor(white: 0.08, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(white: 0.08, alpha: 1),
-                textColor: .white,
-                groupBackgroundColor: NSColor(white: 0.09, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(white: 0.24, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(white: 0.22, alpha: 1),
                 surfaceBaseColor: NSColor(white: 0.035, alpha: 1),
                 surfaceShadowColor: NSColor(white: 0.05, alpha: 1),
@@ -78,11 +110,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: NSColor(white: 0.11, alpha: 1)
             )
         case .citrus:
+            let textColor = NSColor(calibratedRed: 0.388, green: 0.384, blue: 0.365, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.804, green: 0.804, blue: 0.522, alpha: 0.9)
+            let swatchColor = NSColor(calibratedRed: 0.945, green: 0.937, blue: 0.749, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.945, green: 0.937, blue: 0.749, alpha: 1),
-                textColor: NSColor(calibratedRed: 0.388, green: 0.384, blue: 0.365, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.804, green: 0.804, blue: 0.522, alpha: 0.9),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.682, green: 0.675, blue: 0.400, alpha: 0.65),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.980, green: 0.976, blue: 0.824, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.945, green: 0.937, blue: 0.749, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.902, green: 0.890, blue: 0.659, alpha: 1),
@@ -92,11 +132,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .green:
+            let textColor = NSColor(calibratedWhite: 0.98, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.120, green: 0.145, blue: 0.060, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 0.470, green: 0.905, blue: 0.000, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.470, green: 0.905, blue: 0.000, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.98, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.120, green: 0.145, blue: 0.060, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.360, green: 0.650, blue: 0.060, alpha: 0.60),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.570, green: 0.965, blue: 0.060, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.460, green: 0.900, blue: 0.000, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.350, green: 0.720, blue: 0.000, alpha: 1),
@@ -106,11 +154,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .blue:
+            let textColor = NSColor(calibratedWhite: 0.98, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.080, green: 0.100, blue: 0.165, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 0.220, green: 0.420, blue: 1.000, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.220, green: 0.420, blue: 1.000, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.98, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.080, green: 0.100, blue: 0.165, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.245, green: 0.430, blue: 0.900, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.330, green: 0.570, blue: 1.000, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.230, green: 0.455, blue: 1.000, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.110, green: 0.315, blue: 0.940, alpha: 1),
@@ -120,11 +176,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .indigo:
+            let textColor = NSColor(calibratedRed: 0.231, green: 0.247, blue: 0.267, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.220, green: 0.251, blue: 0.314, alpha: 0.92)
+            let swatchColor = NSColor(calibratedRed: 0.565, green: 0.596, blue: 0.690, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.565, green: 0.596, blue: 0.690, alpha: 1),
-                textColor: NSColor(calibratedRed: 0.231, green: 0.247, blue: 0.267, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.220, green: 0.251, blue: 0.314, alpha: 0.92),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.471, green: 0.518, blue: 0.631, alpha: 0.65),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.624, green: 0.655, blue: 0.749, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.565, green: 0.596, blue: 0.690, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.490, green: 0.522, blue: 0.616, alpha: 1),
@@ -134,11 +198,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .rose:
+            let textColor = NSColor(calibratedRed: 0.349, green: 0.337, blue: 0.333, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.761, green: 0.686, blue: 0.671, alpha: 0.9)
+            let swatchColor = NSColor(calibratedRed: 0.941, green: 0.878, blue: 0.878, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.941, green: 0.878, blue: 0.878, alpha: 1),
-                textColor: NSColor(calibratedRed: 0.349, green: 0.337, blue: 0.333, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.761, green: 0.686, blue: 0.671, alpha: 0.9),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.804, green: 0.725, blue: 0.729, alpha: 0.65),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.973, green: 0.918, blue: 0.922, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.941, green: 0.878, blue: 0.878, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.894, green: 0.816, blue: 0.824, alpha: 1),
@@ -148,11 +220,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .red:
+            let textColor = NSColor(calibratedWhite: 0.99, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.170, green: 0.085, blue: 0.075, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 1.000, green: 0.278, blue: 0.251, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 1.000, green: 0.278, blue: 0.251, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.99, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.170, green: 0.085, blue: 0.075, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.500, green: 0.185, blue: 0.150, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 1.000, green: 0.390, blue: 0.355, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 1.000, green: 0.295, blue: 0.265, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.215, blue: 0.200, alpha: 1),
@@ -162,11 +242,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .purple:
+            let textColor = NSColor(calibratedWhite: 0.98, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.12, green: 0.01, blue: 0.25, alpha: 0.94)
+            let swatchColor = NSColor(calibratedRed: 0.36, green: 0.18, blue: 0.69, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.36, green: 0.18, blue: 0.69, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.98, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.12, green: 0.01, blue: 0.25, alpha: 0.94),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.25, green: 0.12, blue: 0.46, alpha: 0.72),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.53, green: 0.31, blue: 0.86, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.45, green: 0.24, blue: 0.79, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.39, green: 0.20, blue: 0.73, alpha: 1),
@@ -176,11 +264,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .yellow:
+            let textColor = NSColor(calibratedWhite: 0.99, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.160, green: 0.120, blue: 0.050, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 0.995, green: 0.724, blue: 0.192, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.995, green: 0.724, blue: 0.192, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.99, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.160, green: 0.120, blue: 0.050, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.435, green: 0.322, blue: 0.112, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 1.000, green: 0.801, blue: 0.290, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.994, green: 0.714, blue: 0.182, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.610, blue: 0.120, alpha: 1),
@@ -190,11 +286,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .orange:
+            let textColor = NSColor(calibratedWhite: 0.99, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.175, green: 0.105, blue: 0.050, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 0.996, green: 0.446, blue: 0.120, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.996, green: 0.446, blue: 0.120, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.99, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.175, green: 0.105, blue: 0.050, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.520, green: 0.255, blue: 0.095, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 1.000, green: 0.520, blue: 0.195, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 1.000, green: 0.455, blue: 0.135, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.925, green: 0.340, blue: 0.085, alpha: 1),
@@ -204,11 +308,19 @@ extension KeyboardVisualizerTheme {
                 undersideCenterColor: nil
             )
         case .pink:
+            let textColor = NSColor(calibratedWhite: 0.99, alpha: 1)
+            let groupBackgroundColor = NSColor(calibratedRed: 0.160, green: 0.075, blue: 0.145, alpha: 0.95)
+            let swatchColor = NSColor(calibratedRed: 0.900, green: 0.205, blue: 0.785, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
             return KeycapThemeTokens(
-                swatchColor: NSColor(calibratedRed: 0.900, green: 0.205, blue: 0.785, alpha: 1),
-                textColor: NSColor(calibratedWhite: 0.99, alpha: 1),
-                groupBackgroundColor: NSColor(calibratedRed: 0.160, green: 0.075, blue: 0.145, alpha: 0.95),
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: NSColor(calibratedRed: 0.455, green: 0.165, blue: 0.395, alpha: 0.62),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
                 surfaceHighlightColor: NSColor(calibratedRed: 0.935, green: 0.305, blue: 0.835, alpha: 1),
                 surfaceBaseColor: NSColor(calibratedRed: 0.905, green: 0.225, blue: 0.800, alpha: 1),
                 surfaceShadowColor: NSColor(calibratedRed: 0.820, green: 0.155, blue: 0.710, alpha: 1),
@@ -228,12 +340,20 @@ extension KeyboardVisualizerTheme {
         guard let legendColorOverride else {
             return tokens
         }
+        let badge = Self.badgeTokens(
+            swatchColor: tokens.swatchColor,
+            textColor: legendColorOverride
+        )
 
         return KeycapThemeTokens(
             swatchColor: tokens.swatchColor,
             textColor: legendColorOverride,
             groupBackgroundColor: tokens.groupBackgroundColor,
             groupStrokeColor: tokens.groupStrokeColor,
+            badgeFillColor: badge.fill,
+            badgeStrokeColor: badge.stroke,
+            badgeHighlightColor: badge.highlight,
+            badgeTextColor: badge.text,
             surfaceHighlightColor: tokens.surfaceHighlightColor,
             surfaceBaseColor: tokens.surfaceBaseColor,
             surfaceShadowColor: tokens.surfaceShadowColor,

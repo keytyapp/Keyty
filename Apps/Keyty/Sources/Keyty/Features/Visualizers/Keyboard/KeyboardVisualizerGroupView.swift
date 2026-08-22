@@ -194,10 +194,10 @@ final class KeyboardVisualizerGroupView: NSView {
         let font = NSFont.systemFont(ofSize: 15, weight: .semibold)
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .center
-        let colors = self.repeatBadgeColors
+        let appearance = self.settings.groupAppearance
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: colors.text,
+            .foregroundColor: appearance.badgeTextColor,
             .paragraphStyle: paragraphStyle,
         ]
         let labelSize = badgeText.size(withAttributes: attributes)
@@ -215,9 +215,9 @@ final class KeyboardVisualizerGroupView: NSView {
             xRadius: badgeHeight / 2,
             yRadius: badgeHeight / 2
         )
-        colors.fill.setFill()
+        appearance.badgeFillColor.setFill()
         badgePath.fill()
-        colors.stroke.setStroke()
+        appearance.badgeStrokeColor.setStroke()
         badgePath.lineWidth = StrokeWidth.standard
         badgePath.stroke()
 
@@ -227,7 +227,7 @@ final class KeyboardVisualizerGroupView: NSView {
             xRadius: highlightRect.height / 2,
             yRadius: highlightRect.height / 2
         )
-        colors.highlight.setStroke()
+        appearance.badgeHighlightColor.setStroke()
         highlightPath.lineWidth = 1
         highlightPath.stroke()
 
@@ -239,15 +239,6 @@ final class KeyboardVisualizerGroupView: NSView {
                 height: labelSize.height
             ),
             withAttributes: attributes
-        )
-    }
-
-    private var repeatBadgeColors: (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
-        return (
-            fill: NSColor(calibratedWhite: 0.16, alpha: 0.90),
-            stroke: NSColor(calibratedWhite: 0.78, alpha: 0.22),
-            highlight: NSColor.white.withAlphaComponent(0.12),
-            text: NSColor(calibratedWhite: 0.98, alpha: 0.96)
         )
     }
 }

@@ -9,11 +9,49 @@
 import AppKit
 
 struct KeycapLegendRenderer {
-    func draw(item: KeycapItem, in keycapRect: NSRect, textColor: NSColor) {
+    func draw(
+        item: KeycapItem,
+        in keycapRect: NSRect,
+        textColor: NSColor,
+        centeredLabelWidth: CGFloat? = nil
+    ) {
         let centerPara = NSMutableParagraphStyle()
         centerPara.alignment = .center
 
         if let label = item.label {
+            if item.rendersCenteredLabel {
+                let attrs: [NSAttributedString.Key: Any] = [
+                    .font: CommonKeycapMetrics.labelFont,
+                    .foregroundColor: textColor,
+                    .paragraphStyle: centerPara,
+                ]
+                let centeredWidth = min(
+                    centeredLabelWidth ?? (keycapRect.width - 2 * CommonKeycapMetrics.horizontalPadding),
+                    keycapRect.width - 2 * CommonKeycapMetrics.horizontalPadding
+                )
+                let bounds = NSRect(
+                    x: keycapRect.midX - centeredWidth / 2,
+                    y: keycapRect.minY,
+                    width: centeredWidth,
+                    height: keycapRect.height
+                )
+                let size = label.boundingRect(
+                    with: bounds.size,
+                    options: [.usesLineFragmentOrigin, .usesFontLeading],
+                    attributes: attrs
+                ).integral.size
+                label.draw(
+                    in: NSRect(
+                        x: bounds.minX,
+                        y: keycapRect.midY - size.height / 2,
+                        width: bounds.width,
+                        height: size.height
+                    ),
+                    withAttributes: attrs
+                )
+                return
+            }
+
             let leftPara = NSMutableParagraphStyle()
             leftPara.alignment = .left
 

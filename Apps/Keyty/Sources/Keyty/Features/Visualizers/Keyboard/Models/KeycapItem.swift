@@ -41,6 +41,7 @@ struct KeycapItem {
     var sfSymbolName: String? { self.legend.sfSymbolName }
     var label: String? { self.legend.label }
     var rendersSymbolWithLabel: Bool { self.legend.rendersSymbolWithLabel }
+    var rendersCenteredLabel: Bool { self.legend.rendersCenteredLabel }
     var isPressed: Bool { self.state.isPressed }
     var fixedWidth: CGFloat? { self.layoutHints.fixedWidth }
 }

@@ -44,6 +44,20 @@ struct AppleKeycapRenderer: KeycapRendering {
         path.lineWidth = StrokeWidth.standard
         path.stroke()
 
-        self.legendRenderer.draw(item: item, in: keycapRect, textColor: appearance.textColor)
+        self.legendRenderer.draw(
+            item: item,
+            in: keycapRect,
+            textColor: appearance.textColor,
+            centeredLabelWidth: self.centeredLabelWidth(for: item)
+        )
+    }
+
+    private func centeredLabelWidth(for item: KeycapItem) -> CGFloat? {
+        switch item.identity {
+        case .keyCode(KeyboardKeyCode.pageUp.rawValue), .keyCode(KeyboardKeyCode.pageDown.rawValue):
+            return AppleKeycapMetrics.pageNavigationLabelWidth
+        default:
+            return nil
+        }
     }
 }

@@ -18,6 +18,7 @@ struct KeycapLegend {
     let sfSymbolName: String?
     let label: String?
     let rendersSymbolWithLabel: Bool
+    let rendersCenteredLabel: Bool
 
     init(
         symbol: String = "",
@@ -25,7 +26,8 @@ struct KeycapLegend {
         imageBadgeText: String? = nil,
         sfSymbolName: String? = nil,
         label: String? = nil,
-        rendersSymbolWithLabel: Bool = false
+        rendersSymbolWithLabel: Bool = false,
+        rendersCenteredLabel: Bool = false
     ) {
         self.symbol = symbol
         self.image = image
@@ -33,6 +35,7 @@ struct KeycapLegend {
         self.sfSymbolName = sfSymbolName
         self.label = label
         self.rendersSymbolWithLabel = rendersSymbolWithLabel
+        self.rendersCenteredLabel = rendersCenteredLabel
     }
 }
 
@@ -74,5 +77,9 @@ extension KeycapLegend {
     static let `return` = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .returnKey), label: KeyboardSpecialKey.returnKey.label)
     static let enter = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .keypadEnter), label: KeyboardSpecialKey.keypadEnter.label)
     static let space = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .space))
+    static let home = KeycapLegend(label: "home", rendersCenteredLabel: true)
+    static let end = KeycapLegend(label: "end", rendersCenteredLabel: true)
+    static let pageUp = KeycapLegend(label: "page up", rendersCenteredLabel: true)
+    static let pageDown = KeycapLegend(label: "page down", rendersCenteredLabel: true)
     static let capsLock = KeycapLegend(label: KeyboardSpecialKey.capsLock.label)
 }

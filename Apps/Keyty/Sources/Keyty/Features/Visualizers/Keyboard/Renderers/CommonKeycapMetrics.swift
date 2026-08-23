@@ -27,6 +27,8 @@ enum CommonKeycapMetrics {
         .keyCode(KeyboardKeyCode.escape.rawValue): 112,
         .keyCode(KeyboardKeyCode.delete.rawValue): 112,
         .keyCode(KeyboardKeyCode.forwardDelete.rawValue): 112,
+        .keyCode(KeyboardKeyCode.pageUp.rawValue): AppleKeycapMetrics.minWidth,
+        .keyCode(KeyboardKeyCode.pageDown.rawValue): AppleKeycapMetrics.minWidth,
         .keyCode(KeyboardKeyCode.returnKey.rawValue): 128,
         .keyCode(KeyboardKeyCode.keypadEnter.rawValue): 128,
         .keyCode(KeyboardKeyCode.capsLock.rawValue): 144,

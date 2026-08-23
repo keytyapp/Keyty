@@ -77,5 +77,9 @@ extension KeycapLegend {
     static let `return` = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .returnKey), label: KeyboardSpecialKey.returnKey.label)
     static let enter = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .keypadEnter), label: KeyboardSpecialKey.keypadEnter.label)
     static let space = KeycapLegend(symbol: KeyboardGlyphCatalog.symbol(for: .space))
+    static let home = KeycapLegend(label: "home", rendersCenteredLabel: true)
+    static let end = KeycapLegend(label: "end", rendersCenteredLabel: true)
+    static let pageUp = KeycapLegend(label: "page up", rendersCenteredLabel: true)
+    static let pageDown = KeycapLegend(label: "page down", rendersCenteredLabel: true)
     static let capsLock = KeycapLegend(label: KeyboardSpecialKey.capsLock.label)
 }

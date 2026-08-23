@@ -9,6 +9,7 @@
 import XCTest
 @testable import Keyty
 
+@MainActor
 final class KeyboardSettingsPreviewTests: XCTestCase {
     private var store: InMemoryKeyValueStore!
     private var settings: KeyboardVisualizerSettings!

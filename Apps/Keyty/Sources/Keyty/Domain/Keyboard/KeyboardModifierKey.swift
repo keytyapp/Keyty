@@ -34,6 +34,15 @@ extension KeyboardModifierKey {
             }
         }
     }
+    
+    var legendAlignment: KeycapLegendAlignment {
+        switch self.location {
+        case .left:
+            return .right
+        case .right:
+            return .left
+        }
+    }
 }
 
 // MARK: - Helpers

@@ -71,7 +71,14 @@ extension KeyboardVisualizerGroupView {
 // MARK: - NSView
 extension KeyboardVisualizerGroupView {
     var preferredSize: NSSize {
-        NSSize(width: self.baseSize.width * self.scale, height: self.baseSize.height * self.scale)
+        let scaledSize = NSSize(
+            width: self.baseSize.width * self.scale,
+            height: self.baseSize.height * self.scale
+        )
+        return NSSize(
+            width: max(0, scaledSize.width.rounded(.up)),
+            height: max(0, scaledSize.height.rounded(.up))
+        )
     }
 
     override var intrinsicContentSize: NSSize {

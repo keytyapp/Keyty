@@ -21,6 +21,18 @@ struct SettingsPaneRegistry {
     let entries: [SettingsPaneEntry]
 
     init(context: SettingsContext, displaysViewModel: DisplaysSettingsPaneViewModel) {
+        self.init(
+            context: context,
+            displaysViewModel: displaysViewModel,
+            settingsTransferPanelPresenter: .live
+        )
+    }
+
+    init(
+        context: SettingsContext,
+        displaysViewModel: DisplaysSettingsPaneViewModel,
+        settingsTransferPanelPresenter: SettingsTransferPanelPresenter
+    ) {
         self.entries = [
             SettingsPaneEntry(
                 id: .general,
@@ -33,6 +45,16 @@ struct SettingsPaneRegistry {
                             appSettings: context.appSettings,
                             onResetAllSettingsToDefaults: {
                                 context.resetAllSettingsToDefaults()
+                                displaysViewModel.reloadFromSettings()
+                            },
+                            onExportSettings: {
+                                guard let url = settingsTransferPanelPresenter.presentExportPanel() else { return }
+                                try context.exportSettings(to: url)
+                            },
+                            onImportSettings: {
+                                guard let url = settingsTransferPanelPresenter.presentImportPanel() else { return }
+                                try context.importSettings(from: url)
+                                displaysViewModel.reloadFromSettings()
                             }
                         )
                     )

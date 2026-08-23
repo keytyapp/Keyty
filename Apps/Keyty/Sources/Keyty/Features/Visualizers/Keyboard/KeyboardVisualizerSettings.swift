@@ -114,6 +114,17 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         },
         write: { store, key, value in
             store.set(value.storedValue, forKey: key)
+        },
+        import: { _, key, value, defaultValue, apply in
+            if let intValue = value as? Int {
+                apply(KeyboardVisualizerStackAxis(storedValue: intValue))
+                return
+            }
+            if let number = value as? NSNumber {
+                apply(KeyboardVisualizerStackAxis(storedValue: number.intValue))
+                return
+            }
+            throw StoredSettingImportError.invalidValue(key: key, expected: "Int", actual: value)
         }
     ))
     var stackAxis: KeyboardVisualizerStackAxis
@@ -269,6 +280,21 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         },
         write: { store, key, value in
             store.set(Int(value), forKey: key)
+        },
+        import: { _, key, value, defaultValue, apply in
+            if let intValue = value as? Int {
+                apply(CGDirectDisplayID(max(0, intValue)))
+                return
+            }
+            if let number = value as? NSNumber {
+                apply(CGDirectDisplayID(max(0, number.intValue)))
+                return
+            }
+            if let displayID = value as? CGDirectDisplayID {
+                apply(displayID)
+                return
+            }
+            apply(defaultValue)
         }
     ))
     var screenID: CGDirectDisplayID {

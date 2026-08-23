@@ -79,6 +79,18 @@
 "general.reset_all_settings_confirmation_message" = "Spowoduje to zresetowanie ustawień klawiatury, myszy, ekranu, aplikacji i skrótów do wartości domyślnych.";
 "general.reset_all_settings_confirmation_button" = "Zresetuj ustawienia";
 "general.reset_all_settings_cancel_button" = "Anuluj";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "Wybrany plik nie jest prawidłowym archiwum ustawień Keyty.";
+"general.settings_transfer_unsupported_schema_version_message" = "To archiwum ustawień używa nieobsługiwanej wersji schematu (%@).";
+"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń. Wymagane jest uprawnienie Dostępność.";

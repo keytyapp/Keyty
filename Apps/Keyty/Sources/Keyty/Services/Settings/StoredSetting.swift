@@ -23,8 +23,11 @@ protocol PlacementReactiveSettings: AnyObject {
 }
 
 protocol AnyStoredSetting {
+    var key: String { get }
     var defaultRegistration: (key: String, value: Any)? { get }
     func reset(in store: KeyValueStore)
+    func exportedValue(from store: KeyValueStore) -> Any?
+    func applyImportedValue(_ value: Any, in store: KeyValueStore) throws
 }
 
 private protocol AnyOptional {
@@ -41,6 +44,8 @@ struct StoredDescriptor<Value> {
     let registrationValue: Any
     let read: (KeyValueStore, String, Value) -> Value
     let write: (KeyValueStore, String, Value) -> Void
+    let export: (KeyValueStore, String) -> Any?
+    let `import`: (KeyValueStore, String, Any, Value, (Value) -> Void) throws -> Void
 
     func get(from store: KeyValueStore) -> Value {
         self.read(store, self.key, self.defaultValue)
@@ -48,6 +53,16 @@ struct StoredDescriptor<Value> {
 
     func set(_ value: Value, in store: KeyValueStore) {
         self.write(store, self.key, value)
+    }
+
+    func exportedValue(from store: KeyValueStore) -> Any? {
+        self.export(store, self.key)
+    }
+
+    func applyImportedValue(_ value: Any, in store: KeyValueStore) throws {
+        try self.import(store, self.key, value, self.defaultValue) { importedValue in
+            self.set(importedValue, in: store)
+        }
     }
 }
 
@@ -59,6 +74,8 @@ struct Stored<Value>: AnyStoredSetting {
         self.descriptor = descriptor
     }
 
+    var key: String { self.descriptor.key }
+
     var defaultRegistration: (key: String, value: Any)? {
         if let optional = self.descriptor.registrationValue as? AnyOptional, optional.isNil {
             return nil
@@ -68,6 +85,14 @@ struct Stored<Value>: AnyStoredSetting {
 
     func reset(in store: KeyValueStore) {
         store.removeObject(forKey: self.descriptor.key)
+    }
+
+    func exportedValue(from store: KeyValueStore) -> Any? {
+        self.descriptor.exportedValue(from: store)
+    }
+
+    func applyImportedValue(_ value: Any, in store: KeyValueStore) throws {
+        try self.descriptor.applyImportedValue(value, in: store)
     }
 
     @available(*, unavailable, message: "@Stored can only be used on reference types that conform to HasSettingsStore.")
@@ -103,14 +128,33 @@ enum StoredDefaults {
 }
 
 extension HasSettingsStore {
+    var storedSettings: [AnyStoredSetting] {
+        Mirror(reflecting: self).children.compactMap { $0.value as? AnyStoredSetting }
+    }
+
     func registerStoredDefaults() {
         StoredDefaults.register(from: self, into: self.store)
     }
 
     func resetStoredSettingsToDefaults() {
-        Mirror(reflecting: self).children.forEach { child in
-            (child.value as? AnyStoredSetting)?.reset(in: self.store)
+        self.storedSettings.forEach { $0.reset(in: self.store) }
+    }
+}
+
+enum StoredSettingImportError: Error, LocalizedError {
+    case invalidValue(key: String, expected: String, actual: Any.Type)
+
+    var errorDescription: String? {
+        switch self {
+        case .invalidValue(let key, let expected, let actual):
+            return "Invalid value for setting \"\(key)\". Expected \(expected), got \(String(describing: actual))."
         }
+    }
+}
+
+extension StoredSettingImportError {
+    static func invalidValue(key: String, expected: String, actual value: Any) -> Self {
+        .invalidValue(key: key, expected: expected, actual: Swift.type(of: value))
     }
 }
 
@@ -121,7 +165,19 @@ extension StoredDescriptor where Value == Bool {
             defaultValue: defaultValue,
             registrationValue: defaultValue,
             read: { store, key, _ in store.bool(forKey: key) },
-            write: { store, key, value in store.set(value, forKey: key) }
+            write: { store, key, value in store.set(value, forKey: key) },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, _, apply in
+                if let boolValue = value as? Bool {
+                    apply(boolValue)
+                    return
+                }
+                if let number = value as? NSNumber {
+                    apply(number.boolValue)
+                    return
+                }
+                throw StoredSettingImportError.invalidValue(key: key, expected: "Bool", actual: value)
+            }
         )
     }
 }
@@ -132,14 +188,18 @@ extension StoredDescriptor {
         default defaultValue: Value,
         registrationValue: Any,
         read: @escaping (KeyValueStore, String, Value) -> Value,
-        write: @escaping (KeyValueStore, String, Value) -> Void
+        write: @escaping (KeyValueStore, String, Value) -> Void,
+        export: @escaping (KeyValueStore, String) -> Any? = { store, key in store.object(forKey: key) },
+        import: @escaping (KeyValueStore, String, Any, Value, (Value) -> Void) throws -> Void
     ) -> Self {
         Self(
             key: key,
             defaultValue: defaultValue,
             registrationValue: registrationValue,
             read: read,
-            write: write
+            write: write,
+            export: export,
+            import: `import`
         )
     }
 }
@@ -162,6 +222,18 @@ extension StoredDescriptor where Value == Int {
             write: { store, key, value in
                 let sanitizedValue = range.map { min(max(value, $0.lowerBound), $0.upperBound) } ?? value
                 store.set(sanitizedValue, forKey: key)
+            },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, _, apply in
+                if let intValue = value as? Int {
+                    apply(intValue)
+                    return
+                }
+                if let number = value as? NSNumber {
+                    apply(number.intValue)
+                    return
+                }
+                throw StoredSettingImportError.invalidValue(key: key, expected: "Int", actual: value)
             }
         )
     }
@@ -189,6 +261,18 @@ extension StoredDescriptor where Value == CGFloat {
             write: { store, key, value in
                 let sanitizedValue = range.map { min(max(value, $0.lowerBound), $0.upperBound) } ?? value
                 store.set(sanitizedValue, forKey: key)
+            },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, _, apply in
+                if let floatValue = value as? CGFloat {
+                    apply(floatValue)
+                    return
+                }
+                if let number = value as? NSNumber {
+                    apply(CGFloat(number.doubleValue))
+                    return
+                }
+                throw StoredSettingImportError.invalidValue(key: key, expected: "CGFloat", actual: value)
             }
         )
     }
@@ -207,6 +291,13 @@ extension StoredDescriptor where Value == Data? {
                 } else {
                     store.removeObject(forKey: key)
                 }
+            },
+            export: { store, key in store.data(forKey: key) },
+            import: { _, key, value, _, apply in
+                guard let dataValue = value as? Data else {
+                    throw StoredSettingImportError.invalidValue(key: key, expected: "Data", actual: value)
+                }
+                apply(dataValue)
             }
         )
     }
@@ -219,7 +310,14 @@ extension StoredDescriptor where Value == NSColor {
             defaultValue: defaultValue,
             registrationValue: defaultValue.hexString,
             read: { store, key, defaultValue in store.color(forKey: key) ?? defaultValue },
-            write: { store, key, value in store.set(value.hexString, forKey: key) }
+            write: { store, key, value in store.set(value.hexString, forKey: key) },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, defaultValue, apply in
+                guard let stringValue = value as? String else {
+                    throw StoredSettingImportError.invalidValue(key: key, expected: "String", actual: value)
+                }
+                apply(NSColor(hexString: stringValue) ?? defaultValue)
+            }
         )
     }
 }
@@ -233,7 +331,19 @@ extension StoredDescriptor where Value: RawRepresentable, Value.RawValue == Int 
             read: { store, key, defaultValue in
                 Value(rawValue: store.integer(forKey: key)) ?? defaultValue
             },
-            write: { store, key, value in store.set(value.rawValue, forKey: key) }
+            write: { store, key, value in store.set(value.rawValue, forKey: key) },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, defaultValue, apply in
+                if let rawValue = value as? Int {
+                    apply(Value(rawValue: rawValue) ?? defaultValue)
+                    return
+                }
+                if let number = value as? NSNumber {
+                    apply(Value(rawValue: number.intValue) ?? defaultValue)
+                    return
+                }
+                throw StoredSettingImportError.invalidValue(key: key, expected: "Int", actual: value)
+            }
         )
     }
 }
@@ -251,7 +361,14 @@ extension StoredDescriptor where Value: RawRepresentable, Value.RawValue == Stri
                 }
                 return value
             },
-            write: { store, key, value in store.set(value.rawValue, forKey: key) }
+            write: { store, key, value in store.set(value.rawValue, forKey: key) },
+            export: { store, key in store.object(forKey: key) },
+            import: { _, key, value, defaultValue, apply in
+                guard let rawValue = value as? String else {
+                    throw StoredSettingImportError.invalidValue(key: key, expected: "String", actual: value)
+                }
+                apply(Value(rawValue: rawValue) ?? defaultValue)
+            }
         )
     }
 }

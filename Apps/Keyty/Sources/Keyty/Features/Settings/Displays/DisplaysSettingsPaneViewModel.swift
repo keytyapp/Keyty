@@ -159,6 +159,21 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     func finishCustomPositionSetting() {
         self.stopCustomPositionSetting()
     }
+
+    func reloadFromSettings() {
+        self.screens = self.screensService.screens
+        self.selectedScreen = self.resolveSelectedScreen(for: self.keyboardVisualizerSettings.screenID)
+        self.selectedAnchor = self.keyboardVisualizerSettings.anchor
+        self.placementMode = self.keyboardVisualizerSettings.placementMode
+        self.windowPadding = Double(self.keyboardVisualizerSettings.windowPadding)
+        self.customPositionNormalizedX = Double(self.keyboardVisualizerSettings.customPositionNormalizedX)
+        self.customPositionNormalizedY = Double(self.keyboardVisualizerSettings.customPositionNormalizedY)
+        self.customHorizontalAlignment = self.keyboardVisualizerSettings.customHorizontalAlignment
+        self.customVerticalAlignment = self.keyboardVisualizerSettings.customVerticalAlignment
+        self.stackAxis = self.keyboardVisualizerSettings.stackAxis
+        self.scale = Double(self.keyboardVisualizerSettings.scale)
+        self.isSettingCustomPosition = false
+    }
 }
 
 extension DisplaysSettingsPaneViewModel {

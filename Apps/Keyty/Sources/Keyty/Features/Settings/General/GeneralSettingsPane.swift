@@ -15,12 +15,16 @@ struct GeneralSettingsPane: View {
     init(
         shortcutManager: ShortcutManager,
         appSettings: any AppSettingsProtocol,
-        onResetAllSettingsToDefaults: @escaping @MainActor () -> Void
+        onResetAllSettingsToDefaults: @escaping @MainActor () -> Void,
+        onExportSettings: @escaping @MainActor () throws -> Void,
+        onImportSettings: @escaping @MainActor () throws -> Void
     ) {
         _model = StateObject(wrappedValue: GeneralSettingsPaneViewModel(
             shortcutManager: shortcutManager,
             appSettings: appSettings,
-            onResetAllSettingsToDefaults: onResetAllSettingsToDefaults
+            onResetAllSettingsToDefaults: onResetAllSettingsToDefaults,
+            onExportSettings: onExportSettings,
+            onImportSettings: onImportSettings
         ))
     }
 
@@ -62,6 +66,32 @@ struct GeneralSettingsPane: View {
 
             SettingsSectionView(title: L10n.General.settingsSectionTitle) {
                 SettingsControlRow(
+                    title: L10n.General.exportSettingsTitle,
+                    subtitle: L10n.General.exportSettingsSubtitle
+                ) {
+                    Button(L10n.General.exportSettingsButton) {
+                        self.model.exportSettings()
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.regular)
+                }
+
+                Divider()
+
+                SettingsControlRow(
+                    title: L10n.General.importSettingsTitle,
+                    subtitle: L10n.General.importSettingsSubtitle
+                ) {
+                    Button(L10n.General.importSettingsButton) {
+                        self.model.importSettings()
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.regular)
+                }
+
+                Divider()
+
+                SettingsControlRow(
                     title: L10n.General.resetAllSettingsTitle,
                     subtitle: L10n.General.resetAllSettingsSubtitle
                 ) {
@@ -81,6 +111,13 @@ struct GeneralSettingsPane: View {
                     self.model.resetAllSettingsToDefaults()
                 },
                 secondaryButton: .cancel(Text(L10n.General.resetAllSettingsCancelButton))
+            )
+        }
+        .alert(item: self.$model.transferErrorAlert) { alert in
+            Alert(
+                title: Text(alert.title),
+                message: Text(alert.message),
+                dismissButton: .default(Text(L10n.General.resetAllSettingsCancelButton))
             )
         }
     }

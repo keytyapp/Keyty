@@ -34,7 +34,9 @@ final class GeneralSettingsPaneViewModelTests: XCTestCase {
             onResetAllSettingsToDefaults: {
                 appSettings.resetToDefaults()
                 shortcutSettings.resetToDefaults()
-            }
+            },
+            onExportSettings: {},
+            onImportSettings: {}
         )
 
         model.resetAllSettingsToDefaults()

@@ -79,6 +79,18 @@
 "general.reset_all_settings_confirmation_message" = "Hiermee worden toetsenbord-, muis-, beeldscherm-, app- en sneltoetsinstellingen teruggezet naar de standaardwaarden.";
 "general.reset_all_settings_confirmation_button" = "Instellingen resetten";
 "general.reset_all_settings_cancel_button" = "Annuleren";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "Het geselecteerde bestand is geen geldig instellingenarchief van Keyty.";
+"general.settings_transfer_unsupported_schema_version_message" = "Dit instellingenarchief gebruikt een niet-ondersteunde schemaversie (%@).";
+"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Kon geen invoergebeurtenis-tap maken. Toegankelijkheidstoestemming is vereist.";

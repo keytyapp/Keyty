@@ -79,6 +79,18 @@
 "general.reset_all_settings_confirmation_message" = "这将把键盘、鼠标、显示、应用和快捷键设置恢复为默认值。";
 "general.reset_all_settings_confirmation_button" = "重置设置";
 "general.reset_all_settings_cancel_button" = "取消";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "所选文件不是有效的 Keyty 设置归档文件。";
+"general.settings_transfer_unsupported_schema_version_message" = "此设置归档文件使用了不受支持的架构版本（%@）。";
+"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "无法开始监测输入。需要“辅助功能”权限。";

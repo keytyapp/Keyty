@@ -59,7 +59,7 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
 ### Homebrew
 
 ```bash
-brew install --cask keytyapp/tap/keyty
+brew install --cask keyty
 ```
 
 ### 从源码构建

@@ -59,7 +59,7 @@ Keyty は設定画面から、ワークフローやプレゼンテーション�
 ### Homebrew
 
 ```bash
-brew install --cask keytyapp/tap/keyty
+brew install --cask keyty
 ```
 
 ### ソースからビルド

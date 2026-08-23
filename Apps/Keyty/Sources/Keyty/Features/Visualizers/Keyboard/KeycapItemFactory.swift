@@ -204,9 +204,9 @@ enum KeycapItemFactory {
         case .end:
             return Self.navigationKeyLegend("end")
         case .pageUp:
-            return Self.navigationKeyLegend("page\nup")
+            return Self.navigationKeyLegend("page up")
         case .pageDown:
-            return Self.navigationKeyLegend("page\ndown")
+            return Self.navigationKeyLegend("page down")
         default:
             return KeycapLegend(legend, mouseIconHeight: Self.mouseIconHeight)
         }

@@ -19,7 +19,9 @@ final class SettingsTransferService {
 // MARK: - Constants
 extension SettingsTransferService {
     static let schemaVersion = 1
-    static let fileExtension = "json"
+    static let archiveBaseFilename = "keyty-settings"
+    static let archiveFileExtension = "json"
+    static let defaultArchiveFilename = "\(archiveBaseFilename).\(archiveFileExtension)"
 }
 
 // MARK: - Export

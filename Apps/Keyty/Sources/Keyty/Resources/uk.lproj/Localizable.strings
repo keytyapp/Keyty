@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "Вибраний файл не є дійсним архівом налаштувань Keyty.";
 "general.settings_transfer_unsupported_schema_version_message" = "Цей архів налаштувань використовує непідтримувану версію схеми (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Не вдалося почати відстеження введення. Потрібен дозвіл «Доступність».";

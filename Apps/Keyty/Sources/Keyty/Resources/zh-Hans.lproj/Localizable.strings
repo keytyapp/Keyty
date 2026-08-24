@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "所选文件不是有效的 Keyty 设置归档文件。";
 "general.settings_transfer_unsupported_schema_version_message" = "此设置归档文件使用了不受支持的架构版本（%@）。";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "无法开始监测输入。需要“辅助功能”权限。";

@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "O arquivo selecionado não é um arquivo de configurações válido do Keyty.";
 "general.settings_transfer_unsupported_schema_version_message" = "Este arquivo de configurações usa uma versão de esquema sem suporte (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Não foi possível criar o event tap. A permissão de Acessibilidade é obrigatória.";

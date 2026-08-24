@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "The selected file is not a valid Keyty settings archive.";
 "general.settings_transfer_unsupported_schema_version_message" = "This settings archive uses an unsupported schema version (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Could not create event tap. Accessibility permission is required.";

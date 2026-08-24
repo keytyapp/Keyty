@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "Die ausgewählte Datei ist kein gültiges Keyty-Einstellungsarchiv.";
 "general.settings_transfer_unsupported_schema_version_message" = "Dieses Einstellungsarchiv verwendet eine nicht unterstützte Schemaversion (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Die Eingabeerfassung konnte nicht gestartet werden. Die Berechtigung für Bedienungshilfen ist erforderlich.";

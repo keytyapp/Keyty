@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "Wybrany plik nie jest prawidłowym archiwum ustawień Keyty.";
 "general.settings_transfer_unsupported_schema_version_message" = "To archiwum ustawień używa nieobsługiwanej wersji schematu (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Nie udało się utworzyć przechwytywania zdarzeń. Wymagane jest uprawnienie Dostępność.";

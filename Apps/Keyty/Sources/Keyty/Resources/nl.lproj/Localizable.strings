@@ -90,7 +90,6 @@
 "general.settings_transfer_error_title" = "Settings Transfer Failed";
 "general.settings_transfer_invalid_archive_message" = "Het geselecteerde bestand is geen geldig instellingenarchief van Keyty.";
 "general.settings_transfer_unsupported_schema_version_message" = "Dit instellingenarchief gebruikt een niet-ondersteunde schemaversie (%@).";
-"general.settings_archive_default_filename" = "Keyty Settings";
 
 /* Event capture */
 "event_tap.creation_failed" = "Kon geen invoergebeurtenis-tap maken. Toegankelijkheidstoestemming is vereist.";

@@ -20,8 +20,8 @@ extension SettingsTransferPanelPresenter {
             let panel = NSSavePanel()
             panel.canCreateDirectories = true
             panel.isExtensionHidden = false
-            panel.allowedFileTypes = [SettingsTransferService.fileExtension]
-            panel.nameFieldStringValue = "\(L10n.General.settingsArchiveDefaultFilename).\(SettingsTransferService.fileExtension)"
+            panel.allowedFileTypes = [SettingsTransferService.archiveFileExtension]
+            panel.nameFieldStringValue = SettingsTransferService.defaultArchiveFilename
             panel.title = L10n.General.exportSettingsPanelTitle
             panel.prompt = L10n.General.exportSettingsButton
 
@@ -33,7 +33,7 @@ extension SettingsTransferPanelPresenter {
             panel.canChooseFiles = true
             panel.canChooseDirectories = false
             panel.allowsMultipleSelection = false
-            panel.allowedFileTypes = [SettingsTransferService.fileExtension]
+            panel.allowedFileTypes = [SettingsTransferService.archiveFileExtension]
             panel.title = L10n.General.importSettingsPanelTitle
             panel.prompt = L10n.General.importSettingsButton
 

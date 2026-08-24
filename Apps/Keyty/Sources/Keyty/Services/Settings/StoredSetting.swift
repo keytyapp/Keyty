@@ -30,14 +30,6 @@ protocol AnyStoredSetting {
     func applyImportedValue(_ value: Any, in store: KeyValueStore) throws
 }
 
-private protocol AnyOptional {
-    var isNil: Bool { get }
-}
-
-extension Optional: AnyOptional {
-    var isNil: Bool { self == nil }
-}
-
 struct StoredDescriptor<Value> {
     let key: String
     let defaultValue: Value

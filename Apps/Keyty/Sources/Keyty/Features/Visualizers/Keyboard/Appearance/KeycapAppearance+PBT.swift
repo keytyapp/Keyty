@@ -10,13 +10,7 @@ import AppKit
 
 extension KeycapAppearance {
     struct PBT {
-        let textColor: NSColor
-        let groupBackgroundColor: NSColor
-        let groupStrokeColor: NSColor
-        let badgeFillColor: NSColor
-        let badgeStrokeColor: NSColor
-        let badgeHighlightColor: NSColor
-        let badgeTextColor: NSColor
+        let shared: Shared
         let bodyGradient: NSGradient?
         let bodyStrokeColor: NSColor
         let underDishColor: NSColor
@@ -30,13 +24,7 @@ extension KeycapAppearance {
             let dishMid = tokens.surfaceBaseColor.lightened(by: 0.06)
             let dishBottom = tokens.surfaceShadowColor.lightened(by: 0.05)
 
-            self.textColor = tokens.textColor
-            self.groupBackgroundColor = tokens.groupBackgroundColor
-            self.groupStrokeColor = tokens.groupStrokeColor
-            self.badgeFillColor = tokens.badgeFillColor
-            self.badgeStrokeColor = tokens.badgeStrokeColor
-            self.badgeHighlightColor = tokens.badgeHighlightColor
-            self.badgeTextColor = tokens.badgeTextColor
+            self.shared = Shared(tokens: tokens)
             self.bodyGradient = NSGradient(colorsAndLocations:
                 (bodyTop, 0.0),
                 (bodyMid, 0.48),

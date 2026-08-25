@@ -12,13 +12,7 @@ extension KeycapAppearance {
     /// Sculpted beige-era keycap: a lit body, an inset top face, and a front skirt,
     /// all sitting in a near-black well like the plate of an Apple Standard Keyboard.
     struct M0116 {
-        let textColor: NSColor
-        let groupBackgroundColor: NSColor
-        let groupStrokeColor: NSColor
-        let badgeFillColor: NSColor
-        let badgeStrokeColor: NSColor
-        let badgeHighlightColor: NSColor
-        let badgeTextColor: NSColor
+        let shared: Shared
         let wellColor: NSColor
         let bodyGradient: NSGradient?
         let skirtGradient: NSGradient?
@@ -33,13 +27,7 @@ extension KeycapAppearance {
                 of: tokens.surfaceBaseColor
             ) ?? tokens.surfaceHighlightColor
 
-            self.textColor = tokens.textColor
-            self.groupBackgroundColor = tokens.groupBackgroundColor
-            self.groupStrokeColor = tokens.groupStrokeColor
-            self.badgeFillColor = tokens.badgeFillColor
-            self.badgeStrokeColor = tokens.badgeStrokeColor
-            self.badgeHighlightColor = tokens.badgeHighlightColor
-            self.badgeTextColor = tokens.badgeTextColor
+            self.shared = Shared(tokens: tokens)
             self.wellColor = tokens.recessColor.darkened(by: 0.45)
             // Lit from the left: bright edge, base across the middle, shaded right edge.
             self.bodyGradient = NSGradient(colorsAndLocations:

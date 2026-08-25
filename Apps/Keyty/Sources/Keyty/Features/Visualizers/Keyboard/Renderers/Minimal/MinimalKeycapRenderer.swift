@@ -28,7 +28,7 @@ struct MinimalKeycapRenderer: KeycapRendering {
 
         if let image = item.image {
             let size = scaledImageSize(for: image)
-            KeycapImageRenderer.draw(image: image, badgeText: item.imageBadgeText, color: appearance.textColor, in: NSRect(
+            KeycapImageRenderer.draw(image: image, badgeText: item.imageBadgeText, color: appearance.shared.textColor, in: NSRect(
                 x: rect.midX - size.width / 2,
                 y: rect.midY - size.height / 2,
                 width: size.width,
@@ -37,7 +37,7 @@ struct MinimalKeycapRenderer: KeycapRendering {
         } else if let sfSymbolName = item.sfSymbolName,
                   let image = SymbolImage.image(
                     named: sfSymbolName,
-                    color: appearance.textColor,
+                    color: appearance.shared.textColor,
                     pointSize: MinimalKeycapMetrics.symbolFont.pointSize
                   ) {
             let size = image.size
@@ -50,7 +50,7 @@ struct MinimalKeycapRenderer: KeycapRendering {
         } else if !item.symbol.isEmpty {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: MinimalKeycapMetrics.symbolFont,
-                .foregroundColor: appearance.textColor,
+                .foregroundColor: appearance.shared.textColor,
             ]
             let size = item.symbol.size(withAttributes: attributes)
             item.symbol.draw(
@@ -65,7 +65,7 @@ struct MinimalKeycapRenderer: KeycapRendering {
         } else if let label = item.label {
             let attributes: [NSAttributedString.Key: Any] = [
                 .font: MinimalKeycapMetrics.labelFont,
-                .foregroundColor: appearance.textColor,
+                .foregroundColor: appearance.shared.textColor,
             ]
             let size = label.size(withAttributes: attributes)
             label.draw(

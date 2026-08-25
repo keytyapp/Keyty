@@ -43,75 +43,117 @@ enum KeycapAppearance {
     static let inactiveDotColor = NSColor(calibratedWhite: 0.42, alpha: 0.7)
 }
 
+extension KeycapAppearance {
+    struct Shared {
+        let textColor: NSColor
+        let groupBackgroundColor: NSColor
+        let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
+
+        init(
+            textColor: NSColor,
+            groupBackgroundColor: NSColor,
+            groupStrokeColor: NSColor,
+            badgeFillColor: NSColor,
+            badgeStrokeColor: NSColor,
+            badgeHighlightColor: NSColor,
+            badgeTextColor: NSColor
+        ) {
+            self.textColor = textColor
+            self.groupBackgroundColor = groupBackgroundColor
+            self.groupStrokeColor = groupStrokeColor
+            self.badgeFillColor = badgeFillColor
+            self.badgeStrokeColor = badgeStrokeColor
+            self.badgeHighlightColor = badgeHighlightColor
+            self.badgeTextColor = badgeTextColor
+        }
+
+        init(tokens: KeycapThemeTokens) {
+            self.init(
+                textColor: tokens.textColor,
+                groupBackgroundColor: tokens.groupBackgroundColor,
+                groupStrokeColor: tokens.groupStrokeColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeTextColor: tokens.badgeTextColor
+            )
+        }
+    }
+}
+
 // MARK: - Shared Accessors
 extension KeycapAppearance {
     var textColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.textColor
-        case .pbt(let appearance): appearance.textColor
-        case .minimal(let appearance): appearance.textColor
-        case .retro(let appearance): appearance.textColor
-        case .m0116(let appearance): appearance.textColor
+        case .apple(let appearance): appearance.shared.textColor
+        case .pbt(let appearance): appearance.shared.textColor
+        case .minimal(let appearance): appearance.shared.textColor
+        case .retro(let appearance): appearance.shared.textColor
+        case .m0116(let appearance): appearance.shared.textColor
         }
     }
 
     var groupBackgroundColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.groupBackgroundColor
-        case .pbt(let appearance): appearance.groupBackgroundColor
-        case .minimal(let appearance): appearance.groupBackgroundColor
-        case .retro(let appearance): appearance.groupBackgroundColor
-        case .m0116(let appearance): appearance.groupBackgroundColor
+        case .apple(let appearance): appearance.shared.groupBackgroundColor
+        case .pbt(let appearance): appearance.shared.groupBackgroundColor
+        case .minimal(let appearance): appearance.shared.groupBackgroundColor
+        case .retro(let appearance): appearance.shared.groupBackgroundColor
+        case .m0116(let appearance): appearance.shared.groupBackgroundColor
         }
     }
 
     var groupStrokeColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.groupStrokeColor
-        case .pbt(let appearance): appearance.groupStrokeColor
-        case .minimal(let appearance): appearance.groupStrokeColor
-        case .retro(let appearance): appearance.groupStrokeColor
-        case .m0116(let appearance): appearance.groupStrokeColor
+        case .apple(let appearance): appearance.shared.groupStrokeColor
+        case .pbt(let appearance): appearance.shared.groupStrokeColor
+        case .minimal(let appearance): appearance.shared.groupStrokeColor
+        case .retro(let appearance): appearance.shared.groupStrokeColor
+        case .m0116(let appearance): appearance.shared.groupStrokeColor
         }
     }
 
     var badgeFillColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.badgeFillColor
-        case .pbt(let appearance): appearance.badgeFillColor
-        case .minimal(let appearance): appearance.badgeFillColor
-        case .retro(let appearance): appearance.badgeFillColor
-        case .m0116(let appearance): appearance.badgeFillColor
+        case .apple(let appearance): appearance.shared.badgeFillColor
+        case .pbt(let appearance): appearance.shared.badgeFillColor
+        case .minimal(let appearance): appearance.shared.badgeFillColor
+        case .retro(let appearance): appearance.shared.badgeFillColor
+        case .m0116(let appearance): appearance.shared.badgeFillColor
         }
     }
 
     var badgeStrokeColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.badgeStrokeColor
-        case .pbt(let appearance): appearance.badgeStrokeColor
-        case .minimal(let appearance): appearance.badgeStrokeColor
-        case .retro(let appearance): appearance.badgeStrokeColor
-        case .m0116(let appearance): appearance.badgeStrokeColor
+        case .apple(let appearance): appearance.shared.badgeStrokeColor
+        case .pbt(let appearance): appearance.shared.badgeStrokeColor
+        case .minimal(let appearance): appearance.shared.badgeStrokeColor
+        case .retro(let appearance): appearance.shared.badgeStrokeColor
+        case .m0116(let appearance): appearance.shared.badgeStrokeColor
         }
     }
 
     var badgeHighlightColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.badgeHighlightColor
-        case .pbt(let appearance): appearance.badgeHighlightColor
-        case .minimal(let appearance): appearance.badgeHighlightColor
-        case .retro(let appearance): appearance.badgeHighlightColor
-        case .m0116(let appearance): appearance.badgeHighlightColor
+        case .apple(let appearance): appearance.shared.badgeHighlightColor
+        case .pbt(let appearance): appearance.shared.badgeHighlightColor
+        case .minimal(let appearance): appearance.shared.badgeHighlightColor
+        case .retro(let appearance): appearance.shared.badgeHighlightColor
+        case .m0116(let appearance): appearance.shared.badgeHighlightColor
         }
     }
 
     var badgeTextColor: NSColor {
         switch self {
-        case .apple(let appearance): appearance.badgeTextColor
-        case .pbt(let appearance): appearance.badgeTextColor
-        case .minimal(let appearance): appearance.badgeTextColor
-        case .retro(let appearance): appearance.badgeTextColor
-        case .m0116(let appearance): appearance.badgeTextColor
+        case .apple(let appearance): appearance.shared.badgeTextColor
+        case .pbt(let appearance): appearance.shared.badgeTextColor
+        case .minimal(let appearance): appearance.shared.badgeTextColor
+        case .retro(let appearance): appearance.shared.badgeTextColor
+        case .m0116(let appearance): appearance.shared.badgeTextColor
         }
     }
 

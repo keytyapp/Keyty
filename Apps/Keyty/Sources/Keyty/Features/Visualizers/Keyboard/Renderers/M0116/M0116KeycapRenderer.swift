@@ -72,7 +72,7 @@ struct M0116KeycapRenderer: KeycapRendering {
         bodyPath.lineWidth = StrokeWidth.standard
         bodyPath.stroke()
 
-        self.drawLegend(item: item, in: faceRect, textColor: appearance.textColor)
+        self.drawLegend(item: item, in: faceRect, textColor: appearance.shared.textColor)
     }
 }
 

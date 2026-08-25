@@ -10,13 +10,7 @@ import AppKit
 
 extension KeycapAppearance {
     struct Retro {
-        let textColor: NSColor
-        let groupBackgroundColor: NSColor
-        let groupStrokeColor: NSColor
-        let badgeFillColor: NSColor
-        let badgeStrokeColor: NSColor
-        let badgeHighlightColor: NSColor
-        let badgeTextColor: NSColor
+        let shared: Shared
         let lipGradient: NSGradient?
         let bodyShadowColor: NSColor
         let bodyGradient: NSGradient?
@@ -44,13 +38,15 @@ extension KeycapAppearance {
             let faceShadowEdge = tokens.recessColor.darkened(by: 0.34).withAlphaComponent(0.46)
             let faceShadowCenter = tokens.recessColor.darkened(by: 0.12).withAlphaComponent(0.26)
 
-            self.textColor = tokens.textColor
-            self.groupBackgroundColor = groupBackgroundColor
-            self.groupStrokeColor = groupStrokeColor
-            self.badgeFillColor = tokens.badgeFillColor
-            self.badgeStrokeColor = tokens.badgeStrokeColor
-            self.badgeHighlightColor = tokens.badgeHighlightColor
-            self.badgeTextColor = tokens.badgeTextColor
+            self.shared = Shared(
+                textColor: tokens.textColor,
+                groupBackgroundColor: groupBackgroundColor,
+                groupStrokeColor: groupStrokeColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeTextColor: tokens.badgeTextColor
+            )
             self.lipGradient = NSGradient(colorsAndLocations:
                 (lipEdge, 0.0),
                 (lipCenter, 0.5),

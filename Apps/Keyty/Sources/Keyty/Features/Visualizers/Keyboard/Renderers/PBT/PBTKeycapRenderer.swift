@@ -81,6 +81,6 @@ struct PBTKeycapRenderer: KeycapRendering {
             dishPath.fill()
         }
 
-        legendRenderer.draw(item: item, in: dishRect, textColor: appearance.textColor)
+        legendRenderer.draw(item: item, in: dishRect, textColor: appearance.shared.textColor)
     }
 }

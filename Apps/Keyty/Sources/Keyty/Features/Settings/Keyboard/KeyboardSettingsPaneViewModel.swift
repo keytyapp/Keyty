@@ -227,6 +227,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         ].joined(separator: "-")
     }
 
+    /// Theme picker sections filtered to the themes allowed by the selected keycap style.
     var allowedThemeSections: [[KeyboardVisualizerTheme]] {
         KeyboardVisualizerTheme.pickerSections(for: self.style.allowedThemes)
     }

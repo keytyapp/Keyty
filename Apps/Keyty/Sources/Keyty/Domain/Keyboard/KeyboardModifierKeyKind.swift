@@ -15,11 +15,10 @@ extension KeyboardModifierKey {
         case shift
         case option
         case control
-        case function
 
         /// Modifier order guidance from Apple style guide:
         /// https://support.apple.com/guide/applestyleguide/k-apsgf9067ae8/1.0/web/1.0
-        static let canonicalDisplayOrder: [Self] = [.control, .option, .shift, .command, .function]
+        static let canonicalDisplayOrder: [Self] = [.control, .option, .shift, .command]
 
         var glyph: String {
             switch self {
@@ -27,7 +26,6 @@ extension KeyboardModifierKey {
             case .shift:   return UnicodeToken.shift.string
             case .option:  return UnicodeToken.option.string
             case .control: return UnicodeToken.control.string
-            case .function: return ""
             }
         }
 
@@ -37,7 +35,6 @@ extension KeyboardModifierKey {
             case .shift:   return "shift"
             case .option:  return "option"
             case .control: return "control"
-            case .function: return "fn"
             }
         }
 
@@ -47,7 +44,6 @@ extension KeyboardModifierKey {
             case .shift: return .shift
             case .option: return .option
             case .control: return .control
-            case .function: return .function
             }
         }
 
@@ -58,7 +54,6 @@ extension KeyboardModifierKey {
             case .shift:   return [.shiftLeft, .shiftRight]
             case .option:  return [.optionLeft, .optionRight]
             case .control: return [.controlLeft, .controlRight]
-            case .function: return [.function]
             }
         }
 
@@ -72,10 +67,8 @@ extension KeyboardModifierKey {
             case (.option, .right): return .optionRight
             case (.control, .left): return .controlLeft
             case (.control, .right): return .controlRight
-            case (.function, .single): return .function
-            case (.command, .single), (.shift, .single), (.option, .single), (.control, .single),
-                 (.function, .left), (.function, .right):
-                return .function
+            case (.command, .single), (.shift, .single), (.option, .single), (.control, .single):
+                preconditionFailure("Single-location modifier requested for a two-sided modifier")
             }
         }
 

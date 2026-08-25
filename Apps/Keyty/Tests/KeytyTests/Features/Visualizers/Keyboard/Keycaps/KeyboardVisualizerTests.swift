@@ -93,13 +93,18 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertEqual(self.visualizer.visibleGroupCount, 0)
     }
 
-    func testFunctionKeyKeystrokeDoesNotCreateDuplicateGroupAfterModifierPreview() {
+    func testFunctionFlagsChangedCreatesStandaloneGroup() {
         self.settings.showSpecialKeys = true
         self.visualizer.isPresentationActive = true
 
         self.visualizer.display(.modifierStateChanged([.function]))
 
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testFunctionKeyKeystrokeIsIgnoredWhenFunctionStateIsDrivenByFlagsChanged() {
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
 
         self.visualizer.display(.keystroke(.stub(
             keyCode: .function,
@@ -107,7 +112,7 @@ final class KeyboardVisualizerTests: XCTestCase {
             modifiers: [.function]
         )))
 
-        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 0)
     }
 
     func testFunctionKeyPressAndReleaseStaysInASingleGroup() {
@@ -115,15 +120,64 @@ final class KeyboardVisualizerTests: XCTestCase {
         self.visualizer.isPresentationActive = true
 
         self.visualizer.display(.modifierStateChanged([.function]))
+        self.visualizer.display(.modifierStateChanged([]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testFunctionTransformedKeyRepeatsCollapseLikeStandaloneSpecialKeys() {
+        self.settings.collapseRepeatedGroups = true
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
+
+        let pageUpCharacter = String.functionKey(NSPageUpFunctionKey)
+
+        self.visualizer.display(.modifierStateChanged([.function]))
         self.visualizer.display(.keystroke(.stub(
-            keyCode: .function,
+            keyCode: .upArrow,
             type: .keyDown,
-            modifiers: [.function]
+            modifiers: [.function],
+            characters: pageUpCharacter,
+            charactersIgnoringModifiers: pageUpCharacter
         )))
         self.visualizer.display(.keystroke(.stub(
-            keyCode: .function,
+            keyCode: .upArrow,
             type: .keyUp,
-            modifiers: [.function]
+            modifiers: [.function],
+            characters: pageUpCharacter,
+            charactersIgnoringModifiers: pageUpCharacter
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .upArrow,
+            type: .keyDown,
+            modifiers: [.function],
+            characters: pageUpCharacter,
+            charactersIgnoringModifiers: pageUpCharacter
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testFunctionTransformedKeyDoesNotRenderFunctionModifierPreviewOnRelease() {
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
+
+        let pageUpCharacter = String.functionKey(NSPageUpFunctionKey)
+
+        self.visualizer.display(.modifierStateChanged([.function]))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .upArrow,
+            type: .keyDown,
+            modifiers: [.function],
+            characters: pageUpCharacter,
+            charactersIgnoringModifiers: pageUpCharacter
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .upArrow,
+            type: .keyUp,
+            modifiers: [.function],
+            characters: pageUpCharacter,
+            charactersIgnoringModifiers: pageUpCharacter
         )))
         self.visualizer.display(.modifierStateChanged([]))
 

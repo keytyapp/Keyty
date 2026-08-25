@@ -335,18 +335,37 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
     }
 
 
-    func testM0116StyleKeepsItsOwnPaletteAcrossThemes() {
+    func testM0116StyleClampsThemesToWhite() {
+        self.settings.theme = .black
+        self.settings.modifierTheme = .purple
+        self.settings.specialTheme = .rose
+        self.settings.mediaTheme = .blue
+        self.settings.mouseTheme = .green
+        self.settings.groupBackgroundTheme = .orange
+        self.settings.style = .m0116
+
+        XCTAssertEqual(self.settings.theme, .white)
+        XCTAssertEqual(self.settings.modifierTheme, .white)
+        XCTAssertEqual(self.settings.specialTheme, .white)
+        XCTAssertEqual(self.settings.mediaTheme, .white)
+        XCTAssertEqual(self.settings.mouseTheme, .white)
+        XCTAssertEqual(self.settings.groupBackgroundTheme, .white)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.theme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.modifierTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.specialTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mediaTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mouseTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.groupBackgroundTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.settings.appearance.m0116?.textColor, KeyboardVisualizerTheme.white.tokens.textColor)
+    }
+
+    func testM0116StyleRejectsNonWhiteThemeAssignments() {
         self.settings.style = .m0116
 
         self.settings.theme = .black
-        let onDark = self.settings.appearance.m0116
+        self.settings.modifierTheme = .purple
 
-        self.settings.theme = .white
-        let onLight = self.settings.appearance.m0116
-
-        XCTAssertNotNil(onDark)
-        XCTAssertEqual(onDark?.textColor, onLight?.textColor)
-        XCTAssertEqual(onDark?.wellColor, onLight?.wellColor)
-        XCTAssertEqual(onDark?.textColor, KeycapThemeTokens.m0116Hardware().textColor)
+        XCTAssertEqual(self.settings.theme, .white)
+        XCTAssertEqual(self.settings.modifierTheme, .white)
     }
 }

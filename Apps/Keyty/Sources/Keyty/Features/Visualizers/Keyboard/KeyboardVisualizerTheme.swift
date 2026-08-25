@@ -27,6 +27,15 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
 
 // MARK: - Titles
 extension KeyboardVisualizerTheme {
+    /// Filters the standard picker grouping down to the themes allowed by the current style.
+    static func pickerSections(for allowedThemes: [KeyboardVisualizerTheme]) -> [[KeyboardVisualizerTheme]] {
+        let allowed = Set(allowedThemes)
+        return Self.pickerSections.compactMap { section in
+            let filteredSection = section.filter { allowed.contains($0) }
+            return filteredSection.isEmpty ? nil : filteredSection
+        }
+    }
+
     var title: String {
         switch self {
         case .black: L10n.KeyboardVisualizer.Theme.dark
@@ -376,10 +385,7 @@ extension KeyboardVisualizerTheme {
         case .retro:
             return KeycapAppearance.retro(KeycapAppearance.Retro(tokens: tokens))
         case .m0116:
-            // This style ships the keyboard's own colors; themes are not wired into it yet.
-            return KeycapAppearance.m0116(
-                KeycapAppearance.M0116(tokens: .m0116Hardware(legendColorOverride: legendColorOverride))
-            )
+            return KeycapAppearance.m0116(KeycapAppearance.M0116(tokens: tokens))
         }
     }
 }

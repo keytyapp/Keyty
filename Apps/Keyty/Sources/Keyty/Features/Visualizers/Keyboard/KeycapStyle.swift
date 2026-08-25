@@ -5,7 +5,6 @@
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
 //  SPDX-License-Identifier: BSD-3-Clause
 //
-
 enum KeycapStyle: Int, CaseIterable {
     case apple = 0
     case pbt = 1
@@ -23,5 +22,25 @@ enum KeycapStyle: Int, CaseIterable {
         case .retro: L10n.KeyboardVisualizer.Style.retro
         case .m0116: L10n.KeyboardVisualizer.Style.m0116
         }
+    }
+
+    var allowedThemes: [KeyboardVisualizerTheme] {
+        switch self {
+        case .m0116:
+            return [.white]
+        case .apple, .pbt, .minimal, .retro:
+            return KeyboardVisualizerTheme.allCases
+        }
+    }
+
+    func allows(theme: KeyboardVisualizerTheme) -> Bool {
+        self.allowedThemes.contains(theme)
+    }
+
+    func sanitize(theme: KeyboardVisualizerTheme) -> KeyboardVisualizerTheme {
+        guard self.allows(theme: theme) else {
+            return self.allowedThemes.first ?? .black
+        }
+        return theme
     }
 }

@@ -37,12 +37,12 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
     func testRendersM0116StyleKeycap() {
         self.assertGroupSnapshot(
             style: .m0116,
-            theme: .black,
+            theme: .white,
             items: self.keycapItems(
                 keyCode: KeyboardKeyCode.a.rawValue,
                 legend: EventLegend(text: "A"),
                 style: .m0116,
-                theme: .black
+                theme: .white
             ),
             named: "m0116-keycap"
         )
@@ -51,19 +51,19 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
     func testRendersM0116StyleEscapeKeycap() {
         self.assertGroupSnapshot(
             style: .m0116,
-            theme: .black,
+            theme: .white,
             items: self.keycapItems(
                 keyCode: KeyboardKeyCode.escape.rawValue,
                 legend: EventLegend(text: KeyboardGlyphCatalog.symbol(for: .escape), label: KeyboardSpecialKey.escape.label),
                 style: .m0116,
-                theme: .black
+                theme: .white
             ),
             named: "m0116-escape-keycap"
         )
     }
 
     func testRendersM0116StyleCommandShiftKKeycaps() {
-        let settings = self.settings(style: .m0116, theme: .black)
+        let settings = self.settings(style: .m0116, theme: .white)
         let items = KeycapItemFactory.modifierItems(
             currentFlags: [],
             releasedFlags: Self.commandShiftFlags,
@@ -77,7 +77,7 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
             palette: settings.palette
         )
 
-        self.assertGroupSnapshot(style: .m0116, theme: .black, items: items, named: "m0116-command-shift-k-keycaps")
+        self.assertGroupSnapshot(style: .m0116, theme: .white, items: items, named: "m0116-command-shift-k-keycaps")
     }
 
     func testRendersAppleBlackEscapeKeycap() {

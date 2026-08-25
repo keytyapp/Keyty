@@ -19,6 +19,13 @@ final class ColorPickerOrderTests: XCTestCase {
         )
     }
 
+    func testM0116ThemePickerOnlyShowsWhite() {
+        XCTAssertEqual(
+            KeyboardVisualizerTheme.pickerSections(for: KeycapStyle.m0116.allowedThemes),
+            [[.white]]
+        )
+    }
+
     func testKeyboardLegendColorPickerOrdersColorsBySpectrum() {
         XCTAssertEqual(
             Array(KeyboardSettingsPaneViewModel.ColorPreset.presets.suffix(Self.colorOrder.count)).map(\.color.hexString),

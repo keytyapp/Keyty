@@ -11,7 +11,7 @@ import Carbon
 import Combine
 
 final class KeyboardVisualizer {
-    private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control]
+    private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control, .function]
 
     var isPresentationActive: Bool = false {
         didSet {
@@ -145,9 +145,9 @@ extension KeyboardVisualizer {
 // MARK: - Event Display
 private extension KeyboardVisualizer {
     private func displayKeystroke(_ keystroke: StandardKeyEvent) {
-        // Track command/shift/option/control exclusively through flagsChanged so a modifier
+        // Track modifier-driven keys exclusively through flagsChanged so a modifier
         // release does not create a separate keystroke group after the chord ends.
-        if KeyboardKeyCode.isModifierOnly(keystroke.keyCode) {
+        if KeyboardKeyCode.isFlagsChangedDriven(keystroke.keyCode) {
             return
         }
 
@@ -191,8 +191,6 @@ private extension KeyboardVisualizer {
         let previousTrackedFlags = self.lastModifierFlags.intersection(Self.trackedModifierFlags)
         let releasedTrackedFlags = previousTrackedFlags.subtracting(currentTrackedFlags)
         let releasedModifierFlags = self.lastModifierFlags.subtracting(modifierFlags)
-        let functionNow = modifierFlags.contains(.function)
-        let functionWas = self.lastModifierFlags.contains(.function)
 
         // Caps Lock: one-shot flash, lit when turning on, dim when turning off
         let capsNow = modifierFlags.contains(.capsLock)
@@ -213,20 +211,6 @@ private extension KeyboardVisualizer {
             self.finalizeGroupIfNeeded(group)
         }
 
-        if self.visualizerSettings.showSpecialKeys, functionNow != functionWas {
-            let group = self.eventCoordinator.handleIndependentTrackedKey(
-                keyCode: KeyboardKeyCode.function.rawValue,
-                isKeyDown: functionNow,
-                items: [self.functionKeycapItem(isPressed: functionNow)],
-                appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
-                updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
-            )
-            self.collapseActiveRepeatIfNeeded(group)
-            if !functionNow {
-                self.finalizeGroupIfNeeded(group)
-            }
-        }
-
         self.lastModifierFlags = modifierFlags
 
         let items = KeycapItemFactory.modifierItems(
@@ -235,7 +219,7 @@ private extension KeyboardVisualizer {
             palette: self.visualizerSettings.palette
         )
         guard !items.isEmpty else {
-            if currentTrackedFlags.isEmpty, !functionNow {
+            if currentTrackedFlags.isEmpty {
                 self.eventCoordinator.reset()
             }
             return
@@ -258,19 +242,6 @@ private extension KeyboardVisualizer {
         if currentTrackedFlags.isEmpty {
             self.finalizeGroupIfNeeded(group)
         }
-    }
-
-    private func functionKeycapItem(isPressed: Bool) -> KeycapItem {
-        KeycapItemFactory.keycapItems(
-            keyCode: KeyboardKeyCode.function.rawValue,
-            legend: EventLegend(
-                text: KeyboardSpecialKey.function.displayText,
-                label: KeyboardSpecialKey.function.label
-            ),
-            modifierFlags: [],
-            isPressed: isPressed,
-            palette: self.visualizerSettings.palette
-        ).first!
     }
 }
 

@@ -127,7 +127,7 @@ enum KeyboardKeyCode: UInt16 {
 extension KeyboardKeyCode {
     /// Keys whose press/release lifecycle is visualized from modifier-state updates
     /// rather than the normal keystroke path.
-    var isModifierOnly: Bool {
+    var isFlagsChangedDriven: Bool {
         switch self {
         case .commandRight, .commandLeft,
              .shiftLeft, .shiftRight,
@@ -140,8 +140,8 @@ extension KeyboardKeyCode {
         }
     }
 
-    static func isModifierOnly(_ rawValue: UInt16) -> Bool {
+    static func isFlagsChangedDriven(_ rawValue: UInt16) -> Bool {
         guard let keyCode = Self(rawValue: rawValue) else { return false }
-        return keyCode.isModifierOnly
+        return keyCode.isFlagsChangedDriven
     }
 }

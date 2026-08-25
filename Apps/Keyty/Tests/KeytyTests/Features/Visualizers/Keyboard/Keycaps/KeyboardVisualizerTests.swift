@@ -125,7 +125,7 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
     }
 
-    func testFunctionTransformedKeyRepeatsCollapseLikeStandaloneSpecialKeys() {
+    func testFunctionTransformedKeyRepeatsAppendNewGroupsWhileFnIsHeld() {
         self.settings.collapseRepeatedGroups = true
         self.settings.showSpecialKeys = true
         self.visualizer.isPresentationActive = true
@@ -155,7 +155,7 @@ final class KeyboardVisualizerTests: XCTestCase {
             charactersIgnoringModifiers: pageUpCharacter
         )))
 
-        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 2)
     }
 
     func testFunctionTransformedKeyDoesNotRenderFunctionModifierPreviewOnRelease() {

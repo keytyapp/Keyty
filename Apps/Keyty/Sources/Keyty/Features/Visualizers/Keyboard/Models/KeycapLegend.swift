@@ -59,7 +59,12 @@ extension KeycapLegend {
     }
 
     static func modifier(_ modifier: KeyboardModifierKey.Kind) -> KeycapLegend {
-        KeycapLegend(symbol: modifier.glyph, label: modifier.label)
+        switch modifier {
+        case .function:
+            return .function
+        case .command, .shift, .option, .control:
+            return KeycapLegend(symbol: modifier.glyph, label: modifier.label)
+        }
     }
     
     static func character(_ symbol: String) -> KeycapLegend {

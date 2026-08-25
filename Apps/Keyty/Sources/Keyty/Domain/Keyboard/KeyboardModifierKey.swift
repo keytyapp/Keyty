@@ -62,12 +62,17 @@ extension KeyboardModifierKey {
         case .optionRight: return .rightOption
         case .controlLeft: return .leftControl
         case .controlRight: return .rightControl
+        case .function: return .function
         default: return nil
         }
     }
 
     static func keys(in flags: NSEvent.ModifierFlags) -> Set<KeyboardModifierKey> {
-        Set(Self.all.filter { flags.rawValue & $0.deviceMask != 0 })
+        var keys = Set(Self.all.filter { flags.rawValue & $0.deviceMask != 0 })
+        if flags.contains(.function) {
+            keys.insert(.function)
+        }
+        return keys
     }
 }
 
@@ -81,6 +86,7 @@ extension KeyboardModifierKey {
     static let rightOption = KeyboardModifierKey(.option, location: .right)
     static let leftControl = KeyboardModifierKey(.control, location: .left)
     static let rightControl = KeyboardModifierKey(.control, location: .right)
+    static let function = KeyboardModifierKey(.function, location: .single)
 
     static let all: [KeyboardModifierKey] = [
         .leftCommand, .rightCommand,
@@ -100,7 +106,10 @@ extension KeyboardModifierKey {
         case (.option, .right):  return UInt(NX_DEVICERALTKEYMASK)
         case (.control, .left):  return UInt(NX_DEVICELCTLKEYMASK)
         case (.control, .right): return UInt(NX_DEVICERCTLKEYMASK)
+        case (.function, .single): return 0
         case (.command, .single), (.shift, .single), (.option, .single), (.control, .single):
+            return 0
+        case (.function, .left), (.function, .right):
             return 0
         }
     }

@@ -60,6 +60,29 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertTrue(self.settings.isEnabled)
     }
 
+    func testFunctionKeyPressAndReleaseRenderOneGroup() {
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
+
+        self.visualizer.display(.modifierStateChanged([.function]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.modifierStateChanged([]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testFunctionKeyIsHiddenWhenSpecialKeysAreHidden() {
+        self.settings.showSpecialKeys = false
+        self.visualizer.isPresentationActive = true
+
+        self.visualizer.display(.modifierStateChanged([.function]))
+        self.visualizer.display(.modifierStateChanged([]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 0)
+    }
+
     func testOnlyShowModifiedKeystrokesStillShowsStandaloneSpecialKeys() {
         self.settings.onlyShowModifiedKeystrokes = true
         self.settings.showSpecialKeys = true

@@ -45,9 +45,6 @@ extension KeycapItemFactory {
             }
         }
 
-        if currentFlags.contains(.function) || releasedFlags.contains(.function) {
-            items.append(Self.functionItem(isPressed: currentFlags.contains(.function), palette: palette))
-        }
         return items
     }
 
@@ -75,18 +72,5 @@ extension KeycapItemFactory {
         return Self.orderedModifierLocations
             .map { KeyboardModifierKey(modifier, location: $0) }
             .filter { keys.contains($0) }
-    }
-
-    private static func functionItem(
-        isPressed: Bool,
-        palette: KeycapThemePalette
-    ) -> KeycapItem {
-        let identity = KeycapIdentity.keyCode(KeyboardKeyCode.function.rawValue)
-        return KeycapItem(
-            identity: identity,
-            legend: .function,
-            state: KeycapState(isPressed: isPressed),
-            appearance: palette.appearance(for: identity)
-        )
     }
 }

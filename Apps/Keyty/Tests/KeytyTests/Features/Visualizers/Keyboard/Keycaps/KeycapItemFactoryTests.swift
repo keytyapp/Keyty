@@ -21,18 +21,25 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(KeyboardModifierKey.keys(in: flags), [.leftCommand, .rightCommand])
     }
 
-    func testModifierItemsIncludeFunctionKey() {
+    func testModifierItemsExcludeFunctionKey() {
         let items = KeycapItemFactory.modifierItems(
             currentFlags: [.function],
-            releasedFlags: [],
+            releasedFlags: [.function],
             palette: Self.makePalette()
         )
 
-        XCTAssertEqual(items.count, 1)
-        XCTAssertEqual(items.first?.identity, .keyCode(KeyboardKeyCode.function.rawValue))
-        XCTAssertEqual(items.first?.label, "fn")
-        XCTAssertEqual(items.first?.sfSymbolName, "globe")
-        XCTAssertEqual(items.first?.isPressed, true)
+        XCTAssertTrue(items.isEmpty)
+    }
+
+    func testFunctionItemIsAStandaloneKeycap() {
+        let item = KeycapItemFactory.functionItem(isPressed: true, palette: Self.makePalette())
+
+        XCTAssertEqual(item.identity, .keyCode(KeyboardKeyCode.function.rawValue))
+        XCTAssertEqual(item.label, "fn")
+        XCTAssertEqual(item.sfSymbolName, "globe")
+        XCTAssertEqual(item.isPressed, true)
+        XCTAssertFalse(item.identity.isModifier)
+        XCTAssertEqual(KeycapCategory(identity: item.identity), .special)
     }
 
     func testModifierItemsUseLocationSpecificModifierKeys() {

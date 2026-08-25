@@ -181,7 +181,7 @@ final class KeyboardVisualizerTests: XCTestCase {
         )))
         self.visualizer.display(.modifierStateChanged([]))
 
-        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 2)
     }
 
     func testCollapseRepeatedGroupsReusesPreviousStandaloneKeyGroup() {

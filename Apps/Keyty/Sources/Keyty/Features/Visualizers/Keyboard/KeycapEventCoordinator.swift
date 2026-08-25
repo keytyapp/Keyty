@@ -155,6 +155,41 @@ final class KeycapEventCoordinator<GroupView: AnyObject, Item: KeycapGroupItem> 
     }
 
     @discardableResult
+    func handleIndependentTrackedKey(
+        keyCode: UInt16,
+        isKeyDown: Bool,
+        items: [Item],
+        appendGroup: ([Item]) -> GroupView,
+        updateGroup: (GroupView, [Item]) -> Void
+    ) -> GroupView? {
+        guard !items.isEmpty else { return nil }
+
+        if let activeGroup = self.activeKeyGroups[keyCode] {
+            let existingItems = self.storedItems(for: activeGroup)
+            let permittedItems = self.permittedTrackedKeyItems(items, forExistingItems: existingItems)
+            let merged = self.ordered(items: self.merged(items: permittedItems, into: existingItems))
+            self.groupItems[ObjectIdentifier(activeGroup)] = merged
+            updateGroup(activeGroup, merged)
+            self.pendingModifierGroup = activeGroup
+            self.completedModifierGroup = activeGroup
+            if !isKeyDown {
+                self.activeKeyGroups[keyCode] = nil
+            }
+            return activeGroup
+        }
+
+        let orderedItems = self.ordered(items: items)
+        let group = appendGroup(orderedItems)
+        self.groupItems[ObjectIdentifier(group)] = orderedItems
+        self.pendingModifierGroup = group
+        self.completedModifierGroup = group
+        if isKeyDown {
+            self.activeKeyGroups[keyCode] = group
+        }
+        return group
+    }
+
+    @discardableResult
     func handleMouseButton(
         kind: MouseEvent.Kind,
         isPressed: Bool,

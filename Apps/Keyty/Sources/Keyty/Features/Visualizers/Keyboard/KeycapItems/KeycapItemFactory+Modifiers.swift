@@ -36,17 +36,16 @@ extension KeycapItemFactory {
             }
 
             if currentFlags.contains(modifier.flag) || releasedFlags.contains(modifier.flag) {
-                let modifierKey = KeyboardModifierKey(modifier, location: .left)
+                let modifierKey = KeyboardModifierKey(
+                    modifier,
+                    location: modifier == .function ? .single : .left
+                )
                 items.append(Self.modifierItem(
                     modifierKey,
                     isPressed: currentFlags.contains(modifier.flag),
                     palette: palette
                 ))
             }
-        }
-
-        if currentFlags.contains(.function) || releasedFlags.contains(.function) {
-            items.append(Self.functionItem(isPressed: currentFlags.contains(.function), palette: palette))
         }
         return items
     }
@@ -59,7 +58,7 @@ extension KeycapItemFactory {
         let identity = KeycapIdentity.modifier(modifierKey)
         return KeycapItem(
             identity: identity,
-            legend: KeycapLegend(symbol: modifierKey.kind.glyph, label: modifierKey.kind.label),
+            legend: .modifier(modifierKey.kind),
             state: KeycapState(isPressed: isPressed),
             layoutHints: KeycapLayoutHints(alignment: modifierKey.legendAlignment),
             appearance: palette.appearance(for: identity)
@@ -72,21 +71,9 @@ extension KeycapItemFactory {
         releasedModifierKeys: Set<KeyboardModifierKey>
     ) -> [KeyboardModifierKey] {
         let keys = currentModifierKeys.union(releasedModifierKeys)
-        return Self.orderedModifierLocations
+        let locations: [KeyboardModifierKey.Location] = modifier == .function ? [.single] : Self.orderedModifierLocations
+        return locations
             .map { KeyboardModifierKey(modifier, location: $0) }
             .filter { keys.contains($0) }
-    }
-
-    private static func functionItem(
-        isPressed: Bool,
-        palette: KeycapThemePalette
-    ) -> KeycapItem {
-        let identity = KeycapIdentity.keyCode(KeyboardKeyCode.function.rawValue)
-        return KeycapItem(
-            identity: identity,
-            legend: .function,
-            state: KeycapState(isPressed: isPressed),
-            appearance: palette.appearance(for: identity)
-        )
     }
 }

@@ -147,7 +147,7 @@ private extension KeyboardVisualizer {
     private func displayKeystroke(_ keystroke: StandardKeyEvent) {
         // Track command/shift/option/control exclusively through flagsChanged so a modifier
         // release does not create a separate keystroke group after the chord ends.
-        if KeyboardGlyphCatalog.isModifierKeyCode(keystroke.keyCode) {
+        if KeyboardKeyCode.isModifierOnly(keystroke.keyCode) {
             return
         }
 

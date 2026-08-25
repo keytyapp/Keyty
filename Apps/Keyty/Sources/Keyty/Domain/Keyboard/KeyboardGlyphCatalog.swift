@@ -23,15 +23,6 @@ enum KeyboardGlyphCatalog {
     
     static let tab = UnicodeToken.tab.string
 
-    /// Physical key codes for modifier-only keys handled by the flagsChanged path.
-    static let modifierKeyCodes: Set<KeyboardKeyCode> =
-        Set(KeyboardModifierKey.Kind.allCases.flatMap(\.keyCodes)).union([.function])
-
-    static func isModifierKeyCode(_ rawValue: UInt16) -> Bool {
-        guard let keyCode = KeyboardKeyCode(rawValue: rawValue) else { return false }
-        return modifierKeyCodes.contains(keyCode)
-    }
-
     /// Returns the glyph we show for a typed keyboard key when it has a semantic visual representation.
     static func symbol(for key: KeyboardSpecialKey) -> String {
         key.displayText

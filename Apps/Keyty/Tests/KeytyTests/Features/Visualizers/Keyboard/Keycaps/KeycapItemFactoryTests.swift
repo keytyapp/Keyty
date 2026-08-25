@@ -29,7 +29,7 @@ final class KeycapItemFactoryTests: XCTestCase {
         )
 
         XCTAssertEqual(items.count, 1)
-        XCTAssertEqual(items.first?.identity, .keyCode(KeyboardKeyCode.function.rawValue))
+        XCTAssertEqual(items.first?.identity, .modifier(.function))
         XCTAssertEqual(items.first?.label, "fn")
         XCTAssertEqual(items.first?.sfSymbolName, "globe")
         XCTAssertEqual(items.first?.isPressed, true)

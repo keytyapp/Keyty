@@ -8,7 +8,7 @@
 
 import AppKit
 
-/// A physical left or right key for a paired keyboard modifier.
+/// A physical key for a keyboard modifier.
 public struct KeyboardModifierKey: Hashable {
     let kind: Kind
     let location: Location
@@ -20,10 +20,11 @@ public struct KeyboardModifierKey: Hashable {
 }
 
 extension KeyboardModifierKey {
-    /// The physical side of a paired keyboard modifier key.
+    /// The physical position of a modifier key.
     enum Location: CaseIterable, Hashable {
         case left
         case right
+        case single
 
         var canonicalDisplayOrderIndex: Int {
             switch self {
@@ -31,6 +32,8 @@ extension KeyboardModifierKey {
                 return 0
             case .right:
                 return 1
+            case .single:
+                return 2
             }
         }
     }
@@ -41,6 +44,8 @@ extension KeyboardModifierKey {
             return .right
         case .right:
             return .left
+        case .single:
+            return .center
         }
     }
 }
@@ -57,12 +62,17 @@ extension KeyboardModifierKey {
         case .optionRight: return .rightOption
         case .controlLeft: return .leftControl
         case .controlRight: return .rightControl
+        case .function: return .function
         default: return nil
         }
     }
 
     static func keys(in flags: NSEvent.ModifierFlags) -> Set<KeyboardModifierKey> {
-        Set(Self.all.filter { flags.rawValue & $0.deviceMask != 0 })
+        var keys = Set(Self.all.filter { flags.rawValue & $0.deviceMask != 0 })
+        if flags.contains(.function) {
+            keys.insert(.function)
+        }
+        return keys
     }
 }
 
@@ -76,6 +86,7 @@ extension KeyboardModifierKey {
     static let rightOption = KeyboardModifierKey(.option, location: .right)
     static let leftControl = KeyboardModifierKey(.control, location: .left)
     static let rightControl = KeyboardModifierKey(.control, location: .right)
+    static let function = KeyboardModifierKey(.function, location: .single)
 
     static let all: [KeyboardModifierKey] = [
         .leftCommand, .rightCommand,
@@ -95,6 +106,10 @@ extension KeyboardModifierKey {
         case (.option, .right):  return UInt(NX_DEVICERALTKEYMASK)
         case (.control, .left):  return UInt(NX_DEVICELCTLKEYMASK)
         case (.control, .right): return UInt(NX_DEVICERCTLKEYMASK)
+        case (.function, .single): return 0
+        case (.command, .single), (.shift, .single), (.option, .single), (.control, .single),
+             (.function, .left), (.function, .right):
+            return 0
         }
     }
 }

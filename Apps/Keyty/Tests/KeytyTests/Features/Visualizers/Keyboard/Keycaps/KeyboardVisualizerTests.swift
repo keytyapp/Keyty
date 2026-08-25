@@ -110,6 +110,26 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
     }
 
+    func testFunctionKeyPressAndReleaseStaysInASingleGroup() {
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
+
+        self.visualizer.display(.modifierStateChanged([.function]))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .function,
+            type: .keyDown,
+            modifiers: [.function]
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .function,
+            type: .keyUp,
+            modifiers: [.function]
+        )))
+        self.visualizer.display(.modifierStateChanged([]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
     func testCollapseRepeatedGroupsReusesPreviousStandaloneKeyGroup() {
         self.settings.collapseRepeatedGroups = true
         self.visualizer.isPresentationActive = true

@@ -123,3 +123,25 @@ enum KeyboardKeyCode: UInt16 {
     case dictation = 0xB0
     case doNotDisturb = 0xB2
 }
+
+extension KeyboardKeyCode {
+    /// Keys whose press/release lifecycle is visualized from modifier-state updates
+    /// rather than the normal keystroke path.
+    var isModifierOnly: Bool {
+        switch self {
+        case .commandRight, .commandLeft,
+             .shiftLeft, .shiftRight,
+             .optionLeft, .optionRight,
+             .controlLeft, .controlRight,
+             .function:
+            return true
+        default:
+            return false
+        }
+    }
+
+    static func isModifierOnly(_ rawValue: UInt16) -> Bool {
+        guard let keyCode = Self(rawValue: rawValue) else { return false }
+        return keyCode.isModifierOnly
+    }
+}

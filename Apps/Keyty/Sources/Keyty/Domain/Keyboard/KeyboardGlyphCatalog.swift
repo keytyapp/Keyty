@@ -23,8 +23,9 @@ enum KeyboardGlyphCatalog {
     
     static let tab = UnicodeToken.tab.string
 
-    /// Physical key codes for left and right command, shift, option, and control keys.
-    static let modifierKeyCodes: Set<KeyboardKeyCode> = Set(KeyboardModifierKey.Kind.allCases.flatMap(\.keyCodes))
+    /// Physical key codes for modifier-only keys handled by the flagsChanged path.
+    static let modifierKeyCodes: Set<KeyboardKeyCode> =
+        Set(KeyboardModifierKey.Kind.allCases.flatMap(\.keyCodes)).union([.function])
 
     static func isModifierKeyCode(_ rawValue: UInt16) -> Bool {
         guard let keyCode = KeyboardKeyCode(rawValue: rawValue) else { return false }

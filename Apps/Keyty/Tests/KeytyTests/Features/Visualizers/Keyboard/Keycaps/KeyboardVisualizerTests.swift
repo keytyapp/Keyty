@@ -93,6 +93,23 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertEqual(self.visualizer.visibleGroupCount, 0)
     }
 
+    func testFunctionKeyKeystrokeDoesNotCreateDuplicateGroupAfterModifierPreview() {
+        self.settings.showSpecialKeys = true
+        self.visualizer.isPresentationActive = true
+
+        self.visualizer.display(.modifierStateChanged([.function]))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: .function,
+            type: .keyDown,
+            modifiers: [.function]
+        )))
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
     func testCollapseRepeatedGroupsReusesPreviousStandaloneKeyGroup() {
         self.settings.collapseRepeatedGroups = true
         self.visualizer.isPresentationActive = true

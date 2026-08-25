@@ -333,4 +333,20 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.settings.themeTokens.surfaceBaseColor, KeyboardVisualizerTheme.black.tokens.surfaceBaseColor)
         XCTAssertEqual(self.settings.themeTokens.recessColor, KeyboardVisualizerTheme.black.tokens.recessColor)
     }
+
+
+    func testM0116StyleKeepsItsOwnPaletteAcrossThemes() {
+        self.settings.style = .m0116
+
+        self.settings.theme = .black
+        let onDark = self.settings.appearance.m0116
+
+        self.settings.theme = .white
+        let onLight = self.settings.appearance.m0116
+
+        XCTAssertNotNil(onDark)
+        XCTAssertEqual(onDark?.textColor, onLight?.textColor)
+        XCTAssertEqual(onDark?.wellColor, onLight?.wellColor)
+        XCTAssertEqual(onDark?.textColor, KeycapThemeTokens.m0116Hardware().textColor)
+    }
 }

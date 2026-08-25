@@ -37,6 +37,7 @@ enum KeycapAppearance {
     case pbt(PBT)
     case minimal(Minimal)
     case retro(Retro)
+    case m0116(M0116)
 
     static let dotColor = NSColor(calibratedRed: 0.0, green: 1.0, blue: 0.1, alpha: 1)
     static let inactiveDotColor = NSColor(calibratedWhite: 0.42, alpha: 0.7)
@@ -47,6 +48,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.textColor
         case .minimal(let appearance): appearance.textColor
         case .retro(let appearance): appearance.textColor
+        case .m0116(let appearance): appearance.textColor
         }
     }
 
@@ -56,6 +58,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.groupBackgroundColor
         case .minimal(let appearance): appearance.groupBackgroundColor
         case .retro(let appearance): appearance.groupBackgroundColor
+        case .m0116(let appearance): appearance.groupBackgroundColor
         }
     }
 
@@ -65,6 +68,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.groupStrokeColor
         case .minimal(let appearance): appearance.groupStrokeColor
         case .retro(let appearance): appearance.groupStrokeColor
+        case .m0116(let appearance): appearance.groupStrokeColor
         }
     }
 
@@ -74,6 +78,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.badgeFillColor
         case .minimal(let appearance): appearance.badgeFillColor
         case .retro(let appearance): appearance.badgeFillColor
+        case .m0116(let appearance): appearance.badgeFillColor
         }
     }
 
@@ -83,6 +88,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.badgeStrokeColor
         case .minimal(let appearance): appearance.badgeStrokeColor
         case .retro(let appearance): appearance.badgeStrokeColor
+        case .m0116(let appearance): appearance.badgeStrokeColor
         }
     }
 
@@ -92,6 +98,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.badgeHighlightColor
         case .minimal(let appearance): appearance.badgeHighlightColor
         case .retro(let appearance): appearance.badgeHighlightColor
+        case .m0116(let appearance): appearance.badgeHighlightColor
         }
     }
 
@@ -101,6 +108,7 @@ enum KeycapAppearance {
         case .pbt(let appearance): appearance.badgeTextColor
         case .minimal(let appearance): appearance.badgeTextColor
         case .retro(let appearance): appearance.badgeTextColor
+        case .m0116(let appearance): appearance.badgeTextColor
         }
     }
 
@@ -121,6 +129,11 @@ enum KeycapAppearance {
 
     var retro: Retro? {
         guard case .retro(let appearance) = self else { return nil }
+        return appearance
+    }
+
+    var m0116: M0116? {
+        guard case .m0116(let appearance) = self else { return nil }
         return appearance
     }
 }
@@ -296,6 +309,62 @@ extension KeycapAppearance {
             )
             self.lightFaceStrokeColor = tokens.surfaceBorderColor.withAlphaComponent(0.55)
             self.glossColor = NSColor(white: 1, alpha: 0.08)
+        }
+    }
+
+    /// Sculpted beige-era keycap: a lit body, an inset top face, and a front skirt,
+    /// all sitting in a near-black well like the plate of an Apple Standard Keyboard.
+    struct M0116 {
+        let textColor: NSColor
+        let groupBackgroundColor: NSColor
+        let groupStrokeColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeTextColor: NSColor
+        let wellColor: NSColor
+        let bodyGradient: NSGradient?
+        let skirtGradient: NSGradient?
+        let faceGradient: NSGradient?
+        let creaseColor: NSColor
+        let bodyStrokeColor: NSColor
+
+        init(tokens: KeycapThemeTokens) {
+            let bodyEdge = tokens.surfaceShadowColor.darkened(by: 0.28)
+            let bodyHighlight = tokens.surfaceHighlightColor.blended(
+                withFraction: 0.35,
+                of: tokens.surfaceBaseColor
+            ) ?? tokens.surfaceHighlightColor
+
+            self.textColor = tokens.textColor
+            self.groupBackgroundColor = tokens.groupBackgroundColor
+            self.groupStrokeColor = tokens.groupStrokeColor
+            self.badgeFillColor = tokens.badgeFillColor
+            self.badgeStrokeColor = tokens.badgeStrokeColor
+            self.badgeHighlightColor = tokens.badgeHighlightColor
+            self.badgeTextColor = tokens.badgeTextColor
+            self.wellColor = tokens.recessColor.darkened(by: 0.45)
+            // Lit from the left: bright edge, base across the middle, shaded right edge.
+            self.bodyGradient = NSGradient(colorsAndLocations:
+                (tokens.surfaceHighlightColor, 0.0),
+                (bodyHighlight, 0.14),
+                (tokens.surfaceBaseColor, 0.55),
+                (tokens.surfaceShadowColor, 0.92),
+                (bodyEdge, 1.0)
+            )
+            // The front skirt catches more light at its lower edge than the face above it.
+            self.skirtGradient = NSGradient(colorsAndLocations:
+                (bodyEdge, 0.0),
+                (tokens.surfaceBaseColor, 0.45),
+                (tokens.surfaceHighlightColor, 1.0)
+            )
+            self.faceGradient = NSGradient(colorsAndLocations:
+                (tokens.surfaceHighlightColor, 0.0),
+                (tokens.surfaceBaseColor, 0.58),
+                (tokens.surfaceShadowColor, 1.0)
+            )
+            self.creaseColor = tokens.surfaceBorderColor.withAlphaComponent(0.42)
+            self.bodyStrokeColor = tokens.surfaceBorderColor
         }
     }
 }

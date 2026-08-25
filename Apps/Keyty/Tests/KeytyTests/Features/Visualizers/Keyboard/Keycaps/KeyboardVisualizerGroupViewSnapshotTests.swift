@@ -34,6 +34,52 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
         )
     }
 
+    func testRendersM0116StyleKeycap() {
+        self.assertGroupSnapshot(
+            style: .m0116,
+            theme: .black,
+            items: self.keycapItems(
+                keyCode: KeyboardKeyCode.a.rawValue,
+                legend: EventLegend(text: "A"),
+                style: .m0116,
+                theme: .black
+            ),
+            named: "m0116-keycap"
+        )
+    }
+
+    func testRendersM0116StyleEscapeKeycap() {
+        self.assertGroupSnapshot(
+            style: .m0116,
+            theme: .black,
+            items: self.keycapItems(
+                keyCode: KeyboardKeyCode.escape.rawValue,
+                legend: EventLegend(text: KeyboardGlyphCatalog.symbol(for: .escape), label: KeyboardSpecialKey.escape.label),
+                style: .m0116,
+                theme: .black
+            ),
+            named: "m0116-escape-keycap"
+        )
+    }
+
+    func testRendersM0116StyleCommandShiftKKeycaps() {
+        let settings = self.settings(style: .m0116, theme: .black)
+        let items = KeycapItemFactory.modifierItems(
+            currentFlags: [],
+            releasedFlags: Self.commandShiftFlags,
+            palette: settings.palette
+        )
+        + KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.k.rawValue,
+            legend: EventLegend(text: "K"),
+            modifierFlags: [],
+            isPressed: false,
+            palette: settings.palette
+        )
+
+        self.assertGroupSnapshot(style: .m0116, theme: .black, items: items, named: "m0116-command-shift-k-keycaps")
+    }
+
     func testRendersAppleBlackEscapeKeycap() {
         self.assertAppleBlackSnapshot(
             items: self.keycapItems(
@@ -53,14 +99,16 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
     func keycapItems(
         keyCode: UInt16,
         legend: EventLegend,
-        modifierFlags: NSEvent.ModifierFlags = []
+        modifierFlags: NSEvent.ModifierFlags = [],
+        style: KeycapStyle = .apple,
+        theme: KeyboardVisualizerTheme = .black
     ) -> [KeycapItem] {
         KeycapItemFactory.keycapItems(
             keyCode: keyCode,
             legend: legend,
             modifierFlags: modifierFlags,
             isPressed: false,
-            palette: self.appleBlackSettings.palette
+            palette: self.settings(style: style, theme: theme).palette
         )
     }
 
@@ -87,7 +135,19 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
         testName: String = #function,
         line: UInt = #line
     ) {
-        let settings = self.appleBlackSettings
+        self.assertGroupSnapshot(style: .apple, theme: .black, items: items, named: name, file: file, testName: testName, line: line)
+    }
+
+    func assertGroupSnapshot(
+        style: KeycapStyle,
+        theme: KeyboardVisualizerTheme,
+        items: [KeycapItem],
+        named name: String,
+        file: StaticString = #filePath,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
+        let settings = self.settings(style: style, theme: theme)
         let view = KeyboardVisualizerGroupView(items: items, settings: settings)
         view.frame = NSRect(origin: .zero, size: view.preferredSize)
 
@@ -102,9 +162,13 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
     }
 
     var appleBlackSettings: KeyboardVisualizerSettings {
+        self.settings(style: .apple, theme: .black)
+    }
+
+    func settings(style: KeycapStyle, theme: KeyboardVisualizerTheme) -> KeyboardVisualizerSettings {
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
-        settings.style = .apple
-        settings.theme = .black
+        settings.style = style
+        settings.theme = theme
         settings.scale = 1.0
         return settings
     }

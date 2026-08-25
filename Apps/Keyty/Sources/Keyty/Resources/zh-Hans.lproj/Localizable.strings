@@ -119,6 +119,7 @@
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "极简";
 "keyboard_visualizer.style.retro" = "复古";
+"keyboard_visualizer.style.m0116" = "M0116";
 "keyboard_visualizer.linger_time_label" = "显示时间";
 "keyboard_visualizer.linger_time_subtitle" = "按键在淡出前保持完全可见的时间。";
 "keyboard_visualizer.linger_time.short" = "短";

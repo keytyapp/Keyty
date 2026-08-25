@@ -119,6 +119,7 @@
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "ミニマル";
 "keyboard_visualizer.style.retro" = "レトロ";
+"keyboard_visualizer.style.m0116" = "M0116";
 "keyboard_visualizer.linger_time_label" = "表示時間";
 "keyboard_visualizer.linger_time_subtitle" = "フェードアウトが始まるまでキーを完全に表示する時間です。";
 "keyboard_visualizer.linger_time.short" = "短い";

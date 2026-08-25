@@ -25,6 +25,9 @@ extension KeycapStyle {
         case .retro:
             return RetroKeycapMetrics.height
                 + RetroKeycapMetrics.groupPadding.top + RetroKeycapMetrics.groupPadding.bottom
+        case .m0116:
+            return M0116KeycapMetrics.height
+                + M0116KeycapMetrics.groupPadding.top + M0116KeycapMetrics.groupPadding.bottom
         }
     }
 

@@ -142,6 +142,8 @@ private extension KeyboardVisualizerGroupView {
             fallbackHeight = MinimalKeycapMetrics.height
         case .retro:
             fallbackHeight = RetroKeycapMetrics.height
+        case .m0116:
+            fallbackHeight = M0116KeycapMetrics.height
         case .apple, .pbt:
             fallbackHeight = AppleKeycapMetrics.height
         }
@@ -165,6 +167,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.groupPadding
         case .retro:
             return RetroKeycapMetrics.groupPadding
+        case .m0116:
+            return M0116KeycapMetrics.groupPadding
         case .apple:
             return AppleKeycapMetrics.groupPadding
         case .pbt:
@@ -178,6 +182,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.itemSpacing
         case .retro:
             return RetroKeycapMetrics.itemSpacing
+        case .m0116:
+            return M0116KeycapMetrics.itemSpacing
         case .apple, .pbt:
             return AppleKeycapMetrics.itemSpacing
         }
@@ -189,6 +195,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.repeatBadgeInset
         case .retro:
             return RetroKeycapMetrics.repeatBadgeInset
+        case .m0116:
+            return M0116KeycapMetrics.repeatBadgeInset
         case .apple:
             return AppleKeycapMetrics.repeatBadgeInset
         case .pbt:
@@ -208,6 +216,8 @@ private extension KeyboardVisualizerGroupView {
             radius = insetBounds.height / 2
         case .retro:
             radius = 24
+        case .m0116:
+            radius = 12
         case .apple, .pbt:
             radius = 18
         }

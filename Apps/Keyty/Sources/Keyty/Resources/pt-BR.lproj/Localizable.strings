@@ -119,6 +119,7 @@
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimalista";
 "keyboard_visualizer.style.retro" = "Retrô";
+"keyboard_visualizer.style.m0116" = "M0116";
 "keyboard_visualizer.linger_time_label" = "Tempo de Permanência";
 "keyboard_visualizer.linger_time_subtitle" = "Por quanto tempo as teclas permanecem totalmente visíveis antes de desaparecer.";
 "keyboard_visualizer.linger_time.short" = "Curto";

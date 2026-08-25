@@ -11,6 +11,7 @@ enum KeycapStyle: Int, CaseIterable {
     case pbt = 1
     case minimal = 2
     case retro = 3
+    case m0116 = 4
 
     static let `default`: KeycapStyle = .apple
 
@@ -20,6 +21,7 @@ enum KeycapStyle: Int, CaseIterable {
         case .pbt:   L10n.KeyboardVisualizer.Style.pbt
         case .minimal: L10n.KeyboardVisualizer.Style.minimal
         case .retro: L10n.KeyboardVisualizer.Style.retro
+        case .m0116: L10n.KeyboardVisualizer.Style.m0116
         }
     }
 }

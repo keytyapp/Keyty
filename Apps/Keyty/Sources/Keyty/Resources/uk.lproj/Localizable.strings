@@ -119,6 +119,7 @@
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Мінімалізм";
 "keyboard_visualizer.style.retro" = "Ретро";
+"keyboard_visualizer.style.m0116" = "M0116";
 "keyboard_visualizer.linger_time_label" = "Час відображення";
 "keyboard_visualizer.linger_time_subtitle" = "Як довго клавіші залишаються повністю видимими перед зникненням.";
 "keyboard_visualizer.linger_time.short" = "Короткий";

@@ -47,7 +47,7 @@ extension KeyboardVisualizerTheme {
 
 // MARK: - Tokens
 extension KeyboardVisualizerTheme {
-    private static func badgeTokens(swatchColor: NSColor, textColor: NSColor) -> (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
+    static func badgeTokens(swatchColor: NSColor, textColor: NSColor) -> (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
         let baseFill = swatchColor.relativeLuminance > 0.6
             ? swatchColor.darkened(by: 0.12)
             : swatchColor.lightened(by: 0.08)
@@ -375,6 +375,11 @@ extension KeyboardVisualizerTheme {
             return KeycapAppearance.minimal(KeycapAppearance.Minimal(tokens: tokens))
         case .retro:
             return KeycapAppearance.retro(KeycapAppearance.Retro(tokens: tokens))
+        case .m0116:
+            // This style ships the keyboard's own colors; themes are not wired into it yet.
+            return KeycapAppearance.m0116(
+                KeycapAppearance.M0116(tokens: .m0116Hardware(legendColorOverride: legendColorOverride))
+            )
         }
     }
 }

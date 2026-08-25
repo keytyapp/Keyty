@@ -13,7 +13,10 @@ enum KeycapStyle: Int, CaseIterable {
     case m0116 = 4
 
     static let `default`: KeycapStyle = .apple
+}
 
+// MARK: - Titles
+extension KeycapStyle {
     var title: String {
         switch self {
         case .apple: L10n.KeyboardVisualizer.Style.apple
@@ -23,7 +26,10 @@ enum KeycapStyle: Int, CaseIterable {
         case .m0116: L10n.KeyboardVisualizer.Style.m0116
         }
     }
+}
 
+// MARK: - Theme Policy
+extension KeycapStyle {
     var allowedThemes: [KeyboardVisualizerTheme] {
         switch self {
         case .m0116:

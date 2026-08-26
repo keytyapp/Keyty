@@ -70,6 +70,14 @@ extension KeycapStyle {
                 ),
                 layoutHints: layoutHints
             )
+        case (.m0116, .leftArrow):
+            return KeycapPresentation(legend: KeycapLegend(symbol: UnicodeToken.leftwardsDashedArrow.string), layoutHints: layoutHints)
+        case (.m0116, .rightArrow):
+            return KeycapPresentation(legend: KeycapLegend(symbol: UnicodeToken.rightwardsDashedArrow.string), layoutHints: layoutHints)
+        case (.m0116, .upArrow):
+            return KeycapPresentation(legend: KeycapLegend(symbol: UnicodeToken.upwardsDashedArrow.string), layoutHints: layoutHints)
+        case (.m0116, .downArrow):
+            return KeycapPresentation(legend: KeycapLegend(symbol: UnicodeToken.downwardsDashedArrow.string), layoutHints: layoutHints)
         case (.apple, _), (.pbt, _), (.minimal, _), (.retro, _), (.m0116, _):
             return KeycapPresentation(legend: legend, layoutHints: layoutHints)
         }

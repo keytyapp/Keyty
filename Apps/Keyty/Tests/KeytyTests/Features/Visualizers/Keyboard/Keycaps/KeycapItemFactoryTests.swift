@@ -190,6 +190,39 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first?.layoutHints.alignment, .left)
     }
 
+    func testM0116ArrowsUseDashedArrowGlyphsOnlyForThatStyle() {
+        let m0116Palette = Self.makePalette(style: .m0116, theme: .white)
+        let applePalette = Self.makePalette(style: .apple, theme: .black)
+        let expectedM0116: [(KeyboardKeyCode, String, String)] = [
+            (.leftArrow, UnicodeToken.leftwardsDashedArrow.string, UnicodeToken.leftArrow.string),
+            (.rightArrow, UnicodeToken.rightwardsDashedArrow.string, UnicodeToken.rightArrow.string),
+            (.upArrow, UnicodeToken.upwardsDashedArrow.string, UnicodeToken.upArrow.string),
+            (.downArrow, UnicodeToken.downwardsDashedArrow.string, UnicodeToken.downArrow.string),
+        ]
+
+        for (keyCode, m0116Symbol, defaultSymbol) in expectedM0116 {
+            let legend = EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? "")
+
+            let m0116Items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: legend,
+                modifierFlags: [],
+                isPressed: true,
+                palette: m0116Palette
+            )
+            let appleItems = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: legend,
+                modifierFlags: [],
+                isPressed: true,
+                palette: applePalette
+            )
+
+            XCTAssertEqual(m0116Items.first?.symbol, m0116Symbol)
+            XCTAssertEqual(appleItems.first?.symbol, defaultSymbol)
+        }
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

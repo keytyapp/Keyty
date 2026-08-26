@@ -9,6 +9,8 @@
 import Foundation
 
 protocol KeycapPresentationPolicy {
+    /// Indicates whether caps lock should render its indicator dot in this style.
+    var showsCapsLockDot: Bool { get }
     /// Returns the legend used for the function key in this style.
     var functionLegend: KeycapLegend { get }
 

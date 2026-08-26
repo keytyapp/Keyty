@@ -193,11 +193,12 @@ private extension KeyboardVisualizer {
         let capsNow = modifierFlags.contains(.capsLock)
         let capsWas = self.lastModifierFlags.contains(.capsLock)
         if self.visualizerSettings.showSpecialKeys, capsNow != capsWas {
+            let showsCapsLockDot = self.visualizerSettings.palette.style.presentationPolicy.showsCapsLockDot
             let group = self.eventCoordinator.handleStandalone(
                 items: [KeycapItem(
                     identity: .keyCode(KeyboardKeyCode.capsLock.rawValue),
                     legend: .capsLock,
-                    state: KeycapState(isPressed: false, showsDot: true, isDotActive: capsNow),
+                    state: KeycapState(isPressed: false, showsDot: showsCapsLockDot, isDotActive: capsNow),
                     layoutHints: KeycapLayoutHints(alignment: .left),
                     appearance: self.visualizerSettings.palette.appearance(for: .keyCode(KeyboardKeyCode.capsLock.rawValue))
                 )],

@@ -9,6 +9,7 @@
 import Foundation
 
 struct M0116KeycapPresentationPolicy: KeycapPresentationPolicy {
+    var showsCapsLockDot: Bool { false }
     var functionLegend: KeycapLegend {
         KeycapLegend(label: KeyboardSpecialKey.function.label)
     }

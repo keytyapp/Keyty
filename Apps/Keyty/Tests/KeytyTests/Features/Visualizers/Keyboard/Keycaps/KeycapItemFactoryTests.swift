@@ -56,6 +56,11 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(appleItems.first?.label, "fn")
     }
 
+    func testM0116PresentationPolicyHidesCapsLockDot() {
+        XCTAssertFalse(Self.makePalette(style: .m0116, theme: .white).style.presentationPolicy.showsCapsLockDot)
+        XCTAssertTrue(Self.makePalette(style: .apple, theme: .black).style.presentationPolicy.showsCapsLockDot)
+    }
+
     func testModifierItemsUseLocationSpecificModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
             currentFlags: NSEvent.ModifierFlags.command.addingRawMasks(

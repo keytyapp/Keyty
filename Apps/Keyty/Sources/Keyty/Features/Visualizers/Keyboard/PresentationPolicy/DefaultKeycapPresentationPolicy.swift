@@ -9,6 +9,7 @@
 import Foundation
 
 struct DefaultKeycapPresentationPolicy: KeycapPresentationPolicy {
+    var showsCapsLockDot: Bool { true }
     var functionLegend: KeycapLegend { .function }
 
     func modifierLegend(for modifierKey: KeyboardModifierKey) -> KeycapLegend {

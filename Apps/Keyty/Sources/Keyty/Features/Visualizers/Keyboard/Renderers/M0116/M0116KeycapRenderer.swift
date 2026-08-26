@@ -137,8 +137,8 @@ private extension M0116KeycapRenderer {
             return
         }
 
-        if self.rendersWrappedCapsLockLabel(for: item), let label = item.label {
-            self.drawWrappedCapsLockLabel(label, in: faceRect, textColor: textColor)
+        if item.wrapsLabel, let label = item.label {
+            self.drawWrappedLabel(label, for: item, in: faceRect, textColor: textColor)
             if item.state.showsDot {
                 self.legendRenderer.drawKeycapDot(in: faceRect, active: item.state.isDotActive)
             }
@@ -179,7 +179,7 @@ private extension M0116KeycapRenderer {
         }
     }
 
-    func drawWrappedCapsLockLabel(_ label: String, in faceRect: NSRect, textColor: NSColor) {
+    func drawWrappedLabel(_ label: String, for item: KeycapItem, in faceRect: NSRect, textColor: NSColor) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let attributes: [NSAttributedString.Key: Any] = [
@@ -188,7 +188,7 @@ private extension M0116KeycapRenderer {
             .paragraphStyle: paragraphStyle,
         ]
         let width = min(
-            M0116KeycapMetrics.capsLockLabelWidth,
+            self.wrappedLabelWidth(for: item, faceRect: faceRect),
             faceRect.width - 2 * M0116KeycapMetrics.horizontalPadding
         )
         let bounds = NSRect(
@@ -225,9 +225,14 @@ private extension M0116KeycapRenderer {
         return item.sfSymbolName == nil && !item.symbol.isEmpty
     }
 
-    func rendersWrappedCapsLockLabel(for item: KeycapItem) -> Bool {
-        item.identity == .keyCode(KeyboardKeyCode.capsLock.rawValue)
-            && item.label != nil
-            && item.symbol.isEmpty
+    func wrappedLabelWidth(for item: KeycapItem, faceRect: NSRect) -> CGFloat {
+        switch item.identity {
+        case .keyCode(KeyboardKeyCode.capsLock.rawValue):
+            return M0116KeycapMetrics.capsLockLabelWidth
+        case .keyCode(KeyboardKeyCode.pageUp.rawValue), .keyCode(KeyboardKeyCode.pageDown.rawValue):
+            return M0116KeycapMetrics.pageNavigationLabelWidth
+        default:
+            return faceRect.width - 2 * M0116KeycapMetrics.horizontalPadding
+        }
     }
 }

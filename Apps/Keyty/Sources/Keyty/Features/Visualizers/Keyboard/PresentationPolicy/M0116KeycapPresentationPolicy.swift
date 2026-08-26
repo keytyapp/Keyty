@@ -36,9 +36,14 @@ struct M0116KeycapPresentationPolicy: KeycapPresentationPolicy {
             return self.textOnlyPresentation(for: .delete, layoutHints: layoutHints)
         case .returnKey:
             return self.textOnlyPresentation(for: .returnKey, layoutHints: layoutHints)
-        case .home, .end, .pageUp, .pageDown:
+        case .home, .end:
             return KeycapPresentation(
                 legend: KeycapLegend(label: legend.label),
+                layoutHints: layoutHints
+            )
+        case .pageUp, .pageDown:
+            return KeycapPresentation(
+                legend: KeycapLegend(label: legend.label, wrapsLabel: true),
                 layoutHints: layoutHints
             )
         case .space:

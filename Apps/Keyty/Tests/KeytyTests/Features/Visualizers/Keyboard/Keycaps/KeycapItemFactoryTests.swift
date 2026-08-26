@@ -308,6 +308,27 @@ final class KeycapItemFactoryTests: XCTestCase {
         let expected: [(KeyboardKeyCode, String)] = [
             (.home, "home"),
             (.end, "end"),
+        ]
+
+        for (keyCode, label) in expected {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+
+            XCTAssertEqual(items.map(\.identity), [.keyCode(keyCode.rawValue)])
+            XCTAssertEqual(items.first?.symbol, "")
+            XCTAssertEqual(items.first?.label, label)
+            XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+            XCTAssertEqual(items.first?.wrapsLabel, false)
+        }
+    }
+
+    func testM0116PageNavigationKeysWrapLabels() {
+        let expected: [(KeyboardKeyCode, String)] = [
             (.pageUp, "page up"),
             (.pageDown, "page down"),
         ]
@@ -325,6 +346,7 @@ final class KeycapItemFactoryTests: XCTestCase {
             XCTAssertEqual(items.first?.symbol, "")
             XCTAssertEqual(items.first?.label, label)
             XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+            XCTAssertEqual(items.first?.wrapsLabel, true)
         }
     }
 

@@ -24,6 +24,7 @@ enum M0116KeycapMetrics {
     static let faceBottomInset: CGFloat = 15
     static let horizontalPadding: CGFloat = 11
     static let capsLockLabelWidth: CGFloat = 52
+    static let pageNavigationLabelWidth: CGFloat = 48
     static let legendBaselineInset: CGFloat = 6
     static let pressedTravel: CGFloat = 2
 

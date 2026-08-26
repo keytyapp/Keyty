@@ -38,7 +38,7 @@ extension KeycapItemFactory {
         guard !legend.text.isEmpty || legend.kind != .text else { return result }
 
         let identity = KeycapIdentity.keyCode(keyCode)
-        let presentation = palette.style.presentation(
+        let presentation = palette.style.presentationPolicy.presentation(
             for: keyCode,
             legend: Self.keycapLegend(for: keyCode, legend: legend),
             layoutHints: Self.layoutHints(forKeyCode: keyCode)

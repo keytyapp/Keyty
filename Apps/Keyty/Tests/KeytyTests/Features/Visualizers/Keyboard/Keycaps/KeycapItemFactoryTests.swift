@@ -298,11 +298,12 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
     }
 
-    func testM0116ShiftControlAndOptionOmitGlyphButOtherStylesKeepIt() {
+    func testM0116ModifiersOmitGlyphsButOtherStylesKeepThem() {
         let cases: [(NSEvent.ModifierFlags, UInt, KeycapIdentity, String, String)] = [
             (.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)), UInt(NX_DEVICELSHIFTKEYMASK), .modifier(.leftShift), "shift", UnicodeToken.shift.string),
             (.control.addingRawMasks(UInt(NX_DEVICELCTLKEYMASK)), UInt(NX_DEVICELCTLKEYMASK), .modifier(.leftControl), "control", UnicodeToken.control.string),
             (.option.addingRawMasks(UInt(NX_DEVICELALTKEYMASK)), UInt(NX_DEVICELALTKEYMASK), .modifier(.leftOption), "option", UnicodeToken.option.string),
+            (.command.addingRawMasks(UInt(NX_DEVICELCMDKEYMASK)), UInt(NX_DEVICELCMDKEYMASK), .modifier(.leftCommand), "command", UnicodeToken.command.string),
         ]
 
         for (flags, _, expectedIdentity, expectedLabel, defaultSymbol) in cases {

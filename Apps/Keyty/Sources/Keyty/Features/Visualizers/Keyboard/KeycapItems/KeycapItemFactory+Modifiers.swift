@@ -84,7 +84,7 @@ extension KeycapItemFactory {
         let identity = KeycapIdentity.keyCode(KeyboardKeyCode.function.rawValue)
         return KeycapItem(
             identity: identity,
-            legend: .function,
+            legend: palette.style.functionLegend,
             state: KeycapState(isPressed: isPressed),
             appearance: palette.appearance(for: identity)
         )

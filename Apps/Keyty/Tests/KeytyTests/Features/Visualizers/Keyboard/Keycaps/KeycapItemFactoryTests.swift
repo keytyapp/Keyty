@@ -35,6 +35,27 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first?.isPressed, true)
     }
 
+    func testM0116FunctionKeyMatchesModifierStyle() {
+        let m0116Items = KeycapItemFactory.modifierItems(
+            currentFlags: [.function],
+            releasedFlags: [],
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+        let appleItems = KeycapItemFactory.modifierItems(
+            currentFlags: [.function],
+            releasedFlags: [],
+            palette: Self.makePalette(style: .apple, theme: .black)
+        )
+
+        XCTAssertEqual(m0116Items.count, 1)
+        XCTAssertEqual(m0116Items.first?.identity, .keyCode(KeyboardKeyCode.function.rawValue))
+        XCTAssertEqual(m0116Items.first?.symbol, "")
+        XCTAssertEqual(m0116Items.first?.label, "fn")
+        XCTAssertNil(m0116Items.first?.sfSymbolName)
+        XCTAssertEqual(appleItems.first?.sfSymbolName, "globe")
+        XCTAssertEqual(appleItems.first?.label, "fn")
+    }
+
     func testModifierItemsUseLocationSpecificModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
             currentFlags: NSEvent.ModifierFlags.command.addingRawMasks(

@@ -426,6 +426,25 @@ final class KeycapItemFactoryTests: XCTestCase {
         }
     }
 
+    func testM0116RendererKeepsNavigationKeysAtRegularWidth() throws {
+        let palette = Self.makePalette(style: .m0116, theme: .white)
+        let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
+        let renderer = M0116KeycapRenderer()
+
+        for keyCode in [KeyboardKeyCode.home, .end, .pageUp, .pageDown] {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: palette
+            )
+
+            let context = KeycapContext(item: try XCTUnwrap(items.first), settings: settings)
+            XCTAssertEqual(renderer.size(for: context).width, M0116KeycapMetrics.minWidth)
+        }
+    }
+
     func testMouseItemUsesPressedStateFromMouseEventType() {
         let palette = Self.makePalette()
 

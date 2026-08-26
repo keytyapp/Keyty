@@ -81,6 +81,10 @@ private extension M0116KeycapRenderer {
     /// The shared width helper measures legends in the app-wide label font. This style sets
     /// them in a larger italic face, so the text is re-measured here to keep it from clipping.
     func m0116KeycapWidth(for item: KeycapItem) -> CGFloat {
+        if self.usesRegularNavigationWidth(item) {
+            return M0116KeycapMetrics.minWidth
+        }
+
         let sideInsets = 2 * (M0116KeycapMetrics.horizontalPadding + M0116KeycapMetrics.faceSideInset)
         var legendWidth: CGFloat = 0
         if let label = item.label {
@@ -233,6 +237,18 @@ private extension M0116KeycapRenderer {
             return M0116KeycapMetrics.pageNavigationLabelWidth
         default:
             return faceRect.width - 2 * M0116KeycapMetrics.horizontalPadding
+        }
+    }
+
+    func usesRegularNavigationWidth(_ item: KeycapItem) -> Bool {
+        switch item.identity {
+        case .keyCode(KeyboardKeyCode.home.rawValue),
+             .keyCode(KeyboardKeyCode.end.rawValue),
+             .keyCode(KeyboardKeyCode.pageUp.rawValue),
+             .keyCode(KeyboardKeyCode.pageDown.rawValue):
+            return true
+        default:
+            return false
         }
     }
 }

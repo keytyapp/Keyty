@@ -59,7 +59,7 @@ extension KeycapItemFactory {
         let identity = KeycapIdentity.modifier(modifierKey)
         return KeycapItem(
             identity: identity,
-            legend: KeycapLegend(symbol: modifierKey.kind.glyph, label: modifierKey.kind.label),
+            legend: palette.style.modifierLegend(for: modifierKey),
             state: KeycapState(isPressed: isPressed),
             layoutHints: KeycapLayoutHints(alignment: modifierKey.legendAlignment),
             appearance: palette.appearance(for: identity)

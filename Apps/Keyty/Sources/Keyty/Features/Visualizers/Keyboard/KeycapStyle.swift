@@ -53,6 +53,15 @@ extension KeycapStyle {
 
 // MARK: - Presentation Policy
 extension KeycapStyle {
+    func modifierLegend(for modifierKey: KeyboardModifierKey) -> KeycapLegend {
+        switch (self, modifierKey.kind) {
+        case (.m0116, .shift):
+            return KeycapLegend(label: modifierKey.kind.label)
+        case (.apple, _), (.pbt, _), (.minimal, _), (.retro, _), (.m0116, _):
+            return KeycapLegend(symbol: modifierKey.kind.glyph, label: modifierKey.kind.label)
+        }
+    }
+
     func presentation(
         for keyCode: UInt16,
         legend: KeycapLegend,

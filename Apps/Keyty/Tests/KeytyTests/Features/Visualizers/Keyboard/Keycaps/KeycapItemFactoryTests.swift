@@ -279,6 +279,26 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
     }
 
+    func testM0116ShiftOmitsGlyphButOtherStylesKeepIt() {
+        let m0116Items = KeycapItemFactory.modifierItems(
+            currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
+            releasedFlags: [],
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+        let appleItems = KeycapItemFactory.modifierItems(
+            currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
+            releasedFlags: [],
+            palette: Self.makePalette(style: .apple, theme: .black)
+        )
+
+        XCTAssertEqual(m0116Items.map(\.identity), [.modifier(.leftShift)])
+        XCTAssertEqual(m0116Items.first?.symbol, "")
+        XCTAssertEqual(m0116Items.first?.label, "shift")
+        XCTAssertEqual(m0116Items.first?.layoutHints.alignment, .right)
+        XCTAssertEqual(appleItems.first?.symbol, UnicodeToken.shift.string)
+        XCTAssertEqual(appleItems.first?.label, "shift")
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

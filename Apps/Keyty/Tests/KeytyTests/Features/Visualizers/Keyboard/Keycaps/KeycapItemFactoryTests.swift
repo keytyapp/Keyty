@@ -239,6 +239,26 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first?.layoutHints.fixedWidth, 256)
     }
 
+    func testM0116ReturnOmitsSymbolButKeepsReturnKeyLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.returnKey.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.returnKey.displayText,
+                label: KeyboardSpecialKey.returnKey.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.returnKey.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "return")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertNil(items.first?.layoutHints.fixedWidth)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 128)
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

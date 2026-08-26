@@ -70,6 +70,13 @@ extension KeycapStyle {
                 ),
                 layoutHints: layoutHints
             )
+        case (.m0116, .returnKey):
+            return KeycapPresentation(
+                legend: KeycapLegend(
+                    label: KeyboardSpecialKey.returnKey.label
+                ),
+                layoutHints: layoutHints
+            )
         case (.m0116, .space):
             return KeycapPresentation(
                 legend: KeycapLegend(),

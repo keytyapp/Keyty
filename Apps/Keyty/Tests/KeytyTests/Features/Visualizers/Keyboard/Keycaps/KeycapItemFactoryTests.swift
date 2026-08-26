@@ -304,6 +304,30 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
     }
 
+    func testM0116NavigationKeysUseRegularLabelRendering() {
+        let expected: [(KeyboardKeyCode, String)] = [
+            (.home, "home"),
+            (.end, "end"),
+            (.pageUp, "page up"),
+            (.pageDown, "page down"),
+        ]
+
+        for (keyCode, label) in expected {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+
+            XCTAssertEqual(items.map(\.identity), [.keyCode(keyCode.rawValue)])
+            XCTAssertEqual(items.first?.symbol, "")
+            XCTAssertEqual(items.first?.label, label)
+            XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        }
+    }
+
     func testM0116TabOmitsSymbolButKeepsTabLayout() {
         let items = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.tab.rawValue,

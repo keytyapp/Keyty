@@ -36,6 +36,11 @@ struct M0116KeycapPresentationPolicy: KeycapPresentationPolicy {
             return self.textOnlyPresentation(for: .delete, layoutHints: layoutHints)
         case .returnKey:
             return self.textOnlyPresentation(for: .returnKey, layoutHints: layoutHints)
+        case .home, .end, .pageUp, .pageDown:
+            return KeycapPresentation(
+                legend: KeycapLegend(label: legend.label),
+                layoutHints: layoutHints
+            )
         case .space:
             return KeycapPresentation(legend: KeycapLegend(), layoutHints: layoutHints)
         case .leftArrow:
@@ -58,7 +63,7 @@ struct M0116KeycapPresentationPolicy: KeycapPresentationPolicy {
                 legend: KeycapLegend(symbol: UnicodeToken.downwardsDashedArrow.string),
                 layoutHints: layoutHints
             )
-        case .forwardDelete, .keypadEnter, .help, .insert, .keypadClear, .home, .end, .pageUp, .pageDown,
+        case .forwardDelete, .keypadEnter, .help, .insert, .keypadClear,
              .function, .functionRow, .capsLock, .eisu, .kana, .system:
             return KeycapPresentation(legend: legend, layoutHints: layoutHints)
         }

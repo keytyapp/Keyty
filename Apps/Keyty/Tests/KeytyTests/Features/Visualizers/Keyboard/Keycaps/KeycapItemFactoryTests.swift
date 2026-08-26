@@ -259,6 +259,26 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 128)
     }
 
+    func testM0116TabOmitsSymbolButKeepsTabLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.tab.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.tab.displayText,
+                label: KeyboardSpecialKey.tab.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.tab.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "tab")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.alignment, .left)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

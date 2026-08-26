@@ -26,8 +26,17 @@ extension KeycapAppearance {
                 withFraction: 0.35,
                 of: tokens.surfaceBaseColor
             ) ?? tokens.surfaceHighlightColor
+            let legendTextColor = tokens.textColor.darkened(by: 0.18)
 
-            self.shared = Shared(tokens: tokens)
+            self.shared = Shared(
+                textColor: legendTextColor,
+                groupBackgroundColor: tokens.groupBackgroundColor,
+                groupStrokeColor: tokens.groupStrokeColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeTextColor: tokens.badgeTextColor
+            )
             self.wellColor = tokens.recessColor.darkened(by: 0.45)
             // Lit from the left: bright edge, base across the middle, shaded right edge.
             self.bodyGradient = NSGradient(colorsAndLocations:

@@ -137,6 +137,14 @@ private extension M0116KeycapRenderer {
             return
         }
 
+        if self.rendersWrappedCapsLockLabel(for: item), let label = item.label {
+            self.drawWrappedCapsLockLabel(label, in: faceRect, textColor: textColor)
+            if item.state.showsDot {
+                self.legendRenderer.drawKeycapDot(in: faceRect, active: item.state.isDotActive)
+            }
+            return
+        }
+
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = .left
         let x = faceRect.minX + M0116KeycapMetrics.horizontalPadding
@@ -171,6 +179,40 @@ private extension M0116KeycapRenderer {
         }
     }
 
+    func drawWrappedCapsLockLabel(_ label: String, in faceRect: NSRect, textColor: NSColor) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.alignment = .left
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: M0116KeycapMetrics.labelFont,
+            .foregroundColor: textColor,
+            .paragraphStyle: paragraphStyle,
+        ]
+        let width = min(
+            M0116KeycapMetrics.capsLockLabelWidth,
+            faceRect.width - 2 * M0116KeycapMetrics.horizontalPadding
+        )
+        let bounds = NSRect(
+            x: faceRect.minX + M0116KeycapMetrics.horizontalPadding,
+            y: faceRect.minY + M0116KeycapMetrics.legendBaselineInset,
+            width: width,
+            height: faceRect.height - M0116KeycapMetrics.legendBaselineInset
+        )
+        let size = label.boundingRect(
+            with: bounds.size,
+            options: [.usesLineFragmentOrigin, .usesFontLeading],
+            attributes: attributes
+        ).integral.size
+        label.draw(
+            in: NSRect(
+                x: bounds.minX,
+                y: bounds.minY,
+                width: bounds.width,
+                height: size.height
+            ),
+            withAttributes: attributes
+        )
+    }
+
     /// Image and SF Symbol legends keep the shared centered treatment; only text legends
     /// take the M0116's lower-left baseline.
     func rendersOwnLegend(for item: KeycapItem) -> Bool {
@@ -181,5 +223,11 @@ private extension M0116KeycapRenderer {
             return true
         }
         return item.sfSymbolName == nil && !item.symbol.isEmpty
+    }
+
+    func rendersWrappedCapsLockLabel(for item: KeycapItem) -> Bool {
+        item.identity == .keyCode(KeyboardKeyCode.capsLock.rawValue)
+            && item.label != nil
+            && item.symbol.isEmpty
     }
 }

@@ -8,6 +8,10 @@
 
 import AppKit
 
+protocol KeycapAppearanceProviding {
+    var shared: KeycapAppearance.Shared { get }
+}
+
 struct KeycapThemeTokens {
     let swatchColor: NSColor
     let textColor: NSColor
@@ -85,78 +89,16 @@ extension KeycapAppearance {
     }
 }
 
-// MARK: - Shared Accessors
 extension KeycapAppearance {
-    var textColor: NSColor {
+    var shared: Shared {
         switch self {
-        case .apple(let appearance): appearance.shared.textColor
-        case .pbt(let appearance): appearance.shared.textColor
-        case .minimal(let appearance): appearance.shared.textColor
-        case .retro(let appearance): appearance.shared.textColor
-        case .m0116(let appearance): appearance.shared.textColor
+        case .apple(let appearance): appearance.shared
+        case .pbt(let appearance): appearance.shared
+        case .minimal(let appearance): appearance.shared
+        case .retro(let appearance): appearance.shared
+        case .m0116(let appearance): appearance.shared
         }
     }
-
-    var groupBackgroundColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.groupBackgroundColor
-        case .pbt(let appearance): appearance.shared.groupBackgroundColor
-        case .minimal(let appearance): appearance.shared.groupBackgroundColor
-        case .retro(let appearance): appearance.shared.groupBackgroundColor
-        case .m0116(let appearance): appearance.shared.groupBackgroundColor
-        }
-    }
-
-    var groupStrokeColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.groupStrokeColor
-        case .pbt(let appearance): appearance.shared.groupStrokeColor
-        case .minimal(let appearance): appearance.shared.groupStrokeColor
-        case .retro(let appearance): appearance.shared.groupStrokeColor
-        case .m0116(let appearance): appearance.shared.groupStrokeColor
-        }
-    }
-
-    var badgeFillColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.badgeFillColor
-        case .pbt(let appearance): appearance.shared.badgeFillColor
-        case .minimal(let appearance): appearance.shared.badgeFillColor
-        case .retro(let appearance): appearance.shared.badgeFillColor
-        case .m0116(let appearance): appearance.shared.badgeFillColor
-        }
-    }
-
-    var badgeStrokeColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.badgeStrokeColor
-        case .pbt(let appearance): appearance.shared.badgeStrokeColor
-        case .minimal(let appearance): appearance.shared.badgeStrokeColor
-        case .retro(let appearance): appearance.shared.badgeStrokeColor
-        case .m0116(let appearance): appearance.shared.badgeStrokeColor
-        }
-    }
-
-    var badgeHighlightColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.badgeHighlightColor
-        case .pbt(let appearance): appearance.shared.badgeHighlightColor
-        case .minimal(let appearance): appearance.shared.badgeHighlightColor
-        case .retro(let appearance): appearance.shared.badgeHighlightColor
-        case .m0116(let appearance): appearance.shared.badgeHighlightColor
-        }
-    }
-
-    var badgeTextColor: NSColor {
-        switch self {
-        case .apple(let appearance): appearance.shared.badgeTextColor
-        case .pbt(let appearance): appearance.shared.badgeTextColor
-        case .minimal(let appearance): appearance.shared.badgeTextColor
-        case .retro(let appearance): appearance.shared.badgeTextColor
-        case .m0116(let appearance): appearance.shared.badgeTextColor
-        }
-    }
-
 }
 
 // MARK: - Case Accessors

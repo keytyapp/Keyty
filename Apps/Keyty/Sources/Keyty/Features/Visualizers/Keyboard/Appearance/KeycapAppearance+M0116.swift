@@ -11,7 +11,7 @@ import AppKit
 extension KeycapAppearance {
     /// Sculpted beige-era keycap: a lit body, an inset top face, and a front skirt,
     /// all sitting in a near-black well like the plate of an Apple Standard Keyboard.
-    struct M0116 {
+    struct M0116: KeycapAppearanceProviding {
         let shared: Shared
         let wellColor: NSColor
         let bodyGradient: NSGradient?

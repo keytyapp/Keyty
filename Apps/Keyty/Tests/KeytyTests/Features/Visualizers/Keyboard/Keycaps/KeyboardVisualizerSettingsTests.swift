@@ -321,7 +321,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         self.settings.style = .pbt
         let pbtAppearance = self.settings.appearance
 
-        XCTAssertEqual(appleAppearance.textColor, pbtAppearance.textColor)
+        XCTAssertEqual(appleAppearance.shared.textColor, pbtAppearance.shared.textColor)
         XCTAssertTrue(appleAppearance.apple != nil)
         XCTAssertTrue(pbtAppearance.pbt != nil)
         XCTAssertEqual(pbtAppearance.pbt?.bodyStrokeColor, KeyboardVisualizerTheme.citrus.appearance(for: .pbt).pbt?.bodyStrokeColor)

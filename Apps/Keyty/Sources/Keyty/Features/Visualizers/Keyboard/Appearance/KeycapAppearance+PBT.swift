@@ -9,7 +9,7 @@
 import AppKit
 
 extension KeycapAppearance {
-    struct PBT {
+    struct PBT: KeycapAppearanceProviding {
         let shared: Shared
         let bodyGradient: NSGradient?
         let bodyStrokeColor: NSColor

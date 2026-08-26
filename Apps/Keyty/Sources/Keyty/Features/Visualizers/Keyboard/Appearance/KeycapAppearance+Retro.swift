@@ -9,7 +9,7 @@
 import AppKit
 
 extension KeycapAppearance {
-    struct Retro {
+    struct Retro: KeycapAppearanceProviding {
         let shared: Shared
         let lipGradient: NSGradient?
         let bodyShadowColor: NSColor

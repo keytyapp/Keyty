@@ -223,9 +223,9 @@ private extension KeyboardVisualizerGroupView {
         }
         let path = NSBezierPath(roundedRect: insetBounds, xRadius: radius, yRadius: radius)
         let appearance = self.settings.groupAppearance
-        appearance.groupBackgroundColor.setFill()
+        appearance.shared.groupBackgroundColor.setFill()
         path.fill()
-        appearance.groupStrokeColor.setStroke()
+        appearance.shared.groupStrokeColor.setStroke()
         path.lineWidth = StrokeWidth.standard
         path.stroke()
     }
@@ -238,7 +238,7 @@ private extension KeyboardVisualizerGroupView {
         let appearance = self.settings.groupAppearance
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: appearance.badgeTextColor,
+            .foregroundColor: appearance.shared.badgeTextColor,
             .paragraphStyle: paragraphStyle,
         ]
         let labelSize = badgeText.size(withAttributes: attributes)
@@ -257,9 +257,9 @@ private extension KeyboardVisualizerGroupView {
             xRadius: badgeHeight / 2,
             yRadius: badgeHeight / 2
         )
-        appearance.badgeFillColor.setFill()
+        appearance.shared.badgeFillColor.setFill()
         badgePath.fill()
-        appearance.badgeStrokeColor.setStroke()
+        appearance.shared.badgeStrokeColor.setStroke()
         badgePath.lineWidth = StrokeWidth.standard
         badgePath.stroke()
 
@@ -269,7 +269,7 @@ private extension KeyboardVisualizerGroupView {
             xRadius: highlightRect.height / 2,
             yRadius: highlightRect.height / 2
         )
-        appearance.badgeHighlightColor.setStroke()
+        appearance.shared.badgeHighlightColor.setStroke()
         highlightPath.lineWidth = 1
         highlightPath.stroke()
 

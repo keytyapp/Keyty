@@ -9,7 +9,7 @@
 import AppKit
 
 extension KeycapAppearance {
-    struct Minimal {
+    struct Minimal: KeycapAppearanceProviding {
         let shared: Shared
 
         init(tokens: KeycapThemeTokens) {

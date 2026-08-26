@@ -171,6 +171,25 @@ final class KeycapItemFactoryTests: XCTestCase {
         }
     }
 
+    func testM0116EscapeOmitsSymbolButKeepsLayoutHints() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.escape.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.escape.displayText,
+                label: KeyboardSpecialKey.escape.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.escape.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "esc")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.alignment, .left)
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

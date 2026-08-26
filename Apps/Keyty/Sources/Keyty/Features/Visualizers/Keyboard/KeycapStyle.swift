@@ -50,3 +50,28 @@ extension KeycapStyle {
         return theme
     }
 }
+
+// MARK: - Presentation Policy
+extension KeycapStyle {
+    func presentation(
+        for keyCode: UInt16,
+        legend: KeycapLegend,
+        layoutHints: KeycapLayoutHints
+    ) -> KeycapPresentation {
+        guard let specialKey = KeyboardSpecialKeyResolver.specialKey(for: keyCode) else {
+            return KeycapPresentation(legend: legend, layoutHints: layoutHints)
+        }
+
+        switch (self, specialKey) {
+        case (.m0116, .escape):
+            return KeycapPresentation(
+                legend: KeycapLegend(
+                    label: KeyboardSpecialKey.escape.label
+                ),
+                layoutHints: layoutHints
+            )
+        case (.apple, _), (.pbt, _), (.minimal, _), (.retro, _), (.m0116, _):
+            return KeycapPresentation(legend: legend, layoutHints: layoutHints)
+        }
+    }
+}

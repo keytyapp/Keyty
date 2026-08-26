@@ -70,6 +70,11 @@ extension KeycapStyle {
                 ),
                 layoutHints: layoutHints
             )
+        case (.m0116, .space):
+            return KeycapPresentation(
+                legend: KeycapLegend(),
+                layoutHints: layoutHints
+            )
         case (.m0116, .leftArrow):
             return KeycapPresentation(legend: KeycapLegend(symbol: UnicodeToken.leftwardsDashedArrow.string), layoutHints: layoutHints)
         case (.m0116, .rightArrow):

@@ -223,6 +223,22 @@ final class KeycapItemFactoryTests: XCTestCase {
         }
     }
 
+    func testM0116SpaceOmitsLegendButKeepsWideKeycap() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.space.rawValue,
+            legend: EventLegend(text: KeyboardSpecialKey.space.displayText),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.space.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, nil)
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.fixedWidth, 256)
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())

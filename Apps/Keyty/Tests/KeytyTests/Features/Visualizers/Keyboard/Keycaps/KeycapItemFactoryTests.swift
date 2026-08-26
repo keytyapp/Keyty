@@ -279,24 +279,39 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
     }
 
-    func testM0116ShiftOmitsGlyphButOtherStylesKeepIt() {
-        let m0116Items = KeycapItemFactory.modifierItems(
-            currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
-            releasedFlags: [],
-            palette: Self.makePalette(style: .m0116, theme: .white)
-        )
-        let appleItems = KeycapItemFactory.modifierItems(
-            currentFlags: NSEvent.ModifierFlags.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
-            releasedFlags: [],
-            palette: Self.makePalette(style: .apple, theme: .black)
-        )
+    func testM0116ShiftAndControlOmitGlyphButOtherStylesKeepIt() {
+        let cases: [(NSEvent.ModifierFlags, UInt, KeycapIdentity, String, String)] = [
+            (.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)), UInt(NX_DEVICELSHIFTKEYMASK), .modifier(.leftShift), "shift", UnicodeToken.shift.string),
+            (.control.addingRawMasks(UInt(NX_DEVICELCTLKEYMASK)), UInt(NX_DEVICELCTLKEYMASK), .modifier(.leftControl), "control", UnicodeToken.control.string),
+        ]
 
-        XCTAssertEqual(m0116Items.map(\.identity), [.modifier(.leftShift)])
-        XCTAssertEqual(m0116Items.first?.symbol, "")
-        XCTAssertEqual(m0116Items.first?.label, "shift")
-        XCTAssertEqual(m0116Items.first?.layoutHints.alignment, .right)
-        XCTAssertEqual(appleItems.first?.symbol, UnicodeToken.shift.string)
-        XCTAssertEqual(appleItems.first?.label, "shift")
+        for (flags, _, expectedIdentity, expectedLabel, defaultSymbol) in cases {
+            let m0116Items = KeycapItemFactory.modifierItems(
+                currentFlags: flags,
+                releasedFlags: [],
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+            let appleItems = KeycapItemFactory.modifierItems(
+                currentFlags: flags,
+                releasedFlags: [],
+                palette: Self.makePalette(style: .apple, theme: .black)
+            )
+
+            XCTAssertEqual(m0116Items.map(\.identity), [expectedIdentity])
+            XCTAssertEqual(m0116Items.first?.symbol, "")
+            XCTAssertEqual(m0116Items.first?.label, expectedLabel)
+            XCTAssertEqual(appleItems.first?.symbol, defaultSymbol)
+            XCTAssertEqual(appleItems.first?.label, expectedLabel)
+        }
+
+        XCTAssertEqual(
+            KeycapItemFactory.modifierItems(
+                currentFlags: .shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
+                releasedFlags: [],
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            ).first?.layoutHints.alignment,
+            .right
+        )
     }
 
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {

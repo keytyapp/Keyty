@@ -259,6 +259,25 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 128)
     }
 
+    func testM0116DeleteOmitsSymbolButKeepsDeleteKeyLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.delete.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.delete.displayText,
+                label: KeyboardSpecialKey.delete.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.delete.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "delete")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
+    }
+
     func testM0116TabOmitsSymbolButKeepsTabLayout() {
         let items = KeycapItemFactory.keycapItems(
             keyCode: KeyboardKeyCode.tab.rawValue,
@@ -279,10 +298,11 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
     }
 
-    func testM0116ShiftAndControlOmitGlyphButOtherStylesKeepIt() {
+    func testM0116ShiftControlAndOptionOmitGlyphButOtherStylesKeepIt() {
         let cases: [(NSEvent.ModifierFlags, UInt, KeycapIdentity, String, String)] = [
             (.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)), UInt(NX_DEVICELSHIFTKEYMASK), .modifier(.leftShift), "shift", UnicodeToken.shift.string),
             (.control.addingRawMasks(UInt(NX_DEVICELCTLKEYMASK)), UInt(NX_DEVICELCTLKEYMASK), .modifier(.leftControl), "control", UnicodeToken.control.string),
+            (.option.addingRawMasks(UInt(NX_DEVICELALTKEYMASK)), UInt(NX_DEVICELALTKEYMASK), .modifier(.leftOption), "option", UnicodeToken.option.string),
         ]
 
         for (flags, _, expectedIdentity, expectedLabel, defaultSymbol) in cases {

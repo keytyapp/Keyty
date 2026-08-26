@@ -55,7 +55,7 @@ extension KeycapStyle {
 extension KeycapStyle {
     func modifierLegend(for modifierKey: KeyboardModifierKey) -> KeycapLegend {
         switch (self, modifierKey.kind) {
-        case (.m0116, .shift), (.m0116, .control):
+        case (.m0116, .shift), (.m0116, .control), (.m0116, .option):
             return KeycapLegend(label: modifierKey.kind.label)
         case (.apple, _), (.pbt, _), (.minimal, _), (.retro, _), (.m0116, _):
             return KeycapLegend(symbol: modifierKey.kind.glyph, label: modifierKey.kind.label)
@@ -90,6 +90,13 @@ extension KeycapStyle {
             return KeycapPresentation(
                 legend: KeycapLegend(
                     label: KeyboardSpecialKey.tab.label
+                ),
+                layoutHints: layoutHints
+            )
+        case (.m0116, .delete):
+            return KeycapPresentation(
+                legend: KeycapLegend(
+                    label: KeyboardSpecialKey.delete.label
                 ),
                 layoutHints: layoutHints
             )

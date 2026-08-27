@@ -39,13 +39,13 @@ extension KeycapAppearance {
             let faceShadowCenter = tokens.recessColor.darkened(by: 0.12).withAlphaComponent(0.26)
 
             self.shared = Shared(
-                textColor: tokens.textColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeTextColor: tokens.badgeTextColor,
                 groupBackgroundColor: groupBackgroundColor,
                 groupStrokeColor: groupStrokeColor,
-                badgeFillColor: tokens.badgeFillColor,
-                badgeStrokeColor: tokens.badgeStrokeColor,
-                badgeHighlightColor: tokens.badgeHighlightColor,
-                badgeTextColor: tokens.badgeTextColor
+                textColor: tokens.textColor
             )
             self.lipGradient = NSGradient(colorsAndLocations:
                 (lipEdge, 0.0),

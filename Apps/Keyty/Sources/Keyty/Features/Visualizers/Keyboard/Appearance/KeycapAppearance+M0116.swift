@@ -29,13 +29,13 @@ extension KeycapAppearance {
             let legendTextColor = tokens.textColor.darkened(by: 0.18)
 
             self.shared = Shared(
-                textColor: legendTextColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeTextColor: tokens.badgeTextColor,
                 groupBackgroundColor: tokens.groupBackgroundColor,
                 groupStrokeColor: tokens.groupStrokeColor,
-                badgeFillColor: tokens.badgeFillColor,
-                badgeStrokeColor: tokens.badgeStrokeColor,
-                badgeHighlightColor: tokens.badgeHighlightColor,
-                badgeTextColor: tokens.badgeTextColor
+                textColor: legendTextColor
             )
             self.wellColor = tokens.recessColor.darkened(by: 0.45)
             // Lit from the left: bright edge, base across the middle, shaded right edge.

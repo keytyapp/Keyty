@@ -19,9 +19,11 @@ enum M0116KeycapMetrics {
 
     static let bodyCornerRadius: CGFloat = 9
     static let faceCornerRadius: CGFloat = 7
+    static let frontLipCornerRadius: CGFloat = 9
     static let faceSideInset: CGFloat = 5
     static let faceTopInset: CGFloat = 4
     static let faceBottomInset: CGFloat = 15
+    static let frontLipOverlap: CGFloat = 4
     static let horizontalPadding: CGFloat = 11
     static let capsLockLabelWidth: CGFloat = 52
     static let pageNavigationLabelWidth: CGFloat = 48

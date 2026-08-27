@@ -38,9 +38,7 @@ Keyty est une application gratuite et open source qui visualise vos actions au c
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="Démo des ondes de clic de la souris" width="720">
 </p>
 
 - Visualisez les clics et actions de défilement de la souris en plus des entrées clavier

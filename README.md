@@ -50,9 +50,7 @@ Keyty is a free, open-source app that visualizes your keyboard and mouse actions
 </p>
 
 <p align="center">
-  <video src="Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Docs/Resources/mouse_ripples_demo.gif" alt="Mouse ripples demo" width="720">
 </p>
 
 - Visualize mouse clicks and scroll actions alongside keyboard input

@@ -38,9 +38,7 @@ Keyty to darmowa aplikacja open source, która wizualizuje działania klawiatury
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="Demo fal kliknięcia myszy" width="720">
 </p>
 
 - Wizualizacja kliknięć myszy i przewijania obok wejścia z klawiatury

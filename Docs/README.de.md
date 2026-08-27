@@ -38,9 +38,7 @@ Keyty ist eine kostenlose Open-Source-App, die Ihre Tastatur- und Mausaktionen i
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="Demo der Mausklick-Wellen" width="720">
 </p>
 
 - Visualisieren Sie Mausklicks und Scrollaktionen zusammen mit der Tastatureingabe

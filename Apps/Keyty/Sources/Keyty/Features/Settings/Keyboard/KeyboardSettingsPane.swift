@@ -381,7 +381,7 @@ struct KeyboardSettingsPane: View {
             }
             .labelsHidden()
             .accessibilityLabel(L10n.KeyboardVisualizer.styleLabel)
-            .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
+            .frame(width: Size.Control.keyboardStylePickerWidth, alignment: .trailing)
         }
     }
 

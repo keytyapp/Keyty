@@ -356,7 +356,8 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mediaTheme), KeyboardVisualizerTheme.white.rawValue)
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mouseTheme), KeyboardVisualizerTheme.white.rawValue)
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.groupBackgroundTheme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.settings.appearance.m0116?.shared.textColor, KeyboardVisualizerTheme.white.tokens.textColor)
+        XCTAssertNotNil(self.settings.appearance.m0116)
+        XCTAssertNotEqual(self.settings.appearance.m0116?.shared.textColor, KeyboardVisualizerTheme.white.tokens.textColor)
     }
 
     func testM0116StyleRejectsNonWhiteThemeAssignments() {

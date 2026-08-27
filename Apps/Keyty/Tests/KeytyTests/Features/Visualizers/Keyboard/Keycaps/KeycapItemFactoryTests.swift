@@ -43,24 +43,21 @@ final class KeycapItemFactoryTests: XCTestCase {
     }
 
     func testM0116FunctionKeyMatchesModifierStyle() {
-        let m0116Items = KeycapItemFactory.modifierItems(
-            currentFlags: [.function],
-            releasedFlags: [],
+        let m0116Item = KeycapItemFactory.functionItem(
+            isPressed: true,
             palette: Self.makePalette(style: .m0116, theme: .white)
         )
-        let appleItems = KeycapItemFactory.modifierItems(
-            currentFlags: [.function],
-            releasedFlags: [],
+        let appleItem = KeycapItemFactory.functionItem(
+            isPressed: true,
             palette: Self.makePalette(style: .apple, theme: .black)
         )
 
-        XCTAssertEqual(m0116Items.count, 1)
-        XCTAssertEqual(m0116Items.first?.identity, .keyCode(KeyboardKeyCode.function.rawValue))
-        XCTAssertEqual(m0116Items.first?.symbol, "")
-        XCTAssertEqual(m0116Items.first?.label, "fn")
-        XCTAssertNil(m0116Items.first?.sfSymbolName)
-        XCTAssertEqual(appleItems.first?.sfSymbolName, "globe")
-        XCTAssertEqual(appleItems.first?.label, "fn")
+        XCTAssertEqual(m0116Item.identity, .keyCode(KeyboardKeyCode.function.rawValue))
+        XCTAssertEqual(m0116Item.symbol, "")
+        XCTAssertEqual(m0116Item.label, "fn")
+        XCTAssertNil(m0116Item.sfSymbolName)
+        XCTAssertEqual(appleItem.sfSymbolName, "globe")
+        XCTAssertEqual(appleItem.label, "fn")
     }
 
     func testM0116PresentationPolicyHidesCapsLockDot() {

@@ -1,0 +1,263 @@
+/* Main menu */
+"main_menu.about" = "%@ 정보";
+"main_menu.close_window" = "창 닫기";
+"main_menu.file" = "파일";
+"main_menu.settings" = "설정…";
+"main_menu.quit" = "%@ 종료";
+
+/* About window */
+"about.version" = "버전 %@ (%@)";
+"about.tab.license" = "라이선스";
+"about.tab.contributors" = "기여자";
+"about.tab.credits" = "크레딧";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3-Clause 라이선스";
+"about.contributors.title" = "기여자";
+"about.contributors.subtitle" = "Keyty를 더 나아지게 만드는 데 도움을 준 사람들입니다.";
+"about.credits.sparkle_subtitle" = "MIT 라이선스";
+"about.credits.app_mover_subtitle" = "MIT 라이선스";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "라이선스 텍스트를 불러올 수 없습니다.";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "설정";
+"settings.sidebar_version" = "버전 %@ (%@)";
+"settings.pane.general" = "일반";
+"settings.pane.keyboard" = "키보드";
+"settings.pane.mouse" = "마우스";
+"settings.pane.displays" = "디스플레이";
+"settings.pane.permissions" = "권한";
+"settings.pane.update" = "업데이트";
+"settings.pane.info" = "정보";
+
+/* Anchor labels */
+"anchor.left" = "왼쪽";
+"anchor.center" = "가운데";
+"anchor.right" = "오른쪽";
+"anchor.top" = "위";
+"anchor.vertical_center" = "중앙";
+"anchor.bottom" = "아래";
+
+/* Displays settings pane */
+"displays.display_label" = "디스플레이";
+"displays.display_subtitle" = "키보드 오버레이를 표시할 디스플레이";
+"displays.placement.custom" = "사용자 지정";
+"displays.anchor_label" = "앵커";
+"displays.anchor_subtitle" = "오버레이 정렬과 확장 기준점입니다.";
+"displays.margin_label" = "화면 여백";
+"displays.margin_subtitle" = "오버레이와 선택한 화면 가장자리 사이의 거리입니다.";
+"displays.custom_position.label" = "위치";
+"displays.custom_position.set_subtitle" = "선택한 디스플레이에서 오버레이가 나타날 위치를 선택합니다.";
+"displays.custom_position.start_setting_button" = "배치…";
+"displays.custom_position.stop_setting_button" = "적용";
+"displays.custom_horizontal_alignment_label" = "가로 정렬";
+"displays.custom_horizontal_alignment_subtitle" = "사용자 지정 위치를 기준으로 오버레이가 가로로 확장되는 방식을 선택합니다.";
+"displays.custom_vertical_alignment_label" = "세로 정렬";
+"displays.custom_vertical_alignment_subtitle" = "사용자 지정 위치를 기준으로 오버레이가 세로로 확장되는 방식을 선택합니다.";
+"displays.horizontal_alignment_left_to_right" = "왼쪽에서 오른쪽";
+"displays.horizontal_alignment_center_out" = "가운데에서 바깥쪽";
+"displays.horizontal_alignment_right_to_left" = "오른쪽에서 왼쪽";
+"displays.vertical_alignment_top_down" = "위에서 아래";
+"displays.vertical_alignment_middle_out" = "가운데에서 바깥쪽";
+"displays.vertical_alignment_bottom_up" = "아래에서 위";
+
+/* General settings pane */
+"general.appearance_section_title" = "앱";
+"general.shortcut_section_title" = "단축키";
+"general.settings_section_title" = "설정";
+"general.toggle_capturing_label" = "캡처 전환";
+"general.toggle_capturing_subtitle" = "어디서든 캡처 시작 또는 중지를 할 수 있는 전역 단축키입니다.";
+"general.shortcut_validation_fallback" = "이 단축키는 사용할 수 없습니다.";
+"general.start_capturing" = "활성화";
+"general.stop_capturing" = "비활성화";
+"general.show_settings_at_launch" = "실행 시 설정 표시";
+"general.show_settings_at_launch_subtitle" = "Keyty 시작 시 설정 창을 자동으로 다시 엽니다.";
+"general.reset_all_settings_title" = "모든 설정 재설정";
+"general.reset_all_settings_subtitle" = "키보드, 마우스, 디스플레이, 앱 및 단축키 설정을 기본값으로 재설정합니다.";
+"general.reset_all_settings_button" = "재설정";
+"general.reset_all_settings_confirmation_title" = "모든 설정을 재설정할까요?";
+"general.reset_all_settings_confirmation_message" = "키보드, 마우스, 디스플레이, 앱 및 단축키 설정이 기본값으로 재설정됩니다.";
+"general.reset_all_settings_confirmation_button" = "설정 재설정";
+"general.reset_all_settings_cancel_button" = "취소";
+
+/* Event capture */
+"event_tap.creation_failed" = "이벤트 탭을 생성할 수 없습니다. 손쉬운 사용 권한이 필요합니다.";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "웹사이트";
+"info.email_label" = "이메일";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "실시간 오버레이";
+"keyboard_visualizer.live_overlay_section_subtitle" = "현재 키보드 시각화기 설정을 사용하는 실제 렌더러 기반 샘플입니다.";
+"keyboard_visualizer.general_section_title" = "일반";
+"keyboard_visualizer.general_section_subtitle" = "키보드 오버레이의 표시 여부와 모양을 제어합니다.";
+"keyboard_visualizer.theme_section_title" = "테마";
+"keyboard_visualizer.theme_section_subtitle" = "각 키 유형에 고유한 색상 팔레트를 지정합니다.";
+"keyboard_visualizer.history_section_title" = "기록";
+"keyboard_visualizer.history_section_subtitle" = "보이는 키캡 수와 연속 그룹이 쌓이는 방식을 제어합니다.";
+"keyboard_visualizer.timing_section_title" = "타이밍";
+"keyboard_visualizer.timing_section_subtitle" = "키가 표시되는 시간과 페이드 속도를 조절해 가독성과 반응성의 균형을 맞춥니다.";
+"keyboard_visualizer.filter_section_title" = "필터";
+"keyboard_visualizer.filter_section_subtitle" = "오버레이에 표시할 키보드 이벤트를 선택합니다.";
+"keyboard_visualizer.enabled_label" = "사용";
+"keyboard_visualizer.enabled_subtitle" = "키보드 오버레이 표시 여부입니다.";
+"keyboard_visualizer.axis_label" = "축";
+"keyboard_visualizer.axis_subtitle" = "연속된 키 그룹을 쌓는 방향입니다.";
+"keyboard_visualizer.anchor_label" = "위치";
+"keyboard_visualizer.anchor_subtitle" = "오버레이가 고정되는 화면 가장자리입니다.";
+"keyboard_visualizer.axis.vertical" = "세로";
+"keyboard_visualizer.axis.horizontal" = "가로";
+"keyboard_visualizer.max_count_label" = "최대 개수";
+"keyboard_visualizer.max_count_subtitle" = "스택에 표시할 키캡의 최대 개수입니다.";
+"keyboard_visualizer.size_label" = "크기";
+"keyboard_visualizer.size_subtitle" = "렌더링되는 키캡의 전체 크기 비율입니다.";
+"keyboard_visualizer.style_label" = "스타일";
+"keyboard_visualizer.style_subtitle" = "키캡의 전반적인 구성과 표면 표현입니다.";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "미니멀";
+"keyboard_visualizer.style.retro" = "레트로";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
+"keyboard_visualizer.linger_time_label" = "유지 시간";
+"keyboard_visualizer.linger_time_subtitle" = "페이드가 시작되기 전까지 키캡이 완전히 보이는 시간입니다.";
+"keyboard_visualizer.linger_time.short" = "짧게";
+"keyboard_visualizer.linger_time.long" = "길게";
+"keyboard_visualizer.fade_duration_label" = "페이드 시간";
+"keyboard_visualizer.fade_duration_subtitle" = "페이드가 시작된 후 키캡이 사라지는 속도입니다.";
+"keyboard_visualizer.fade_duration.fast" = "빠르게";
+"keyboard_visualizer.fade_duration.slow" = "느리게";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "조합 키만 표시";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Command, Control, Option 또는 Shift와 함께 눌린 키만 표시합니다.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "반복 그룹 접기";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "같은 키 또는 키 조합이 연속으로 반복되면 개수 배지를 표시합니다.";
+"keyboard_visualizer.show_special_keys_label" = "특수 키";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, 화살표, fn, 기능 키 등과 비슷한 키입니다.";
+"keyboard_visualizer.show_media_key_buttons_label" = "미디어 키 버튼";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "재생, 음량, 밝기 등과 비슷한 미디어 키 버튼입니다.";
+"keyboard_visualizer.show_mouse_events_label" = "마우스 이벤트";
+"keyboard_visualizer.show_mouse_events_subtitle" = "마우스 클릭 및 휠 이벤트입니다.";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "테마";
+"keyboard_visualizer.theme_subtitle" = "선택한 키캡 스타일에 적용되는 색상 팔레트입니다.";
+"keyboard_visualizer.legend_color_label" = "범례 색상";
+"keyboard_visualizer.legend_color_subtitle" = "키캡에 그려지는 텍스트, 기호, 마우스 아이콘에 사용할 색상입니다.";
+"keyboard_visualizer.choose_color" = "색상 선택…";
+"keyboard_visualizer.theme_custom" = "사용자 지정…";
+"keyboard_visualizer.regular_theme_label" = "일반 키";
+"keyboard_visualizer.regular_theme_subtitle" = "문자, 숫자 및 기타 텍스트 키용 테마입니다.";
+"keyboard_visualizer.modifier_theme_label" = "수정 키";
+"keyboard_visualizer.modifier_theme_subtitle" = "Command, Shift, Option, Control 및 fn용 테마입니다.";
+"keyboard_visualizer.special_theme_label" = "특수 키";
+"keyboard_visualizer.special_theme_subtitle" = "Tab, Return, 화살표, 기능 키 및 기타 비텍스트 키용 테마입니다.";
+"keyboard_visualizer.media_theme_label" = "미디어 키";
+"keyboard_visualizer.media_theme_subtitle" = "재생 및 밝기 조절용 테마입니다.";
+"keyboard_visualizer.mouse_theme_label" = "마우스 이벤트";
+"keyboard_visualizer.mouse_theme_subtitle" = "마우스 클릭 및 휠 이벤트용 테마입니다.";
+"keyboard_visualizer.group_background_theme_label" = "그룹 배경";
+"keyboard_visualizer.group_background_theme_subtitle" = "각 키 그룹 뒤에 그려지는 패널의 테마입니다.";
+"keyboard_visualizer.theme.citrus" = "시트러스";
+"keyboard_visualizer.theme.blue" = "파랑";
+"keyboard_visualizer.theme.green" = "초록";
+"keyboard_visualizer.theme.white" = "흰색";
+"keyboard_visualizer.theme.dark" = "어두움";
+"keyboard_visualizer.theme.red" = "빨강";
+"keyboard_visualizer.theme.indigo" = "인디고";
+"keyboard_visualizer.theme.rose" = "로즈";
+"keyboard_visualizer.theme.purple" = "보라";
+"keyboard_visualizer.theme.yellow" = "노랑";
+"keyboard_visualizer.theme.orange" = "주황";
+"keyboard_visualizer.theme.pink" = "분홍";
+"keyboard_visualizer.color.automatic" = "자동";
+"keyboard_visualizer.color.red" = "빨강";
+"keyboard_visualizer.color.orange" = "주황";
+"keyboard_visualizer.color.yellow" = "노랑";
+"keyboard_visualizer.color.green" = "초록";
+"keyboard_visualizer.color.blue" = "파랑";
+"keyboard_visualizer.color.purple" = "보라";
+"keyboard_visualizer.color.pink" = "분홍";
+"keyboard_visualizer.color.white" = "흰색";
+"keyboard_visualizer.color.black" = "검정";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "링";
+"mouse.tab_ripples" = "리플";
+"mouse.tab_icon" = "아이콘";
+"mouse.pointer_ring_label" = "포인터 링";
+"mouse.pointer_ripples_label" = "리플";
+"mouse.enabled" = "사용";
+"mouse.enabled_subtitle" = "포인터 링 표시 여부입니다.";
+"mouse.ripples_enabled_subtitle" = "애니메이션 리플 표시 여부입니다.";
+"mouse.always_visible_label" = "항상 표시";
+"mouse.always_visible_subtitle" = "포인터가 유휴 상태일 때도 링이 계속 표시됩니다.";
+"mouse.ring_color_label" = "색상";
+"mouse.ring_color_subtitle" = "포인터 링의 사전 설정 또는 사용자 지정 색상입니다.";
+"mouse.ripples_color_subtitle" = "리플의 사전 설정 또는 사용자 지정 색상입니다.";
+"mouse.ring_size_label" = "크기";
+"mouse.ring_size_subtitle" = "포인터 링의 지름입니다.";
+"mouse.ripples_size_subtitle" = "생성되는 각 리플의 지름입니다.";
+"mouse.ring_thickness_label" = "두께";
+"mouse.ring_thickness_subtitle" = "포인터 링의 선 두께입니다.";
+"mouse.ripples_thickness_subtitle" = "생성되는 각 리플의 선 두께입니다.";
+"mouse.ring_shape_label" = "모양";
+"mouse.ring_shape_subtitle" = "포인터 링 외곽선의 형태입니다.";
+"mouse.ripples_shape_subtitle" = "생성되는 각 리플 외곽선의 형태입니다.";
+"mouse.pointer_icon_label" = "포인터 아이콘";
+"mouse.pointer_icon_enabled" = "사용";
+"mouse.pointer_icon_enabled_subtitle" = "포인터 아이콘 오버레이 표시 여부입니다.";
+"mouse.pointer_icon_always_visible_label" = "항상 표시";
+"mouse.pointer_icon_always_visible_subtitle" = "활성화된 마우스 버튼이 없어도 아이콘이 계속 표시됩니다.";
+"mouse.pointer_icon_anchor_label" = "앵커";
+"mouse.pointer_icon_anchor_subtitle" = "아이콘 기준점으로 사용할 포인터의 가장자리입니다.";
+"mouse.pointer_icon_offset_label" = "오프셋";
+"mouse.pointer_icon_offset_subtitle" = "포인터와 아이콘 오버레이 사이의 거리입니다.";
+"mouse.icon_size_label" = "아이콘 크기";
+"mouse.icon_size_subtitle" = "포인터 아이콘 오버레이의 크기 비율입니다.";
+"mouse.icon_background_label" = "배경색";
+"mouse.icon_background_subtitle" = "포인터 아이콘 뒤를 채우는 색상입니다.";
+"mouse.icon_tint_label" = "아이콘 색상";
+"mouse.icon_tint_subtitle" = "포인터 아이콘의 전경 색조입니다.";
+"mouse.choose_color" = "색상 선택…";
+"mouse.color.automatic" = "자동";
+"mouse.color.red" = "빨강";
+"mouse.color.orange" = "주황";
+"mouse.color.yellow" = "노랑";
+"mouse.color.green" = "초록";
+"mouse.color.blue" = "파랑";
+"mouse.color.purple" = "보라";
+"mouse.color.pink" = "분홍";
+"mouse.color.graphite" = "흑연";
+"mouse.color.white" = "흰색";
+"mouse.color.black" = "검정";
+"mouse.shape.circle" = "원";
+"mouse.shape.rhomb" = "마름모";
+"mouse.shape.squircle" = "스퀴클";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "손쉬운 사용";
+"permissions.section_subtitle" = "Keyty가 입력 이벤트를 감지하고 표시하려면 손쉬운 사용 권한이 필요합니다.";
+"permissions.status.granted" = "허용됨";
+"permissions.status.not_granted" = "허용되지 않음";
+"permissions.grant_access_button" = "허용…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Keyty 설정";
+"permissions_onboarding.subtitle" = "키보드와 마우스 시각화를 사용하려면\nmacOS 손쉬운 사용 권한을 허용하세요.";
+"permissions_onboarding.accessibility.title" = "손쉬운 사용";
+"permissions_onboarding.accessibility.detail" = "키보드와 마우스 입력을 표시하는 데 필요합니다.";
+"permissions_onboarding.accessibility.grant_button" = "허용…";
+"permissions_onboarding.privacy" = "모든 입력은 Mac에서 로컬로 처리됩니다. 업로드되거나 저장되지 않습니다.";
+"permissions_onboarding.learn_more" = "더 알아보기";
+"permissions_onboarding.continue" = "계속";
+"permissions_onboarding.continue_hint" = "손쉬운 사용 권한이 허용되면 계속 진행하세요.";
+
+/* Update settings pane */
+"update.check_at_startup" = "시작 시 업데이트 확인";
+"update.check_at_startup_subtitle" = "Sparkle가 새 버전을 주기적으로 확인합니다.";
+"update.include_system_profile" = "익명 시스템 프로필 포함";
+"update.include_system_profile_subtitle" = "업데이트를 확인할 때 기본 하드웨어 프로필을 전송합니다.";
+"update.last_checked_label" = "마지막 확인";
+"update.never" = "안 함";
+"update.check_now_button" = "업데이트 확인";

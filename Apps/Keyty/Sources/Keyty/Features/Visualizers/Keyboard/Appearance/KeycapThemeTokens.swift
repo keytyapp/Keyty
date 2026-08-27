@@ -31,4 +31,38 @@ struct KeycapThemeTokens {
 
     let swatchColor: NSColor
     let textColor: NSColor
+
+    init(
+        swatchColor: NSColor,
+        textColor: NSColor,
+        groupBackgroundColor: NSColor,
+        groupStrokeColor: NSColor,
+        badgeFillColor: NSColor,
+        badgeStrokeColor: NSColor,
+        badgeHighlightColor: NSColor,
+        badgeTextColor: NSColor,
+        surfaceHighlightColor: NSColor,
+        surfaceBaseColor: NSColor,
+        surfaceShadowColor: NSColor,
+        surfaceBorderColor: NSColor,
+        recessColor: NSColor,
+        undersideEdgeColor: NSColor?,
+        undersideCenterColor: NSColor?
+    ) {
+        self.groupBackgroundColor = groupBackgroundColor
+        self.groupStrokeColor = groupStrokeColor
+        self.badgeFillColor = badgeFillColor
+        self.badgeHighlightColor = badgeHighlightColor
+        self.badgeStrokeColor = badgeStrokeColor
+        self.badgeTextColor = badgeTextColor
+        self.surfaceBaseColor = surfaceBaseColor
+        self.surfaceBorderColor = surfaceBorderColor
+        self.surfaceHighlightColor = surfaceHighlightColor
+        self.surfaceShadowColor = surfaceShadowColor
+        self.recessColor = recessColor
+        self.undersideCenterColor = undersideCenterColor
+        self.undersideEdgeColor = undersideEdgeColor
+        self.swatchColor = swatchColor
+        self.textColor = textColor
+    }
 }

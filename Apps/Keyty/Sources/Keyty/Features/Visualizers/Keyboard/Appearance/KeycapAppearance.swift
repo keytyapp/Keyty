@@ -8,34 +8,12 @@
 
 import AppKit
 
+/// Exposes the shared visual attributes every keycap appearance variant provides.
 protocol KeycapAppearanceProviding {
     var shared: KeycapAppearance.Shared { get }
 }
 
-struct KeycapThemeTokens {
-    let swatchColor: NSColor
-    let textColor: NSColor
-
-    let groupBackgroundColor: NSColor
-    let groupStrokeColor: NSColor
-
-    let badgeFillColor: NSColor
-    let badgeStrokeColor: NSColor
-    let badgeHighlightColor: NSColor
-    let badgeTextColor: NSColor
-
-    let surfaceHighlightColor: NSColor
-    let surfaceBaseColor: NSColor
-    let surfaceShadowColor: NSColor
-    let surfaceBorderColor: NSColor
-
-    let recessColor: NSColor
-    /// Optional Apple-style underside edge color override. Falls back to `recessColor`.
-    let undersideEdgeColor: NSColor?
-    /// Optional Apple-style underside center color override. Falls back to `surfaceBaseColor`.
-    let undersideCenterColor: NSColor?
-}
-
+/// Enumerates the concrete keycap appearance variants the keyboard visualizer can render.
 enum KeycapAppearance {
     case apple(Apple)
     case pbt(PBT)
@@ -47,48 +25,51 @@ enum KeycapAppearance {
     static let inactiveDotColor = NSColor(calibratedWhite: 0.42, alpha: 0.7)
 }
 
+// MARK: - Shared Appearance
 extension KeycapAppearance {
+    /// Holds the color values reused across all keycap appearance variants.
     struct Shared {
-        let textColor: NSColor
+        let badgeFillColor: NSColor
+        let badgeHighlightColor: NSColor
+        let badgeStrokeColor: NSColor
+        let badgeTextColor: NSColor
         let groupBackgroundColor: NSColor
         let groupStrokeColor: NSColor
-        let badgeFillColor: NSColor
-        let badgeStrokeColor: NSColor
-        let badgeHighlightColor: NSColor
-        let badgeTextColor: NSColor
+        let textColor: NSColor
 
         init(
-            textColor: NSColor,
+            badgeFillColor: NSColor,
+            badgeHighlightColor: NSColor,
+            badgeStrokeColor: NSColor,
+            badgeTextColor: NSColor,
             groupBackgroundColor: NSColor,
             groupStrokeColor: NSColor,
-            badgeFillColor: NSColor,
-            badgeStrokeColor: NSColor,
-            badgeHighlightColor: NSColor,
-            badgeTextColor: NSColor
+            textColor: NSColor
         ) {
-            self.textColor = textColor
+            self.badgeFillColor = badgeFillColor
+            self.badgeHighlightColor = badgeHighlightColor
+            self.badgeStrokeColor = badgeStrokeColor
+            self.badgeTextColor = badgeTextColor
             self.groupBackgroundColor = groupBackgroundColor
             self.groupStrokeColor = groupStrokeColor
-            self.badgeFillColor = badgeFillColor
-            self.badgeStrokeColor = badgeStrokeColor
-            self.badgeHighlightColor = badgeHighlightColor
-            self.badgeTextColor = badgeTextColor
+            self.textColor = textColor
         }
 
         init(tokens: KeycapThemeTokens) {
             self.init(
-                textColor: tokens.textColor,
+                badgeFillColor: tokens.badgeFillColor,
+                badgeHighlightColor: tokens.badgeHighlightColor,
+                badgeStrokeColor: tokens.badgeStrokeColor,
+                badgeTextColor: tokens.badgeTextColor,
                 groupBackgroundColor: tokens.groupBackgroundColor,
                 groupStrokeColor: tokens.groupStrokeColor,
-                badgeFillColor: tokens.badgeFillColor,
-                badgeStrokeColor: tokens.badgeStrokeColor,
-                badgeHighlightColor: tokens.badgeHighlightColor,
-                badgeTextColor: tokens.badgeTextColor
+                textColor: tokens.textColor
             )
         }
     }
 }
 
+// MARK: - Shared Accessors
 extension KeycapAppearance {
     var shared: Shared {
         switch self {

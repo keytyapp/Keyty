@@ -37,9 +37,16 @@ Keyty ist eine kostenlose Open-Source-App, die Ihre Tastatur- und Mausaktionen i
   <img src="Resources/pointer_icon_demo.gif" alt="Demo des Zeigersymbols" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Visualisieren Sie Mausklicks und Scrollaktionen zusammen mit der Tastatureingabe
 - Hervorhebungsring für den Zeiger mit konfigurierbarer Form, Farbe, Größe und Dicke
 - Zeigersymbol-Overlay mit anpassbarer Position, Größe, Hintergrund und Farbton
+- Maus-Wellenvisualisierung zur Hervorhebung von Klicks bei Demos
 
 ## Anpassung
 
@@ -48,7 +55,7 @@ Keyty kann in den Einstellungen an Ihren Workflow und Präsentationsstil angepas
 - **Darstellung:** Wählen Sie Tastatur-Overlay-Stile, Designs, Farben und Größe.
 - **Verlauf:** Behalten Sie eine visuelle Spur Ihrer letzten Eingaben.
 - **Filter:** Steuern Sie, ob modifizierte Tastenanschläge, Sondertasten, Medientasten und Mausereignisse angezeigt werden.
-- **Maus:** Konfigurieren Sie Zeigerringe und Zeigersymbole, einschließlich Sichtbarkeit, Form, Farbe, Größe, Versatz, Hintergrund und Farbton.
+- **Maus:** Konfigurieren Sie Zeigerringe, Zeigersymbole und Klickwellen, einschließlich Sichtbarkeit, Form, Farbe, Größe, Versatz, Hintergrund und Farbton.
 - **Platzierung:** Wählen Sie Bildschirm, Verankerung, Randabstand und Stapelrichtung.
 
 ## Installation

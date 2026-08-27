@@ -36,9 +36,16 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
   <img src="Resources/pointer_icon_demo.gif" alt="指针图标演示" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - 与键盘输入一起可视化鼠标点击和滚动操作
 - 指针高亮环支持配置形状、颜色、大小和粗细
 - 指针图标叠加层支持调整位置、大小、背景和色调
+- 鼠标波纹可视化器可在演示时突出点击反馈
 
 ## 自定义
 
@@ -47,7 +54,7 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
 - **外观：** 选择键盘叠加层样式、主题、颜色和大小。
 - **历史记录：** 保留最近输入的可视化轨迹。
 - **过滤器：** 控制是否显示修饰键组合、特殊按键、多媒体按键和鼠标事件。
-- **鼠标：** 配置指针高亮环和指针图标，包括可见性、形状、颜色、大小、偏移、背景和色调。
+- **鼠标：** 配置指针高亮环、指针图标和点击波纹，包括可见性、形状、颜色、大小、偏移、背景和色调。
 - **位置：** 选择显示器、屏幕锚点、边距和堆叠方向。
 
 ## 安装

@@ -37,9 +37,16 @@ Keyty é um app gratuito e de código aberto que visualiza suas ações de tecla
   <img src="Resources/pointer_icon_demo.gif" alt="Demonstração do ícone do ponteiro" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Visualize cliques e ações de rolagem do mouse junto com a entrada do teclado
 - Anel de destaque do ponteiro com forma, cor, tamanho e espessura configuráveis
 - Sobreposição do ícone do ponteiro com posição, tamanho, fundo e tonalidade ajustáveis
+- Visualizador de ondas do mouse para destacar cliques durante demonstrações
 
 ## Personalização
 
@@ -48,7 +55,7 @@ Keyty pode ser ajustado em Ajustes para combinar com seu fluxo de trabalho e est
 - **Aparência:** Escolha estilos de sobreposição do teclado, temas, cores e tamanho.
 - **Histórico:** Mantenha um rastro visual das suas entradas recentes.
 - **Filtros:** Controle se teclas modificadas, teclas especiais, teclas de mídia e eventos do mouse aparecem.
-- **Mouse:** Configure anéis e ícones do ponteiro, incluindo visibilidade, forma, cor, tamanho, deslocamento, fundo e tonalidade.
+- **Mouse:** Configure anéis, ícones do ponteiro e ondas de clique, incluindo visibilidade, forma, cor, tamanho, deslocamento, fundo e tonalidade.
 - **Posicionamento:** Escolha a tela, a âncora, a margem e a direção de empilhamento.
 
 ## Instalação

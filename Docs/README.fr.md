@@ -37,9 +37,16 @@ Keyty est une application gratuite et open source qui visualise vos actions au c
   <img src="Resources/pointer_icon_demo.gif" alt="Démo de l'icône du pointeur" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Visualisez les clics et actions de défilement de la souris en plus des entrées clavier
 - Anneau de mise en évidence du pointeur avec forme, couleur, taille et épaisseur configurables
 - Superposition de l'icône du pointeur avec position, taille, arrière-plan et teinte ajustables
+- Visualiseur d'ondes de souris pour mettre en valeur les clics pendant les démonstrations
 
 ## Personnalisation
 
@@ -48,7 +55,7 @@ Keyty peut être ajustée depuis Réglages afin de correspondre à votre flux de
 - **Apparence :** Choisissez les styles de superposition du clavier, les thèmes, les couleurs et la taille.
 - **Historique :** Conservez une trace visuelle de vos entrées récentes.
 - **Filtres :** Contrôlez l'affichage des frappes modifiées, des touches spéciales, des touches multimédias et des événements de souris.
-- **Souris :** Configurez les anneaux et les icônes du pointeur, y compris la visibilité, la forme, la couleur, la taille, le décalage, l'arrière-plan et la teinte.
+- **Souris :** Configurez les anneaux, les icônes du pointeur et les ondes de clic, y compris la visibilité, la forme, la couleur, la taille, le décalage, l'arrière-plan et la teinte.
 - **Positionnement :** Choisissez l'écran, l'ancrage, la marge et le sens d'empilement.
 
 ## Installation

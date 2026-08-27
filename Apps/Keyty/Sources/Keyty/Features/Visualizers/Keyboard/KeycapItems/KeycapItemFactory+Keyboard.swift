@@ -31,7 +31,7 @@ extension KeycapItemFactory {
         palette: KeycapThemePalette
     ) -> [KeycapItem] {
         var result = Self.modifierItems(
-            currentFlags: modifierFlags.subtracting(.function),
+            currentFlags: modifierFlags,
             releasedFlags: [],
             palette: palette
         )
@@ -51,6 +51,21 @@ extension KeycapItemFactory {
             appearance: palette.appearance(for: identity)
         ))
         return result
+    }
+
+    /// The `fn` keycap. `fn` only ever reaches us as a modifier flag, never as a key
+    /// event, so it is built here instead of going through the keystroke path.
+    static func functionItem(
+        isPressed: Bool,
+        palette: KeycapThemePalette
+    ) -> KeycapItem {
+        let identity = KeycapIdentity.keyCode(KeyboardKeyCode.function.rawValue)
+        return KeycapItem(
+            identity: identity,
+            legend: .function,
+            state: KeycapState(isPressed: isPressed),
+            appearance: palette.appearance(for: identity)
+        )
     }
 
     // Legend for a key, with the two keys whose keycap styling differs from

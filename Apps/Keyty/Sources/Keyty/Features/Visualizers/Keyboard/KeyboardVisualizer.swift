@@ -183,6 +183,26 @@ private extension KeyboardVisualizer {
         }
     }
 
+    private func displayFunctionKey(isPressed: Bool, modifierFlags: NSEvent.ModifierFlags) {
+        self.prepareForNextContentEvent()
+
+        let keycap = KeycapItemFactory.functionItem(
+            isPressed: isPressed,
+            palette: self.visualizerSettings.palette
+        )
+        let group = self.eventCoordinator.handleTrackedKey(
+            keyCode: KeyboardKeyCode.function.rawValue,
+            isKeyDown: isPressed,
+            items: [keycap],
+            appendGroup: { self.visualizerWindow.appendGroup(with: $0, defersMaxCount: self.visualizerSettings.collapseRepeatedGroups) },
+            updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
+        )
+        self.collapseActiveRepeatIfNeeded(group)
+        if !isPressed, modifierFlags.intersection(Self.trackedModifierFlags).isEmpty {
+            self.finalizeGroupIfNeeded(group)
+        }
+    }
+
     private func displayModifierPreview(_ modifierFlags: NSEvent.ModifierFlags) {
         let currentTrackedFlags = modifierFlags.intersection(Self.trackedModifierFlags)
         let previousTrackedFlags = self.lastModifierFlags.intersection(Self.trackedModifierFlags)
@@ -207,6 +227,14 @@ private extension KeyboardVisualizer {
             )
             self.collapseActiveRepeatIfNeeded(group)
             self.finalizeGroupIfNeeded(group)
+        }
+
+        // `fn` is not a modifier: it gets its own keycap, tracked from key down to key up
+        // so a press and its release update one group instead of rendering twice.
+        let functionNow = modifierFlags.contains(.function)
+        let functionWas = self.lastModifierFlags.contains(.function)
+        if self.visualizerSettings.showSpecialKeys, functionNow != functionWas {
+            self.displayFunctionKey(isPressed: functionNow, modifierFlags: modifierFlags)
         }
 
         self.lastModifierFlags = modifierFlags

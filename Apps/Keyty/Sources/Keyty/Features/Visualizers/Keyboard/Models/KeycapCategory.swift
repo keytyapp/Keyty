@@ -28,11 +28,7 @@ enum KeycapCategory: CaseIterable {
         case .mouse:
             self = .mouse
         case let .keyCode(code):
-            // `fn` is emitted as a keyCode from the modifier path and is shown beside the
-            // modifiers, so it follows the modifier theme rather than the special theme.
-            if code == KeyboardKeyCode.function.rawValue {
-                self = .modifier
-            } else if KeyboardSpecialKeyResolver.specialKey(for: code) != nil {
+            if KeyboardSpecialKeyResolver.specialKey(for: code) != nil {
                 self = .special
             } else {
                 self = .regular

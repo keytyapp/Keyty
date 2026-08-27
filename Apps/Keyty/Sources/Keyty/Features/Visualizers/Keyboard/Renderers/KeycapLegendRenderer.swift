@@ -170,7 +170,7 @@ struct KeycapLegendRenderer {
         }
     }
 
-    private func drawKeycapDot(in rect: NSRect, active: Bool) {
+    func drawKeycapDot(in rect: NSRect, active: Bool) {
         let dotSize: CGFloat = 8
         let dotRect = NSRect(
             x: rect.minX + CommonKeycapMetrics.horizontalPadding,

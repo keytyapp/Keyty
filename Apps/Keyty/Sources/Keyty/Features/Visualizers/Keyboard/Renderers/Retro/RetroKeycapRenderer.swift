@@ -91,7 +91,7 @@ struct RetroKeycapRenderer: KeycapRendering {
         facePath.lineWidth = 1.25
         facePath.stroke()
 
-        legendRenderer.draw(item: item, in: faceRect, textColor: appearance.textColor)
+        legendRenderer.draw(item: item, in: faceRect, textColor: appearance.shared.textColor)
     }
 
     private func retroKeycapWidth(for item: KeycapItem) -> CGFloat {

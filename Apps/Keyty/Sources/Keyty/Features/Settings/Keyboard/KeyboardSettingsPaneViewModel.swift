@@ -46,7 +46,15 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     }
 
     @Published var theme: KeyboardVisualizerTheme {
-        didSet { self.settings.theme = self.theme }
+        didSet {
+            guard self.theme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.theme)
+            guard sanitized == self.theme else {
+                self.theme = sanitized
+                return
+            }
+            self.settings.theme = sanitized
+        }
     }
 
     @Published var legendColorMode: KeyboardLegendColorMode {
@@ -77,27 +85,71 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     }
 
     @Published var modifierTheme: KeyboardVisualizerTheme {
-        didSet { self.settings.modifierTheme = self.modifierTheme }
+        didSet {
+            guard self.modifierTheme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.modifierTheme)
+            guard sanitized == self.modifierTheme else {
+                self.modifierTheme = sanitized
+                return
+            }
+            self.settings.modifierTheme = sanitized
+        }
     }
 
     @Published var specialTheme: KeyboardVisualizerTheme {
-        didSet { self.settings.specialTheme = self.specialTheme }
+        didSet {
+            guard self.specialTheme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.specialTheme)
+            guard sanitized == self.specialTheme else {
+                self.specialTheme = sanitized
+                return
+            }
+            self.settings.specialTheme = sanitized
+        }
     }
 
     @Published var mediaTheme: KeyboardVisualizerTheme {
-        didSet { self.settings.mediaTheme = self.mediaTheme }
+        didSet {
+            guard self.mediaTheme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.mediaTheme)
+            guard sanitized == self.mediaTheme else {
+                self.mediaTheme = sanitized
+                return
+            }
+            self.settings.mediaTheme = sanitized
+        }
     }
 
     @Published var mouseTheme: KeyboardVisualizerTheme {
-        didSet { self.settings.mouseTheme = self.mouseTheme }
+        didSet {
+            guard self.mouseTheme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.mouseTheme)
+            guard sanitized == self.mouseTheme else {
+                self.mouseTheme = sanitized
+                return
+            }
+            self.settings.mouseTheme = sanitized
+        }
     }
 
     @Published var groupBackgroundTheme: KeyboardVisualizerTheme {
-        didSet { self.settings.groupBackgroundTheme = self.groupBackgroundTheme }
+        didSet {
+            guard self.groupBackgroundTheme != oldValue else { return }
+            let sanitized = self.style.sanitize(theme: self.groupBackgroundTheme)
+            guard sanitized == self.groupBackgroundTheme else {
+                self.groupBackgroundTheme = sanitized
+                return
+            }
+            self.settings.groupBackgroundTheme = sanitized
+        }
     }
 
     @Published var style: KeycapStyle {
-        didSet { self.settings.style = self.style }
+        didSet {
+            guard self.style != oldValue else { return }
+            self.settings.style = self.style
+            self.syncThemeStateFromSettings()
+        }
     }
 
     @Published var scale: Double {
@@ -175,6 +227,11 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         ].joined(separator: "-")
     }
 
+    /// Theme picker sections filtered to the themes allowed by the selected keycap style.
+    var allowedThemeSections: [[KeyboardVisualizerTheme]] {
+        KeyboardVisualizerTheme.pickerSections(for: self.style.allowedThemes)
+    }
+
     var previewRenderSettings: KeyboardVisualizerSettings {
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
         settings.registerDefaults()
@@ -245,6 +302,15 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         self.legendColorMode = .custom
         self.customLegendColor = color
         self.legendColorSelectionOverride = Self.customLegendColorSelectionID
+    }
+
+    private func syncThemeStateFromSettings() {
+        self.theme = self.settings.theme
+        self.modifierTheme = self.settings.modifierTheme
+        self.specialTheme = self.settings.specialTheme
+        self.mediaTheme = self.settings.mediaTheme
+        self.mouseTheme = self.settings.mouseTheme
+        self.groupBackgroundTheme = self.settings.groupBackgroundTheme
     }
 }
 

@@ -262,7 +262,7 @@ struct KeyboardSettingsPane: View {
             subtitle: L10n.KeyboardVisualizer.themeSubtitle
         ) {
             Picker("", selection: self.$model.themeSelection) {
-                ForEach(Array(KeyboardVisualizerTheme.pickerSections.enumerated()), id: \.offset) { index, section in
+                ForEach(Array(self.model.allowedThemeSections.enumerated()), id: \.offset) { index, section in
                     if index > 0 {
                         Divider()
                     }
@@ -341,7 +341,7 @@ struct KeyboardSettingsPane: View {
     ) -> some View {
         SettingsControlRow(title: title, subtitle: subtitle) {
             Picker("", selection: selection) {
-                ForEach(Array(KeyboardVisualizerTheme.pickerSections.enumerated()), id: \.offset) { index, section in
+                ForEach(Array(self.model.allowedThemeSections.enumerated()), id: \.offset) { index, section in
                     if index > 0 {
                         Divider()
                     }
@@ -381,7 +381,7 @@ struct KeyboardSettingsPane: View {
             }
             .labelsHidden()
             .accessibilityLabel(L10n.KeyboardVisualizer.styleLabel)
-            .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
+            .frame(width: Size.Control.keyboardStylePickerWidth, alignment: .trailing)
         }
     }
 

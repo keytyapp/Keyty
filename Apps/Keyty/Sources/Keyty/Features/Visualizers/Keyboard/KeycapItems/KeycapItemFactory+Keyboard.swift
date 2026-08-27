@@ -38,11 +38,16 @@ extension KeycapItemFactory {
         guard !legend.text.isEmpty || legend.kind != .text else { return result }
 
         let identity = KeycapIdentity.keyCode(keyCode)
+        let presentation = palette.style.presentationPolicy.presentation(
+            for: keyCode,
+            legend: Self.keycapLegend(for: keyCode, legend: legend),
+            layoutHints: Self.layoutHints(forKeyCode: keyCode)
+        )
         result.append(KeycapItem(
             identity: identity,
-            legend: Self.keycapLegend(for: keyCode, legend: legend),
+            legend: presentation.legend,
             state: KeycapState(isPressed: isPressed),
-            layoutHints: Self.layoutHints(forKeyCode: keyCode),
+            layoutHints: presentation.layoutHints,
             appearance: palette.appearance(for: identity)
         ))
         return result
@@ -57,7 +62,7 @@ extension KeycapItemFactory {
         let identity = KeycapIdentity.keyCode(KeyboardKeyCode.function.rawValue)
         return KeycapItem(
             identity: identity,
-            legend: .function,
+            legend: palette.style.presentationPolicy.functionLegend,
             state: KeycapState(isPressed: isPressed),
             appearance: palette.appearance(for: identity)
         )

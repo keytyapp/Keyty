@@ -184,7 +184,12 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     /// Base theme. Applies to regular keys and — when `usesCustomThemePalette` is off — every key.
     @Stored(.enum(KeyboardVisualizerSettingsKeys.theme, default: .black))
-    var theme: KeyboardVisualizerTheme
+    private var storedTheme: KeyboardVisualizerTheme
+
+    var theme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedTheme) }
+        set { self.storedTheme = self.style.sanitize(theme: newValue) }
+    }
 
     /// Whether keycap legend drawing should use the theme-default color or a custom override.
     @Stored(.enum(KeyboardVisualizerSettingsKeys.legendColorMode, default: .automatic))
@@ -199,19 +204,44 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     var usesCustomThemePalette: Bool
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.modifierTheme, default: .black))
-    var modifierTheme: KeyboardVisualizerTheme
+    private var storedModifierTheme: KeyboardVisualizerTheme
+
+    var modifierTheme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedModifierTheme) }
+        set { self.storedModifierTheme = self.style.sanitize(theme: newValue) }
+    }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.specialTheme, default: .black))
-    var specialTheme: KeyboardVisualizerTheme
+    private var storedSpecialTheme: KeyboardVisualizerTheme
+
+    var specialTheme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedSpecialTheme) }
+        set { self.storedSpecialTheme = self.style.sanitize(theme: newValue) }
+    }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.mediaTheme, default: .black))
-    var mediaTheme: KeyboardVisualizerTheme
+    private var storedMediaTheme: KeyboardVisualizerTheme
+
+    var mediaTheme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedMediaTheme) }
+        set { self.storedMediaTheme = self.style.sanitize(theme: newValue) }
+    }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.mouseTheme, default: .black))
-    var mouseTheme: KeyboardVisualizerTheme
+    private var storedMouseTheme: KeyboardVisualizerTheme
+
+    var mouseTheme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedMouseTheme) }
+        set { self.storedMouseTheme = self.style.sanitize(theme: newValue) }
+    }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.groupBackgroundTheme, default: .black))
-    var groupBackgroundTheme: KeyboardVisualizerTheme
+    private var storedGroupBackgroundTheme: KeyboardVisualizerTheme
+
+    var groupBackgroundTheme: KeyboardVisualizerTheme {
+        get { self.style.sanitize(theme: self.storedGroupBackgroundTheme) }
+        set { self.storedGroupBackgroundTheme = self.style.sanitize(theme: newValue) }
+    }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.anchor, default: .default))
     var anchor: KeyboardVisualizerAnchor {
@@ -309,7 +339,11 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     /// Visual style of the rendered keycaps.
     @Stored(.enum(KeyboardVisualizerSettingsKeys.style, default: .default))
-    var style: KeycapStyle
+    var style: KeycapStyle {
+        didSet {
+            self.sanitizeThemesForStyle()
+        }
+    }
 
     /// Whether only keystrokes pressed with modifiers should be rendered.
     @Stored(.bool(KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes, default: false))
@@ -376,6 +410,15 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         case .custom:
             return self.customLegendColor
         }
+    }
+
+    private func sanitizeThemesForStyle() {
+        self.storedTheme = self.style.sanitize(theme: self.storedTheme)
+        self.storedModifierTheme = self.style.sanitize(theme: self.storedModifierTheme)
+        self.storedSpecialTheme = self.style.sanitize(theme: self.storedSpecialTheme)
+        self.storedMediaTheme = self.style.sanitize(theme: self.storedMediaTheme)
+        self.storedMouseTheme = self.style.sanitize(theme: self.storedMouseTheme)
+        self.storedGroupBackgroundTheme = self.style.sanitize(theme: self.storedGroupBackgroundTheme)
     }
 
 }

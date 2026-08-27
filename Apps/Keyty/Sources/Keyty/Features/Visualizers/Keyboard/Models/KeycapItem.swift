@@ -42,6 +42,8 @@ struct KeycapItem {
     var label: String? { self.legend.label }
     var rendersSymbolWithLabel: Bool { self.legend.rendersSymbolWithLabel }
     var rendersCenteredLabel: Bool { self.legend.rendersCenteredLabel }
+    /// Indicates whether the label should be drawn in a constrained width so it can wrap across lines.
+    var wrapsLabel: Bool { self.legend.wrapsLabel }
     var isPressed: Bool { self.state.isPressed }
     var fixedWidth: CGFloat? { self.layoutHints.fixedWidth }
 }

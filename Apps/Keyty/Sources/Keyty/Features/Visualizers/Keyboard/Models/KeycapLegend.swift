@@ -19,6 +19,7 @@ struct KeycapLegend {
     let label: String?
     let rendersSymbolWithLabel: Bool
     let rendersCenteredLabel: Bool
+    let wrapsLabel: Bool
 
     init(
         symbol: String = "",
@@ -27,7 +28,8 @@ struct KeycapLegend {
         sfSymbolName: String? = nil,
         label: String? = nil,
         rendersSymbolWithLabel: Bool = false,
-        rendersCenteredLabel: Bool = false
+        rendersCenteredLabel: Bool = false,
+        wrapsLabel: Bool = false
     ) {
         self.symbol = symbol
         self.image = image
@@ -36,6 +38,7 @@ struct KeycapLegend {
         self.label = label
         self.rendersSymbolWithLabel = rendersSymbolWithLabel
         self.rendersCenteredLabel = rendersCenteredLabel
+        self.wrapsLabel = wrapsLabel
     }
 }
 
@@ -81,5 +84,5 @@ extension KeycapLegend {
     static let end = KeycapLegend(label: "end", rendersCenteredLabel: true)
     static let pageUp = KeycapLegend(label: "page up", rendersCenteredLabel: true)
     static let pageDown = KeycapLegend(label: "page down", rendersCenteredLabel: true)
-    static let capsLock = KeycapLegend(label: KeyboardSpecialKey.capsLock.label)
+    static let capsLock = KeycapLegend(label: KeyboardSpecialKey.capsLock.label, wrapsLabel: true)
 }

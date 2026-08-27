@@ -115,10 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "Ogólna skala renderowanych klawiszy.";
 "keyboard_visualizer.style_label" = "Styl";
 "keyboard_visualizer.style_subtitle" = "Ogólna konstrukcja i wykończenie powierzchni klawiszy.";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimalny";
 "keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "Czas pozostawania";
 "keyboard_visualizer.linger_time_subtitle" = "Jak długo klawisze pozostają w pełni widoczne przed zanikiem.";
 "keyboard_visualizer.linger_time.short" = "Krótko";

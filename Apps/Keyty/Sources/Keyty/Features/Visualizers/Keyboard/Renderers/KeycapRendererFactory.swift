@@ -19,6 +19,8 @@ enum KeycapRendererFactory {
             return MinimalKeycapRenderer()
         case .retro:
             return RetroKeycapRenderer()
+        case .m0116:
+            return M0116KeycapRenderer()
         }
     }
 }

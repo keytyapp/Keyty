@@ -27,6 +27,15 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
 
 // MARK: - Titles
 extension KeyboardVisualizerTheme {
+    /// Filters the standard picker grouping down to the themes allowed by the current style.
+    static func pickerSections(for allowedThemes: [KeyboardVisualizerTheme]) -> [[KeyboardVisualizerTheme]] {
+        let allowed = Set(allowedThemes)
+        return Self.pickerSections.compactMap { section in
+            let filteredSection = section.filter { allowed.contains($0) }
+            return filteredSection.isEmpty ? nil : filteredSection
+        }
+    }
+
     var title: String {
         switch self {
         case .black: L10n.KeyboardVisualizer.Theme.dark
@@ -47,7 +56,7 @@ extension KeyboardVisualizerTheme {
 
 // MARK: - Tokens
 extension KeyboardVisualizerTheme {
-    private static func badgeTokens(swatchColor: NSColor, textColor: NSColor) -> (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
+    static func badgeTokens(swatchColor: NSColor, textColor: NSColor) -> (fill: NSColor, stroke: NSColor, highlight: NSColor, text: NSColor) {
         let baseFill = swatchColor.relativeLuminance > 0.6
             ? swatchColor.darkened(by: 0.12)
             : swatchColor.lightened(by: 0.08)
@@ -375,6 +384,8 @@ extension KeyboardVisualizerTheme {
             return KeycapAppearance.minimal(KeycapAppearance.Minimal(tokens: tokens))
         case .retro:
             return KeycapAppearance.retro(KeycapAppearance.Retro(tokens: tokens))
+        case .m0116:
+            return KeycapAppearance.m0116(KeycapAppearance.M0116(tokens: tokens))
         }
     }
 }

@@ -47,7 +47,7 @@ struct AppleKeycapRenderer: KeycapRendering {
         self.legendRenderer.draw(
             item: item,
             in: keycapRect,
-            textColor: appearance.textColor,
+            textColor: appearance.shared.textColor,
             centeredLabelWidth: self.centeredLabelWidth(for: item)
         )
     }

@@ -45,4 +45,11 @@ extension KeycapContext {
         }
         return self.settings.theme.appearance(for: .retro).retro!
     }
+
+    var m0116Appearance: KeycapAppearance.M0116 {
+        if let appearance = self.appearance.m0116 {
+            return appearance
+        }
+        return self.settings.theme.appearance(for: .m0116).m0116!
+    }
 }

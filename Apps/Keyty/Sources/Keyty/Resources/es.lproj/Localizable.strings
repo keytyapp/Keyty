@@ -115,10 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "Escala general de las teclas representadas.";
 "keyboard_visualizer.style_label" = "Estilo";
 "keyboard_visualizer.style_subtitle" = "Diseño general y acabado de la superficie de las teclas.";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimalista";
 "keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "Tiempo en pantalla";
 "keyboard_visualizer.linger_time_subtitle" = "Tiempo que las teclas permanecen totalmente visibles antes de desvanecerse.";
 "keyboard_visualizer.linger_time.short" = "Corto";

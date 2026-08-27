@@ -115,10 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "Gesamtskalierung der dargestellten Tastenkappen.";
 "keyboard_visualizer.style_label" = "Stil";
 "keyboard_visualizer.style_subtitle" = "Allgemeine Form und Oberflächenbehandlung der Tastenkappen.";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimal";
 "keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "Anzeigedauer";
 "keyboard_visualizer.linger_time_subtitle" = "Dauer, für die Tastenkappen vor dem Ausblenden vollständig sichtbar bleiben.";
 "keyboard_visualizer.linger_time.short" = "Kurz";

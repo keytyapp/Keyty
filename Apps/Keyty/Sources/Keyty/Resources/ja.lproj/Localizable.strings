@@ -115,10 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "表示するキー全体の大きさです。";
 "keyboard_visualizer.style_label" = "スタイル";
 "keyboard_visualizer.style_subtitle" = "キーの全体的な形状と表面の仕上げです。";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "ミニマル";
 "keyboard_visualizer.style.retro" = "レトロ";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "表示時間";
 "keyboard_visualizer.linger_time_subtitle" = "フェードアウトが始まるまでキーを完全に表示する時間です。";
 "keyboard_visualizer.linger_time.short" = "短い";

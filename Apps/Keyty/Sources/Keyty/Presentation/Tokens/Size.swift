@@ -56,6 +56,7 @@ enum Size {
         static let colorWell = CGSize(width: Spacing.grid(11), height: Spacing.grid(6))
         static let numberFieldWidth = Spacing.grid(11)
         static let settingsPickerWidth = Spacing.grid(45)
+        static let keyboardStylePickerWidth = Spacing.grid(56)
         static let themePickerWidth = settingsPickerWidth
     }
 }

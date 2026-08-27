@@ -142,6 +142,8 @@ private extension KeyboardVisualizerGroupView {
             fallbackHeight = MinimalKeycapMetrics.height
         case .retro:
             fallbackHeight = RetroKeycapMetrics.height
+        case .m0116:
+            fallbackHeight = M0116KeycapMetrics.height
         case .apple, .pbt:
             fallbackHeight = AppleKeycapMetrics.height
         }
@@ -165,6 +167,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.groupPadding
         case .retro:
             return RetroKeycapMetrics.groupPadding
+        case .m0116:
+            return M0116KeycapMetrics.groupPadding
         case .apple:
             return AppleKeycapMetrics.groupPadding
         case .pbt:
@@ -178,6 +182,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.itemSpacing
         case .retro:
             return RetroKeycapMetrics.itemSpacing
+        case .m0116:
+            return M0116KeycapMetrics.itemSpacing
         case .apple, .pbt:
             return AppleKeycapMetrics.itemSpacing
         }
@@ -189,6 +195,8 @@ private extension KeyboardVisualizerGroupView {
             return MinimalKeycapMetrics.repeatBadgeInset
         case .retro:
             return RetroKeycapMetrics.repeatBadgeInset
+        case .m0116:
+            return M0116KeycapMetrics.repeatBadgeInset
         case .apple:
             return AppleKeycapMetrics.repeatBadgeInset
         case .pbt:
@@ -208,14 +216,16 @@ private extension KeyboardVisualizerGroupView {
             radius = insetBounds.height / 2
         case .retro:
             radius = 24
+        case .m0116:
+            radius = 12
         case .apple, .pbt:
             radius = 18
         }
         let path = NSBezierPath(roundedRect: insetBounds, xRadius: radius, yRadius: radius)
         let appearance = self.settings.groupAppearance
-        appearance.groupBackgroundColor.setFill()
+        appearance.shared.groupBackgroundColor.setFill()
         path.fill()
-        appearance.groupStrokeColor.setStroke()
+        appearance.shared.groupStrokeColor.setStroke()
         path.lineWidth = StrokeWidth.standard
         path.stroke()
     }
@@ -228,7 +238,7 @@ private extension KeyboardVisualizerGroupView {
         let appearance = self.settings.groupAppearance
         let attributes: [NSAttributedString.Key: Any] = [
             .font: font,
-            .foregroundColor: appearance.badgeTextColor,
+            .foregroundColor: appearance.shared.badgeTextColor,
             .paragraphStyle: paragraphStyle,
         ]
         let labelSize = badgeText.size(withAttributes: attributes)
@@ -247,9 +257,9 @@ private extension KeyboardVisualizerGroupView {
             xRadius: badgeHeight / 2,
             yRadius: badgeHeight / 2
         )
-        appearance.badgeFillColor.setFill()
+        appearance.shared.badgeFillColor.setFill()
         badgePath.fill()
-        appearance.badgeStrokeColor.setStroke()
+        appearance.shared.badgeStrokeColor.setStroke()
         badgePath.lineWidth = StrokeWidth.standard
         badgePath.stroke()
 
@@ -259,7 +269,7 @@ private extension KeyboardVisualizerGroupView {
             xRadius: highlightRect.height / 2,
             yRadius: highlightRect.height / 2
         )
-        appearance.badgeHighlightColor.setStroke()
+        appearance.shared.badgeHighlightColor.setStroke()
         highlightPath.lineWidth = 1
         highlightPath.stroke()
 

@@ -42,6 +42,29 @@ final class KeycapItemFactoryTests: XCTestCase {
         XCTAssertEqual(KeycapCategory(identity: item.identity), .special)
     }
 
+    func testM0116FunctionKeyMatchesModifierStyle() {
+        let m0116Item = KeycapItemFactory.functionItem(
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+        let appleItem = KeycapItemFactory.functionItem(
+            isPressed: true,
+            palette: Self.makePalette(style: .apple, theme: .black)
+        )
+
+        XCTAssertEqual(m0116Item.identity, .keyCode(KeyboardKeyCode.function.rawValue))
+        XCTAssertEqual(m0116Item.symbol, "")
+        XCTAssertEqual(m0116Item.label, "fn")
+        XCTAssertNil(m0116Item.sfSymbolName)
+        XCTAssertEqual(appleItem.sfSymbolName, "globe")
+        XCTAssertEqual(appleItem.label, "fn")
+    }
+
+    func testM0116PresentationPolicyHidesCapsLockDot() {
+        XCTAssertFalse(Self.makePalette(style: .m0116, theme: .white).style.presentationPolicy.showsCapsLockDot)
+        XCTAssertTrue(Self.makePalette(style: .apple, theme: .black).style.presentationPolicy.showsCapsLockDot)
+    }
+
     func testModifierItemsUseLocationSpecificModifierKeys() {
         let items = KeycapItemFactory.modifierItems(
             currentFlags: NSEvent.ModifierFlags.command.addingRawMasks(
@@ -178,6 +201,216 @@ final class KeycapItemFactoryTests: XCTestCase {
         }
     }
 
+    func testM0116EscapeOmitsSymbolButKeepsLayoutHints() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.escape.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.escape.displayText,
+                label: KeyboardSpecialKey.escape.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.escape.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "esc")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.alignment, .left)
+    }
+
+    func testM0116ArrowsUseDashedArrowGlyphsOnlyForThatStyle() {
+        let m0116Palette = Self.makePalette(style: .m0116, theme: .white)
+        let applePalette = Self.makePalette(style: .apple, theme: .black)
+        let expectedM0116: [(KeyboardKeyCode, String, String)] = [
+            (.leftArrow, UnicodeToken.leftwardsDashedArrow.string, UnicodeToken.leftArrow.string),
+            (.rightArrow, UnicodeToken.rightwardsDashedArrow.string, UnicodeToken.rightArrow.string),
+            (.upArrow, UnicodeToken.upwardsDashedArrow.string, UnicodeToken.upArrow.string),
+            (.downArrow, UnicodeToken.downwardsDashedArrow.string, UnicodeToken.downArrow.string),
+        ]
+
+        for (keyCode, m0116Symbol, defaultSymbol) in expectedM0116 {
+            let legend = EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? "")
+
+            let m0116Items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: legend,
+                modifierFlags: [],
+                isPressed: true,
+                palette: m0116Palette
+            )
+            let appleItems = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: legend,
+                modifierFlags: [],
+                isPressed: true,
+                palette: applePalette
+            )
+
+            XCTAssertEqual(m0116Items.first?.symbol, m0116Symbol)
+            XCTAssertEqual(appleItems.first?.symbol, defaultSymbol)
+        }
+    }
+
+    func testM0116SpaceOmitsLegendButKeepsWideKeycap() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.space.rawValue,
+            legend: EventLegend(text: KeyboardSpecialKey.space.displayText),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.space.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, nil)
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.fixedWidth, 256)
+    }
+
+    func testM0116ReturnOmitsSymbolButKeepsReturnKeyLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.returnKey.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.returnKey.displayText,
+                label: KeyboardSpecialKey.returnKey.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.returnKey.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "return")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertNil(items.first?.layoutHints.fixedWidth)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 128)
+    }
+
+    func testM0116DeleteOmitsSymbolButKeepsDeleteKeyLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.delete.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.delete.displayText,
+                label: KeyboardSpecialKey.delete.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.delete.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "delete")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
+    }
+
+    func testM0116NavigationKeysUseRegularLabelRendering() {
+        let expected: [(KeyboardKeyCode, String)] = [
+            (.home, "home"),
+            (.end, "end"),
+        ]
+
+        for (keyCode, label) in expected {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+
+            XCTAssertEqual(items.map(\.identity), [.keyCode(keyCode.rawValue)])
+            XCTAssertEqual(items.first?.symbol, "")
+            XCTAssertEqual(items.first?.label, label)
+            XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+            XCTAssertEqual(items.first?.wrapsLabel, false)
+        }
+    }
+
+    func testM0116PageNavigationKeysWrapLabels() {
+        let expected: [(KeyboardKeyCode, String)] = [
+            (.pageUp, "page up"),
+            (.pageDown, "page down"),
+        ]
+
+        for (keyCode, label) in expected {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+
+            XCTAssertEqual(items.map(\.identity), [.keyCode(keyCode.rawValue)])
+            XCTAssertEqual(items.first?.symbol, "")
+            XCTAssertEqual(items.first?.label, label)
+            XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+            XCTAssertEqual(items.first?.wrapsLabel, true)
+        }
+    }
+
+    func testM0116TabOmitsSymbolButKeepsTabLayout() {
+        let items = KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.tab.rawValue,
+            legend: EventLegend(
+                text: KeyboardSpecialKey.tab.displayText,
+                label: KeyboardSpecialKey.tab.label
+            ),
+            modifierFlags: [],
+            isPressed: true,
+            palette: Self.makePalette(style: .m0116, theme: .white)
+        )
+
+        XCTAssertEqual(items.map(\.identity), [.keyCode(KeyboardKeyCode.tab.rawValue)])
+        XCTAssertEqual(items.first?.symbol, "")
+        XCTAssertEqual(items.first?.label, "tab")
+        XCTAssertEqual(items.first?.rendersCenteredLabel, false)
+        XCTAssertEqual(items.first?.layoutHints.alignment, .left)
+        XCTAssertEqual(items.first.map(keycapWidth(for:)), 112)
+    }
+
+    func testM0116ModifiersOmitGlyphsButOtherStylesKeepThem() {
+        let cases: [(NSEvent.ModifierFlags, UInt, KeycapIdentity, String, String)] = [
+            (.shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)), UInt(NX_DEVICELSHIFTKEYMASK), .modifier(.leftShift), "shift", UnicodeToken.shift.string),
+            (.control.addingRawMasks(UInt(NX_DEVICELCTLKEYMASK)), UInt(NX_DEVICELCTLKEYMASK), .modifier(.leftControl), "control", UnicodeToken.control.string),
+            (.option.addingRawMasks(UInt(NX_DEVICELALTKEYMASK)), UInt(NX_DEVICELALTKEYMASK), .modifier(.leftOption), "option", UnicodeToken.option.string),
+            (.command.addingRawMasks(UInt(NX_DEVICELCMDKEYMASK)), UInt(NX_DEVICELCMDKEYMASK), .modifier(.leftCommand), "command", UnicodeToken.command.string),
+        ]
+
+        for (flags, _, expectedIdentity, expectedLabel, defaultSymbol) in cases {
+            let m0116Items = KeycapItemFactory.modifierItems(
+                currentFlags: flags,
+                releasedFlags: [],
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            )
+            let appleItems = KeycapItemFactory.modifierItems(
+                currentFlags: flags,
+                releasedFlags: [],
+                palette: Self.makePalette(style: .apple, theme: .black)
+            )
+
+            XCTAssertEqual(m0116Items.map(\.identity), [expectedIdentity])
+            XCTAssertEqual(m0116Items.first?.symbol, "")
+            XCTAssertEqual(m0116Items.first?.label, expectedLabel)
+            XCTAssertEqual(appleItems.first?.symbol, defaultSymbol)
+            XCTAssertEqual(appleItems.first?.label, expectedLabel)
+        }
+
+        XCTAssertEqual(
+            KeycapItemFactory.modifierItems(
+                currentFlags: .shift.addingRawMasks(UInt(NX_DEVICELSHIFTKEYMASK)),
+                releasedFlags: [],
+                palette: Self.makePalette(style: .m0116, theme: .white)
+            ).first?.layoutHints.alignment,
+            .right
+        )
+    }
+
     func testAppleRendererKeepsPageNavigationKeysAtStandardWidth() throws {
         let palette = Self.makePalette()
         let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
@@ -194,6 +427,25 @@ final class KeycapItemFactoryTests: XCTestCase {
 
             let context = KeycapContext(item: try XCTUnwrap(items.first), settings: settings)
             XCTAssertEqual(renderer.size(for: context).width, AppleKeycapMetrics.minWidth)
+        }
+    }
+
+    func testM0116RendererKeepsNavigationKeysAtRegularWidth() throws {
+        let palette = Self.makePalette(style: .m0116, theme: .white)
+        let settings = KeyboardVisualizerSettings(store: InMemoryKeyValueStore())
+        let renderer = M0116KeycapRenderer()
+
+        for keyCode in [KeyboardKeyCode.home, .end, .pageUp, .pageDown] {
+            let items = KeycapItemFactory.keycapItems(
+                keyCode: keyCode.rawValue,
+                legend: EventLegend(text: KeyboardSpecialKeyResolver.specialKey(for: keyCode.rawValue)?.displayText ?? ""),
+                modifierFlags: [],
+                isPressed: true,
+                palette: palette
+            )
+
+            let context = KeycapContext(item: try XCTUnwrap(items.first), settings: settings)
+            XCTAssertEqual(renderer.size(for: context).width, M0116KeycapMetrics.minWidth)
         }
     }
 

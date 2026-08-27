@@ -36,6 +36,11 @@ enum UnicodeToken {
     static let rightArrow: Unicode.Scalar = "\u{25B6}"
     static let upArrow: Unicode.Scalar = "\u{25B2}"
     static let downArrow: Unicode.Scalar = "\u{25BC}"
+    
+    static let leftwardsDashedArrow: Unicode.Scalar = "\u{21E0}"
+    static let upwardsDashedArrow: Unicode.Scalar = "\u{21E1}"
+    static let rightwardsDashedArrow: Unicode.Scalar = "\u{21E2}"
+    static let downwardsDashedArrow: Unicode.Scalar = "\u{21E3}"
 
     static let leftwardsArrow: Unicode.Scalar = "\u{2190}"
     static let rightwardsArrow: Unicode.Scalar = "\u{2192}"

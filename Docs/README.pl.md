@@ -37,9 +37,16 @@ Keyty to darmowa aplikacja open source, która wizualizuje działania klawiatury
   <img src="Resources/pointer_icon_demo.gif" alt="Demo ikony wskaźnika" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Wizualizacja kliknięć myszy i przewijania obok wejścia z klawiatury
 - Pierścień podświetlający wskaźnik z konfigurowalnym kształtem, kolorem, rozmiarem i grubością
 - Nakładka ikony wskaźnika z regulowaną pozycją, rozmiarem, tłem i kolorem
+- Wizualizator fal kliknięcia myszy podkreślający kliknięcia podczas demonstracji
 
 ## Personalizacja
 
@@ -48,7 +55,7 @@ Keyty można dostosować w Ustawieniach do własnego sposobu pracy i stylu preze
 - **Wygląd:** Wybierz style nakładki klawiatury, motywy, kolory i rozmiar.
 - **Historia:** Zachowaj wizualny ślad ostatnich działań wejściowych.
 - **Filtry:** Kontroluj, czy mają być pokazywane kombinacje z modyfikatorami, klawisze specjalne, klawisze multimedialne i zdarzenia myszy.
-- **Mysz:** Skonfiguruj pierścienie i ikony wskaźnika, w tym widoczność, kształt, kolor, rozmiar, przesunięcie, tło i kolor ikony.
+- **Mysz:** Skonfiguruj pierścienie, ikony wskaźnika i fale kliknięcia, w tym widoczność, kształt, kolor, rozmiar, przesunięcie, tło i kolor ikony.
 - **Położenie:** Wybierz ekran, punkt zakotwiczenia, margines i kierunek układania.
 
 ## Instalacja

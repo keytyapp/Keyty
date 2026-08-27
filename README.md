@@ -49,9 +49,16 @@ Keyty is a free, open-source app that visualizes your keyboard and mouse actions
   <img src="Docs/Resources/pointer_icon_demo.gif" alt="Pointer icon demo" width="49%">
 </p>
 
+<p align="center">
+  <video src="Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Visualize mouse clicks and scroll actions alongside keyboard input
 - Pointer highlight ring with configurable shape, color, size, and thickness
 - Pointer icon overlay with adjustable position, size, background, and tint
+- Mouse ripple visualizer for emphasizing click feedback during demos
 
 ## Customization
 

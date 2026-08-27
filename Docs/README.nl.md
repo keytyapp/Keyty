@@ -37,9 +37,16 @@ Keyty is een gratis open-source-app die je toetsenbord- en muisacties in realtim
   <img src="Resources/pointer_icon_demo.gif" alt="Demo van het aanwijzerpictogram" width="49%">
 </p>
 
+<p align="center">
+  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
 - Visualiseer muisklikken en scrollacties naast toetsenbordinvoer
 - Markeerring voor de aanwijzer met instelbare vorm, kleur, grootte en dikte
 - Overlay met aanwijzerpictogram en verstelbare positie, grootte, achtergrond en tint
+- Muisklik-rimpelvisualisatie om klikken tijdens demo's te benadrukken
 
 ## Aanpassing
 
@@ -48,7 +55,7 @@ Keyty kan vanuit Instellingen worden afgestemd op je workflow en presentatiestij
 - **Uiterlijk:** Kies overlaystijlen, thema's, kleuren en grootte voor het toetsenbord.
 - **Geschiedenis:** Houd een visueel spoor van je recente invoer bij.
 - **Filters:** Bepaal of gewijzigde toetsaanslagen, speciale toetsen, mediatoetsen en muisgebeurtenissen worden getoond.
-- **Muis:** Configureer aanwijzerringen en aanwijzerpictogrammen, inclusief zichtbaarheid, vorm, kleur, grootte, offset, achtergrond en tint.
+- **Muis:** Configureer aanwijzerringen, aanwijzerpictogrammen en klikrimpels, inclusief zichtbaarheid, vorm, kleur, grootte, offset, achtergrond en tint.
 - **Plaatsing:** Kies het beeldscherm, schermanker, de marge en de stapelrichting.
 
 ## Installatie

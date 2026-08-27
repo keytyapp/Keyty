@@ -37,9 +37,7 @@ Keyty 是一款免费开源应用，可实时可视化你的键盘和鼠标操�
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="鼠标点击波纹演示" width="720">
 </p>
 
 - 与键盘输入一起可视化鼠标点击和滚动操作

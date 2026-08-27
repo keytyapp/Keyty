@@ -37,9 +37,7 @@ Keyty は、キーボードやマウスの操作をリアルタイムで可視�
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="マウスクリックのリップルデモ" width="720">
 </p>
 
 - キーボード入力とあわせてマウスクリックやスクロール操作を可視化

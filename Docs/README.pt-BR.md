@@ -38,9 +38,7 @@ Keyty é um app gratuito e de código aberto que visualiza suas ações de tecla
 </p>
 
 <p align="center">
-  <video src="../Assets/Marketing/MouseIcon/mouse-ripples-visualizer-demo1.webm" controls muted playsinline width="720">
-    Your browser does not support the video tag.
-  </video>
+  <img src="Resources/mouse_ripples_demo.gif" alt="Demonstração das ondas de clique do mouse" width="720">
 </p>
 
 - Visualize cliques e ações de rolagem do mouse junto com a entrada do teclado

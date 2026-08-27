@@ -115,11 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "Échelle générale des touches affichées.";
 "keyboard_visualizer.style_label" = "Style";
 "keyboard_visualizer.style_subtitle" = "Forme générale et traitement de surface des touches.";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimal";
 "keyboard_visualizer.style.retro" = "Rétro";
-"keyboard_visualizer.style.m0116" = "M0116";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "Durée d’affichage";
 "keyboard_visualizer.linger_time_subtitle" = "Durée pendant laquelle les touches restent entièrement visibles avant de s’estomper.";
 "keyboard_visualizer.linger_time.short" = "Courte";

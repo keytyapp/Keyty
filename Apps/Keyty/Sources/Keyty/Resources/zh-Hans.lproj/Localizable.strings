@@ -115,11 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "所渲染按键的整体缩放比例。";
 "keyboard_visualizer.style_label" = "样式";
 "keyboard_visualizer.style_subtitle" = "按键的整体结构和表面效果。";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "极简";
 "keyboard_visualizer.style.retro" = "复古";
-"keyboard_visualizer.style.m0116" = "M0116";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "显示时间";
 "keyboard_visualizer.linger_time_subtitle" = "按键在淡出前保持完全可见的时间。";
 "keyboard_visualizer.linger_time.short" = "短";

@@ -115,11 +115,11 @@
 "keyboard_visualizer.size_subtitle" = "Overall scale of the rendered keycaps.";
 "keyboard_visualizer.style_label" = "Style";
 "keyboard_visualizer.style_subtitle" = "Overall keycap construction and surface treatment.";
-"keyboard_visualizer.style.apple" = "Apple";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
 "keyboard_visualizer.style.pbt" = "PBT";
 "keyboard_visualizer.style.minimal" = "Minimal";
 "keyboard_visualizer.style.retro" = "Retro";
-"keyboard_visualizer.style.m0116" = "M0116";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
 "keyboard_visualizer.linger_time_label" = "Linger Time";
 "keyboard_visualizer.linger_time_subtitle" = "How long keycaps remain fully visible before fading.";
 "keyboard_visualizer.linger_time.short" = "Short";

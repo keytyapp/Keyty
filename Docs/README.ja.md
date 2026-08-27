@@ -32,12 +32,9 @@ Keyty は、キーボードやマウスの操作をリアルタイムで可視�
 ### マウス
 
 <p>
-  <img src="Resources/ring_demo.gif" alt="ポインターリングのデモ" width="49%">
-  <img src="Resources/pointer_icon_demo.gif" alt="ポインターアイコンのデモ" width="49%">
-</p>
-
-<p align="center">
-  <img src="Resources/mouse_ripples_demo.gif" alt="マウスクリックのリップルデモ" width="720">
+  <img src="Resources/ring_demo.gif" alt="ポインターリングのデモ" width="33%">
+  <img src="Resources/pointer_icon_demo.gif" alt="ポインターアイコンのデモ" width="33%">
+  <img src="Resources/mouse_ripples_demo.gif" alt="マウスクリックのリップルデモ" width="33%">
 </p>
 
 - キーボード入力とあわせてマウスクリックやスクロール操作を可視化

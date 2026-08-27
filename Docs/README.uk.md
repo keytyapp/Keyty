@@ -33,12 +33,9 @@ Keyty — це безкоштовна програма з відкритим к�
 ### Миша
 
 <p>
-  <img src="Resources/ring_demo.gif" alt="Демонстрація кільця вказівника" width="49%">
-  <img src="Resources/pointer_icon_demo.gif" alt="Демонстрація значка вказівника" width="49%">
-</p>
-
-<p align="center">
-  <img src="Resources/mouse_ripples_demo.gif" alt="Демонстрація хвиль кліку миші" width="720">
+  <img src="Resources/ring_demo.gif" alt="Демонстрація кільця вказівника" width="33%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Демонстрація значка вказівника" width="33%">
+  <img src="Resources/mouse_ripples_demo.gif" alt="Демонстрація хвиль кліку миші" width="33%">
 </p>
 
 - Візуалізація кліків і прокручування миші разом із клавіатурним введенням

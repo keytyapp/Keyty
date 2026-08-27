@@ -33,12 +33,9 @@ Keyty es una app gratuita y de código abierto que visualiza tus acciones de tec
 ### Ratón
 
 <p>
-  <img src="Resources/ring_demo.gif" alt="Demostración del anillo del puntero" width="49%">
-  <img src="Resources/pointer_icon_demo.gif" alt="Demostración del icono del puntero" width="49%">
-</p>
-
-<p align="center">
-  <img src="Resources/mouse_ripples_demo.gif" alt="Demostración de ondas de clic del ratón" width="720">
+  <img src="Resources/ring_demo.gif" alt="Demostración del anillo del puntero" width="33%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Demostración del icono del puntero" width="33%">
+  <img src="Resources/mouse_ripples_demo.gif" alt="Demostración de ondas de clic del ratón" width="33%">
 </p>
 
 - Visualiza clics y acciones de desplazamiento del ratón junto con la entrada del teclado

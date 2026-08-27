@@ -33,12 +33,9 @@ Keyty is een gratis open-source-app die je toetsenbord- en muisacties in realtim
 ### Muis
 
 <p>
-  <img src="Resources/ring_demo.gif" alt="Demo van de aanwijzerring" width="49%">
-  <img src="Resources/pointer_icon_demo.gif" alt="Demo van het aanwijzerpictogram" width="49%">
-</p>
-
-<p align="center">
-  <img src="Resources/mouse_ripples_demo.gif" alt="Demo van muisklikrimpels" width="720">
+  <img src="Resources/ring_demo.gif" alt="Demo van de aanwijzerring" width="33%">
+  <img src="Resources/pointer_icon_demo.gif" alt="Demo van het aanwijzerpictogram" width="33%">
+  <img src="Resources/mouse_ripples_demo.gif" alt="Demo van muisklikrimpels" width="33%">
 </p>
 
 - Visualiseer muisklikken en scrollacties naast toetsenbordinvoer

@@ -146,16 +146,8 @@ private extension M0116KeycapRenderer {
 
     func frontLipPath(in bodyRect: NSRect, faceRect: NSRect) -> NSBezierPath {
         let path = NSBezierPath()
-        let leftSeam = self.sideSeamCurve(
-            side: .left,
-            in: bodyRect,
-            faceRect: faceRect
-        )
-        let rightSeam = self.sideSeamCurve(
-            side: .right,
-            in: bodyRect,
-            faceRect: faceRect
-        )
+        let leftSeam = self.leftSideSeamCurve(in: bodyRect, faceRect: faceRect)
+        let rightSeam = self.rightSideSeamCurve(in: bodyRect, faceRect: faceRect)
         let topY = faceRect.minY + M0116KeycapMetrics.frontLipOverlap
         let leftTopX = faceRect.minX + (M0116KeycapMetrics.faceCornerRadius * 0.45)
         let rightTopX = faceRect.maxX - (M0116KeycapMetrics.faceCornerRadius * 0.45)
@@ -185,16 +177,18 @@ private extension M0116KeycapRenderer {
     func drawSideSeams(in bodyRect: NSRect, faceRect: NSRect, color: NSColor) {
         color.setStroke()
 
-        for side in [KeycapSide.left, .right] {
-            let seamPath = self.sideSeamPath(side: side, in: bodyRect, faceRect: faceRect)
-            seamPath.lineWidth = StrokeWidth.standard
-            seamPath.stroke()
-        }
+        let leftSeamPath = self.leftSideSeamPath(in: bodyRect, faceRect: faceRect)
+        leftSeamPath.lineWidth = StrokeWidth.standard
+        leftSeamPath.stroke()
+
+        let rightSeamPath = self.rightSideSeamPath(in: bodyRect, faceRect: faceRect)
+        rightSeamPath.lineWidth = StrokeWidth.standard
+        rightSeamPath.stroke()
     }
 
-    func sideSeamPath(side: KeycapSide, in bodyRect: NSRect, faceRect: NSRect) -> NSBezierPath {
+    func leftSideSeamPath(in bodyRect: NSRect, faceRect: NSRect) -> NSBezierPath {
         let path = NSBezierPath()
-        let curve = self.sideSeamCurve(side: side, in: bodyRect, faceRect: faceRect)
+        let curve = self.leftSideSeamCurve(in: bodyRect, faceRect: faceRect)
 
         path.move(to: curve.start)
         path.line(to: curve.curveStart)
@@ -206,33 +200,65 @@ private extension M0116KeycapRenderer {
         return path
     }
 
-    func sideSeamCurve(side: KeycapSide, in bodyRect: NSRect, faceRect: NSRect) -> SideSeamCurve {
-        let isLeft = side == .left
-        let faceX = isLeft ? faceRect.minX : faceRect.maxX
-        let bodyX = isLeft ? bodyRect.minX : bodyRect.maxX
-        let start = NSPoint(
-            x: faceX,
-            y: faceRect.maxY - (M0116KeycapMetrics.faceCornerRadius * 0.75)
+    func rightSideSeamPath(in bodyRect: NSRect, faceRect: NSRect) -> NSBezierPath {
+        let path = NSBezierPath()
+        let curve = self.rightSideSeamCurve(in: bodyRect, faceRect: faceRect)
+
+        path.move(to: curve.start)
+        path.line(to: curve.curveStart)
+        path.curve(
+            to: curve.end,
+            controlPoint1: curve.controlPoint1,
+            controlPoint2: curve.controlPoint2
         )
-        let curveStart = NSPoint(
-            x: faceX,
-            y: faceRect.minY + (M0116KeycapMetrics.faceCornerRadius * 0.5)
-        )
-        let end = NSPoint(
-            x: bodyX,
-            y: bodyRect.minY + M0116KeycapMetrics.bodyCornerRadius
-        )
-        let controlPoint1 = NSPoint(x: faceX, y: faceRect.minY - 1)
-        let controlPoint2 = NSPoint(
-            x: faceX + ((bodyX - faceX) * 0.65),
-            y: bodyRect.minY + 2
-        )
+        return path
+    }
+
+    func leftSideSeamCurve(in bodyRect: NSRect, faceRect: NSRect) -> SideSeamCurve {
+        let faceX = faceRect.minX
+        let bodyX = bodyRect.minX
         return SideSeamCurve(
-            start: start,
-            curveStart: curveStart,
-            end: end,
-            controlPoint1: controlPoint1,
-            controlPoint2: controlPoint2
+            start: NSPoint(
+                x: faceX,
+                y: faceRect.maxY - (M0116KeycapMetrics.faceCornerRadius * 0.75)
+            ),
+            curveStart: NSPoint(
+                x: faceX,
+                y: faceRect.minY + (M0116KeycapMetrics.faceCornerRadius * 0.5)
+            ),
+            end: NSPoint(
+                x: bodyX,
+                y: bodyRect.minY + M0116KeycapMetrics.bodyCornerRadius
+            ),
+            controlPoint1: NSPoint(x: faceX, y: faceRect.minY - 1),
+            controlPoint2: NSPoint(
+                x: faceX + ((bodyX - faceX) * 0.65),
+                y: bodyRect.minY + 2
+            )
+        )
+    }
+
+    func rightSideSeamCurve(in bodyRect: NSRect, faceRect: NSRect) -> SideSeamCurve {
+        let faceX = faceRect.maxX
+        let bodyX = bodyRect.maxX
+        return SideSeamCurve(
+            start: NSPoint(
+                x: faceX,
+                y: faceRect.maxY - (M0116KeycapMetrics.faceCornerRadius * 0.75)
+            ),
+            curveStart: NSPoint(
+                x: faceX,
+                y: faceRect.minY + (M0116KeycapMetrics.faceCornerRadius * 0.5)
+            ),
+            end: NSPoint(
+                x: bodyX,
+                y: bodyRect.minY + M0116KeycapMetrics.bodyCornerRadius
+            ),
+            controlPoint1: NSPoint(x: faceX, y: faceRect.minY - 1),
+            controlPoint2: NSPoint(
+                x: faceX + ((bodyX - faceX) * 0.65),
+                y: bodyRect.minY + 2
+            )
         )
     }
 
@@ -375,11 +401,6 @@ private extension M0116KeycapRenderer {
 }
 
 private extension M0116KeycapRenderer {
-    enum KeycapSide {
-        case left
-        case right
-    }
-
     struct SideSeamCurve {
         let start: NSPoint
         let curveStart: NSPoint

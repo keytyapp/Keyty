@@ -79,6 +79,17 @@
 "general.reset_all_settings_confirmation_message" = "Isso redefinirá teclado, mouse, tela, app e atalhos para os valores padrão.";
 "general.reset_all_settings_confirmation_button" = "Redefinir Ajustes";
 "general.reset_all_settings_cancel_button" = "Cancelar";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "O arquivo selecionado não é um arquivo de configurações válido do Keyty.";
+"general.settings_transfer_unsupported_schema_version_message" = "Este arquivo de configurações usa uma versão de esquema sem suporte (%@).";
 
 /* Event capture */
 "event_tap.creation_failed" = "Não foi possível criar o event tap. A permissão de Acessibilidade é obrigatória.";

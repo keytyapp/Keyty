@@ -11,6 +11,7 @@ import Sparkle
 @MainActor
 final class SettingsContext {
     let settings: AppSettingsContainer
+    let settingsTransferService: SettingsTransferService
     let shortcutManager: ShortcutManager
     let pointerRingVisualizer: PointerRingVisualizer
     let pointerRipplesVisualizer: PointerRipplesVisualizer
@@ -34,6 +35,7 @@ final class SettingsContext {
         placementCoordinator: any KeyboardVisualizerPlacementCoordinating
     ) {
         self.settings = settings
+        self.settingsTransferService = SettingsTransferService(settings: settings)
         self.shortcutManager = shortcutManager
         self.pointerRingVisualizer = pointerRingVisualizer
         self.pointerRipplesVisualizer = pointerRipplesVisualizer
@@ -44,5 +46,13 @@ final class SettingsContext {
 
     func resetAllSettingsToDefaults() {
         self.settings.resetAllSettingsToDefaults()
+    }
+
+    func exportSettings(to url: URL) throws {
+        try self.settingsTransferService.export(to: url)
+    }
+
+    func importSettings(from url: URL) throws {
+        try self.settingsTransferService.import(from: url)
     }
 }

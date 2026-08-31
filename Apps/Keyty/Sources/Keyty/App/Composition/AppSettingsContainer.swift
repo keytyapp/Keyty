@@ -10,22 +10,38 @@ import Foundation
 
 final class AppSettingsContainer {
     let store: KeyValueStore
-    let appSettings: any AppSettingsProtocol
-    let pointerRingSettings: any PointerRingSettingsProtocol & ReactiveSettings
-    let pointerRipplesSettings: any PointerRipplesSettingsProtocol & ReactiveSettings
-    let pointerIconSettings: any PointerIconSettingsProtocol & ReactiveSettings
-    let shortcutSettings: any ShortcutSettingsProtocol
+    let appSettings: AppSettings
+    let pointerRingSettings: PointerRingSettings
+    let pointerRipplesSettings: PointerRipplesSettings
+    let pointerIconSettings: PointerIconSettings
+    let shortcutSettings: ShortcutSettings
     let keyboardVisualizerSettings: KeyboardVisualizerSettings
+    private let settingsOwners: [any HasSettingsStore]
 
     init(store: KeyValueStore) {
         self.store = store
 
-        self.appSettings = AppSettings(store: store)
-        self.pointerRingSettings = PointerRingSettings(store: store)
-        self.pointerRipplesSettings = PointerRipplesSettings(store: store)
-        self.pointerIconSettings = PointerIconSettings(store: store)
-        self.shortcutSettings = ShortcutSettings(store: store)
-        self.keyboardVisualizerSettings = KeyboardVisualizerSettings(store: store)
+        let appSettings = AppSettings(store: store)
+        let pointerRingSettings = PointerRingSettings(store: store)
+        let pointerRipplesSettings = PointerRipplesSettings(store: store)
+        let pointerIconSettings = PointerIconSettings(store: store)
+        let shortcutSettings = ShortcutSettings(store: store)
+        let keyboardVisualizerSettings = KeyboardVisualizerSettings(store: store)
+
+        self.appSettings = appSettings
+        self.pointerRingSettings = pointerRingSettings
+        self.pointerRipplesSettings = pointerRipplesSettings
+        self.pointerIconSettings = pointerIconSettings
+        self.shortcutSettings = shortcutSettings
+        self.keyboardVisualizerSettings = keyboardVisualizerSettings
+        self.settingsOwners = [
+            appSettings,
+            pointerRingSettings,
+            pointerRipplesSettings,
+            pointerIconSettings,
+            shortcutSettings,
+            keyboardVisualizerSettings
+        ]
         
         self.registerDefaults()
     }
@@ -46,5 +62,9 @@ final class AppSettingsContainer {
         self.pointerIconSettings.resetToDefaults()
         self.shortcutSettings.resetToDefaults()
         self.keyboardVisualizerSettings.resetToDefaults()
+    }
+
+    var transferableSettings: [AnyStoredSetting] {
+        self.settingsOwners.flatMap(\.storedSettings)
     }
 }

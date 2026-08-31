@@ -79,6 +79,17 @@
 "general.reset_all_settings_confirmation_message" = "Буде скинуто параметри клавіатури, миші, дисплея, програми та клавіатурних скорочень до стандартних значень.";
 "general.reset_all_settings_confirmation_button" = "Скинути параметри";
 "general.reset_all_settings_cancel_button" = "Скасувати";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "Вибраний файл не є дійсним архівом налаштувань Keyty.";
+"general.settings_transfer_unsupported_schema_version_message" = "Цей архів налаштувань використовує непідтримувану версію схеми (%@).";
 
 /* Event capture */
 "event_tap.creation_failed" = "Не вдалося почати відстеження введення. Потрібен дозвіл «Доступність».";

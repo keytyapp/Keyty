@@ -79,6 +79,17 @@
 "general.reset_all_settings_confirmation_message" = "Cela réinitialisera les réglages du clavier, de la souris, de l’affichage, de l’app et des raccourcis à leurs valeurs par défaut.";
 "general.reset_all_settings_confirmation_button" = "Réinitialiser les réglages";
 "general.reset_all_settings_cancel_button" = "Annuler";
+"general.export_settings_title" = "Export Settings";
+"general.export_settings_subtitle" = "Save the current Keyty settings to a reusable archive file.";
+"general.export_settings_button" = "Export…";
+"general.export_settings_panel_title" = "Export Settings";
+"general.import_settings_title" = "Import Settings";
+"general.import_settings_subtitle" = "Replace the current Keyty settings with values from an exported archive.";
+"general.import_settings_button" = "Import…";
+"general.import_settings_panel_title" = "Import Settings";
+"general.settings_transfer_error_title" = "Settings Transfer Failed";
+"general.settings_transfer_invalid_archive_message" = "Le fichier sélectionné n’est pas une archive de réglages Keyty valide.";
+"general.settings_transfer_unsupported_schema_version_message" = "Cette archive de réglages utilise une version de schéma non prise en charge (%@).";
 
 /* Event capture */
 "event_tap.creation_failed" = "Impossible de démarrer la détection des entrées. L’autorisation d’accessibilité est requise.";

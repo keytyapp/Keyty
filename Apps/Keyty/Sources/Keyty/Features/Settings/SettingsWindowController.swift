@@ -92,6 +92,7 @@ extension SettingsWindowController: NSWindowDelegate {
     }
 }
 
+// MARK: - Window
 extension SettingsWindowController {
     final class Window: NSWindow {
         private let titlebarToolbar = NSToolbar(identifier: "KeytySettingsToolbar")

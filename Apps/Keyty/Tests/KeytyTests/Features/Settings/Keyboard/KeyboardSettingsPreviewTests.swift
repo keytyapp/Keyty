@@ -28,6 +28,8 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
     }
 
     func testPreviewGroupsIncludeAllEnabledCategories() {
+        settings.showMouseEvents = true
+
         let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
 
         XCTAssertEqual(groups.map(\.category), [
@@ -41,6 +43,7 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
 
     func testPreviewGroupsOmitPlainKeyCategoryWhenShowingModifiedKeystrokesOnly() {
         settings.onlyShowModifiedKeystrokes = true
+        settings.showMouseEvents = true
 
         let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
 
@@ -54,6 +57,7 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
 
     func testPreviewGroupsOmitSpecialKeyCategoryWhenDisabled() {
         settings.showSpecialKeys = false
+        settings.showMouseEvents = true
 
         let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
 
@@ -67,6 +71,7 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
 
     func testPreviewGroupsOmitMediaCategoryWhenDisabled() {
         settings.showMediaKeyButtons = false
+        settings.showMouseEvents = true
 
         let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: settings)
 

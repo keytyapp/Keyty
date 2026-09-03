@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Command, Control, Option 또는 Shift와 함께 눌린 키만 표시합니다.";
 "keyboard_visualizer.collapse_repeated_groups_label" = "반복 그룹 접기";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "같은 키 또는 키 조합이 연속으로 반복되면 개수 배지를 표시합니다.";
+"keyboard_visualizer.reverse_order_label" = "순서 반전";
+"keyboard_visualizer.reverse_order_subtitle" = "새 그룹을 스택의 앞이 아닌 끝에 추가합니다.";
 "keyboard_visualizer.show_special_keys_label" = "특수 키";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, 화살표, fn, 기능 키 등과 비슷한 키입니다.";
 "keyboard_visualizer.show_media_key_buttons_label" = "미디어 키 버튼";

@@ -217,6 +217,19 @@ struct KeyboardSettingsPane: View {
                         .toggleStyle(.switch)
                         .controlSize(.small)
                 }
+
+                Divider()
+
+                SettingsControlRow(
+                    title: L10n.KeyboardVisualizer.reverseOrderLabel,
+                    subtitle: L10n.KeyboardVisualizer.reverseOrderSubtitle
+                ) {
+                    Toggle("", isOn: self.$model.isReversed)
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.KeyboardVisualizer.reverseOrderLabel)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
             }
             .disabled(!self.model.isEnabled)
 

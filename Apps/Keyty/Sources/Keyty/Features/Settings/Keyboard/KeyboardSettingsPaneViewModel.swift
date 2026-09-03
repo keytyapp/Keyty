@@ -37,6 +37,10 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         didSet { self.settings.maxCount = self.maxCount }
     }
 
+    @Published var isReversed: Bool {
+        didSet { self.settings.isReversed = self.isReversed }
+    }
+
     @Published var fadeDelay: Double {
         didSet { self.settings.fadeDelay = CGFloat(self.fadeDelay) }
     }
@@ -182,6 +186,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         self.stackAxis = settings.stackAxis
         self.anchor = settings.anchor
         self.maxCount = settings.maxCount
+        self.isReversed = settings.isReversed
         self.fadeDelay = Double(settings.fadeDelay)
         self.fadeDuration = Double(settings.fadeDuration)
         self.theme = settings.theme
@@ -249,6 +254,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         settings.stackAxis = self.stackAxis
         settings.anchor = self.anchor
         settings.maxCount = self.maxCount
+        settings.isReversed = self.isReversed
         settings.fadeDelay = CGFloat(self.fadeDelay)
         settings.fadeDuration = CGFloat(self.fadeDuration)
         settings.scale = Self.previewScale

@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Toon alleen toetsen die met Command, Control, Option of Shift worden ingedrukt.";
 "keyboard_visualizer.collapse_repeated_groups_label" = "Herhaalde groepen samenvoegen";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "Toon een telbadge wanneer dezelfde toets of toetscombinatie meerdere keren achter elkaar wordt ingedrukt.";
+"keyboard_visualizer.reverse_order_label" = "Volgorde omkeren";
+"keyboard_visualizer.reverse_order_subtitle" = "Voegt nieuwe groepen toe aan het einde van de stapel in plaats van aan het begin.";
 "keyboard_visualizer.show_special_keys_label" = "Speciale toetsen";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab, Return, pijlen, fn, functietoetsen en vergelijkbare toetsen.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Mediatoetsen";

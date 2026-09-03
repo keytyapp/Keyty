@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Nur Tasten anzeigen, die mit Befehl, Control, Wahltaste oder Umschalttaste gedrückt werden.";
 "keyboard_visualizer.collapse_repeated_groups_label" = "Wiederholte Gruppen zusammenfassen";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "Zeigt eine Zählmarke an, wenn dieselbe Taste oder Tastenkombination mehrfach hintereinander gedrückt wird.";
+"keyboard_visualizer.reverse_order_label" = "Reihenfolge umkehren";
+"keyboard_visualizer.reverse_order_subtitle" = "Neue Gruppen am Ende des Stapels statt am Anfang hinzufügen.";
 "keyboard_visualizer.show_special_keys_label" = "Sondertasten";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tabulator, Eingabetaste, Pfeile, fn, Funktionstasten und ähnliche Tasten.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Medientasten";

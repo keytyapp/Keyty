@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Command、Control、Option、Shiftのいずれかと同時に押したキーのみ表示します。";
 "keyboard_visualizer.collapse_repeated_groups_label" = "連続する同一グループをまとめる";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "同じキーまたはキーの組み合わせが連続して押されたときに、回数バッジを表示します。";
+"keyboard_visualizer.reverse_order_label" = "順序を反転";
+"keyboard_visualizer.reverse_order_subtitle" = "新しいグループをスタックの先頭ではなく末尾に追加します。";
 "keyboard_visualizer.show_special_keys_label" = "特殊キー";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab、Return、矢印、fn、ファンクションキーなどを表示します。";
 "keyboard_visualizer.show_media_key_buttons_label" = "メディアキー";

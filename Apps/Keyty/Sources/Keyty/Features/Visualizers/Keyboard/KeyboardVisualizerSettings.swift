@@ -14,6 +14,7 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     
     var stackAxis: KeyboardVisualizerStackAxis { get set }
     var maxCount: Int { get set }
+    var isReversed: Bool { get set }
     
     var fadeDelay: CGFloat { get set }
     var fadeDuration: CGFloat { get set }
@@ -164,6 +165,16 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     var maxCount: Int {
         get { self.storedMaxCount > 0 ? self.storedMaxCount : KeyboardVisualizerSettingsKeys.defaultMaxCount }
         set { self.storedMaxCount = max(KeyboardVisualizerSettingsKeys.minMaxCount, newValue) }
+    }
+
+    /// Whether groups stack away from the anchored edge, placing the newest group
+    /// at the end of the stack instead of the beginning.
+    @Stored(.bool(KeyboardVisualizerSettingsKeys.isReversed, default: false))
+    var isReversed: Bool {
+        didSet {
+            guard self.isReversed != oldValue else { return }
+            self.placementChangesSubject.send(())
+        }
     }
 
     @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.fadeDelay, default: 2.0))

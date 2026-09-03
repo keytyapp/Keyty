@@ -46,6 +46,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.windowPadding), Double(Size.KeyboardVisualizer.windowPadding), accuracy: 0.0001)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes), false)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.collapseRepeatedGroups), false)
+        XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.isReversed), false)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showSpecialKeys), true)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMediaKeyButtons), true)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMouseEvents), true)
@@ -297,6 +298,26 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
 
         XCTAssertTrue(self.settings.collapseRepeatedGroups)
         XCTAssertTrue(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.collapseRepeatedGroups))
+    }
+
+    func testPersistsIsReversed() {
+        self.settings.isReversed = true
+
+        XCTAssertTrue(self.settings.isReversed)
+        XCTAssertTrue(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.isReversed))
+    }
+
+    func testPublishesPlacementChangeWhenReversedOrderChanges() {
+        var receivedCount = 0
+        let cancellable = self.settings.placementChanges.sink { _ in
+            receivedCount += 1
+        }
+
+        self.settings.isReversed = true
+        self.settings.isReversed = true
+
+        XCTAssertEqual(receivedCount, 1)
+        cancellable.cancel()
     }
 
     func testPersistsShowSpecialKeys() {

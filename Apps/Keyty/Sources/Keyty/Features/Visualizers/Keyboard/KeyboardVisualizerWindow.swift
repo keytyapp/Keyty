@@ -18,6 +18,10 @@ final class KeyboardVisualizerWindow: NSWindow {
     var onGroupRemoved: ((KeyboardVisualizerGroupView) -> Void)?
     var groupCount: Int { self.groupViews.count }
 
+    var orderedGroupViews: [KeyboardVisualizerGroupView] {
+        self.settings.isReversed ? self.groupViews : self.groupViews.reversed()
+    }
+
     init(
         settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
         screensService: any ScreenServiceProvider = ScreensService.shared
@@ -125,8 +129,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         let alignment = self.settings.alignment
         let spacing = Size.KeyboardVisualizer.groupSpacing
             * self.settings.style.sizeNormalization * self.settings.scale
-        let orderedViews = self.groupViews.reversed()
-        let viewSizes = orderedViews.map { ($0, $0.preferredSize) }
+        let viewSizes = self.orderedGroupViews.map { ($0, $0.preferredSize) }
         var cursor = CGPoint.zero
         var contentSize = NSSize.zero
 

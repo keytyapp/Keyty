@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Pokazuj tylko klawisze naciśnięte z Command, Control, Option lub Shift.";
 "keyboard_visualizer.collapse_repeated_groups_label" = "Scalaj powtarzające się grupy";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "Pokazuje plakietkę z liczbą, gdy ten sam klawisz lub kombinacja klawiszy jest naciskana kolejno wiele razy.";
+"keyboard_visualizer.reverse_order_label" = "Odwróć kolejność";
+"keyboard_visualizer.reverse_order_subtitle" = "Dodaje nowe grupy na końcu stosu zamiast na początku.";
 "keyboard_visualizer.show_special_keys_label" = "Klawisze specjalne";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab, return, strzałki, fn, klawisze funkcyjne i podobne.";
 "keyboard_visualizer.show_media_key_buttons_label" = "Klawisze multimedialne";

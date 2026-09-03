@@ -132,6 +132,8 @@
 "keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "仅显示与 Command、Control、Option 或 Shift 同时按下的按键。";
 "keyboard_visualizer.collapse_repeated_groups_label" = "合并连续重复分组";
 "keyboard_visualizer.collapse_repeated_groups_subtitle" = "当同一按键或组合键连续重复按下时，显示计数徽标。";
+"keyboard_visualizer.reverse_order_label" = "反转顺序";
+"keyboard_visualizer.reverse_order_subtitle" = "将新分组添加到堆叠末尾，而不是开头。";
 "keyboard_visualizer.show_special_keys_label" = "特殊按键";
 "keyboard_visualizer.show_special_keys_subtitle" = "Tab、Return、箭头、fn、功能键及类似按键。";
 "keyboard_visualizer.show_media_key_buttons_label" = "媒体按键";

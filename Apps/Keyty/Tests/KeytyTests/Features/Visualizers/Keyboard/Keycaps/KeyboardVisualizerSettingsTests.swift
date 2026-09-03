@@ -48,7 +48,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.collapseRepeatedGroups), false)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showSpecialKeys), true)
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMediaKeyButtons), true)
-        XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMouseEvents), true)
+        XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.showMouseEvents), false)
     }
 
     func testSharedKeyboardVisualizerSettingsFallbackAndClamping() {

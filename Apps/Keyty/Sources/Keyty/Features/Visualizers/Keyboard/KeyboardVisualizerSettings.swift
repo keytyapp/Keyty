@@ -373,7 +373,7 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     var showMediaKeyButtons: Bool
 
     /// Whether mouse clicks and wheel events should be rendered in the keyboard overlay.
-    @Stored(.bool(KeyboardVisualizerSettingsKeys.showMouseEvents, default: true))
+    @Stored(.bool(KeyboardVisualizerSettingsKeys.showMouseEvents, default: false))
     var showMouseEvents: Bool
 
     var themeTokens: KeycapThemeTokens {

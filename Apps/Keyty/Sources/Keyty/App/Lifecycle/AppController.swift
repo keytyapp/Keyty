@@ -16,6 +16,7 @@ final class AppController: NSObject {
     private let statusItemController: StatusItemController
     private let dependencies: AppDependencies
     private let updaterController: SPUStandardUpdaterController
+    private var permissionsObservationToken: PermissionObservationToken?
 
     override init() {
         self.updaterController = SPUStandardUpdaterController(
@@ -38,6 +39,13 @@ final class AppController: NSObject {
         NSApp.mainMenu = self.menuController.makeMainMenu()
         self.dependencies.captureController.onCapturingChanged = { [weak self] isCapturing in
             self?.statusItemController.isCapturing = isCapturing
+        }
+        self.statusItemController.isAccessibilityGranted =
+            self.dependencies.permissionsService.status(for: .accessibility) == .granted
+        self.permissionsObservationToken = self.dependencies.permissionsService.observeChanges { [weak self] in
+            Task { @MainActor [weak self] in
+                self?.updateAccessibilityStatus()
+            }
         }
     }
 }
@@ -90,6 +98,11 @@ extension AppController: NSApplicationDelegate {
 
 // MARK: - Settings Presentation
 private extension AppController {
+    func updateAccessibilityStatus() {
+        self.statusItemController.isAccessibilityGranted =
+            self.dependencies.permissionsService.status(for: .accessibility) == .granted
+    }
+
     func checkForUpdatesAtLaunchIfNeeded() {
         guard self.updaterController.updater.automaticallyChecksForUpdates else { return }
         self.updaterController.updater.checkForUpdatesInBackground()

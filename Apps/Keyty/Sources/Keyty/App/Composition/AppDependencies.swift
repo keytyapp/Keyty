@@ -16,6 +16,7 @@ final class AppDependencies {
     let ui: AppUIContainer
 
     var captureController: CaptureController { self.services.captureController }
+    var permissionsService: any PermissionsService { self.services.permissionsService }
     var appSettings: any AppSettingsProtocol { self.settings.appSettings }
     var permissionsOnboardingWindowController: PermissionsOnboardingWindowController { self.ui.permissionsOnboardingWindowController }
     var aboutWindowController: AboutWindowController { self.ui.aboutWindowController }

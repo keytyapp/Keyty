@@ -81,6 +81,11 @@ extension AppController: NSApplicationDelegate {
 
         self.dependencies.captureController.stopCapturing()
     }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        self.showSettingsWindow(self)
+        return false
+    }
 }
 
 // MARK: - Settings Presentation

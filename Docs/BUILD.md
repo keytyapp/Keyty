@@ -67,6 +67,25 @@ xcodebuild build \
   -configuration Release
 ```
 
+### App Store build
+
+The **Keyty AppStore** scheme uses the separate `AppStore` configuration and
+enables the App Sandbox. It is intentionally separate from `Release`, which
+continues to produce the Developer ID build for direct distribution.
+
+```bash
+cd Apps/Keyty
+tuist generate
+xcodebuild build \
+  -project Keyty.xcodeproj \
+  -scheme 'Keyty AppStore' \
+  -configuration AppStore
+```
+
+Use the App Store distribution option in Xcode Organizer to archive and upload
+an AppStore build once the App Store-specific feature and signing work is
+complete.
+
 ### Archive (for distribution)
 
 ```bash

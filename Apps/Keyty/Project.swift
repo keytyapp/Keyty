@@ -55,6 +55,16 @@ let appReleaseSettings: SettingsDictionary = [
     "GCC_MODEL_TUNING": "G5",
 ]
 
+// This configuration is intentionally separate from Release. Release produces
+// the Developer ID-signed, notarized build used for direct distribution.
+// AppStore is the sandboxed build that will be archived for App Store Connect.
+let appStoreSettings: SettingsDictionary = [
+    "CODE_SIGN_ENTITLEMENTS": "Sources/Keyty/Resources/AppStore.entitlements",
+    "CODE_SIGN_STYLE": "Automatic",
+    "DEVELOPMENT_TEAM": "NEVA4MAZBL",
+    "GCC_MODEL_TUNING": "G5",
+]
+
 let testSettings: SettingsDictionary = [
     "BUNDLE_LOADER": "$(TEST_HOST)",
     "CLANG_ANALYZER_NONNULL": "YES",
@@ -164,6 +174,12 @@ let projectSettings = Settings.settings(
                 "SWIFT_COMPILATION_MODE": "wholemodule",
             ]
         ),
+        .release(
+            name: "AppStore",
+            settings: [
+                "SWIFT_COMPILATION_MODE": "wholemodule",
+            ]
+        ),
     ]
 )
 
@@ -222,6 +238,7 @@ let project = Project(
                 configurations: [
                     .debug(name: "Debug", settings: appDebugSettings),
                     .release(name: "Release", settings: appReleaseSettings),
+                    .release(name: "AppStore", settings: appStoreSettings),
                 ]
             )
         ),
@@ -263,6 +280,15 @@ let project = Project(
             runAction: .runAction(configuration: .debug),
             archiveAction: .archiveAction(configuration: .release),
             profileAction: .profileAction(configuration: .release),
+            analyzeAction: .analyzeAction(configuration: .debug)
+        ),
+        .scheme(
+            name: "Keyty AppStore",
+            shared: true,
+            buildAction: .buildAction(targets: ["Keyty"]),
+            runAction: .runAction(configuration: "AppStore"),
+            archiveAction: .archiveAction(configuration: "AppStore"),
+            profileAction: .profileAction(configuration: "AppStore"),
             analyzeAction: .analyzeAction(configuration: .debug)
         ),
     ],

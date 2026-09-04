@@ -198,6 +198,7 @@ let project = Project(
     name: "Keyty",
     organizationName: "Keyty",
     options: .options(
+        automaticSchemesOptions: .disabled,
         defaultKnownRegions: ["de", "en", "es", "fr", "it", "ja", "ko", "nl", "pt-BR", "uk", "zh-Hans"],
         developmentRegion: "en"
     ),

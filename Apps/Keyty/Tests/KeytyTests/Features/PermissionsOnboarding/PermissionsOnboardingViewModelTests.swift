@@ -26,7 +26,7 @@ final class PermissionsOnboardingViewModelTests: XCTestCase {
         XCTAssertFalse(model.isComplete)
     }
 
-    func testRequestAccessibilityRequestsPermissionWithoutOpeningSettings() {
+    func testRequestAccessibilityForwardsAccessibilityRequest() {
         let service = TestPermissionsService()
         let model = PermissionsOnboardingViewModel(permissionsService: service)
 

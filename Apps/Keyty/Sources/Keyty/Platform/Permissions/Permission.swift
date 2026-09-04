@@ -19,6 +19,7 @@ enum Permission: CaseIterable, Hashable {
     func requestSystemPermission() {
         let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as String
         AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
+        NSWorkspace.shared.openAccessibilitySettings()
     }
 }
 

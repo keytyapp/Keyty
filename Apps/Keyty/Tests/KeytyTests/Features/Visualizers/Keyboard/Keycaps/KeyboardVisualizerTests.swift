@@ -190,6 +190,34 @@ final class KeyboardVisualizerTests: XCTestCase {
         XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
     }
 
+    func testCollapseRepeatedGroupsReusesChordWhileModifierRemainsPressed() {
+        self.settings.collapseRepeatedGroups = true
+        self.settings.onlyShowModifiedKeystrokes = true
+        self.visualizer.isPresentationActive = true
+
+        let command: NSEvent.ModifierFlags = .recorded([.command])
+        self.visualizer.display(.modifierStateChanged(command))
+
+        self.pressAndReleaseKey(.k, modifiers: command, character: "k")
+        self.pressAndReleaseKey(.k, modifiers: command, character: "k")
+
+        XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+    }
+
+    func testCollapseRepeatedGroupsEnforcesHistoryLimitWhileModifierRemainsPressed() {
+        self.settings.collapseRepeatedGroups = true
+        self.settings.onlyShowModifiedKeystrokes = true
+        self.visualizer.isPresentationActive = true
+
+        let command: NSEvent.ModifierFlags = .recorded([.command])
+        self.visualizer.display(.modifierStateChanged(command))
+
+        for (keyCode, character) in [(KeyboardKeyCode.a, "a"), (.k, "k"), (.a, "a"), (.k, "k")] {
+            self.pressAndReleaseKey(keyCode, modifiers: command, character: character)
+            XCTAssertEqual(self.visualizer.visibleGroupCount, 1)
+        }
+    }
+
     private func pressAndReleaseA() {
         self.visualizer.display(.keystroke(.stub(
             keyCode: .a,
@@ -222,5 +250,26 @@ final class KeyboardVisualizerTests: XCTestCase {
             charactersIgnoringModifiers: "k"
         )))
         self.visualizer.display(.modifierStateChanged([]))
+    }
+
+    private func pressAndReleaseKey(
+        _ keyCode: KeyboardKeyCode,
+        modifiers: NSEvent.ModifierFlags,
+        character: String
+    ) {
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: keyCode,
+            type: .keyDown,
+            modifiers: modifiers,
+            characters: character,
+            charactersIgnoringModifiers: character
+        )))
+        self.visualizer.display(.keystroke(.stub(
+            keyCode: keyCode,
+            type: .keyUp,
+            modifiers: modifiers,
+            characters: character,
+            charactersIgnoringModifiers: character
+        )))
     }
 }

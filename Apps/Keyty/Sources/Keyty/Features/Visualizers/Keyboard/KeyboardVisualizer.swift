@@ -178,7 +178,7 @@ private extension KeyboardVisualizer {
             updateGroup: { group, items in self.visualizerWindow.updateGroup(group, with: items) }
         )
         self.collapseActiveRepeatIfNeeded(group)
-        if keystroke.type == .keyUp, keystroke.modifierFlags.intersection(Self.trackedModifierFlags).isEmpty {
+        if keystroke.type == .keyUp {
             self.finalizeGroupIfNeeded(group)
         }
     }

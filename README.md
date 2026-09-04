@@ -21,6 +21,7 @@
   <a href="Docs/README.nl.md">Nederlands</a> |
   <a href="Docs/README.es.md">Español</a> |
   <a href="Docs/README.fr.md">Français</a> |
+  <a href="Docs/README.it.md">Italiano</a> |
   <a href="Docs/README.pt-BR.md">Português (Brasil)</a> |
   <a href="Docs/README.pl.md">Polski</a> |
   <a href="Docs/README.uk.md">Українська</a> |

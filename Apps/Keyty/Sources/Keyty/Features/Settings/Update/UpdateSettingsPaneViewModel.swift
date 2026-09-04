@@ -6,9 +6,9 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Sparkle
 import SwiftUI
 
+@MainActor
 final class UpdateSettingsPaneViewModel: ObservableObject {
     private static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -16,31 +16,31 @@ final class UpdateSettingsPaneViewModel: ObservableObject {
         return formatter
     }()
 
-    private let updater: SPUUpdater
+    private let updateService: any UpdateService
 
     @Published var automaticallyChecksForUpdates: Bool {
-        didSet { self.updater.automaticallyChecksForUpdates = self.automaticallyChecksForUpdates }
+        didSet { self.updateService.automaticallyChecksForUpdates = self.automaticallyChecksForUpdates }
     }
 
     @Published var sendsSystemProfile: Bool {
-        didSet { self.updater.sendsSystemProfile = self.sendsSystemProfile }
+        didSet { self.updateService.sendsSystemProfile = self.sendsSystemProfile }
     }
 
-    init(updater: SPUUpdater) {
-        self.updater = updater
-        self.automaticallyChecksForUpdates = self.updater.automaticallyChecksForUpdates
-        self.sendsSystemProfile = self.updater.sendsSystemProfile
+    init(updateService: any UpdateService) {
+        self.updateService = updateService
+        self.automaticallyChecksForUpdates = self.updateService.automaticallyChecksForUpdates
+        self.sendsSystemProfile = self.updateService.sendsSystemProfile
     }
 
     var lastCheckedText: String {
-        guard let date = self.updater.lastUpdateCheckDate else {
+        guard let date = self.updateService.lastUpdateCheckDate else {
             return L10n.Update.never
         }
         return Self.dateFormatter.string(from: date)
     }
 
     func checkForUpdates() {
-        self.updater.checkForUpdates()
+        self.updateService.checkForUpdates()
         self.objectWillChange.send()
     }
 }

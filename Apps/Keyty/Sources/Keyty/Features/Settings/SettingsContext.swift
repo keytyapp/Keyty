@@ -6,8 +6,6 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Sparkle
-
 @MainActor
 final class SettingsContext {
     let settings: AppSettingsContainer
@@ -15,7 +13,7 @@ final class SettingsContext {
     let pointerRingVisualizer: PointerRingVisualizer
     let pointerRipplesVisualizer: PointerRipplesVisualizer
     let permissionsService: any PermissionsService
-    let updater: SPUUpdater
+    let updateService: any UpdateService
     let placementCoordinator: any KeyboardVisualizerPlacementCoordinating
 
     var appSettings: any AppSettingsProtocol { self.settings.appSettings }
@@ -30,7 +28,7 @@ final class SettingsContext {
         pointerRingVisualizer: PointerRingVisualizer,
         pointerRipplesVisualizer: PointerRipplesVisualizer,
         permissionsService: any PermissionsService,
-        updater: SPUUpdater,
+        updateService: any UpdateService,
         placementCoordinator: any KeyboardVisualizerPlacementCoordinating
     ) {
         self.settings = settings
@@ -38,7 +36,7 @@ final class SettingsContext {
         self.pointerRingVisualizer = pointerRingVisualizer
         self.pointerRipplesVisualizer = pointerRipplesVisualizer
         self.permissionsService = permissionsService
-        self.updater = updater
+        self.updateService = updateService
         self.placementCoordinator = placementCoordinator
     }
 

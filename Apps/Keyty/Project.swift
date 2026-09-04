@@ -70,6 +70,12 @@ let appStoreSettings: SettingsDictionary = [
     ],
 ]
 
+let appStoreDebugSettings = appStoreSettings.merging([
+    "PRODUCT_NAME": "KeytyAppStore",
+]) { _, appStoreDebugValue in
+    appStoreDebugValue
+}
+
 let testSettings: SettingsDictionary = [
     "BUNDLE_LOADER": "$(TEST_HOST)",
     "CLANG_ANALYZER_NONNULL": "YES",
@@ -225,7 +231,10 @@ let project = Project(
             buildableFolders: [
                 .folder(
                     "Sources/Keyty",
-                    exceptions: [.exception(excluded: ["Resources/Info.plist"])]
+                    exceptions: [.exception(excluded: [
+                        "Resources/Info.plist",
+                        "Resources/AppStore-Info.plist",
+                    ])]
                 ),
             ],
             entitlements: .file(path: "Sources/Keyty/Resources/Keyty.entitlements"),
@@ -252,11 +261,14 @@ let project = Project(
             product: .app,
             bundleId: "app.keyty.Keyty.AppStore",
             deploymentTargets: .macOS("11.0"),
-            infoPlist: .file(path: "Sources/Keyty/Resources/Info.plist"),
+            infoPlist: .file(path: "Sources/Keyty/Resources/AppStore-Info.plist"),
             buildableFolders: [
                 .folder(
                     "Sources/Keyty",
-                    exceptions: [.exception(excluded: ["Resources/Info.plist"])]
+                    exceptions: [.exception(excluded: [
+                        "Resources/Info.plist",
+                        "Resources/AppStore-Info.plist",
+                    ])]
                 ),
             ],
             entitlements: .file(path: "Sources/Keyty/Resources/AppStore.entitlements"),
@@ -266,13 +278,11 @@ let project = Project(
                 .sdk(name: "QuartzCore", type: .framework),
                 .sdk(name: "Carbon", type: .framework),
                 .package(product: "ShortcutRecorder"),
-                .package(product: "Sparkle"),
-                .package(product: "AppMover"),
             ],
             settings: .settings(
                 base: appSettings,
                 configurations: [
-                    .debug(name: "Debug", settings: appStoreSettings),
+                    .debug(name: "Debug", settings: appStoreDebugSettings),
                     .release(name: "AppStore", settings: appStoreSettings),
                 ]
             )

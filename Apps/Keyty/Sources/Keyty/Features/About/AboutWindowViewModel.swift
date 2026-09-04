@@ -72,28 +72,7 @@ final class AboutWindowViewModel: ObservableObject {
                 ]
             )
         ]
-        self.credits = [
-            Section(
-                title: "Sparkle",
-                subtitle: L10n.About.Credits.sparkleSubtitle,
-                body: LicenseLoader.text(
-                    named: "Sparkle",
-                    trimmingLeadingLines: [
-                        "Sparkle",
-                        "The MIT License (MIT)"
-                    ]
-                )
-            ),
-            Section(
-                title: "AppMover",
-                subtitle: L10n.About.Credits.appMoverSubtitle,
-                body: LicenseLoader.text(
-                    named: "AppMover",
-                    trimmingLeadingLines: [
-                        "MIT License"
-                    ]
-                )
-            ),
+        var credits = [
             Section(
                 title: "ShortcutRecorder",
                 subtitle: L10n.About.Credits.shortcutRecorderSubtitle,
@@ -105,6 +84,37 @@ final class AboutWindowViewModel: ObservableObject {
                 )
             )
         ]
+
+        #if !APP_STORE
+        credits.insert(
+            contentsOf: [
+                Section(
+                    title: "Sparkle",
+                    subtitle: L10n.About.Credits.sparkleSubtitle,
+                    body: LicenseLoader.text(
+                        named: "Sparkle",
+                        trimmingLeadingLines: [
+                            "Sparkle",
+                            "The MIT License (MIT)"
+                        ]
+                    )
+                ),
+                Section(
+                    title: "AppMover",
+                    subtitle: L10n.About.Credits.appMoverSubtitle,
+                    body: LicenseLoader.text(
+                        named: "AppMover",
+                        trimmingLeadingLines: [
+                            "MIT License"
+                        ]
+                    )
+                ),
+            ],
+            at: 0
+        )
+        #endif
+
+        self.credits = credits
     }
 
     var selectedSections: [Section] {

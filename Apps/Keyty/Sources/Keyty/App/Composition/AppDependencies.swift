@@ -7,7 +7,6 @@
 //
 
 import AppKit
-import Sparkle
 
 @MainActor
 final class AppDependencies {
@@ -23,7 +22,7 @@ final class AppDependencies {
 
     init(
         statusShortcutItem: NSMenuItem,
-        updater: SPUUpdater,
+        updateService: any UpdateService,
         keyValueStore: KeyValueStore = UserDefaultsStore()
     ) {
         self.settings = AppSettingsContainer(store: keyValueStore)
@@ -34,7 +33,7 @@ final class AppDependencies {
         self.ui = AppUIContainer(
             settings: self.settings,
             services: self.services,
-            updater: updater
+            updateService: updateService
         )
     }
 }

@@ -72,28 +72,7 @@ final class AboutWindowViewModel: ObservableObject {
                 ]
             )
         ]
-        self.credits = [
-            Section(
-                title: "Sparkle",
-                subtitle: L10n.About.Credits.sparkleSubtitle,
-                body: LicenseLoader.text(
-                    named: "Sparkle",
-                    trimmingLeadingLines: [
-                        "Sparkle",
-                        "The MIT License (MIT)"
-                    ]
-                )
-            ),
-            Section(
-                title: "AppMover",
-                subtitle: L10n.About.Credits.appMoverSubtitle,
-                body: LicenseLoader.text(
-                    named: "AppMover",
-                    trimmingLeadingLines: [
-                        "MIT License"
-                    ]
-                )
-            ),
+        var credits = [
             Section(
                 title: "ShortcutRecorder",
                 subtitle: L10n.About.Credits.shortcutRecorderSubtitle,
@@ -105,6 +84,37 @@ final class AboutWindowViewModel: ObservableObject {
                 )
             )
         ]
+
+        #if !APP_STORE
+        credits.insert(
+            contentsOf: [
+                Section(
+                    title: "Sparkle",
+                    subtitle: L10n.About.Credits.sparkleSubtitle,
+                    body: LicenseLoader.text(
+                        named: "Sparkle",
+                        trimmingLeadingLines: [
+                            "Sparkle",
+                            "The MIT License (MIT)"
+                        ]
+                    )
+                ),
+                Section(
+                    title: "AppMover",
+                    subtitle: L10n.About.Credits.appMoverSubtitle,
+                    body: LicenseLoader.text(
+                        named: "AppMover",
+                        trimmingLeadingLines: [
+                            "MIT License"
+                        ]
+                    )
+                ),
+            ],
+            at: 0
+        )
+        #endif
+
+        self.credits = credits
     }
 
     var selectedSections: [Section] {
@@ -198,44 +208,44 @@ extension AboutWindowViewModel {
 
 extension AboutWindowViewModel {
     enum LicenseLoader {
-    static func text(
-        named resourceName: String,
-        trimmingLeadingLines linesToTrim: [String] = [],
-        bundle: Bundle = .main
-    ) -> String {
-        let candidates = [
-            bundle.url(forResource: resourceName, withExtension: "txt", subdirectory: "AboutLicenses"),
-            bundle.url(forResource: resourceName, withExtension: "txt")
-        ]
+        static func text(
+            named resourceName: String,
+            trimmingLeadingLines linesToTrim: [String] = [],
+            bundle: Bundle = .main
+        ) -> String {
+            let candidates = [
+                bundle.url(forResource: resourceName, withExtension: "txt", subdirectory: "AboutLicenses"),
+                bundle.url(forResource: resourceName, withExtension: "txt")
+            ]
 
-        for candidate in candidates {
-            guard let url = candidate else { continue }
-            if let text = try? String(contentsOf: url, encoding: .utf8) {
-                return Self.sanitized(text, trimmingLeadingLines: linesToTrim)
-            }
-        }
-
-        return L10n.About.Credits.licenseMissing
-    }
-
-    private static func sanitized(_ text: String, trimmingLeadingLines linesToTrim: [String]) -> String {
-        var lines = text.components(separatedBy: .newlines)
-
-        while let first = lines.first, first.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            lines.removeFirst()
-        }
-
-        for lineToTrim in linesToTrim {
-            guard let first = lines.first else { break }
-            if first.trimmingCharacters(in: .whitespacesAndNewlines) == lineToTrim {
-                lines.removeFirst()
-                while let next = lines.first, next.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                    lines.removeFirst()
+            for candidate in candidates {
+                guard let url = candidate else { continue }
+                if let text = try? String(contentsOf: url, encoding: .utf8) {
+                    return Self.sanitized(text, trimmingLeadingLines: linesToTrim)
                 }
             }
+
+            return L10n.About.Credits.licenseMissing
         }
 
-        return lines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+        private static func sanitized(_ text: String, trimmingLeadingLines linesToTrim: [String]) -> String {
+            var lines = text.components(separatedBy: .newlines)
+
+            while let first = lines.first, first.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                lines.removeFirst()
+            }
+
+            for lineToTrim in linesToTrim {
+                guard let first = lines.first else { break }
+                if first.trimmingCharacters(in: .whitespacesAndNewlines) == lineToTrim {
+                    lines.removeFirst()
+                    while let next = lines.first, next.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        lines.removeFirst()
+                    }
+                }
+            }
+
+            return lines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+        }
     }
 }

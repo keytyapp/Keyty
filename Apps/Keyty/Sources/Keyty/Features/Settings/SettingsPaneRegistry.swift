@@ -6,7 +6,6 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Sparkle
 import SwiftUI
 
 struct SettingsPaneEntry: Identifiable {
@@ -21,7 +20,7 @@ struct SettingsPaneRegistry {
     let entries: [SettingsPaneEntry]
 
     init(context: SettingsContext, displaysViewModel: DisplaysSettingsPaneViewModel) {
-        self.entries = [
+        var entries = [
             SettingsPaneEntry(
                 id: .general,
                 title: SettingsPaneIdentifier.general.label,
@@ -82,14 +81,22 @@ struct SettingsPaneRegistry {
                     AnyView(PermissionsSettingsPane(permissionsService: context.permissionsService))
                 }
             ),
+        ]
+
+        #if !APP_STORE
+        entries.append(
             SettingsPaneEntry(
                 id: .update,
                 title: SettingsPaneIdentifier.update.label,
                 systemImageName: SettingsPaneIdentifier.update.sfSymbolName,
                 makeView: {
-                    AnyView(UpdateSettingsPane(updater: context.updater))
+                    AnyView(UpdateSettingsPane(updateService: context.updateService))
                 }
-            ),
+            )
+        )
+        #endif
+
+        entries.append(
             SettingsPaneEntry(
                 id: .info,
                 title: SettingsPaneIdentifier.info.label,
@@ -97,8 +104,10 @@ struct SettingsPaneRegistry {
                 makeView: {
                     AnyView(InfoSettingsPane())
                 }
-            ),
-        ]
+            )
+        )
+
+        self.entries = entries
     }
 
     func entry(for identifier: SettingsPaneIdentifier) -> SettingsPaneEntry? {

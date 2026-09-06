@@ -6,8 +6,6 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Sparkle
-
 @MainActor
 final class AppUIContainer {
     let aboutWindowController: AboutWindowController
@@ -18,7 +16,7 @@ final class AppUIContainer {
     init(
         settings: AppSettingsContainer,
         services: AppServiceContainer,
-        updater: SPUUpdater
+        updateService: any UpdateService
     ) {
         self.aboutWindowController = AboutWindowController()
         let keyboardVisualizerPlacementWindowController = KeyboardVisualizerPlacementWindowController(
@@ -34,7 +32,7 @@ final class AppUIContainer {
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
             pointerRipplesVisualizer: services.pointerVisualizersManager.ripples,
             permissionsService: services.permissionsService,
-            updater: updater,
+            updateService: updateService,
             placementCoordinator: keyboardVisualizerPlacementWindowController
         )
         let settingsWindowController = SettingsWindowController(context: settingsContext)

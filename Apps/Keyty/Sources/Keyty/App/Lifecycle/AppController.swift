@@ -7,22 +7,20 @@
 //
 
 import AppKit
+
+#if !APP_STORE
 import AppMover
-import Sparkle
+#endif
 
 @MainActor
 final class AppController: NSObject {
     private let menuController: MenuController
     private let statusItemController: StatusItemController
     private let dependencies: AppDependencies
-    private let updaterController: SPUStandardUpdaterController
+    private let updateService: any UpdateService
 
     override init() {
-        self.updaterController = SPUStandardUpdaterController(
-            startingUpdater: true,
-            updaterDelegate: nil,
-            userDriverDelegate: nil
-        )
+        self.updateService = UpdateServiceFactory.make()
         self.menuController = MenuController()
         let statusShortcutItem = self.menuController.makeStatusShortcutMenuItem()
         self.statusItemController = StatusItemController(
@@ -31,7 +29,7 @@ final class AppController: NSObject {
         )
         self.dependencies = AppDependencies(
             statusShortcutItem: statusShortcutItem,
-            updater: self.updaterController.updater
+            updateService: self.updateService
         )
         super.init()
         self.menuController.setAppController(self)
@@ -51,7 +49,7 @@ extension AppController: NSApplicationDelegate {
 
         NSApp.activate(ignoringOtherApps: true)
 
-        #if !DEBUG
+        #if !DEBUG && !APP_STORE
         if AppMover.moveIfNecessary() {
             return
         }
@@ -91,8 +89,8 @@ extension AppController: NSApplicationDelegate {
 // MARK: - Settings Presentation
 private extension AppController {
     func checkForUpdatesAtLaunchIfNeeded() {
-        guard self.updaterController.updater.automaticallyChecksForUpdates else { return }
-        self.updaterController.updater.checkForUpdatesInBackground()
+        guard self.updateService.automaticallyChecksForUpdates else { return }
+        self.updateService.checkForUpdatesInBackground()
     }
 
     func showSettingsAtLaunchIfNeeded() {

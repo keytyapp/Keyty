@@ -55,6 +55,27 @@ let appReleaseSettings: SettingsDictionary = [
     "GCC_MODEL_TUNING": "G5",
 ]
 
+// This configuration is intentionally separate from Release. Release produces
+// the Developer ID-signed, notarized build used for direct distribution.
+// AppStore is the sandboxed build that will be archived for App Store Connect.
+let appStoreSettings: SettingsDictionary = [
+    "CODE_SIGN_ENTITLEMENTS": "Sources/Keyty/Resources/AppStore.entitlements",
+    "CODE_SIGN_STYLE": "Automatic",
+    "DEVELOPMENT_TEAM": "NEVA4MAZBL",
+    "GCC_MODEL_TUNING": "G5",
+    "PRODUCT_BUNDLE_IDENTIFIER": "app.keyty.Keyty.AppStore",
+    "SWIFT_ACTIVE_COMPILATION_CONDITIONS": [
+        "$(inherited)",
+        "APP_STORE",
+    ],
+]
+
+let appStoreDebugSettings = appStoreSettings.merging([
+    "PRODUCT_NAME": "KeytyAppStore",
+]) { _, appStoreDebugValue in
+    appStoreDebugValue
+}
+
 let testSettings: SettingsDictionary = [
     "BUNDLE_LOADER": "$(TEST_HOST)",
     "CLANG_ANALYZER_NONNULL": "YES",
@@ -164,6 +185,12 @@ let projectSettings = Settings.settings(
                 "SWIFT_COMPILATION_MODE": "wholemodule",
             ]
         ),
+        .release(
+            name: "AppStore",
+            settings: [
+                "SWIFT_COMPILATION_MODE": "wholemodule",
+            ]
+        ),
     ]
 )
 
@@ -171,6 +198,7 @@ let project = Project(
     name: "Keyty",
     organizationName: "Keyty",
     options: .options(
+        automaticSchemesOptions: .disabled,
         defaultKnownRegions: ["de", "en", "es", "fr", "it", "ja", "ko", "nl", "pt-BR", "uk", "zh-Hans"],
         developmentRegion: "en"
     ),
@@ -204,7 +232,10 @@ let project = Project(
             buildableFolders: [
                 .folder(
                     "Sources/Keyty",
-                    exceptions: [.exception(excluded: ["Resources/Info.plist"])]
+                    exceptions: [.exception(excluded: [
+                        "Resources/Info.plist",
+                        "Resources/AppStore-Info.plist",
+                    ])]
                 ),
             ],
             entitlements: .file(path: "Sources/Keyty/Resources/Keyty.entitlements"),
@@ -222,6 +253,38 @@ let project = Project(
                 configurations: [
                     .debug(name: "Debug", settings: appDebugSettings),
                     .release(name: "Release", settings: appReleaseSettings),
+                ]
+            )
+        ),
+        .target(
+            name: "KeytyAppStore",
+            destinations: .macOS,
+            product: .app,
+            bundleId: "app.keyty.Keyty.AppStore",
+            deploymentTargets: .macOS("11.0"),
+            infoPlist: .file(path: "Sources/Keyty/Resources/AppStore-Info.plist"),
+            buildableFolders: [
+                .folder(
+                    "Sources/Keyty",
+                    exceptions: [.exception(excluded: [
+                        "Resources/Info.plist",
+                        "Resources/AppStore-Info.plist",
+                    ])]
+                ),
+            ],
+            entitlements: .file(path: "Sources/Keyty/Resources/AppStore.entitlements"),
+            dependencies: [
+                .sdk(name: "Cocoa", type: .framework),
+                .sdk(name: "Quartz", type: .framework),
+                .sdk(name: "QuartzCore", type: .framework),
+                .sdk(name: "Carbon", type: .framework),
+                .package(product: "ShortcutRecorder"),
+            ],
+            settings: .settings(
+                base: appSettings,
+                configurations: [
+                    .debug(name: "Debug", settings: appStoreDebugSettings),
+                    .release(name: "AppStore", settings: appStoreSettings),
                 ]
             )
         ),
@@ -263,6 +326,15 @@ let project = Project(
             runAction: .runAction(configuration: .debug),
             archiveAction: .archiveAction(configuration: .release),
             profileAction: .profileAction(configuration: .release),
+            analyzeAction: .analyzeAction(configuration: .debug)
+        ),
+        .scheme(
+            name: "Keyty AppStore",
+            shared: true,
+            buildAction: .buildAction(targets: ["KeytyAppStore"]),
+            runAction: .runAction(configuration: "AppStore"),
+            archiveAction: .archiveAction(configuration: "AppStore"),
+            profileAction: .profileAction(configuration: "AppStore"),
             analyzeAction: .analyzeAction(configuration: .debug)
         ),
     ],

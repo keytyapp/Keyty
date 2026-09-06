@@ -6,14 +6,13 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Sparkle
 import SwiftUI
 
 struct UpdateSettingsPane: View {
     @StateObject private var model: UpdateSettingsPaneViewModel
 
-    init(updater: SPUUpdater) {
-        _model = StateObject(wrappedValue: UpdateSettingsPaneViewModel(updater: updater))
+    init(updateService: any UpdateService) {
+        _model = StateObject(wrappedValue: UpdateSettingsPaneViewModel(updateService: updateService))
     }
 
     var body: some View {

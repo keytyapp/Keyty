@@ -34,6 +34,30 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
         )
     }
 
+    func testRendersPBTBlackCommandShiftKKeycaps() {
+        self.assertCommandShiftKSnapshot(
+            style: .pbt,
+            theme: .black,
+            named: "pbt-black-command-shift-k-keycaps"
+        )
+    }
+
+    func testRendersMinimalBlackCommandShiftKKeycaps() {
+        self.assertCommandShiftKSnapshot(
+            style: .minimal,
+            theme: .black,
+            named: "minimal-black-command-shift-k-keycaps"
+        )
+    }
+
+    func testRendersRetroBlackCommandShiftKKeycaps() {
+        self.assertCommandShiftKSnapshot(
+            style: .retro,
+            theme: .black,
+            named: "retro-black-command-shift-k-keycaps"
+        )
+    }
+
     func testRendersM0116StyleKeycap() {
         self.assertGroupSnapshot(
             style: .m0116,
@@ -63,21 +87,11 @@ final class KeyboardVisualizerGroupViewSnapshotTests: XCTestCase {
     }
 
     func testRendersM0116StyleCommandShiftKKeycaps() {
-        let settings = self.settings(style: .m0116, theme: .white)
-        let items = KeycapItemFactory.modifierItems(
-            currentFlags: [],
-            releasedFlags: Self.commandShiftFlags,
-            palette: settings.palette
+        self.assertCommandShiftKSnapshot(
+            style: .m0116,
+            theme: .white,
+            named: "m0116-command-shift-k-keycaps"
         )
-        + KeycapItemFactory.keycapItems(
-            keyCode: KeyboardKeyCode.k.rawValue,
-            legend: EventLegend(text: "K"),
-            modifierFlags: [],
-            isPressed: false,
-            palette: settings.palette
-        )
-
-        self.assertGroupSnapshot(style: .m0116, theme: .white, items: items, named: "m0116-command-shift-k-keycaps")
     }
 
     func testRendersAppleBlackEscapeKeycap() {
@@ -125,6 +139,39 @@ private extension KeyboardVisualizerGroupViewSnapshotTests {
             modifierFlags: [],
             isPressed: false,
             palette: settings.palette
+        )
+    }
+
+    func assertCommandShiftKSnapshot(
+        style: KeycapStyle,
+        theme: KeyboardVisualizerTheme,
+        named name: String,
+        file: StaticString = #filePath,
+        testName: String = #function,
+        line: UInt = #line
+    ) {
+        let settings = self.settings(style: style, theme: theme)
+        let items = KeycapItemFactory.modifierItems(
+            currentFlags: [],
+            releasedFlags: Self.commandShiftFlags,
+            palette: settings.palette
+        )
+        + KeycapItemFactory.keycapItems(
+            keyCode: KeyboardKeyCode.k.rawValue,
+            legend: EventLegend(text: "K"),
+            modifierFlags: [],
+            isPressed: false,
+            palette: settings.palette
+        )
+
+        self.assertGroupSnapshot(
+            style: style,
+            theme: theme,
+            items: items,
+            named: name,
+            file: file,
+            testName: testName,
+            line: line
         )
     }
 

@@ -60,9 +60,12 @@ let appReleaseSettings: SettingsDictionary = [
 // AppStore is the sandboxed build that will be archived for App Store Connect.
 let appStoreSettings: SettingsDictionary = [
     "CODE_SIGN_ENTITLEMENTS": "Sources/Keyty/Resources/AppStore.entitlements",
+    "CODE_SIGN_IDENTITY": "Apple Development",
     "CODE_SIGN_STYLE": "Automatic",
     "DEVELOPMENT_TEAM": "NEVA4MAZBL",
     "GCC_MODEL_TUNING": "G5",
+    "INFOPLIST_FILE": "Sources/Keyty/Resources/AppStore-Info.plist",
+    "INSTALL_PATH": "$(LOCAL_APPS_DIR)",
     "PRODUCT_BUNDLE_IDENTIFIER": "app.keyty.Keyty.AppStore",
     "SWIFT_ACTIVE_COMPILATION_CONDITIONS": [
         "$(inherited)",

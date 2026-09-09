@@ -15,14 +15,10 @@ final class StatusItemController {
 
     private var statusItemImage: NSImage {
         if !self.isAccessibilityGranted {
-            let image = NSImage.statusItemPermissionRequired
-            image.isTemplate = true
-            return image
+            return NSImage.statusItemPermissionRequired
         }
 
-        let image = self.isCapturing ? NSImage.statusItemEnabled : NSImage.statusItemDisabled
-        image.isTemplate = true
-        return image
+        return self.isCapturing ? NSImage.statusItemEnabled : NSImage.statusItemDisabled
     }
 
     init(menu: NSMenu, shortcutItem: NSMenuItem) {
@@ -30,9 +26,7 @@ final class StatusItemController {
         self.shortcutItem = shortcutItem
         let item = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
         item.menu = menu
-        let image = NSImage.statusItemDisabled
-        image.isTemplate = true
-        item.button?.image = image
+        item.button?.image = NSImage.statusItemDisabled
         self.statusItem = item
     }
 

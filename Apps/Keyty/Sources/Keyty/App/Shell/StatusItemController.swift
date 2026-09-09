@@ -14,6 +14,12 @@ final class StatusItemController {
     private let statusItem: NSStatusItem
 
     private var statusItemImage: NSImage {
+        if !self.isAccessibilityGranted {
+            let image = NSImage.statusItemPermissionRequired
+            image.isTemplate = true
+            return image
+        }
+
         let image = self.isCapturing ? NSImage.statusItemEnabled : NSImage.statusItemDisabled
         image.isTemplate = true
         return image
@@ -33,7 +39,17 @@ final class StatusItemController {
     var isCapturing: Bool = false {
         didSet {
             self.shortcutItem.title = isCapturing ? L10n.General.stopCapturing : L10n.General.startCapturing
-            self.statusItem.button?.image = self.statusItemImage
+            self.updateStatusItemImage()
         }
+    }
+
+    var isAccessibilityGranted: Bool = false {
+        didSet {
+            self.updateStatusItemImage()
+        }
+    }
+
+    private func updateStatusItemImage() {
+        self.statusItem.button?.image = self.statusItemImage
     }
 }

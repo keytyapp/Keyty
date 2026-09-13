@@ -50,15 +50,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     }
 
     @Published var theme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.theme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.theme)
-            guard sanitized == self.theme else {
-                self.theme = sanitized
-                return
-            }
-            self.settings.theme = sanitized
-        }
+        didSet { self.settings.theme = self.theme }
     }
 
     @Published var legendColorMode: KeyboardLegendColorMode {
@@ -76,12 +68,17 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     /// Drives the base theme picker. Picking a concrete theme turns custom mode
     /// off and sets the base `theme`; picking `.custom` turns custom mode on.
     var themeSelection: ThemeSelection {
-        get { self.usesCustomThemePalette ? .custom : .theme(self.theme) }
+        get {
+            self.usesCustomThemePalette
+                ? .custom
+                : .theme(self.style.sanitize(theme: self.theme))
+        }
         set {
             switch newValue {
             case .custom:
                 self.usesCustomThemePalette = true
             case .theme(let theme):
+                guard self.style.allows(theme: theme), self.style != .m0116 else { return }
                 self.usesCustomThemePalette = false
                 self.theme = theme
             }
@@ -89,63 +86,23 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     }
 
     @Published var modifierTheme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.modifierTheme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.modifierTheme)
-            guard sanitized == self.modifierTheme else {
-                self.modifierTheme = sanitized
-                return
-            }
-            self.settings.modifierTheme = sanitized
-        }
+        didSet { self.settings.modifierTheme = self.modifierTheme }
     }
 
     @Published var specialTheme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.specialTheme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.specialTheme)
-            guard sanitized == self.specialTheme else {
-                self.specialTheme = sanitized
-                return
-            }
-            self.settings.specialTheme = sanitized
-        }
+        didSet { self.settings.specialTheme = self.specialTheme }
     }
 
     @Published var mediaTheme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.mediaTheme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.mediaTheme)
-            guard sanitized == self.mediaTheme else {
-                self.mediaTheme = sanitized
-                return
-            }
-            self.settings.mediaTheme = sanitized
-        }
+        didSet { self.settings.mediaTheme = self.mediaTheme }
     }
 
     @Published var mouseTheme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.mouseTheme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.mouseTheme)
-            guard sanitized == self.mouseTheme else {
-                self.mouseTheme = sanitized
-                return
-            }
-            self.settings.mouseTheme = sanitized
-        }
+        didSet { self.settings.mouseTheme = self.mouseTheme }
     }
 
     @Published var groupBackgroundTheme: KeyboardVisualizerTheme {
-        didSet {
-            guard self.groupBackgroundTheme != oldValue else { return }
-            let sanitized = self.style.sanitize(theme: self.groupBackgroundTheme)
-            guard sanitized == self.groupBackgroundTheme else {
-                self.groupBackgroundTheme = sanitized
-                return
-            }
-            self.settings.groupBackgroundTheme = sanitized
-        }
+        didSet { self.settings.groupBackgroundTheme = self.groupBackgroundTheme }
     }
 
     @Published var style: KeycapStyle {

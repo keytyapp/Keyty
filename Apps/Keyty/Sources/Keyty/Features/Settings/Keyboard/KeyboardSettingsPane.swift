@@ -314,7 +314,7 @@ struct KeyboardSettingsPane: View {
         ) {
             self.colorMenuItem(
                 title: L10n.KeyboardVisualizer.Color.automatic,
-                swatchColor: self.model.theme.displayColor,
+                swatchColor: self.model.style.sanitize(theme: self.model.theme).displayColor,
                 tag: KeyboardSettingsPaneViewModel.ColorPreset.automaticSelectionID
             )
 
@@ -353,7 +353,7 @@ struct KeyboardSettingsPane: View {
         selection: Binding<KeyboardVisualizerTheme>
     ) -> some View {
         SettingsControlRow(title: title, subtitle: subtitle) {
-            Picker("", selection: selection) {
+            Picker("", selection: self.compatibleThemeBinding(selection)) {
                 ForEach(Array(self.model.allowedThemeSections.enumerated()), id: \.offset) { index, section in
                     if index > 0 {
                         Divider()
@@ -368,6 +368,18 @@ struct KeyboardSettingsPane: View {
             .accessibilityLabel(title)
             .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
         }
+    }
+
+    private func compatibleThemeBinding(
+        _ selection: Binding<KeyboardVisualizerTheme>
+    ) -> Binding<KeyboardVisualizerTheme> {
+        Binding(
+            get: { self.model.style.sanitize(theme: selection.wrappedValue) },
+            set: { theme in
+                guard self.model.style.allows(theme: theme), self.model.style != .m0116 else { return }
+                selection.wrappedValue = theme
+            }
+        )
     }
 
     private func themeRow(_ theme: KeyboardVisualizerTheme) -> some View {

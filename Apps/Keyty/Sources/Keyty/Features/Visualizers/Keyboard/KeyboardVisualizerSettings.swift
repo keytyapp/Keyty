@@ -198,8 +198,8 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     private var storedTheme: KeyboardVisualizerTheme
 
     var theme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedTheme) }
-        set { self.storedTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedTheme }
+        set { self.storedTheme = newValue }
     }
 
     /// Whether keycap legend drawing should use the theme-default color or a custom override.
@@ -218,40 +218,40 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     private var storedModifierTheme: KeyboardVisualizerTheme
 
     var modifierTheme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedModifierTheme) }
-        set { self.storedModifierTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedModifierTheme }
+        set { self.storedModifierTheme = newValue }
     }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.specialTheme, default: .black))
     private var storedSpecialTheme: KeyboardVisualizerTheme
 
     var specialTheme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedSpecialTheme) }
-        set { self.storedSpecialTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedSpecialTheme }
+        set { self.storedSpecialTheme = newValue }
     }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.mediaTheme, default: .black))
     private var storedMediaTheme: KeyboardVisualizerTheme
 
     var mediaTheme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedMediaTheme) }
-        set { self.storedMediaTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedMediaTheme }
+        set { self.storedMediaTheme = newValue }
     }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.mouseTheme, default: .black))
     private var storedMouseTheme: KeyboardVisualizerTheme
 
     var mouseTheme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedMouseTheme) }
-        set { self.storedMouseTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedMouseTheme }
+        set { self.storedMouseTheme = newValue }
     }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.groupBackgroundTheme, default: .black))
     private var storedGroupBackgroundTheme: KeyboardVisualizerTheme
 
     var groupBackgroundTheme: KeyboardVisualizerTheme {
-        get { self.style.sanitize(theme: self.storedGroupBackgroundTheme) }
-        set { self.storedGroupBackgroundTheme = self.style.sanitize(theme: newValue) }
+        get { self.storedGroupBackgroundTheme }
+        set { self.storedGroupBackgroundTheme = newValue }
     }
 
     @Stored(.enum(KeyboardVisualizerSettingsKeys.anchor, default: .default))
@@ -350,11 +350,7 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     /// Visual style of the rendered keycaps.
     @Stored(.enum(KeyboardVisualizerSettingsKeys.style, default: .default))
-    var style: KeycapStyle {
-        didSet {
-            self.sanitizeThemesForStyle()
-        }
-    }
+    var style: KeycapStyle
 
     /// Whether only keystrokes pressed with modifiers should be rendered.
     @Stored(.bool(KeyboardVisualizerSettingsKeys.onlyShowModifiedKeystrokes, default: false))
@@ -377,19 +373,19 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
     var showMouseEvents: Bool
 
     var themeTokens: KeycapThemeTokens {
-        self.theme.tokens(legendColorOverride: self.resolvedLegendColorOverride)
+        self.effectiveTheme(self.theme).tokens(legendColorOverride: self.resolvedLegendColorOverride)
     }
 
     var appearance: KeycapAppearance {
-        self.theme.appearance(for: self.style, legendColorOverride: self.resolvedLegendColorOverride)
+        self.effectiveTheme(self.theme).appearance(for: self.style, legendColorOverride: self.resolvedLegendColorOverride)
     }
 
     /// Resolves per-key-type appearance. When `usesCustomThemePalette` is off, every category
     /// (and the group background) collapses to the base `theme` — identical to legacy behavior.
     var palette: KeycapThemePalette {
-        let base = self.theme
+        let base = self.effectiveTheme(self.theme)
         func resolve(_ specific: KeyboardVisualizerTheme) -> KeyboardVisualizerTheme {
-            self.usesCustomThemePalette ? specific : base
+            self.usesCustomThemePalette ? self.effectiveTheme(specific) : base
         }
         return KeycapThemePalette(
             style: self.style,
@@ -423,13 +419,8 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         }
     }
 
-    private func sanitizeThemesForStyle() {
-        self.storedTheme = self.style.sanitize(theme: self.storedTheme)
-        self.storedModifierTheme = self.style.sanitize(theme: self.storedModifierTheme)
-        self.storedSpecialTheme = self.style.sanitize(theme: self.storedSpecialTheme)
-        self.storedMediaTheme = self.style.sanitize(theme: self.storedMediaTheme)
-        self.storedMouseTheme = self.style.sanitize(theme: self.storedMouseTheme)
-        self.storedGroupBackgroundTheme = self.style.sanitize(theme: self.storedGroupBackgroundTheme)
+    private func effectiveTheme(_ theme: KeyboardVisualizerTheme) -> KeyboardVisualizerTheme {
+        self.style.sanitize(theme: theme)
     }
 
 }

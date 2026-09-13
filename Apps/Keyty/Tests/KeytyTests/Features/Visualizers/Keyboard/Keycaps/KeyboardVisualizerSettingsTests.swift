@@ -356,7 +356,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
     }
 
 
-    func testM0116StyleClampsThemesToWhite() {
+    func testM0116StyleUsesWhiteWithoutOverwritingSavedThemes() {
         self.settings.theme = .black
         self.settings.modifierTheme = .purple
         self.settings.specialTheme = .rose
@@ -365,29 +365,19 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         self.settings.groupBackgroundTheme = .orange
         self.settings.style = .m0116
 
-        XCTAssertEqual(self.settings.theme, .white)
-        XCTAssertEqual(self.settings.modifierTheme, .white)
-        XCTAssertEqual(self.settings.specialTheme, .white)
-        XCTAssertEqual(self.settings.mediaTheme, .white)
-        XCTAssertEqual(self.settings.mouseTheme, .white)
-        XCTAssertEqual(self.settings.groupBackgroundTheme, .white)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.theme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.modifierTheme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.specialTheme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mediaTheme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.mouseTheme), KeyboardVisualizerTheme.white.rawValue)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.groupBackgroundTheme), KeyboardVisualizerTheme.white.rawValue)
+        XCTAssertEqual(self.settings.theme, .black)
+        XCTAssertEqual(self.settings.modifierTheme, .purple)
+        XCTAssertEqual(self.settings.specialTheme, .rose)
+        XCTAssertEqual(self.settings.mediaTheme, .blue)
+        XCTAssertEqual(self.settings.mouseTheme, .green)
+        XCTAssertEqual(self.settings.groupBackgroundTheme, .orange)
+        XCTAssertEqual(self.settings.themeTokens.surfaceBaseColor, KeyboardVisualizerTheme.white.tokens.surfaceBaseColor)
         XCTAssertNotNil(self.settings.appearance.m0116)
         XCTAssertNotEqual(self.settings.appearance.m0116?.shared.textColor, KeyboardVisualizerTheme.white.tokens.textColor)
-    }
 
-    func testM0116StyleRejectsNonWhiteThemeAssignments() {
-        self.settings.style = .m0116
+        self.settings.style = .apple
 
-        self.settings.theme = .black
-        self.settings.modifierTheme = .purple
-
-        XCTAssertEqual(self.settings.theme, .white)
-        XCTAssertEqual(self.settings.modifierTheme, .white)
+        XCTAssertEqual(self.settings.theme, .black)
+        XCTAssertEqual(self.settings.modifierTheme, .purple)
     }
 }

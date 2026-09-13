@@ -44,7 +44,7 @@ Run the test suite from Xcode with `Cmd+U`, or use the `xcodebuild test` command
 
 ## Permissions for Local Development
 
-Keyty needs macOS `Accessibility` permission to capture and visualize input events, including when running a debug build from Xcode.
+Keyty needs macOS `Input Monitoring` permission to capture and visualize input events, including when running a debug build from Xcode. `Accessibility` remains available as a fallback for existing installs.
 
 If a local build is not receiving events correctly, the most common cause is stale or missing macOS permission entries for the running app bundle.
 
@@ -66,7 +66,7 @@ The main project lives under `Apps/Keyty`.
 ## Common Issues
 
 - No keyboard or mouse events appear:
-  Check macOS permissions first. Old app references in **Accessibility** are a common cause.
+  Check macOS permissions first. Old app references in **Input Monitoring** or **Accessibility** are a common cause.
 - Swift packages do not resolve:
   Reopen the project in Xcode and let Swift Package Manager refresh dependencies.
 - Xcode project changes are missing:

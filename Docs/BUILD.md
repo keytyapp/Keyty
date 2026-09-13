@@ -139,10 +139,10 @@ xcodebuild test \
 
 ## Code Signing
 
-Keyty observes input through macOS Accessibility APIs, so local builds should use
+Keyty observes input through macOS Input Monitoring APIs (with Accessibility as a fallback), so local builds should use
 a stable Apple Development signature. Avoid adding `CODE_SIGNING_ALLOWED=NO` to
 local builds: ad-hoc code signatures can change between builds, and macOS may
-silently drop the app's Accessibility grant.
+silently drop the app's privacy grant.
 
 The checked-in project settings use the maintainer team `NEVA4MAZBL`. To build
 and run locally with your own signing identity, sign in to Xcode with your Apple
@@ -150,5 +150,5 @@ ID and change the team in **Signing & Capabilities** after generating the
 project.
 
 Unsigned builds are only for non-interactive CI jobs that do not need a stable
-Accessibility permission grant. The CI-only unsigned flags live in
+privacy permission grant. The CI-only unsigned flags live in
 [`.github/workflows/build.yml`](../.github/workflows/build.yml).

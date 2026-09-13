@@ -24,6 +24,7 @@
   <a href="Docs/README.it.md">Italiano</a> |
   <a href="Docs/README.pt-BR.md">Português (Brasil)</a> |
   <a href="Docs/README.pl.md">Polski</a> |
+  <a href="Docs/README.tr.md">Türkçe</a> |
   <a href="Docs/README.uk.md">Українська</a> |
   <a href="Docs/README.ja.md">日本語</a> |
   <a href="Docs/README.zh-Hans.md">简体中文</a>

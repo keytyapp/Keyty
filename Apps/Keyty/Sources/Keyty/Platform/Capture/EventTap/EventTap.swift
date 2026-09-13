@@ -61,8 +61,8 @@ extension EventTap {
 
 // MARK: - Tap Resources
 private extension EventTap {
-    /// Every event type the app visualizes. Creation fails as a whole when the
-    /// Accessibility grant is missing, so a `nil` port is a truthful capability signal.
+    /// Every event type the app visualizes. Creation fails as a whole when no
+    /// event-listening permission has been granted, so a `nil` port is a truthful capability signal.
     static let eventsOfInterest: CGEventMask = [
         .keyDown, .keyUp, .systemDefined, .flagsChanged,
         .leftMouseDown, .leftMouseUp, .rightMouseDown, .rightMouseUp,

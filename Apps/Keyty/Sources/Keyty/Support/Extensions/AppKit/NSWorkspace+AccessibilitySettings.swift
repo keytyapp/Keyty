@@ -12,4 +12,8 @@ extension NSWorkspace {
     func openAccessibilitySettings() {
         self.open(.accessibilitySettings)
     }
+
+    func openInputMonitoringSettings() {
+        self.open(.inputMonitoringSettings)
+    }
 }

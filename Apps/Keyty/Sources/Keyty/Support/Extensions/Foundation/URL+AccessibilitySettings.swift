@@ -12,4 +12,8 @@ extension URL {
     static let accessibilitySettings = URL(
         string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
     )!
+
+    static let inputMonitoringSettings = URL(
+        string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ListenEvent"
+    )!
 }

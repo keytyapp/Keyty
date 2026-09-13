@@ -11,15 +11,27 @@ import ApplicationServices
 
 enum Permission: CaseIterable, Hashable {
     case accessibility
+    case inputMonitoring
 
     func isGranted() -> Bool {
-        AXIsProcessTrusted()
+        switch self {
+        case .accessibility:
+            AXIsProcessTrusted()
+        case .inputMonitoring:
+            CGPreflightListenEventAccess()
+        }
     }
 
     func requestSystemPermission() {
-        let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as String
-        AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
-        NSWorkspace.shared.openAccessibilitySettings()
+        switch self {
+        case .accessibility:
+            let key = kAXTrustedCheckOptionPrompt.takeRetainedValue() as String
+            AXIsProcessTrustedWithOptions([key: true] as CFDictionary)
+            NSWorkspace.shared.openAccessibilitySettings()
+        case .inputMonitoring:
+            CGRequestListenEventAccess()
+            NSWorkspace.shared.openInputMonitoringSettings()
+        }
     }
 }
 

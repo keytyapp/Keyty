@@ -22,6 +22,12 @@ struct PermissionsSettingsPane: View {
                 subtitle: L10n.Permissions.sectionSubtitle
             ) {
                 permissionRow(
+                    title: L10n.Permissions.inputMonitoringLabel,
+                    status: model.inputMonitoringStatus,
+                    action: model.requestInputMonitoring
+                )
+                Divider()
+                permissionRow(
                     title: L10n.Permissions.accessibilityLabel,
                     status: model.accessibilityStatus,
                     action: model.requestAccessibility

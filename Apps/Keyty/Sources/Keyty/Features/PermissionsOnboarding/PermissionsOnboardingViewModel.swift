@@ -15,8 +15,12 @@ final class PermissionsOnboardingViewModel: ObservableObject {
         self.permissionsService.status(for: .accessibility)
     }
 
+    var inputMonitoringStatus: Permission.Status {
+        self.permissionsService.status(for: .inputMonitoring)
+    }
+
     var isComplete: Bool {
-        self.accessibilityStatus == .granted
+        self.inputMonitoringStatus == .granted || self.accessibilityStatus == .granted
     }
 
     var onCompletion: (() -> Void)?
@@ -40,6 +44,10 @@ final class PermissionsOnboardingViewModel: ObservableObject {
 
     func requestAccessibility() {
         self.handlePermissionAction(for: .accessibility)
+    }
+
+    func requestInputMonitoring() {
+        self.handlePermissionAction(for: .inputMonitoring)
     }
 
     func continueIfComplete() {

@@ -61,6 +61,15 @@ struct PermissionsOnboardingView: View {
     private var permissionsCard: some View {
         VStack(spacing: Spacing.none) {
             self.permissionRow(
+                iconName: "keyboard",
+                iconBackgroundColor: Color.Theme.Accent.controlAccent,
+                title: L10n.PermissionsOnboarding.InputMonitoring.title,
+                detail: L10n.PermissionsOnboarding.InputMonitoring.detail,
+                status: self.viewModel.inputMonitoringStatus,
+                buttonTitle: L10n.PermissionsOnboarding.InputMonitoring.grantButton,
+                action: self.viewModel.requestInputMonitoring
+            )
+            self.permissionRow(
                 iconName: "accessibility",
                 iconBackgroundColor: Color.Theme.Accent.controlAccent,
                 title: L10n.PermissionsOnboarding.Accessibility.title,

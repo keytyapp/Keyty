@@ -11,7 +11,7 @@ import XCTest
 
 @MainActor
 final class PermissionsOnboardingViewModelTests: XCTestCase {
-    func testIsCompleteRequiresAccessibilityPermission() async {
+    func testIsCompleteWhenAccessibilityPermissionIsGranted() async {
         let service = TestPermissionsService(statuses: [
             .accessibility: .granted,
         ])
@@ -26,6 +26,21 @@ final class PermissionsOnboardingViewModelTests: XCTestCase {
         XCTAssertFalse(model.isComplete)
     }
 
+    func testIsCompleteWhenInputMonitoringPermissionIsGranted() async {
+        let service = TestPermissionsService(statuses: [
+            .inputMonitoring: .granted,
+        ])
+        let model = PermissionsOnboardingViewModel(permissionsService: service)
+
+        XCTAssertTrue(model.isComplete)
+
+        service.statuses[.inputMonitoring] = .notGranted
+        service.notifyObservers()
+        await Task.yield()
+
+        XCTAssertFalse(model.isComplete)
+    }
+
     func testRequestAccessibilityForwardsAccessibilityRequest() {
         let service = TestPermissionsService()
         let model = PermissionsOnboardingViewModel(permissionsService: service)
@@ -33,6 +48,15 @@ final class PermissionsOnboardingViewModelTests: XCTestCase {
         model.requestAccessibility()
 
         XCTAssertEqual(service.requestedPermissions, [.accessibility])
+    }
+
+    func testRequestInputMonitoringForwardsInputMonitoringRequest() {
+        let service = TestPermissionsService()
+        let model = PermissionsOnboardingViewModel(permissionsService: service)
+
+        model.requestInputMonitoring()
+
+        XCTAssertEqual(service.requestedPermissions, [.inputMonitoring])
     }
 
     func testCompletionDoesNotRunWhenAccessibilityBecomesGranted() async {
@@ -50,6 +74,19 @@ final class PermissionsOnboardingViewModelTests: XCTestCase {
     func testContinueRunsCompletionWhenAccessibilityIsGranted() {
         let service = TestPermissionsService(statuses: [
             .accessibility: .granted,
+        ])
+        let model = PermissionsOnboardingViewModel(permissionsService: service)
+        var completionCount = 0
+        model.onCompletion = { completionCount += 1 }
+
+        model.continueIfComplete()
+
+        XCTAssertEqual(completionCount, 1)
+    }
+
+    func testContinueRunsCompletionWhenInputMonitoringIsGranted() {
+        let service = TestPermissionsService(statuses: [
+            .inputMonitoring: .granted,
         ])
         let model = PermissionsOnboardingViewModel(permissionsService: service)
         var completionCount = 0

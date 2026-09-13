@@ -11,6 +11,7 @@ import SwiftUI
 @MainActor
 final class PermissionsSettingsPaneViewModel: ObservableObject {
     @Published private(set) var accessibilityStatus: Permission.Status
+    @Published private(set) var inputMonitoringStatus: Permission.Status
 
     private let permissionsService: any PermissionsService
     private var observationToken: PermissionObservationToken?
@@ -18,6 +19,7 @@ final class PermissionsSettingsPaneViewModel: ObservableObject {
     init(permissionsService: any PermissionsService) {
         self.permissionsService = permissionsService
         self.accessibilityStatus = self.permissionsService.status(for: .accessibility)
+        self.inputMonitoringStatus = self.permissionsService.status(for: .inputMonitoring)
         self.observationToken = self.permissionsService.observeChanges { [weak self] in
             Task { @MainActor [weak self] in
                 self?.refresh()
@@ -30,8 +32,14 @@ final class PermissionsSettingsPaneViewModel: ObservableObject {
         self.refresh()
     }
 
+    func requestInputMonitoring() {
+        self.handleAction(for: .inputMonitoring)
+        self.refresh()
+    }
+
     func refresh() {
         self.accessibilityStatus = self.permissionsService.status(for: .accessibility)
+        self.inputMonitoringStatus = self.permissionsService.status(for: .inputMonitoring)
     }
 
     private func handleAction(for permission: Permission) {

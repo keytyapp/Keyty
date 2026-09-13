@@ -239,21 +239,25 @@
 
 /* Permissions settings pane */
 "permissions.accessibility_label" = "Accessibility";
-"permissions.section_subtitle" = "Keyty needs Accessibility permission to observe and display your input events.";
+"permissions.input_monitoring_label" = "Input Monitoring";
+"permissions.section_subtitle" = "Keyty can use Input Monitoring or Accessibility permission to observe and display your input events.";
 "permissions.status.granted" = "Granted";
 "permissions.status.not_granted" = "Not Granted";
 "permissions.grant_access_button" = "Grant…";
 
 /* Permissions onboarding */
 "permissions_onboarding.title" = "Set Up Keyty";
-"permissions_onboarding.subtitle" = "To enable keyboard and mouse visualization,\ngrant macOS Accessibility permission.";
+"permissions_onboarding.subtitle" = "To enable keyboard and mouse visualization,\ngrant Input Monitoring or Accessibility permission.";
+"permissions_onboarding.input_monitoring.title" = "Input Monitoring";
+"permissions_onboarding.input_monitoring.detail" = "Preferred permission for displaying keyboard and mouse input.";
+"permissions_onboarding.input_monitoring.grant_button" = "Grant…";
 "permissions_onboarding.accessibility.title" = "Accessibility";
 "permissions_onboarding.accessibility.detail" = "Required to display keyboard and mouse input.";
 "permissions_onboarding.accessibility.grant_button" = "Grant…";
 "permissions_onboarding.privacy" = "All input is processed locally on your Mac. Nothing is uploaded or stored.";
 "permissions_onboarding.learn_more" = "Learn more";
 "permissions_onboarding.continue" = "Continue";
-"permissions_onboarding.continue_hint" = "Continue once Accessibility is granted.";
+"permissions_onboarding.continue_hint" = "Continue once either permission is granted.";
 
 /* Update settings pane */
 "update.check_at_startup" = "Check for updates at startup";

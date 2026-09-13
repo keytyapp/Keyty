@@ -117,10 +117,15 @@ final class KeyboardVisualizerWindow: NSWindow {
 
     func enforceMaxCount() {
         let maxCount = self.settings.maxCount
+        var removedGroups = false
         while self.groupViews.count > maxCount {
             let view = self.groupViews.removeFirst()
             view.removeFromSuperview()
             self.onGroupRemoved?(view)
+            removedGroups = true
+        }
+        if removedGroups {
+            self.layoutGroups()
         }
     }
 

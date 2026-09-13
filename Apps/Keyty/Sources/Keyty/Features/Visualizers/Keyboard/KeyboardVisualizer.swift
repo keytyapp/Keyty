@@ -372,13 +372,22 @@ private extension KeyboardVisualizer {
 
     func collapseActiveRepeatIfNeeded(_ group: KeyboardVisualizerGroupView?) {
         guard self.visualizerSettings.collapseRepeatedGroups, let group else { return }
-        guard let previous = self.lastFinalizedGroup, previous.group !== group else { return }
+        guard let previous = self.lastFinalizedGroup, previous.group !== group else {
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
 
         let items = self.eventCoordinator.items(for: group)
-        guard !items.isEmpty else { return }
+        guard !items.isEmpty else {
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
 
         let identity = self.groupIdentity(for: items)
-        guard previous.identity == identity else { return }
+        guard previous.identity == identity else {
+            self.visualizerWindow.enforceMaxCount()
+            return
+        }
 
         let nextRepeatCount = previous.repeatCount + 1
         self.visualizerWindow.updateGroup(previous.group, with: items, repeatCount: nextRepeatCount)

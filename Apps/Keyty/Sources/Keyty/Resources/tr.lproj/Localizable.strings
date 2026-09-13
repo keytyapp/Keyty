@@ -1,0 +1,265 @@
+/* Main menu */
+"main_menu.about" = "%@ Hakkında";
+"main_menu.close_window" = "Pencereyi Kapat";
+"main_menu.file" = "Dosya";
+"main_menu.settings" = "Ayarlar…";
+"main_menu.quit" = "%@’den Çık";
+
+/* About window */
+"about.version" = "Sürüm %@ (%@)";
+"about.tab.license" = "Lisans";
+"about.tab.contributors" = "Katkıda Bulunanlar";
+"about.tab.credits" = "Teşekkürler";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3 Maddeli Lisans";
+"about.contributors.title" = "Katkıda Bulunanlar";
+"about.contributors.subtitle" = "Keyty’nin daha iyi olmasına yardımcı olan kişiler.";
+"about.credits.sparkle_subtitle" = "MIT Lisansı";
+"about.credits.app_mover_subtitle" = "MIT Lisansı";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Atıf 4.0 Uluslararası";
+"about.credits.license_missing" = "Lisans metni yüklenemedi.";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "Ayarlar";
+"settings.sidebar_version" = "sürüm %@ (%@)";
+"settings.pane.general" = "Genel";
+"settings.pane.keyboard" = "Klavye";
+"settings.pane.mouse" = "Fare";
+"settings.pane.displays" = "Ekranlar";
+"settings.pane.permissions" = "İzinler";
+"settings.pane.update" = "Güncelleme";
+"settings.pane.info" = "Bilgi";
+
+/* Anchor labels */
+"anchor.left" = "Sol";
+"anchor.center" = "Orta";
+"anchor.right" = "Sağ";
+"anchor.top" = "Üst";
+"anchor.vertical_center" = "Orta";
+"anchor.bottom" = "Alt";
+
+/* Displays settings pane */
+"displays.display_label" = "Ekran";
+"displays.display_subtitle" = "Klavye kaplamasının gösterileceği ekran";
+"displays.placement.custom" = "Özel";
+"displays.anchor_label" = "Sabitleme Noktası";
+"displays.anchor_subtitle" = "Kaplamanın hizalama ve büyüme noktası.";
+"displays.margin_label" = "Ekran Kenar Boşluğu";
+"displays.margin_subtitle" = "Kaplama ile seçili ekranın kenarı arasındaki mesafe.";
+"displays.custom_position.label" = "Konum";
+"displays.custom_position.set_subtitle" = "Kaplamanın seçili ekranda görüneceği yeri seçin.";
+"displays.custom_position.start_setting_button" = "Düzenle…";
+"displays.custom_position.stop_setting_button" = "Uygula";
+"displays.custom_horizontal_alignment_label" = "Yatay Hizalama";
+"displays.custom_horizontal_alignment_subtitle" = "Kaplamanın özel konumdan yatayda nasıl genişleyeceğini seçin.";
+"displays.custom_vertical_alignment_label" = "Dikey Hizalama";
+"displays.custom_vertical_alignment_subtitle" = "Kaplamanın özel konumdan dikeyde nasıl genişleyeceğini seçin.";
+"displays.horizontal_alignment_left_to_right" = "Soldan Sağa";
+"displays.horizontal_alignment_center_out" = "Ortadan Dışa";
+"displays.horizontal_alignment_right_to_left" = "Sağdan Sola";
+"displays.vertical_alignment_top_down" = "Yukarıdan Aşağı";
+"displays.vertical_alignment_middle_out" = "Ortadan Dışa";
+"displays.vertical_alignment_bottom_up" = "Aşağıdan Yukarı";
+
+/* General settings pane */
+"general.appearance_section_title" = "Uygulama";
+"general.shortcut_section_title" = "Kestirme";
+"general.settings_section_title" = "Ayarlar";
+"general.toggle_capturing_label" = "Yakalamayı aç/kapat";
+"general.toggle_capturing_subtitle" = "Yakalamayı her yerden başlatmak veya durdurmak için kullanılan genel kestirme.";
+"general.shortcut_validation_fallback" = "Bu kestirme kullanılamaz.";
+"general.start_capturing" = "Etkinleştir";
+"general.stop_capturing" = "Devre Dışı Bırak";
+"general.show_settings_at_launch" = "Başlatıldığında ayarları göster";
+"general.show_settings_at_launch_subtitle" = "Keyty başladığında ayarlar penceresini otomatik olarak yeniden aç.";
+"general.reset_all_settings_title" = "Tüm Ayarları Sıfırla";
+"general.reset_all_settings_subtitle" = "Klavye, fare, ekran, uygulama ve kestirme ayarlarını varsayılanlarına sıfırla.";
+"general.reset_all_settings_button" = "Sıfırla";
+"general.reset_all_settings_confirmation_title" = "Tüm Ayarlar Sıfırlansın mı?";
+"general.reset_all_settings_confirmation_message" = "Bu işlem klavye, fare, ekran, uygulama ve kestirme ayarlarını varsayılanlarına sıfırlar.";
+"general.reset_all_settings_confirmation_button" = "Ayarları Sıfırla";
+"general.reset_all_settings_cancel_button" = "İptal";
+
+/* Event capture */
+"event_tap.creation_failed" = "Olay yakalayıcı oluşturulamadı. Erişilebilirlik izni gereklidir.";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "Web Sitesi";
+"info.email_label" = "E-posta";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "Canlı Kaplama";
+"keyboard_visualizer.live_overlay_section_subtitle" = "Bu, geçerli klavye görselleştirici ayarlarını kullanan, gerçek oluşturucu destekli bir örnektir.";
+"keyboard_visualizer.general_section_title" = "Genel";
+"keyboard_visualizer.general_section_subtitle" = "Klavye kaplamasının görünürlüğünü ve görünümünü kontrol edin.";
+"keyboard_visualizer.theme_section_title" = "Tema";
+"keyboard_visualizer.theme_section_subtitle" = "Her tuş türüne kendi renk paletini verin.";
+"keyboard_visualizer.history_section_title" = "Geçmiş";
+"keyboard_visualizer.history_section_subtitle" = "Kaç tuş başlığının görünür kalacağını ve ardışık grupların nasıl istifleneceğini kontrol edin.";
+"keyboard_visualizer.timing_section_title" = "Zamanlama";
+"keyboard_visualizer.timing_section_subtitle" = "Tuşların ne kadar süre görünür kalacağını ve ne hızla solacaklarını dengeleyerek okunabilirliği ve tepki hızını ayarlayın.";
+"keyboard_visualizer.filter_section_title" = "Filtre";
+"keyboard_visualizer.filter_section_subtitle" = "Kaplamada hangi klavye olaylarının görüneceğini seçin.";
+"keyboard_visualizer.enabled_label" = "Etkin";
+"keyboard_visualizer.enabled_subtitle" = "Klavye kaplamasının görünürlüğü.";
+"keyboard_visualizer.axis_label" = "Eksen";
+"keyboard_visualizer.axis_subtitle" = "Ardışık tuş gruplarını istiflemek için kullanılan yön.";
+"keyboard_visualizer.anchor_label" = "Konum";
+"keyboard_visualizer.anchor_subtitle" = "Kaplamanın sabitlendiği ekran kenarı.";
+"keyboard_visualizer.axis.vertical" = "Dikey";
+"keyboard_visualizer.axis.horizontal" = "Yatay";
+"keyboard_visualizer.max_count_label" = "En Fazla Sayı";
+"keyboard_visualizer.max_count_subtitle" = "Yığındaki görünür tuş başlıklarının en fazla sayısı.";
+"keyboard_visualizer.size_label" = "Boyut";
+"keyboard_visualizer.size_subtitle" = "Oluşturulan tuş başlıklarının genel ölçeği.";
+"keyboard_visualizer.style_label" = "Stil";
+"keyboard_visualizer.style_subtitle" = "Tuş başlıklarının genel yapısı ve yüzey işlemesi.";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "Minimal";
+"keyboard_visualizer.style.retro" = "Retro";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
+"keyboard_visualizer.linger_time_label" = "Bekleme Süresi";
+"keyboard_visualizer.linger_time_subtitle" = "Tuş başlıklarının solmaya başlamadan önce tamamen görünür kaldığı süre.";
+"keyboard_visualizer.linger_time.short" = "Kısa";
+"keyboard_visualizer.linger_time.long" = "Uzun";
+"keyboard_visualizer.fade_duration_label" = "Solma Süresi";
+"keyboard_visualizer.fade_duration_subtitle" = "Solma başladıktan sonra tuş başlıklarının ne kadar hızlı kaybolacağı.";
+"keyboard_visualizer.fade_duration.fast" = "Hızlı";
+"keyboard_visualizer.fade_duration.slow" = "Yavaş";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "Yalnızca tuş kombinasyonlarını göster";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "Yalnızca Command, Control, Option veya Shift ile basılan tuşları göster.";
+"keyboard_visualizer.collapse_repeated_groups_label" = "Tekrarlanan grupları daralt";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "Aynı tuşa veya tuş kombinasyonuna art arda tekrar basıldığında bir sayı rozeti göster.";
+"keyboard_visualizer.reverse_order_label" = "Sıralamayı tersine çevir";
+"keyboard_visualizer.reverse_order_subtitle" = "Yeni grupları yığının başı yerine sonuna ekle.";
+"keyboard_visualizer.show_special_keys_label" = "Özel tuşlar";
+"keyboard_visualizer.show_special_keys_subtitle" = "Sekme, dönüş, oklar, fn, işlev tuşları ve benzer tuşlar.";
+"keyboard_visualizer.show_media_key_buttons_label" = "Ortam tuşu düğmeleri";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "Oynatma, ses seviyesi, parlaklık ve benzer ortam tuşu düğmeleri.";
+"keyboard_visualizer.show_mouse_events_label" = "Fare olayları";
+"keyboard_visualizer.show_mouse_events_subtitle" = "Fare tıklamaları ve tekerlek olayları.";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "Tema";
+"keyboard_visualizer.theme_subtitle" = "Seçili tuş başlığı stiline uygulanan renk paleti.";
+"keyboard_visualizer.legend_color_label" = "Gösterge Rengi";
+"keyboard_visualizer.legend_color_subtitle" = "Tuş başlıklarında çizilen metin, sembol ve fare simgeleri için kullanılan renk.";
+"keyboard_visualizer.choose_color" = "Renk Seç…";
+"keyboard_visualizer.theme_custom" = "Özel…";
+"keyboard_visualizer.regular_theme_label" = "Normal tuşlar";
+"keyboard_visualizer.regular_theme_subtitle" = "Harfler, sayılar ve diğer metin tuşları için tema.";
+"keyboard_visualizer.modifier_theme_label" = "Değiştirici tuşlar";
+"keyboard_visualizer.modifier_theme_subtitle" = "Command, Shift, Option, Control ve fn için tema.";
+"keyboard_visualizer.special_theme_label" = "Özel tuşlar";
+"keyboard_visualizer.special_theme_subtitle" = "Sekme, dönüş, oklar, işlev tuşları ve diğer metin olmayan tuşlar için tema.";
+"keyboard_visualizer.media_theme_label" = "Ortam tuşları";
+"keyboard_visualizer.media_theme_subtitle" = "Oynatma ve parlaklık denetimleri için tema.";
+"keyboard_visualizer.mouse_theme_label" = "Fare olayları";
+"keyboard_visualizer.mouse_theme_subtitle" = "Fare tıklamaları ve tekerlek olayları için tema.";
+"keyboard_visualizer.group_background_theme_label" = "Grup arka planı";
+"keyboard_visualizer.group_background_theme_subtitle" = "Her tuş grubunun arkasına çizilen panel için tema.";
+"keyboard_visualizer.theme.citrus" = "Narenciye";
+"keyboard_visualizer.theme.blue" = "Mavi";
+"keyboard_visualizer.theme.green" = "Yeşil";
+"keyboard_visualizer.theme.white" = "Beyaz";
+"keyboard_visualizer.theme.dark" = "Koyu";
+"keyboard_visualizer.theme.red" = "Kırmızı";
+"keyboard_visualizer.theme.indigo" = "İndigo";
+"keyboard_visualizer.theme.rose" = "Gül";
+"keyboard_visualizer.theme.purple" = "Mor";
+"keyboard_visualizer.theme.yellow" = "Sarı";
+"keyboard_visualizer.theme.orange" = "Turuncu";
+"keyboard_visualizer.theme.pink" = "Pembe";
+"keyboard_visualizer.color.automatic" = "Otomatik";
+"keyboard_visualizer.color.red" = "Kırmızı";
+"keyboard_visualizer.color.orange" = "Turuncu";
+"keyboard_visualizer.color.yellow" = "Sarı";
+"keyboard_visualizer.color.green" = "Yeşil";
+"keyboard_visualizer.color.blue" = "Mavi";
+"keyboard_visualizer.color.purple" = "Mor";
+"keyboard_visualizer.color.pink" = "Pembe";
+"keyboard_visualizer.color.white" = "Beyaz";
+"keyboard_visualizer.color.black" = "Siyah";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "Halka";
+"mouse.tab_ripples" = "Dalgalar";
+"mouse.tab_icon" = "Simge";
+"mouse.pointer_ring_label" = "İşaretçi Halkası";
+"mouse.pointer_ripples_label" = "Dalgalar";
+"mouse.enabled" = "Etkin";
+"mouse.enabled_subtitle" = "İşaretçi halkasının görünürlüğü.";
+"mouse.ripples_enabled_subtitle" = "Hareketli dalgaların görünürlüğü.";
+"mouse.always_visible_label" = "Her Zaman Görünür";
+"mouse.always_visible_subtitle" = "İşaretçi boşta iken halka görünür kalır.";
+"mouse.ring_color_label" = "Renk";
+"mouse.ring_color_subtitle" = "İşaretçi halkasının önceden ayarlanmış veya özel rengi.";
+"mouse.ripples_color_subtitle" = "Dalgaların önceden ayarlanmış veya özel rengi.";
+"mouse.ring_size_label" = "Boyut";
+"mouse.ring_size_subtitle" = "İşaretçi halkasının çapı.";
+"mouse.ripples_size_subtitle" = "Oluşturulan her dalganın çapı.";
+"mouse.ring_thickness_label" = "Kalınlık";
+"mouse.ring_thickness_subtitle" = "İşaretçi halkasının çizgi genişliği.";
+"mouse.ripples_thickness_subtitle" = "Her dalganın çizgi genişliği.";
+"mouse.ring_shape_label" = "Şekil";
+"mouse.ring_shape_subtitle" = "İşaretçi halkasının dış hat geometrisi.";
+"mouse.ripples_shape_subtitle" = "Her dalganın dış hat geometrisi.";
+"mouse.pointer_icon_label" = "İşaretçi Simgesi";
+"mouse.pointer_icon_enabled" = "Etkin";
+"mouse.pointer_icon_enabled_subtitle" = "İşaretçi simgesi kaplamasının görünürlüğü.";
+"mouse.pointer_icon_always_visible_label" = "Her Zaman Görünür";
+"mouse.pointer_icon_always_visible_subtitle" = "Hiçbir fare düğmesi etkin değilken simge görünür kalır.";
+"mouse.pointer_icon_anchor_label" = "Sabitleme Noktası";
+"mouse.pointer_icon_anchor_subtitle" = "Simgeyi sabitlemek için kullanılan işaretçi kenarı.";
+"mouse.pointer_icon_offset_label" = "Ofset";
+"mouse.pointer_icon_offset_subtitle" = "İşaretçi ile simge kaplaması arasındaki mesafe.";
+"mouse.icon_size_label" = "Simge Boyutu";
+"mouse.icon_size_subtitle" = "İşaretçi simgesi kaplamasının ölçeği.";
+"mouse.icon_background_label" = "Arka Plan Rengi";
+"mouse.icon_background_subtitle" = "İşaretçi simgesinin arkasındaki dolgu rengi.";
+"mouse.icon_tint_label" = "Simge Rengi";
+"mouse.icon_tint_subtitle" = "İşaretçi simgesinin ön plan tonu.";
+"mouse.choose_color" = "Renk Seç…";
+"mouse.color.automatic" = "Otomatik";
+"mouse.color.red" = "Kırmızı";
+"mouse.color.orange" = "Turuncu";
+"mouse.color.yellow" = "Sarı";
+"mouse.color.green" = "Yeşil";
+"mouse.color.blue" = "Mavi";
+"mouse.color.purple" = "Mor";
+"mouse.color.pink" = "Pembe";
+"mouse.color.graphite" = "Grafit";
+"mouse.color.white" = "Beyaz";
+"mouse.color.black" = "Siyah";
+"mouse.shape.circle" = "Daire";
+"mouse.shape.rhomb" = "Eşkenar Dörtgen";
+"mouse.shape.squircle" = "Kare daire";
+
+/* Permissions settings pane */
+"permissions.accessibility_label" = "Erişilebilirlik";
+"permissions.section_subtitle" = "Keyty, giriş olaylarınızı gözlemlemek ve görüntülemek için Erişilebilirlik izni gerektirir.";
+"permissions.status.granted" = "Verildi";
+"permissions.status.not_granted" = "Verilmedi";
+"permissions.grant_access_button" = "İzin Ver…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "Keyty’yi Ayarlayın";
+"permissions_onboarding.subtitle" = "Klavye ve fare görselleştirmesini etkinleştirmek için,\nmacOS Erişilebilirlik izni verin.";
+"permissions_onboarding.accessibility.title" = "Erişilebilirlik";
+"permissions_onboarding.accessibility.detail" = "Klavye ve fare girişini görüntülemek için gereklidir.";
+"permissions_onboarding.accessibility.grant_button" = "İzin Ver…";
+"permissions_onboarding.privacy" = "Tüm giriş verileri Mac’inizde yerel olarak işlenir. Hiçbir şey yüklenmez veya saklanmaz.";
+"permissions_onboarding.learn_more" = "Daha fazla bilgi";
+"permissions_onboarding.continue" = "Devam Et";
+"permissions_onboarding.continue_hint" = "Erişilebilirlik izni verildikten sonra devam edin.";
+
+/* Update settings pane */
+"update.check_at_startup" = "Başlangıçta güncellemeleri denetle";
+"update.check_at_startup_subtitle" = "Sparkle yeni sürümleri düzenli olarak denetler.";
+"update.include_system_profile" = "Anonim sistem profilini dahil et";
+"update.include_system_profile_subtitle" = "Güncellemeleri denetlerken temel bir donanım profili gönder.";
+"update.last_checked_label" = "Son denetleme";
+"update.never" = "Asla";
+"update.check_now_button" = "Güncellemeleri Denetle";

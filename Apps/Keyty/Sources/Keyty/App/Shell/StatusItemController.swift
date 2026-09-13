@@ -14,7 +14,7 @@ final class StatusItemController {
     private let statusItem: NSStatusItem
 
     private var statusItemImage: NSImage {
-        if !self.isAccessibilityGranted {
+        if !self.hasEventListeningPermission {
             return NSImage.statusItemPermissionRequired
         }
 
@@ -37,7 +37,7 @@ final class StatusItemController {
         }
     }
 
-    var isAccessibilityGranted: Bool = false {
+    var hasEventListeningPermission: Bool = false {
         didSet {
             self.updateStatusItemImage()
         }

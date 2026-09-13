@@ -24,6 +24,23 @@ final class SystemPermissionsServiceTests: XCTestCase {
         XCTAssertEqual(service.status(for: .accessibility), .granted)
     }
 
+    func testInputMonitoringStatusIsGrantedWhenSystemGrantsPermission() {
+        let provider = TestPermissionsProvider(grantedPermissions: [.inputMonitoring])
+        let service = SystemPermissionsService(provider: provider)
+
+        XCTAssertEqual(service.status(for: .inputMonitoring), .granted)
+    }
+
+    func testCanCaptureInputEventsWhenEitherPermissionIsGranted() {
+        let inputMonitoringProvider = TestPermissionsProvider(grantedPermissions: [.inputMonitoring])
+        let accessibilityProvider = TestPermissionsProvider(grantedPermissions: [.accessibility])
+        let deniedProvider = TestPermissionsProvider()
+
+        XCTAssertTrue(SystemPermissionsService(provider: inputMonitoringProvider).canCaptureInputEvents)
+        XCTAssertTrue(SystemPermissionsService(provider: accessibilityProvider).canCaptureInputEvents)
+        XCTAssertFalse(SystemPermissionsService(provider: deniedProvider).canCaptureInputEvents)
+    }
+
     func testStatusFollowsSystemStateWithoutRememberingPastRequests() {
         let provider = TestPermissionsProvider()
         let service = SystemPermissionsService(provider: provider)
@@ -48,6 +65,18 @@ final class SystemPermissionsServiceTests: XCTestCase {
         provider.grantedPermissions = []
         service.request(.accessibility)
         XCTAssertEqual(provider.requestedPermissions, [.accessibility])
+    }
+
+    func testInputMonitoringRequestIsForwardedOnlyWhenPermissionIsNotGranted() {
+        let provider = TestPermissionsProvider(grantedPermissions: [.inputMonitoring])
+        let service = SystemPermissionsService(provider: provider)
+
+        service.request(.inputMonitoring)
+        XCTAssertEqual(provider.requestedPermissions, [])
+
+        provider.grantedPermissions = []
+        service.request(.inputMonitoring)
+        XCTAssertEqual(provider.requestedPermissions, [.inputMonitoring])
     }
 
     func testObserverIsNotifiedWhenSystemStatusChanges() {

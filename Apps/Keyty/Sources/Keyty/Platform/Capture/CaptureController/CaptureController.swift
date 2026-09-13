@@ -86,14 +86,12 @@ private extension CaptureController {
 
         self.startObservingPermissionChanges()
 
-        let hasAccessibility = self.permissionsService.status(for: .accessibility) == .granted
-
-        guard hasAccessibility else {
+        guard self.permissionsService.canCaptureInputEvents else {
             self.stopCapture()
             self.state = self.state == .capturing ? .blockedByPermission : .waitingForPermission
             // Only prompt on an explicit user action; launching must stay silent.
             if case .userEnabledCapture = trigger {
-                self.permissionsService.request(.accessibility)
+                self.permissionsService.request(.inputMonitoring)
             }
             return
         }

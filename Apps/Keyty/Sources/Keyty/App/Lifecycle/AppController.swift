@@ -38,11 +38,10 @@ final class AppController: NSObject {
         self.dependencies.captureController.onCapturingChanged = { [weak self] isCapturing in
             self?.statusItemController.isCapturing = isCapturing
         }
-        self.statusItemController.isAccessibilityGranted =
-            self.dependencies.permissionsService.status(for: .accessibility) == .granted
+        self.statusItemController.hasEventListeningPermission = self.dependencies.permissionsService.canCaptureInputEvents
         self.permissionsObservationToken = self.dependencies.permissionsService.observeChanges { [weak self] in
             Task { @MainActor [weak self] in
-                self?.updateAccessibilityStatus()
+                self?.updatePermissionStatus()
             }
         }
     }
@@ -96,9 +95,8 @@ extension AppController: NSApplicationDelegate {
 
 // MARK: - Settings Presentation
 private extension AppController {
-    func updateAccessibilityStatus() {
-        self.statusItemController.isAccessibilityGranted =
-            self.dependencies.permissionsService.status(for: .accessibility) == .granted
+    func updatePermissionStatus() {
+        self.statusItemController.hasEventListeningPermission = self.dependencies.permissionsService.canCaptureInputEvents
     }
 
     func checkForUpdatesAtLaunchIfNeeded() {

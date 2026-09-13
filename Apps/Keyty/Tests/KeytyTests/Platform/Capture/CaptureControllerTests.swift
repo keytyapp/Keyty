@@ -56,6 +56,16 @@ final class CaptureControllerTests: XCTestCase {
         XCTAssertTrue(self.controller.isCapturing)
     }
 
+    func testStartInstallsTapWhenOnlyInputMonitoringIsGranted() {
+        self.permissionsService.currentStatus = .notGranted
+        self.permissionsService.statuses[.inputMonitoring] = .granted
+
+        self.controller.start()
+
+        XCTAssertEqual(self.eventTap.installCount, 1)
+        XCTAssertTrue(self.controller.isCapturing)
+    }
+
     func testStartDoesNotInstallTapWhenPermissionIsNotGranted() {
         self.permissionsService.currentStatus = .notGranted
 
@@ -71,6 +81,15 @@ final class CaptureControllerTests: XCTestCase {
         self.controller.start()
 
         XCTAssertEqual(self.permissionsService.requestedPermissions, [])
+    }
+
+    func testExplicitCaptureEnableRequestsInputMonitoring() {
+        self.permissionsService.currentStatus = .notGranted
+        self.controller.stopCapturing()
+
+        self.controller.toggleCapturing()
+
+        XCTAssertEqual(self.permissionsService.requestedPermissions, [.inputMonitoring])
     }
 
     func testCapturingStartsOncePermissionIsGrantedLater() {
@@ -231,11 +250,12 @@ private final class TestEventTap: EventTapping {
 
 private final class TestPermissionsService: PermissionsService {
     var currentStatus: Permission.Status = .granted
+    var statuses: [Permission: Permission.Status] = [:]
     private(set) var requestedPermissions: [Permission] = []
     private var observers: [UUID: () -> Void] = [:]
 
     func status(for permission: Permission) -> Permission.Status {
-        self.currentStatus
+        self.statuses[permission] ?? self.currentStatus
     }
 
     func request(_ permission: Permission) {

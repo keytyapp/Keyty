@@ -16,8 +16,7 @@ protocol PermissionsService: AnyObject {
 
 extension PermissionsService {
     var canCaptureInputEvents: Bool {
-        self.status(for: .inputMonitoring) == .granted ||
-        self.status(for: .accessibility) == .granted
+        self.status(for: .inputCapture) == .granted
     }
 }
 

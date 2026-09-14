@@ -91,7 +91,7 @@ private extension CaptureController {
             self.state = self.state == .capturing ? .blockedByPermission : .waitingForPermission
             // Only prompt on an explicit user action; launching must stay silent.
             if case .userEnabledCapture = trigger {
-                self.permissionsService.request(.inputMonitoring)
+                self.permissionsService.request(.inputCapture)
             }
             return
         }

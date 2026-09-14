@@ -13,6 +13,14 @@ enum Permission: CaseIterable, Hashable {
     case accessibility
     case inputMonitoring
 
+    static var inputCapture: Self {
+        #if APP_STORE
+        .inputMonitoring
+        #else
+        .accessibility
+        #endif
+    }
+
     func isGranted() -> Bool {
         switch self {
         case .accessibility:

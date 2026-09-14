@@ -13,7 +13,7 @@ enum Size {
 
     enum Window {
         static let about = CGSize(width: Spacing.grid(155), height: Spacing.grid(91))
-        static let permissionsOnboarding = CGSize(width: Spacing.grid(165), height: Spacing.grid(108))
+        static let permissionsOnboarding = CGSize(width: Spacing.grid(165), height: Spacing.grid(96))
         static let settings = CGSize(width: Spacing.grid(180) * 1.1, height: Spacing.grid(110) * 1.1)
     }
 

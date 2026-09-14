@@ -48,7 +48,7 @@ struct PermissionsOnboardingView: View {
                     .font(.system(size: 20, weight: .semibold))
                     .foregroundColor(Color.Theme.Text.primary)
 
-                Text(L10n.PermissionsOnboarding.subtitle)
+                Text(self.subtitle)
                     .font(.system(size: 13, weight: .regular))
                     .foregroundColor(Color.Theme.Text.secondary)
                     .multilineTextAlignment(.center)
@@ -61,26 +61,54 @@ struct PermissionsOnboardingView: View {
     private var permissionsCard: some View {
         VStack(spacing: Spacing.none) {
             self.permissionRow(
-                iconName: "keyboard",
+                iconName: self.permissionIconName,
                 iconBackgroundColor: Color.Theme.Accent.controlAccent,
-                title: L10n.PermissionsOnboarding.InputMonitoring.title,
-                detail: L10n.PermissionsOnboarding.InputMonitoring.detail,
-                status: self.viewModel.inputMonitoringStatus,
-                buttonTitle: L10n.PermissionsOnboarding.InputMonitoring.grantButton,
-                action: self.viewModel.requestInputMonitoring
-            )
-            self.permissionRow(
-                iconName: "accessibility",
-                iconBackgroundColor: Color.Theme.Accent.controlAccent,
-                title: L10n.PermissionsOnboarding.Accessibility.title,
-                detail: L10n.PermissionsOnboarding.Accessibility.detail,
-                status: self.viewModel.accessibilityStatus,
-                buttonTitle: L10n.PermissionsOnboarding.Accessibility.grantButton,
-                action: self.viewModel.requestAccessibility
+                title: self.permissionTitle,
+                detail: self.permissionDetail,
+                status: self.viewModel.inputCaptureStatus,
+                buttonTitle: self.permissionGrantButton,
+                action: self.viewModel.requestInputCapturePermission
             )
         }
         .padding(.horizontal, Spacing.grid(4))
         .background(self.cardBackground)
+    }
+
+    private var subtitle: String {
+        switch self.viewModel.inputCapturePermission {
+        case .accessibility:
+            L10n.PermissionsOnboarding.Accessibility.subtitle
+        case .inputMonitoring:
+            L10n.PermissionsOnboarding.InputMonitoring.subtitle
+        }
+    }
+
+    private var permissionIconName: String {
+        switch self.viewModel.inputCapturePermission {
+        case .accessibility: "accessibility"
+        case .inputMonitoring: "keyboard"
+        }
+    }
+
+    private var permissionTitle: String {
+        switch self.viewModel.inputCapturePermission {
+        case .accessibility: L10n.PermissionsOnboarding.Accessibility.title
+        case .inputMonitoring: L10n.PermissionsOnboarding.InputMonitoring.title
+        }
+    }
+
+    private var permissionDetail: String {
+        switch self.viewModel.inputCapturePermission {
+        case .accessibility: L10n.PermissionsOnboarding.Accessibility.detail
+        case .inputMonitoring: L10n.PermissionsOnboarding.InputMonitoring.detail
+        }
+    }
+
+    private var permissionGrantButton: String {
+        switch self.viewModel.inputCapturePermission {
+        case .accessibility: L10n.PermissionsOnboarding.Accessibility.grantButton
+        case .inputMonitoring: L10n.PermissionsOnboarding.InputMonitoring.grantButton
+        }
     }
 
     private var privacyNote: some View {

@@ -19,20 +19,32 @@ struct PermissionsSettingsPane: View {
         SettingsStack {
             SettingsSectionView(
                 title: L10n.Settings.Pane.permissions,
-                subtitle: L10n.Permissions.sectionSubtitle
+                subtitle: self.subtitle
             ) {
                 permissionRow(
-                    title: L10n.Permissions.inputMonitoringLabel,
-                    status: model.inputMonitoringStatus,
-                    action: model.requestInputMonitoring
-                )
-                Divider()
-                permissionRow(
-                    title: L10n.Permissions.accessibilityLabel,
-                    status: model.accessibilityStatus,
-                    action: model.requestAccessibility
+                    title: self.permissionTitle,
+                    status: model.inputCaptureStatus,
+                    action: model.requestInputCapturePermission
                 )
             }
+        }
+    }
+
+    private var permissionTitle: String {
+        switch self.model.inputCapturePermission {
+        case .accessibility:
+            L10n.Permissions.accessibilityLabel
+        case .inputMonitoring:
+            L10n.Permissions.inputMonitoringLabel
+        }
+    }
+
+    private var subtitle: String {
+        switch self.model.inputCapturePermission {
+        case .accessibility:
+            L10n.Permissions.accessibilitySectionSubtitle
+        case .inputMonitoring:
+            L10n.Permissions.inputMonitoringSectionSubtitle
         }
     }
 

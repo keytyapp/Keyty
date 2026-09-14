@@ -72,9 +72,7 @@ final class SettingsWindowController: NSWindowController {
     }
 
     private func updatePermissionsBadge(permissionsService: any PermissionsService) {
-        let missingPermissionCount = Permission.allCases.filter {
-            permissionsService.status(for: $0) == .notGranted
-        }.count
+        let missingPermissionCount = permissionsService.status(for: .inputCapture) == .notGranted ? 1 : 0
 
         self.sidebarViewModel.setBadgeCount(missingPermissionCount, for: .permissions)
     }

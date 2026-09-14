@@ -139,7 +139,7 @@ xcodebuild test \
 
 ## Code Signing
 
-Keyty observes input through macOS Input Monitoring APIs (with Accessibility as a fallback), so local builds should use
+Keyty observes input through macOS Accessibility APIs in non-App-Store builds, so local builds should use
 a stable Apple Development signature. Avoid adding `CODE_SIGNING_ALLOWED=NO` to
 local builds: ad-hoc code signatures can change between builds, and macOS may
 silently drop the app's privacy grant.

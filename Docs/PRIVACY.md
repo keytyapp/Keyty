@@ -1,6 +1,6 @@
 # Privacy
 
-Keyty visualizes keyboard and mouse activity on screen. Because that requires observing input events, Keyty asks macOS for Input Monitoring permission. Accessibility remains available as a fallback for existing installs.
+Keyty visualizes keyboard and mouse activity on screen. Because that requires observing input events, App Store builds ask macOS for Input Monitoring permission and non-App-Store builds ask for Accessibility permission.
 
 ## Input Events
 
@@ -42,6 +42,6 @@ Automatic update checks and anonymous system profile sharing can be controlled f
 
 ## Permissions
 
-Input Monitoring permission is preferred so Keyty can observe input events and render them in the overlay. Accessibility remains a supported fallback; only one permission is required.
+The permission required to observe input events and render the overlay depends on the build: Input Monitoring for App Store builds, or Accessibility for non-App-Store builds.
 
 For setup and troubleshooting details, see [PERMISSIONS.md](PERMISSIONS.md).

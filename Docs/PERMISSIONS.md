@@ -4,10 +4,10 @@ Keyty needs macOS privacy permission to capture and display keyboard and mouse a
 
 ## Required Permissions
 
-Keyty supports the following macOS permissions:
+Keyty uses a target-specific macOS permission:
 
-- `Input Monitoring` (preferred): allows Keyty to passively observe the input events needed for keyboard and mouse visualization.
-- `Accessibility` (fallback): remains supported for existing installs and grants.
+- App Store builds use `Input Monitoring` to passively observe the input events needed for keyboard and mouse visualization.
+- Non-App-Store builds use `Accessibility`.
 
 ## Granting Permissions
 
@@ -15,10 +15,10 @@ To grant permissions on current macOS versions:
 
 1. Open **System Settings**.
 2. Go to **Privacy & Security**.
-3. Open **Input Monitoring** and enable `Keyty`.
+3. Open the permission required by your Keyty build and enable `Keyty`:
+   - App Store: **Input Monitoring**
+   - Non-App-Store: **Accessibility**
 4. Restart Keyty if macOS asks you to do so.
-
-Accessibility remains available as a fallback in Keyty's **Permissions** pane, but only one of these permissions is required.
 
 If `Keyty` is not listed yet, launch the app once and return to these settings after macOS has registered it.
 
@@ -34,9 +34,9 @@ If Keyty is running but no keyboard or mouse activity appears:
 
 1. Quit Keyty.
 2. Open **System Settings > Privacy & Security**.
-3. Check **Input Monitoring** and **Accessibility** for existing `Keyty` entries that refer to an older app build or moved app bundle.
+3. Check the permission required by your build for existing `Keyty` entries that refer to an older app build or moved app bundle.
 4. Launch Keyty again.
-5. Re-enable `Keyty` in **Input Monitoring**.
+5. Re-enable `Keyty` in that permission pane.
 6. Restart the app if macOS requires it.
 
 Common causes:
@@ -54,11 +54,15 @@ If the app is still listed in System Settings but macOS does not deliver input e
 2. Run:
 
    ```bash
-   tccutil reset ListenEvent app.keyty.Keyty
+   # App Store build
+   tccutil reset ListenEvent app.keyty.Keyty.AppStore
+
+   # Non-App-Store build
+   tccutil reset Accessibility app.keyty.Keyty
    ```
 
 3. Launch Keyty.
-4. Re-enable `Keyty` in **Input Monitoring**.
+4. Re-enable `Keyty` in the corresponding permission pane.
 5. Restart Keyty if macOS asks you to do so.
 
 These commands reset only Keyty's entries for the relevant privacy services. Avoid broader resets such as `tccutil reset All` unless you intentionally want macOS to forget privacy decisions for other apps too.

@@ -31,13 +31,14 @@ final class SystemPermissionsServiceTests: XCTestCase {
         XCTAssertEqual(service.status(for: .inputMonitoring), .granted)
     }
 
-    func testCanCaptureInputEventsWhenEitherPermissionIsGranted() {
-        let inputMonitoringProvider = TestPermissionsProvider(grantedPermissions: [.inputMonitoring])
-        let accessibilityProvider = TestPermissionsProvider(grantedPermissions: [.accessibility])
+    func testCanCaptureInputEventsWhenActivePermissionIsGranted() {
+        let activeProvider = TestPermissionsProvider(grantedPermissions: [.inputCapture])
+        let inactivePermission: Permission = Permission.inputCapture == .inputMonitoring ? .accessibility : .inputMonitoring
+        let inactiveProvider = TestPermissionsProvider(grantedPermissions: [inactivePermission])
         let deniedProvider = TestPermissionsProvider()
 
-        XCTAssertTrue(SystemPermissionsService(provider: inputMonitoringProvider).canCaptureInputEvents)
-        XCTAssertTrue(SystemPermissionsService(provider: accessibilityProvider).canCaptureInputEvents)
+        XCTAssertTrue(SystemPermissionsService(provider: activeProvider).canCaptureInputEvents)
+        XCTAssertFalse(SystemPermissionsService(provider: inactiveProvider).canCaptureInputEvents)
         XCTAssertFalse(SystemPermissionsService(provider: deniedProvider).canCaptureInputEvents)
     }
 

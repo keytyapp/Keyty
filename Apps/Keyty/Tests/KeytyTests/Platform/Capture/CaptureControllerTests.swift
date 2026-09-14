@@ -56,9 +56,9 @@ final class CaptureControllerTests: XCTestCase {
         XCTAssertTrue(self.controller.isCapturing)
     }
 
-    func testStartInstallsTapWhenOnlyInputMonitoringIsGranted() {
+    func testStartInstallsTapWhenOnlyInputCapturePermissionIsGranted() {
         self.permissionsService.currentStatus = .notGranted
-        self.permissionsService.statuses[.inputMonitoring] = .granted
+        self.permissionsService.statuses[.inputCapture] = .granted
 
         self.controller.start()
 
@@ -83,13 +83,13 @@ final class CaptureControllerTests: XCTestCase {
         XCTAssertEqual(self.permissionsService.requestedPermissions, [])
     }
 
-    func testExplicitCaptureEnableRequestsInputMonitoring() {
+    func testExplicitCaptureEnableRequestsInputCapturePermission() {
         self.permissionsService.currentStatus = .notGranted
         self.controller.stopCapturing()
 
         self.controller.toggleCapturing()
 
-        XCTAssertEqual(self.permissionsService.requestedPermissions, [.inputMonitoring])
+        XCTAssertEqual(self.permissionsService.requestedPermissions, [.inputCapture])
     }
 
     func testCapturingStartsOncePermissionIsGrantedLater() {

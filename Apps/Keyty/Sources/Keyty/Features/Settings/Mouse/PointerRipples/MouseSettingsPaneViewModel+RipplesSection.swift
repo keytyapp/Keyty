@@ -53,6 +53,14 @@ extension MouseSettingsPaneViewModel {
             }
         }
 
+        var duration: Double {
+            didSet {
+                let clamped = min(max(self.duration, MouseSettingsPaneViewModel.ripplesDurationRange.lowerBound), MouseSettingsPaneViewModel.ripplesDurationRange.upperBound)
+                self.settings.duration = CGFloat(clamped)
+                self.onChange?()
+            }
+        }
+
         init(
             visualizer: PointerRipplesVisualizer,
             settings: any PointerRipplesSettingsProtocol
@@ -64,6 +72,7 @@ extension MouseSettingsPaneViewModel {
             self.size = Double(settings.size)
             self.thickness = Double(settings.thickness)
             self.shape = settings.shape
+            self.duration = Double(settings.duration)
         }
 
         var colorSelectionID: String {

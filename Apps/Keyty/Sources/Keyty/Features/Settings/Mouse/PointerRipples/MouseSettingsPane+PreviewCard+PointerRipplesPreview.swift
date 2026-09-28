@@ -142,7 +142,7 @@ extension MouseSettingsPane.PreviewCard {
                 guard !Task.isCancelled else { return }
 
                 try? await Task.sleep(
-                    nanoseconds: (PointerRingAnimation.spawnAnimationDuration + MouseSettingsPane.PreviewCard.idleDuration).nanoseconds
+                    nanoseconds: (self.model.ripples.duration + MouseSettingsPane.PreviewCard.idleDuration).nanoseconds
                 )
             }
         }
@@ -151,12 +151,12 @@ extension MouseSettingsPane.PreviewCard {
             let ripple = RipplesPreviewRipple(offset: offset, visualState: .initial)
             self.ripples.append(ripple)
 
-            withAnimation(.easeOut(duration: PointerRingAnimation.spawnAnimationDuration)) {
+            withAnimation(.easeOut(duration: self.model.ripples.duration)) {
                 self.updateRipple(id: ripple.id, visualState: .expanded)
             }
 
             Task { @MainActor in
-                try? await Task.sleep(nanoseconds: PointerRingAnimation.spawnAnimationDuration.nanoseconds)
+                try? await Task.sleep(nanoseconds: self.model.ripples.duration.nanoseconds)
                 self.ripples.removeAll { $0.id == ripple.id }
             }
         }

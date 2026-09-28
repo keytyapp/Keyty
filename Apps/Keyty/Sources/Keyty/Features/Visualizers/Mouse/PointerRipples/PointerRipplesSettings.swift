@@ -15,6 +15,7 @@ protocol PointerRipplesSettingsProtocol: AnyObject {
     var size: CGFloat { get set }
     var thickness: CGFloat { get set }
     var shape: PointerRingShape { get set }
+    var duration: CGFloat { get set }
 
     func registerDefaults()
     func resetToDefaults()
@@ -72,13 +73,21 @@ final class PointerRipplesSettings: PointerRipplesSettingsProtocol, ReactiveSett
     @Stored(.enum(PointerRipplesSettingsKeys.shape, default: PointerRipplesSettingsKeys.defaultShape))
     var shape: PointerRingShape
 
+    @Stored(.cgFloat(
+        PointerRipplesSettingsKeys.duration,
+        default: PointerRipplesSettingsKeys.defaultDuration,
+        clamp: PointerRipplesSettingsKeys.durationRange
+    ))
+    var duration: CGFloat
+
     private var currentVisualSettingsSnapshot: VisualSettingsSnapshot {
         VisualSettingsSnapshot(
             isEnabled: self.isEnabled,
             colorHex: self.color.hexString,
             size: self.size,
             thickness: self.thickness,
-            shape: self.shape
+            shape: self.shape,
+            duration: self.duration
         )
     }
 
@@ -106,5 +115,6 @@ private extension PointerRipplesSettings {
         let size: CGFloat
         let thickness: CGFloat
         let shape: PointerRingShape
+        let duration: CGFloat
     }
 }

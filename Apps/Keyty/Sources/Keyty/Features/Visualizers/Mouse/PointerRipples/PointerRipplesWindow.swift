@@ -13,7 +13,7 @@ import QuartzCore
 final class PointerRipplesWindow: NSWindow {
     let ringID = UUID()
     private let onFinish: (UUID) -> Void
-    private let animationDuration = PointerRingAnimation.spawnAnimationDuration
+    private let animationDuration: TimeInterval
     private var cleanupTask: Task<Void, Never>?
     private var didFinish = false
     
@@ -23,6 +23,7 @@ final class PointerRipplesWindow: NSWindow {
         onFinish: @escaping (UUID) -> Void
     ) {
         self.onFinish = onFinish
+        self.animationDuration = style.duration
 
         let windowDiameter = PointerRipplesWindow.windowDiameter(for: style)
         let origin = NSPoint(x: center.x - windowDiameter / 2, y: center.y - windowDiameter / 2)
@@ -145,5 +146,6 @@ extension PointerRipplesWindow {
         let size: CGFloat
         let thickness: CGFloat
         let shape: PointerRingShape
+        let duration: TimeInterval
     }
 }

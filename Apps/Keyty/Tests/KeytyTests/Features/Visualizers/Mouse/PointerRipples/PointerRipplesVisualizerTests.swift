@@ -50,6 +50,21 @@ final class PointerRipplesVisualizerTests: XCTestCase {
         )
     }
 
+    func testRegistersDefaultDuration() {
+        XCTAssertEqual(
+            CGFloat(self.store.double(forKey: PointerRipplesSettingsKeys.duration)),
+            PointerRipplesSettingsKeys.defaultDuration
+        )
+    }
+
+    func testDurationClampsDirectSettingsWrites() {
+        self.settings.duration = PointerRipplesSettingsKeys.durationRange.upperBound + 1
+        XCTAssertEqual(self.settings.duration, PointerRipplesSettingsKeys.durationRange.upperBound)
+
+        self.settings.duration = PointerRipplesSettingsKeys.durationRange.lowerBound - 1
+        XCTAssertEqual(self.settings.duration, PointerRipplesSettingsKeys.durationRange.lowerBound)
+    }
+
     func testRipplesSpawnsTransientRingOnPress() async {
         self.visualizer.isEnabled = true
         self.visualizer.isPresentationActive = true
@@ -58,7 +73,7 @@ final class PointerRipplesVisualizerTests: XCTestCase {
 
         XCTAssertTrue(self.visualizer.isPresented)
 
-        try? await Task.sleep(nanoseconds: (PointerRingAnimation.spawnAnimationDuration * 1.2).nanoseconds)
+        try? await Task.sleep(nanoseconds: (self.settings.duration * 1.2).nanoseconds)
 
         XCTAssertFalse(self.visualizer.isPresented)
     }

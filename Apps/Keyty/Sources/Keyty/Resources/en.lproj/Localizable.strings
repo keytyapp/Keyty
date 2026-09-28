@@ -212,6 +212,9 @@
 "mouse.display_duration_subtitle" = "How long the ring remains fully visible after a click.";
 "mouse.fade_duration_label" = "Fade Duration";
 "mouse.fade_duration_subtitle" = "How quickly the ring fades out once fading begins.";
+"mouse.ripples_timing_section_subtitle" = "Control how quickly each ripple expands and fades away.";
+"mouse.ripples_duration_label" = "Ripple Duration";
+"mouse.ripples_duration_subtitle" = "How long each ripple takes to expand and fade away.";
 "mouse.pointer_icon_label" = "Pointer Icon";
 "mouse.pointer_icon_enabled" = "Enabled";
 "mouse.pointer_icon_enabled_subtitle" = "Pointer icon overlay visibility.";

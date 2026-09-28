@@ -106,6 +106,14 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         XCTAssertTrue(self.ripplesSettings.isEnabled)
     }
 
+    func testRipplesDurationIsClampedToItsRangeBeforeReachingSettings() {
+        self.model.ripples.duration = MouseSettingsPaneViewModel.ripplesDurationRange.upperBound + 1
+        XCTAssertEqual(self.ripplesSettings.duration, PointerRipplesSettingsKeys.durationRange.upperBound)
+
+        self.model.ripples.duration = MouseSettingsPaneViewModel.ripplesDurationRange.lowerBound - 1
+        XCTAssertEqual(self.ripplesSettings.duration, PointerRipplesSettingsKeys.durationRange.lowerBound)
+    }
+
     func testEnablingRingDoesNotDisableRipples() {
         self.model.ripples.enabled = true
         self.model.ring.enabled = true

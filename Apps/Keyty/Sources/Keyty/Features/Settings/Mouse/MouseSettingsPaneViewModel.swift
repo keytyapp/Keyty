@@ -31,6 +31,10 @@ final class MouseSettingsPaneViewModel: ObservableObject {
         Double(PointerRingSettingsKeys.fadeDurationRange.lowerBound)...Double(PointerRingSettingsKeys.fadeDurationRange.upperBound)
     static let ringFadeDurationStep: Double = 0.05
 
+    static let ripplesDurationRange: ClosedRange<Double> =
+        Double(PointerRipplesSettingsKeys.durationRange.lowerBound)...Double(PointerRipplesSettingsKeys.durationRange.upperBound)
+    static let ripplesDurationStep: Double = 0.1
+
     @Published var selectedSettingsTab = SettingsTab.ring
 
     let ring: RingSection

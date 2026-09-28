@@ -12,61 +12,82 @@ extension MouseSettingsPane {
     var pointerRipplesSettingsSection: some View {
         let ripples = self.model.ripples
 
-        return SettingsSectionView {
-            SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.ripplesEnabledSubtitle) {
-                Toggle("", isOn: self.binding(get: { ripples.enabled }, set: { ripples.enabled = $0 }))
-                    .labelsHidden()
-                    .accessibilityLabel(L10n.Mouse.enabled)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-            }
-
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.ripplesShapeSubtitle) {
-                Picker("", selection: self.binding(get: { ripples.shape }, set: { ripples.shape = $0 })) {
-                    ForEach(PointerRingShape.allCases) { shape in
-                        Text(shape.label).tag(shape)
-                    }
+        return VStack(alignment: .leading, spacing: Spacing.xs) {
+            SettingsSectionView {
+                SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.ripplesEnabledSubtitle) {
+                    Toggle("", isOn: self.binding(get: { ripples.enabled }, set: { ripples.enabled = $0 }))
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.Mouse.enabled)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
-                .labelsHidden()
-                .accessibilityLabel(L10n.Mouse.ringShapeLabel)
-                .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
-                .disabled(!ripples.enabled)
-            }
 
-            Divider()
+                Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.ripplesColorSubtitle) {
-                self.ripplesColorControls
+                SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.ripplesShapeSubtitle) {
+                    Picker("", selection: self.binding(get: { ripples.shape }, set: { ripples.shape = $0 })) {
+                        ForEach(PointerRingShape.allCases) { shape in
+                            Text(shape.label).tag(shape)
+                        }
+                    }
+                    .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.ringShapeLabel)
+                    .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                     .disabled(!ripples.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.ripplesColorSubtitle) {
+                    self.ripplesColorControls
+                        .disabled(!ripples.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.ripplesSizeSubtitle) {
+                    Slider(
+                        value: self.binding(get: { ripples.size }, set: { ripples.size = $0 }),
+                        in: MouseSettingsPaneViewModel.ringSizeRange,
+                        step: MouseSettingsPaneViewModel.ringSizeStep
+                    )
+                    .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.ringSizeLabel)
+                    .disabled(!ripples.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.ripplesThicknessSubtitle) {
+                    Slider(
+                        value: self.binding(get: { ripples.thickness }, set: { ripples.thickness = $0 }),
+                        in: MouseSettingsPaneViewModel.ringThicknessRange,
+                        step: MouseSettingsPaneViewModel.ringThicknessStep
+                    )
+                    .frame(width: Spacing.grid(42))
+                    .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
+                    .disabled(!ripples.enabled)
+                }
             }
 
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.ripplesSizeSubtitle) {
-                Slider(
-                    value: self.binding(get: { ripples.size }, set: { ripples.size = $0 }),
-                    in: MouseSettingsPaneViewModel.ringSizeRange,
-                    step: MouseSettingsPaneViewModel.ringSizeStep
-                )
-                .frame(width: Spacing.grid(42))
-                .accessibilityLabel(L10n.Mouse.ringSizeLabel)
-                .disabled(!ripples.enabled)
+            SettingsSectionView(
+                title: L10n.Mouse.timingSectionTitle,
+                subtitle: L10n.Mouse.ripplesTimingSectionSubtitle
+            ) {
+                SettingsControlRow(title: L10n.Mouse.ripplesDurationLabel, subtitle: L10n.Mouse.ripplesDurationSubtitle) {
+                    SettingsSliderControl(
+                        value: self.binding(get: { ripples.duration }, set: { ripples.duration = $0 }),
+                        range: MouseSettingsPaneViewModel.ripplesDurationRange,
+                        step: MouseSettingsPaneViewModel.ripplesDurationStep,
+                        edgeLabels: SettingsSliderEdgeLabels(
+                            leading: L10n.KeyboardVisualizer.FadeDuration.fast,
+                            trailing: L10n.KeyboardVisualizer.FadeDuration.slow
+                        ),
+                        accessibilityLabel: L10n.Mouse.ripplesDurationLabel
+                    )
+                }
             }
-
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.ripplesThicknessSubtitle) {
-                Slider(
-                    value: self.binding(get: { ripples.thickness }, set: { ripples.thickness = $0 }),
-                    in: MouseSettingsPaneViewModel.ringThicknessRange,
-                    step: MouseSettingsPaneViewModel.ringThicknessStep
-                )
-                .frame(width: Spacing.grid(42))
-                .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
-                .disabled(!ripples.enabled)
-            }
+            .disabled(!ripples.enabled)
         }
     }
 

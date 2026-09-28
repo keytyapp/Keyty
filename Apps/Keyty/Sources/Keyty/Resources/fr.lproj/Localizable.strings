@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "Application";
+"general.capture_input" = "Afficher les visualisations d’entrée";
+"general.capture_input_subtitle" = "Afficher ou masquer toutes les visualisations d’entrée.";
 "general.shortcut_section_title" = "Raccourci";
 "general.toggle_capturing_label" = "Activer ou désactiver la capture";
 "general.toggle_capturing_subtitle" = "Raccourci global permettant de démarrer ou d’arrêter la capture depuis n’importe où.";

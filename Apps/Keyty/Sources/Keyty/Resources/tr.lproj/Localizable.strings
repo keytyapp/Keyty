@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "Uygulama";
+"general.capture_input" = "Girdi görselleştirmelerini göster";
+"general.capture_input_subtitle" = "Tüm girdi görselleştirmelerini gösterin veya gizleyin.";
 "general.shortcut_section_title" = "Kestirme";
 "general.settings_section_title" = "Ayarlar";
 "general.toggle_capturing_label" = "Yakalamayı aç/kapat";

@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplicación";
+"general.capture_input" = "Mostrar visualizaciones de entrada";
+"general.capture_input_subtitle" = "Mostrar u ocultar todas las visualizaciones de entrada.";
 "general.shortcut_section_title" = "Función rápida";
 "general.toggle_capturing_label" = "Alternar captura";
 "general.toggle_capturing_subtitle" = "Función rápida global para iniciar o detener la captura desde cualquier lugar.";

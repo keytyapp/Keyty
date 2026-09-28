@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
+"general.capture_input" = "Invoervisualisaties weergeven";
+"general.capture_input_subtitle" = "Alle invoervisualisaties weergeven of verbergen.";
 "general.shortcut_section_title" = "Sneltoets";
 "general.settings_section_title" = "Instellingen";
 "general.toggle_capturing_label" = "Registratie in- of uitschakelen";

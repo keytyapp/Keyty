@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
+"general.capture_input" = "Eingabevisualisierungen anzeigen";
+"general.capture_input_subtitle" = "Alle Eingabevisualisierungen ein- oder ausblenden.";
 "general.shortcut_section_title" = "Tastaturkurzbefehl";
 "general.toggle_capturing_label" = "Erfassung ein-/ausschalten";
 "general.toggle_capturing_subtitle" = "Globaler Tastaturkurzbefehl zum Starten oder Stoppen der Erfassung.";

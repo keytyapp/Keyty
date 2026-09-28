@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
+"general.capture_input" = "Mostra visualizzazioni degli input";
+"general.capture_input_subtitle" = "Mostra o nasconde tutte le visualizzazioni degli input.";
 "general.shortcut_section_title" = "Abbreviazione";
 "general.settings_section_title" = "Impostazioni";
 "general.toggle_capturing_label" = "Attiva/disattiva acquisizione";

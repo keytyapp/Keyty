@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "アプリ";
+"general.capture_input" = "入力表示を表示";
+"general.capture_input_subtitle" = "すべての入力表示を表示または非表示にします。";
 "general.shortcut_section_title" = "ショートカット";
 "general.toggle_capturing_label" = "入力表示の切り替え";
 "general.toggle_capturing_subtitle" = "どこからでも入力表示を開始または停止できるグローバルショートカットです。";

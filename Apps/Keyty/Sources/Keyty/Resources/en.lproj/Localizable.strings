@@ -65,6 +65,8 @@
 "general.appearance_section_title" = "App";
 "general.shortcut_section_title" = "Shortcut";
 "general.settings_section_title" = "Settings";
+"general.capture_input" = "Show input visualizations";
+"general.capture_input_subtitle" = "Show or hide all input visualizations.";
 "general.toggle_capturing_label" = "Toggle capturing";
 "general.toggle_capturing_subtitle" = "Global shortcut used to start or stop capturing from anywhere.";
 "general.shortcut_validation_fallback" = "This shortcut cannot be used.";

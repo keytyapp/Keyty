@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "App";
+"general.capture_input" = "Mostrar visualizações de entrada";
+"general.capture_input_subtitle" = "Mostrar ou ocultar todas as visualizações de entrada.";
 "general.shortcut_section_title" = "Atalho";
 "general.settings_section_title" = "Ajustes";
 "general.toggle_capturing_label" = "Alternar captura";

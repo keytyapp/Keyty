@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "Програма";
+"general.capture_input" = "Показувати візуалізації введення";
+"general.capture_input_subtitle" = "Показувати або приховувати всі візуалізації введення.";
 "general.shortcut_section_title" = "Клавіатурне скорочення";
 "general.toggle_capturing_label" = "Увімкнення відстеження";
 "general.toggle_capturing_subtitle" = "Глобальне клавіатурне скорочення для запуску або зупинки відстеження.";

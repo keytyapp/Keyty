@@ -29,6 +29,7 @@ struct SettingsPaneRegistry {
                     AnyView(
                         GeneralSettingsPane(
                             shortcutManager: context.shortcutManager,
+                            captureController: context.captureController,
                             appSettings: context.appSettings,
                             onResetAllSettingsToDefaults: {
                                 context.resetAllSettingsToDefaults()

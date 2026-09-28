@@ -14,11 +14,13 @@ struct GeneralSettingsPane: View {
 
     init(
         shortcutManager: ShortcutManager,
+        captureController: CaptureController,
         appSettings: any AppSettingsProtocol,
         onResetAllSettingsToDefaults: @escaping @MainActor () -> Void
     ) {
         _model = StateObject(wrappedValue: GeneralSettingsPaneViewModel(
             shortcutManager: shortcutManager,
+            captureController: captureController,
             appSettings: appSettings,
             onResetAllSettingsToDefaults: onResetAllSettingsToDefaults
         ))
@@ -27,6 +29,19 @@ struct GeneralSettingsPane: View {
     var body: some View {
         SettingsStack {
             SettingsSectionView(title: L10n.General.appearanceSectionTitle) {
+                SettingsControlRow(
+                    title: L10n.General.captureInput,
+                    subtitle: L10n.General.captureInputSubtitle
+                ) {
+                    Toggle("", isOn: $model.isCapturing)
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.General.captureInput)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                }
+
+                Divider()
+
                 SettingsControlRow(
                     title: L10n.General.showSettingsAtLaunch,
                     subtitle: L10n.General.showSettingsAtLaunchSubtitle

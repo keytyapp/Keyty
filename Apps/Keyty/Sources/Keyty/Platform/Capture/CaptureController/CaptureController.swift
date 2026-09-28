@@ -7,14 +7,20 @@
 //
 
 import Cocoa
+import Combine
 
 final class CaptureController {
     var isCapturing: Bool { self.state == .capturing }
     var onCapturingChanged: ((Bool) -> Void)?
+    var isCapturingChanges: AnyPublisher<Bool, Never> {
+        self.isCapturingSubject.eraseToAnyPublisher()
+    }
+    
     private var shouldCapture: Bool = true
     private var state: State = .idle
     private var tapDisableCount: Int = 0
     private let maxTapDisableCountBeforeReinstall = 3
+    private let isCapturingSubject = PassthroughSubject<Bool, Never>()
 
     private let eventTap: any EventTapping
     private let eventProcessor = EventProcessor()
@@ -128,6 +134,7 @@ private extension CaptureController {
         }
         if wasCapturing != capturing {
             self.onCapturingChanged?(capturing)
+            self.isCapturingSubject.send(capturing)
         }
     }
 

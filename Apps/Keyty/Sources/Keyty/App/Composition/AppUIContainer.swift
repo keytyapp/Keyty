@@ -29,6 +29,7 @@ final class AppUIContainer {
         let settingsContext = SettingsContext(
             settings: settings,
             shortcutManager: services.shortcutManager,
+            captureController: services.captureController,
             pointerRingVisualizer: services.pointerVisualizersManager.ring,
             pointerRipplesVisualizer: services.pointerVisualizersManager.ripples,
             permissionsService: services.permissionsService,

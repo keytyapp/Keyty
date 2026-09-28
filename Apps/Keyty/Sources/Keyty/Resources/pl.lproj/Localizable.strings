@@ -63,6 +63,8 @@
 
 /* General settings pane */
 "general.appearance_section_title" = "Aplikacja";
+"general.capture_input" = "Pokaż wizualizacje danych wejściowych";
+"general.capture_input_subtitle" = "Pokaż lub ukryj wszystkie wizualizacje danych wejściowych.";
 "general.shortcut_section_title" = "Skrót";
 "general.toggle_capturing_label" = "Przełącz przechwytywanie";
 "general.toggle_capturing_subtitle" = "Globalny skrót do uruchamiania lub zatrzymywania przechwytywania z dowolnego miejsca.";

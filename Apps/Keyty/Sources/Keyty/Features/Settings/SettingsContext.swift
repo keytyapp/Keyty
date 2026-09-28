@@ -10,6 +10,7 @@
 final class SettingsContext {
     let settings: AppSettingsContainer
     let shortcutManager: ShortcutManager
+    let captureController: CaptureController
     let pointerRingVisualizer: PointerRingVisualizer
     let pointerRipplesVisualizer: PointerRipplesVisualizer
     let permissionsService: any PermissionsService
@@ -25,6 +26,7 @@ final class SettingsContext {
     init(
         settings: AppSettingsContainer,
         shortcutManager: ShortcutManager,
+        captureController: CaptureController,
         pointerRingVisualizer: PointerRingVisualizer,
         pointerRipplesVisualizer: PointerRipplesVisualizer,
         permissionsService: any PermissionsService,
@@ -33,6 +35,7 @@ final class SettingsContext {
     ) {
         self.settings = settings
         self.shortcutManager = shortcutManager
+        self.captureController = captureController
         self.pointerRingVisualizer = pointerRingVisualizer
         self.pointerRipplesVisualizer = pointerRipplesVisualizer
         self.permissionsService = permissionsService

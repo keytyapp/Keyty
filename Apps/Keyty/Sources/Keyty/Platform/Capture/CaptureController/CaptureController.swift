@@ -59,6 +59,7 @@ extension CaptureController {
         self.transition(trigger: .appStarted)
     }
 
+    /// Starts capturing input events immediately when the required permission is available.
     @discardableResult func startCapturing() -> Bool {
         do {
             try self.eventTap.install()
@@ -69,11 +70,13 @@ extension CaptureController {
         return true
     }
 
+    /// Stops capturing input events and hides all active input visualizations.
     func stopCapturing() {
         self.shouldCapture = false
         self.transition(trigger: .userDisabledCapture)
     }
 
+    /// Switches input capture between its enabled and disabled states.
     func toggleCapturing() {
         self.shouldCapture.toggle()
         self.transition(trigger: self.shouldCapture ? .userEnabledCapture : .userDisabledCapture)

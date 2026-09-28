@@ -10,13 +10,6 @@ import AppKit
 import SwiftUI
 
 extension MouseSettingsPane.PreviewCard {
-    enum PreviewIconAnimation {
-        static let clickDuration: TimeInterval = 1.2
-        static let scrollDuration: TimeInterval = 1.0
-    }
-}
-
-extension MouseSettingsPane.PreviewCard {
     enum PreviewIconEvent: CaseIterable {
         case leftClick
         case rightClick
@@ -36,14 +29,6 @@ extension MouseSettingsPane.PreviewCard {
             }
         }
 
-        var duration: TimeInterval {
-            switch self {
-            case .leftClick, .rightClick:
-                return PreviewIconAnimation.clickDuration
-            case .scrollUp, .scrollDown:
-                return PreviewIconAnimation.scrollDuration
-            }
-        }
     }
 }
 
@@ -138,7 +123,7 @@ extension MouseSettingsPane.PreviewCard {
                     guard !Task.isCancelled else { return }
                     self.visualState = event.visualState
 
-                    try? await Task.sleep(nanoseconds: event.duration.nanoseconds)
+                    try? await Task.sleep(nanoseconds: self.duration(for: event).nanoseconds)
                     guard !Task.isCancelled else { return }
 
                     self.visualState = .idle
@@ -147,6 +132,15 @@ extension MouseSettingsPane.PreviewCard {
 
                 self.visualState = .idle
                 try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
+            }
+        }
+
+        private func duration(for event: PreviewIconEvent) -> TimeInterval {
+            switch event {
+            case .leftClick, .rightClick:
+                return self.model.icon.clickDisplayDuration
+            case .scrollUp, .scrollDown:
+                return self.model.icon.scrollDisplayDuration
             }
         }
     }

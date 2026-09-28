@@ -59,10 +59,6 @@ final class PointerIconContentView: NSView {
         return image
     }
 
-    static var scrollResetDelay: TimeInterval {
-        Constants.scrollResetDelay
-    }
-
     static func visualState(for mouseEvent: MouseEvent) -> VisualState? {
         if mouseEvent.type == .scrollWheel, !Self.shouldDisplayScroll(for: mouseEvent) {
             return nil
@@ -98,12 +94,18 @@ final class PointerIconContentView: NSView {
 
         self.resetWorkItem?.cancel()
         self.resetWorkItem = nil
+
+        if Self.isMouseRelease(mouseEvent.type) {
+            self.scheduleReset(after: TimeInterval(self.settings.clickDisplayDuration))
+            return
+        }
+
         self.displayedKind = visualState.displayedKind
         self.icon = visualState.icon
         self.setTransientlyVisible(visualState.isTransientlyVisible)
 
         if mouseEvent.type == .scrollWheel, MouseEventDisplayRenderer.scrollIcon(for: mouseEvent.kind) != nil {
-            self.scheduleScrollReset()
+            self.scheduleReset(after: TimeInterval(self.settings.scrollDisplayDuration))
         }
     }
 
@@ -132,15 +134,33 @@ final class PointerIconContentView: NSView {
         }
     }
 
-    private func scheduleScrollReset() {
+    private static func isMouseRelease(_ eventType: NSEvent.EventType) -> Bool {
+        switch eventType {
+        case .leftMouseUp, .rightMouseUp, .otherMouseUp:
+            return true
+        default:
+            return false
+        }
+    }
+
+    private func scheduleReset(after duration: TimeInterval) {
+        guard duration > 0 else {
+            self.resetToIdle()
+            return
+        }
+
         let item = DispatchWorkItem { [weak self] in
-            self?.icon = Constants.baseIcon
-            self?.displayedKind = .generic
-            self?.setTransientlyVisible(false)
+            self?.resetToIdle()
             self?.resetWorkItem = nil
         }
         self.resetWorkItem = item
-        DispatchQueue.main.asyncAfter(deadline: .now() + Constants.scrollResetDelay, execute: item)
+        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: item)
+    }
+
+    private func resetToIdle() {
+        self.icon = Constants.baseIcon
+        self.displayedKind = .generic
+        self.setTransientlyVisible(false)
     }
 
     private func setTransientlyVisible(_ isVisible: Bool) {
@@ -253,6 +273,5 @@ private extension PointerIconContentView {
         static let basePaddingIconHeight: CGFloat = 64
         static let borderWidth: CGFloat = 1
         static let baseIcon: NSImage = NSImage.mouseDefault
-        static let scrollResetDelay: TimeInterval = 0.35
     }
 }

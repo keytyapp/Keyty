@@ -62,6 +62,25 @@ final class PointerIconVisualizerTests: XCTestCase {
         )
     }
 
+    func testRegistersDefaultDisplayDurations() {
+        XCTAssertEqual(
+            CGFloat(store.double(forKey: PointerIconSettingsKeys.clickDisplayDuration)),
+            PointerIconSettingsKeys.defaultClickDisplayDuration
+        )
+        XCTAssertEqual(
+            CGFloat(store.double(forKey: PointerIconSettingsKeys.scrollDisplayDuration)),
+            PointerIconSettingsKeys.defaultScrollDisplayDuration
+        )
+    }
+
+    func testDisplayDurationsClampDirectSettingsWrites() {
+        settings.clickDisplayDuration = PointerIconSettingsKeys.clickDisplayDurationRange.upperBound + 1
+        settings.scrollDisplayDuration = PointerIconSettingsKeys.scrollDisplayDurationRange.lowerBound - 1
+
+        XCTAssertEqual(settings.clickDisplayDuration, PointerIconSettingsKeys.clickDisplayDurationRange.upperBound)
+        XCTAssertEqual(settings.scrollDisplayDuration, PointerIconSettingsKeys.scrollDisplayDurationRange.lowerBound)
+    }
+
     func testWindowSizeScalesBackgroundPaddingWithIconSize() {
         let basePadding = Spacing.md
 
@@ -128,6 +147,17 @@ final class PointerIconVisualizerTests: XCTestCase {
         view.handle(mouseEvent: MouseEvent.scrollStub())
 
         XCTAssertEqual(view.displayedKind, .rightButton)
+        XCTAssertTrue(view.isTransientlyVisible)
+    }
+
+    func testClickDisplayDurationKeepsClickIconVisibleAfterMouseUp() throws {
+        let view = PointerIconContentView(settings: settings)
+        settings.clickDisplayDuration = 0.5
+
+        view.handle(mouseEvent: try makeMouseEvent(type: .leftMouseDown))
+        view.handle(mouseEvent: try makeMouseEvent(type: .leftMouseUp))
+
+        XCTAssertEqual(view.displayedKind, .leftButton)
         XCTAssertTrue(view.isTransientlyVisible)
     }
 

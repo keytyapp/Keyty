@@ -13,7 +13,8 @@ extension MouseSettingsPane {
     var pointerIconSettingsSection: some View {
         let icon = self.model.icon
 
-        return SettingsSectionView {
+        return VStack(alignment: .leading, spacing: Spacing.xs) {
+            SettingsSectionView {
             SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.pointerIconEnabledSubtitle) {
                 Toggle("", isOn: self.binding(get: { icon.enabled }, set: { icon.enabled = $0 }))
                     .labelsHidden()
@@ -78,6 +79,41 @@ extension MouseSettingsPane {
                 self.iconTintColorControls
                     .disabled(!icon.enabled)
             }
+            }
+
+            SettingsSectionView(
+                title: L10n.Mouse.timingSectionTitle,
+                subtitle: L10n.Mouse.pointerIconTimingSectionSubtitle
+            ) {
+                SettingsControlRow(title: L10n.Mouse.clickDisplayDurationLabel, subtitle: L10n.Mouse.clickDisplayDurationSubtitle) {
+                    SettingsSliderControl(
+                        value: self.binding(get: { icon.clickDisplayDuration }, set: { icon.clickDisplayDuration = $0 }),
+                        range: MouseSettingsPaneViewModel.iconClickDisplayDurationRange,
+                        step: MouseSettingsPaneViewModel.iconClickDisplayDurationStep,
+                        edgeLabels: SettingsSliderEdgeLabels(
+                            leading: L10n.KeyboardVisualizer.LingerTime.short,
+                            trailing: L10n.KeyboardVisualizer.LingerTime.long
+                        ),
+                        accessibilityLabel: L10n.Mouse.clickDisplayDurationLabel
+                    )
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.scrollDisplayDurationLabel, subtitle: L10n.Mouse.scrollDisplayDurationSubtitle) {
+                    SettingsSliderControl(
+                        value: self.binding(get: { icon.scrollDisplayDuration }, set: { icon.scrollDisplayDuration = $0 }),
+                        range: MouseSettingsPaneViewModel.iconScrollDisplayDurationRange,
+                        step: MouseSettingsPaneViewModel.iconScrollDisplayDurationStep,
+                        edgeLabels: SettingsSliderEdgeLabels(
+                            leading: L10n.KeyboardVisualizer.LingerTime.short,
+                            trailing: L10n.KeyboardVisualizer.LingerTime.long
+                        ),
+                        accessibilityLabel: L10n.Mouse.scrollDisplayDurationLabel
+                    )
+                }
+            }
+            .disabled(!icon.enabled || icon.alwaysVisible)
         }
     }
 

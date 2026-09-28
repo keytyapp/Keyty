@@ -17,6 +17,8 @@ enum PointerIconSettingsKeys {
     static let backgroundColor  = "pointer_icon.backgroundColor"
     static let tintColor        = "pointer_icon.tintColor"
     static let size             = "pointer_icon.size"
+    static let clickDisplayDuration = "pointer_icon.clickDisplayDuration"
+    static let scrollDisplayDuration = "pointer_icon.scrollDisplayDuration"
 
     static let defaultAlwaysVisible:   Bool              = true
     static let defaultAnchor:          PointerIconAnchor = .bottomRight
@@ -24,6 +26,10 @@ enum PointerIconSettingsKeys {
     static let defaultBackgroundColor: NSColor           = Color.Theme.Palette.black60
     static let defaultTintColor:       NSColor           = Color.Theme.Palette.white
     static let defaultSizeIndex:       Int               = 2
+    static let defaultClickDisplayDuration: CGFloat = 0
+    static let defaultScrollDisplayDuration: CGFloat = 0.35
+    static let clickDisplayDurationRange: ClosedRange<CGFloat> = 0...2
+    static let scrollDisplayDurationRange: ClosedRange<CGFloat> = 0.1...2
 
     // 10 preset icon sizes (w×h), aspect ratio ~3:4
     static let iconSizes: [NSSize] = [

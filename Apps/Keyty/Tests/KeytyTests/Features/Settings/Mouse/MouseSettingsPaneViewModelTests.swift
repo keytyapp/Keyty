@@ -114,6 +114,20 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(self.ripplesSettings.duration, PointerRipplesSettingsKeys.durationRange.lowerBound)
     }
 
+    func testIconDisplayDurationsAreClampedToTheirRangesBeforeReachingSettings() {
+        self.model.icon.clickDisplayDuration = MouseSettingsPaneViewModel.iconClickDisplayDurationRange.upperBound + 1
+        self.model.icon.scrollDisplayDuration = MouseSettingsPaneViewModel.iconScrollDisplayDurationRange.lowerBound - 1
+
+        XCTAssertEqual(
+            self.iconSettings.clickDisplayDuration,
+            PointerIconSettingsKeys.clickDisplayDurationRange.upperBound
+        )
+        XCTAssertEqual(
+            self.iconSettings.scrollDisplayDuration,
+            PointerIconSettingsKeys.scrollDisplayDurationRange.lowerBound
+        )
+    }
+
     func testEnablingRingDoesNotDisableRipples() {
         self.model.ripples.enabled = true
         self.model.ring.enabled = true

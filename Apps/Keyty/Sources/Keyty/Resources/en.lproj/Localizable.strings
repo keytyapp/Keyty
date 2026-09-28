@@ -218,6 +218,11 @@
 "mouse.pointer_icon_label" = "Pointer Icon";
 "mouse.pointer_icon_enabled" = "Enabled";
 "mouse.pointer_icon_enabled_subtitle" = "Pointer icon overlay visibility.";
+"mouse.pointer_icon_timing_section_subtitle" = "Control how long click and scroll icons remain visible.";
+"mouse.click_display_duration_label" = "Click Display Duration";
+"mouse.click_display_duration_subtitle" = "How long the click icon remains visible after mouse-up.";
+"mouse.scroll_display_duration_label" = "Scroll Display Duration";
+"mouse.scroll_display_duration_subtitle" = "How long the scroll icon remains visible after the last scroll event.";
 "mouse.pointer_icon_always_visible_label" = "Always Visible";
 "mouse.pointer_icon_always_visible_subtitle" = "Icon remains visible when no mouse buttons are active.";
 "mouse.pointer_icon_anchor_label" = "Anchor";

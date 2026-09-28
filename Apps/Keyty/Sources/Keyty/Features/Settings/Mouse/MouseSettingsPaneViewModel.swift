@@ -35,6 +35,14 @@ final class MouseSettingsPaneViewModel: ObservableObject {
         Double(PointerRipplesSettingsKeys.durationRange.lowerBound)...Double(PointerRipplesSettingsKeys.durationRange.upperBound)
     static let ripplesDurationStep: Double = 0.1
 
+    static let iconClickDisplayDurationRange: ClosedRange<Double> =
+        Double(PointerIconSettingsKeys.clickDisplayDurationRange.lowerBound)...Double(PointerIconSettingsKeys.clickDisplayDurationRange.upperBound)
+    static let iconClickDisplayDurationStep: Double = 0.1
+
+    static let iconScrollDisplayDurationRange: ClosedRange<Double> =
+        Double(PointerIconSettingsKeys.scrollDisplayDurationRange.lowerBound)...Double(PointerIconSettingsKeys.scrollDisplayDurationRange.upperBound)
+    static let iconScrollDisplayDurationStep: Double = 0.05
+
     @Published var selectedSettingsTab = SettingsTab.ring
 
     let ring: RingSection

@@ -109,6 +109,31 @@ final class PointerRingVisualizerTests: XCTestCase {
         )
     }
 
+    func testRegistersDefaultTiming() {
+        XCTAssertEqual(
+            CGFloat(self.store.double(forKey: PointerRingSettingsKeys.displayDuration)),
+            PointerRingSettingsKeys.defaultDisplayDuration
+        )
+        XCTAssertEqual(
+            CGFloat(self.store.double(forKey: PointerRingSettingsKeys.fadeDuration)),
+            PointerRingSettingsKeys.defaultFadeDuration
+        )
+    }
+
+    func testTimingClampsDirectSettingsWrites() {
+        self.settings.displayDuration = PointerRingSettingsKeys.displayDurationRange.upperBound + 1
+        self.settings.fadeDuration = PointerRingSettingsKeys.fadeDurationRange.upperBound + 1
+
+        XCTAssertEqual(self.settings.displayDuration, PointerRingSettingsKeys.displayDurationRange.upperBound)
+        XCTAssertEqual(self.settings.fadeDuration, PointerRingSettingsKeys.fadeDurationRange.upperBound)
+
+        self.settings.displayDuration = PointerRingSettingsKeys.displayDurationRange.lowerBound - 1
+        self.settings.fadeDuration = PointerRingSettingsKeys.fadeDurationRange.lowerBound - 1
+
+        XCTAssertEqual(self.settings.displayDuration, PointerRingSettingsKeys.displayDurationRange.lowerBound)
+        XCTAssertEqual(self.settings.fadeDuration, PointerRingSettingsKeys.fadeDurationRange.lowerBound)
+    }
+
     func testIsEnabledPersists() {
         self.visualizer.isEnabled = true
 

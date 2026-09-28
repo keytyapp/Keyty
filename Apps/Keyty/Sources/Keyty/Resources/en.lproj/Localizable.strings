@@ -206,6 +206,12 @@
 "mouse.ring_shape_label" = "Shape";
 "mouse.ring_shape_subtitle" = "Outline geometry of the pointer ring.";
 "mouse.ripples_shape_subtitle" = "Outline geometry of each spawned ripple.";
+"mouse.timing_section_title" = "Timing";
+"mouse.timing_section_subtitle" = "Control how long the ring remains visible after a click and how quickly it fades.";
+"mouse.display_duration_label" = "Display Duration";
+"mouse.display_duration_subtitle" = "How long the ring remains fully visible after a click.";
+"mouse.fade_duration_label" = "Fade Duration";
+"mouse.fade_duration_subtitle" = "How quickly the ring fades out once fading begins.";
 "mouse.pointer_icon_label" = "Pointer Icon";
 "mouse.pointer_icon_enabled" = "Enabled";
 "mouse.pointer_icon_enabled_subtitle" = "Pointer icon overlay visibility.";

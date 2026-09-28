@@ -60,6 +60,22 @@ extension MouseSettingsPaneViewModel {
             }
         }
 
+        var displayDuration: Double {
+            didSet {
+                let clamped = min(max(self.displayDuration, MouseSettingsPaneViewModel.ringDisplayDurationRange.lowerBound), MouseSettingsPaneViewModel.ringDisplayDurationRange.upperBound)
+                self.settings.displayDuration = CGFloat(clamped)
+                self.onChange?()
+            }
+        }
+
+        var fadeDuration: Double {
+            didSet {
+                let clamped = min(max(self.fadeDuration, MouseSettingsPaneViewModel.ringFadeDurationRange.lowerBound), MouseSettingsPaneViewModel.ringFadeDurationRange.upperBound)
+                self.settings.fadeDuration = CGFloat(clamped)
+                self.onChange?()
+            }
+        }
+
         init(
             visualizer: PointerRingVisualizer,
             settings: any PointerRingSettingsProtocol
@@ -72,6 +88,8 @@ extension MouseSettingsPaneViewModel {
             self.size = Double(settings.size)
             self.thickness = Double(settings.thickness)
             self.shape = settings.shape
+            self.displayDuration = Double(settings.displayDuration)
+            self.fadeDuration = Double(settings.fadeDuration)
         }
 
         var colorTitle: String {

@@ -86,6 +86,20 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
         XCTAssertEqual(span.truncatingRemainder(dividingBy: MouseSettingsPaneViewModel.ringThicknessStep), 0)
     }
 
+    func testRingTimingIsClampedToItsRangesBeforeReachingSettings() {
+        self.model.ring.displayDuration = MouseSettingsPaneViewModel.ringDisplayDurationRange.upperBound + 1
+        self.model.ring.fadeDuration = MouseSettingsPaneViewModel.ringFadeDurationRange.lowerBound - 1
+
+        XCTAssertEqual(
+            self.ringSettings.displayDuration,
+            PointerRingSettingsKeys.displayDurationRange.upperBound
+        )
+        XCTAssertEqual(
+            self.ringSettings.fadeDuration,
+            PointerRingSettingsKeys.fadeDurationRange.lowerBound
+        )
+    }
+
     func testRipplesEnabledUpdatesSettings() {
         self.model.ripples.enabled = true
 

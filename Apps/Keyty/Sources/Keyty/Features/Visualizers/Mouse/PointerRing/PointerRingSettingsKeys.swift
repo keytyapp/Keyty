@@ -15,6 +15,8 @@ enum PointerRingSettingsKeys {
     static let size = "pointer_ring.size"
     static let thickness = "pointer_ring.thickness"
     static let shape = "pointer_ring.shape"
+    static let displayDuration = "pointer_ring.displayDuration"
+    static let fadeDuration = "pointer_ring.fadeDuration"
     
     static let defaultIsEnabled = false
     static let defaultAlwaysVisible = false
@@ -22,8 +24,12 @@ enum PointerRingSettingsKeys {
     static let defaultSize = CGFloat(75)
     static let defaultThickness = CGFloat(5)
     static let defaultShape = PointerRingShape.circle
+    static let defaultDisplayDuration = CGFloat(0)
+    static let defaultFadeDuration = CGFloat(0.25)
     static let sizeRange: ClosedRange<CGFloat> = 24...96
     static let thicknessRange: ClosedRange<CGFloat> = 1...12
+    static let displayDurationRange: ClosedRange<CGFloat> = 0...2
+    static let fadeDurationRange: ClosedRange<CGFloat> = 0.2...1
 
     static var automaticVisualizerColor: NSColor {
         return .controlAccentColor

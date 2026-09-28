@@ -16,6 +16,8 @@ protocol PointerRingSettingsProtocol: AnyObject {
     var size: CGFloat { get set }
     var thickness: CGFloat { get set }
     var shape: PointerRingShape { get set }
+    var displayDuration: CGFloat { get set }
+    var fadeDuration: CGFloat { get set }
 
     func registerDefaults()
     func resetToDefaults()
@@ -75,6 +77,20 @@ final class PointerRingSettings: PointerRingSettingsProtocol, ReactiveSettings, 
 
     @Stored(.enum(PointerRingSettingsKeys.shape, default: PointerRingSettingsKeys.defaultShape))
     var shape: PointerRingShape
+
+    @Stored(.cgFloat(
+        PointerRingSettingsKeys.displayDuration,
+        default: PointerRingSettingsKeys.defaultDisplayDuration,
+        clamp: PointerRingSettingsKeys.displayDurationRange
+    ))
+    var displayDuration: CGFloat
+
+    @Stored(.cgFloat(
+        PointerRingSettingsKeys.fadeDuration,
+        default: PointerRingSettingsKeys.defaultFadeDuration,
+        clamp: PointerRingSettingsKeys.fadeDurationRange
+    ))
+    var fadeDuration: CGFloat
     
     private var currentVisualSettingsSnapshot: VisualSettingsSnapshot {
         VisualSettingsSnapshot(
@@ -83,7 +99,9 @@ final class PointerRingSettings: PointerRingSettingsProtocol, ReactiveSettings, 
             colorHex: self.color.hexString,
             size: self.size,
             thickness: self.thickness,
-            shape: self.shape
+            shape: self.shape,
+            displayDuration: self.displayDuration,
+            fadeDuration: self.fadeDuration
         )
     }
 
@@ -113,5 +131,7 @@ private extension PointerRingSettings {
         let size: CGFloat
         let thickness: CGFloat
         let shape: PointerRingShape
+        let displayDuration: CGFloat
+        let fadeDuration: CGFloat
     }
 }

@@ -106,11 +106,13 @@ extension MouseSettingsPane.PreviewCard {
                 try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.holdDuration.nanoseconds)
                 guard !Task.isCancelled else { return }
 
-                withAnimation(.easeOut(duration: PointerRingAnimation.releaseAnimationDuration)) {
+                withAnimation(.easeOut(duration: self.model.ring.fadeDuration)) {
                     self.animationState = .released(alwaysVisible: self.model.ring.alwaysVisible)
                 }
 
-                try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
+                try? await Task.sleep(
+                    nanoseconds: (self.model.ring.fadeDuration + MouseSettingsPane.PreviewCard.idleDuration).nanoseconds
+                )
             }
         }
     }

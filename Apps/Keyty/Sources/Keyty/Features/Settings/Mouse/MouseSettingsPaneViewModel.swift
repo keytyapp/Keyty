@@ -23,6 +23,14 @@ final class MouseSettingsPaneViewModel: ObservableObject {
         Double(PointerRingSettingsKeys.thicknessRange.lowerBound)...Double(PointerRingSettingsKeys.thicknessRange.upperBound)
     static let ringThicknessStep: Double = 1
 
+    static let ringDisplayDurationRange: ClosedRange<Double> =
+        Double(PointerRingSettingsKeys.displayDurationRange.lowerBound)...Double(PointerRingSettingsKeys.displayDurationRange.upperBound)
+    static let ringDisplayDurationStep: Double = 0.2
+
+    static let ringFadeDurationRange: ClosedRange<Double> =
+        Double(PointerRingSettingsKeys.fadeDurationRange.lowerBound)...Double(PointerRingSettingsKeys.fadeDurationRange.upperBound)
+    static let ringFadeDurationStep: Double = 0.05
+
     @Published var selectedSettingsTab = SettingsTab.ring
 
     let ring: RingSection

@@ -12,72 +12,108 @@ extension MouseSettingsPane {
     var pointerRingSettingsSection: some View {
         let ring = self.model.ring
 
-        return SettingsSectionView {
-            SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.enabledSubtitle) {
-                Toggle("", isOn: self.binding(get: { ring.enabled }, set: { ring.enabled = $0 }))
-                    .labelsHidden()
-                    .accessibilityLabel(L10n.Mouse.enabled)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-            }
-
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.alwaysVisibleLabel, subtitle: L10n.Mouse.alwaysVisibleSubtitle) {
-                Toggle("", isOn: self.binding(get: { ring.alwaysVisible }, set: { ring.alwaysVisible = $0 }))
-                    .labelsHidden()
-                    .accessibilityLabel(L10n.Mouse.alwaysVisibleLabel)
-                    .toggleStyle(.switch)
-                    .controlSize(.small)
-                    .disabled(!ring.enabled)
-            }
-
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.ringShapeSubtitle) {
-                Picker("", selection: self.binding(get: { ring.shape }, set: { ring.shape = $0 })) {
-                    ForEach(PointerRingShape.allCases) { shape in
-                        Text(shape.label).tag(shape)
-                    }
+        return VStack(alignment: .leading, spacing: Spacing.xs) {
+            SettingsSectionView {
+                SettingsControlRow(title: L10n.Mouse.enabled, subtitle: L10n.Mouse.enabledSubtitle) {
+                    Toggle("", isOn: self.binding(get: { ring.enabled }, set: { ring.enabled = $0 }))
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.Mouse.enabled)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
                 }
-                .labelsHidden()
-                .accessibilityLabel(L10n.Mouse.ringShapeLabel)
-                .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
-                .disabled(!ring.enabled)
-            }
 
-            Divider()
+                Divider()
 
-            SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.ringColorSubtitle) {
-                self.ringColorControls
+                SettingsControlRow(title: L10n.Mouse.alwaysVisibleLabel, subtitle: L10n.Mouse.alwaysVisibleSubtitle) {
+                    Toggle("", isOn: self.binding(get: { ring.alwaysVisible }, set: { ring.alwaysVisible = $0 }))
+                        .labelsHidden()
+                        .accessibilityLabel(L10n.Mouse.alwaysVisibleLabel)
+                        .toggleStyle(.switch)
+                        .controlSize(.small)
+                        .disabled(!ring.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringShapeLabel, subtitle: L10n.Mouse.ringShapeSubtitle) {
+                    Picker("", selection: self.binding(get: { ring.shape }, set: { ring.shape = $0 })) {
+                        ForEach(PointerRingShape.allCases) { shape in
+                            Text(shape.label).tag(shape)
+                        }
+                    }
+                    .labelsHidden()
+                    .accessibilityLabel(L10n.Mouse.ringShapeLabel)
+                    .frame(width: Size.Control.settingsPickerWidth, alignment: .trailing)
                     .disabled(!ring.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringColorLabel, subtitle: L10n.Mouse.ringColorSubtitle) {
+                    self.ringColorControls
+                        .disabled(!ring.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.ringSizeSubtitle) {
+                    Slider(
+                        value: self.binding(get: { ring.size }, set: { ring.size = $0 }),
+                        in: MouseSettingsPaneViewModel.ringSizeRange,
+                        step: MouseSettingsPaneViewModel.ringSizeStep
+                    )
+                        .frame(width: Spacing.grid(42))
+                        .accessibilityLabel(L10n.Mouse.ringSizeLabel)
+                        .disabled(!ring.enabled)
+                }
+
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.ringThicknessSubtitle) {
+                    Slider(
+                        value: self.binding(get: { ring.thickness }, set: { ring.thickness = $0 }),
+                        in: MouseSettingsPaneViewModel.ringThicknessRange,
+                        step: MouseSettingsPaneViewModel.ringThicknessStep
+                    )
+                        .frame(width: Spacing.grid(42))
+                        .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
+                        .disabled(!ring.enabled)
+                }
             }
 
-            Divider()
+            SettingsSectionView(
+                title: L10n.Mouse.timingSectionTitle,
+                subtitle: L10n.Mouse.timingSectionSubtitle
+            ) {
+                SettingsControlRow(title: L10n.Mouse.displayDurationLabel, subtitle: L10n.Mouse.displayDurationSubtitle) {
+                    SettingsSliderControl(
+                        value: self.binding(get: { ring.displayDuration }, set: { ring.displayDuration = $0 }),
+                        range: MouseSettingsPaneViewModel.ringDisplayDurationRange,
+                        step: MouseSettingsPaneViewModel.ringDisplayDurationStep,
+                        edgeLabels: SettingsSliderEdgeLabels(
+                            leading: L10n.KeyboardVisualizer.LingerTime.short,
+                            trailing: L10n.KeyboardVisualizer.LingerTime.long
+                        ),
+                        accessibilityLabel: L10n.Mouse.displayDurationLabel
+                    )
+                }
 
-            SettingsControlRow(title: L10n.Mouse.ringSizeLabel, subtitle: L10n.Mouse.ringSizeSubtitle) {
-                Slider(
-                    value: self.binding(get: { ring.size }, set: { ring.size = $0 }),
-                    in: MouseSettingsPaneViewModel.ringSizeRange,
-                    step: MouseSettingsPaneViewModel.ringSizeStep
-                )
-                    .frame(width: Spacing.grid(42))
-                    .accessibilityLabel(L10n.Mouse.ringSizeLabel)
-                    .disabled(!ring.enabled)
+                Divider()
+
+                SettingsControlRow(title: L10n.Mouse.fadeDurationLabel, subtitle: L10n.Mouse.fadeDurationSubtitle) {
+                    SettingsSliderControl(
+                        value: self.binding(get: { ring.fadeDuration }, set: { ring.fadeDuration = $0 }),
+                        range: MouseSettingsPaneViewModel.ringFadeDurationRange,
+                        step: MouseSettingsPaneViewModel.ringFadeDurationStep,
+                        edgeLabels: SettingsSliderEdgeLabels(
+                            leading: L10n.KeyboardVisualizer.FadeDuration.fast,
+                            trailing: L10n.KeyboardVisualizer.FadeDuration.slow
+                        ),
+                        accessibilityLabel: L10n.Mouse.fadeDurationLabel
+                    )
+                }
             }
-
-            Divider()
-
-            SettingsControlRow(title: L10n.Mouse.ringThicknessLabel, subtitle: L10n.Mouse.ringThicknessSubtitle) {
-                Slider(
-                    value: self.binding(get: { ring.thickness }, set: { ring.thickness = $0 }),
-                    in: MouseSettingsPaneViewModel.ringThicknessRange,
-                    step: MouseSettingsPaneViewModel.ringThicknessStep
-                )
-                    .frame(width: Spacing.grid(42))
-                    .accessibilityLabel(L10n.Mouse.ringThicknessLabel)
-                    .disabled(!ring.enabled)
-            }
+            .disabled(!ring.enabled || ring.alwaysVisible)
         }
     }
 

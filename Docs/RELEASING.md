@@ -73,6 +73,36 @@ directory. Sparkle then updates that feed with the new release and preserves all
 existing appcast items. If the feed returns `404`, the lane starts a new appcast;
 other fetch failures stop the lane before creating the GitHub release.
 
+## App Store Connect Upload Workflow
+
+The **Upload App Store Build** workflow is separate from the Developer ID
+release workflow. Run it manually from GitHub Actions and provide a new,
+positive integer build number. It archives the `Keyty AppStore` scheme with
+App Store signing and uploads the build to App Store Connect; it does not
+submit the build for App Review.
+
+Before its first run:
+
+1. Create the macOS app record in App Store Connect for bundle ID
+   `app.keyty.Keyty.AppStore`.
+2. Create a team App Store Connect API key with a role that can upload builds
+   and manage signing assets, then configure an `app-store` GitHub environment
+   with these secrets:
+
+   | Secret | Description |
+   |---|---|
+   | `APP_STORE_CONNECT_API_KEY_BASE64` | Base64-encoded App Store Connect API key `.p8` |
+   | `APP_STORE_CONNECT_API_KEY_ID` | App Store Connect API key ID |
+   | `APP_STORE_CONNECT_ISSUER_ID` | App Store Connect issuer ID |
+
+   Optionally set `APP_STORE_TEAM_ID` in that environment to override the
+   default team ID, `NEVA4MAZBL`.
+3. Configure environment protection rules if uploads should require approval.
+
+The workflow saves the generated `.xcarchive` as an Actions artifact. App
+Store Connect processes the upload asynchronously; select the processed build
+there to distribute through TestFlight or submit it for App Review.
+
 ## Distribution Artifacts
 
 - `Keyty.zip` is the Sparkle update archive and the input to appcast generation.

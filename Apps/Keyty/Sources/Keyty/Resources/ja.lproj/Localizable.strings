@@ -3,6 +3,7 @@
 "main_menu.close_window" = "ウインドウを閉じる";
 "main_menu.file" = "ファイル";
 "main_menu.settings" = "設定…";
+"main_menu.visualizers" = "ビジュアライザー";
 "main_menu.quit" = "%@を終了";
 
 /* About window */

@@ -3,6 +3,7 @@
 "main_menu.close_window" = "창 닫기";
 "main_menu.file" = "파일";
 "main_menu.settings" = "설정…";
+"main_menu.visualizers" = "시각화 도구";
 "main_menu.quit" = "%@ 종료";
 
 /* About window */

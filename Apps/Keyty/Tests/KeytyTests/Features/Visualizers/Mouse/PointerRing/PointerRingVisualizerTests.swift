@@ -134,6 +134,24 @@ final class PointerRingVisualizerTests: XCTestCase {
         XCTAssertEqual(self.settings.fadeDuration, PointerRingSettingsKeys.fadeDurationRange.lowerBound)
     }
 
+    func testInteractionStateMachineRestartsFromFadeForRepeatedClicks() {
+        var stateMachine = PointerRingVisualizerWindow.StateMachine()
+
+        stateMachine.press()
+        stateMachine.release(alwaysVisible: false)
+        XCTAssertTrue(stateMachine.beginFade())
+        XCTAssertEqual(stateMachine.state, .fading)
+
+        stateMachine.press()
+        XCTAssertEqual(stateMachine.state, .pressed)
+        XCTAssertFalse(stateMachine.beginFade())
+
+        stateMachine.release(alwaysVisible: false)
+        XCTAssertEqual(stateMachine.state, .lingering)
+        XCTAssertTrue(stateMachine.beginFade())
+        XCTAssertEqual(stateMachine.state, .fading)
+    }
+
     func testIsEnabledPersists() {
         self.visualizer.isEnabled = true
 

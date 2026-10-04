@@ -16,6 +16,8 @@ public final class PointerRingVisualizerWindow: NSWindow {
     private var ringLayer: CAShapeLayer?
     private var cancellables = Set<AnyCancellable>()
     private var fadeOutWorkItem: DispatchWorkItem?
+    private var fadeOutGeneration = 0
+    private var interactionState = StateMachine()
 
     init(
         settings: any PointerRingSettingsProtocol & ReactiveSettings,
@@ -69,11 +71,13 @@ public final class PointerRingVisualizerWindow: NSWindow {
         switch PointerRingAnimation.eventPhase(for: mouseEvent.type) {
         case .press:
             self.cancelScheduledFadeOut()
+            self.interactionState.press()
             self.positionAroundPointer()
+            self.capturePresentationState()
             self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.clickAnimationKey)
             let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
             scaleAnimation.duration = PointerRingAnimation.pressAnimationDuration
-            scaleAnimation.fromValue = 1.0
+            scaleAnimation.fromValue = self.ringLayer?.transform.m11 ?? 1.0
             scaleAnimation.toValue = PointerRingAnimation.VisualState.pressed.scale
             self.ringLayer?.add(scaleAnimation, forKey: PointerRingAnimation.scaleAnimationKey)
             self.setRingLayerState(
@@ -93,11 +97,13 @@ public final class PointerRingVisualizerWindow: NSWindow {
             self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.scaleAnimationKey)
             if self.settings.alwaysVisible {
                 self.cancelScheduledFadeOut()
+                self.interactionState.release(alwaysVisible: true)
                 self.setRingLayerState(
                     opacity: Float(PointerRingAnimation.visibleOpacity),
                     transform: CATransform3DIdentity
                 )
             } else {
+                self.interactionState.release(alwaysVisible: false)
                 self.scheduleFadeOut()
             }
 
@@ -126,13 +132,16 @@ public final class PointerRingVisualizerWindow: NSWindow {
 
     private func resetRingLayerToIdleState() {
         self.cancelScheduledFadeOut()
+        self.interactionState.reset()
         self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.clickAnimationKey)
         self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.scaleAnimationKey)
         self.ringLayer?.transform = CATransform3DIdentity
         self.ringLayer?.opacity = Float(PointerRingAnimation.VisualState.idle(alwaysVisible: self.settings.alwaysVisible).opacity)
     }
 
-    func fadeOut() {
+    private func fadeOut() {
+        guard self.interactionState.beginFade() else { return }
+
         let duration = TimeInterval(self.settings.fadeDuration)
         guard duration > 0 else {
             self.setRingLayerState(
@@ -164,8 +173,12 @@ public final class PointerRingVisualizerWindow: NSWindow {
     private func scheduleFadeOut() {
         self.cancelScheduledFadeOut()
 
+        let generation = self.fadeOutGeneration
+
         let fadeOutWorkItem = DispatchWorkItem { [weak self] in
-            self?.fadeOut()
+            guard let self, self.fadeOutGeneration == generation else { return }
+            self.fadeOutWorkItem = nil
+            self.fadeOut()
         }
         self.fadeOutWorkItem = fadeOutWorkItem
         DispatchQueue.main.asyncAfter(
@@ -177,6 +190,15 @@ public final class PointerRingVisualizerWindow: NSWindow {
     private func cancelScheduledFadeOut() {
         self.fadeOutWorkItem?.cancel()
         self.fadeOutWorkItem = nil
+        self.fadeOutGeneration += 1
+    }
+
+    private func capturePresentationState() {
+        guard let presentationLayer = self.ringLayer?.presentation() else { return }
+        self.setRingLayerState(
+            opacity: presentationLayer.opacity,
+            transform: presentationLayer.transform
+        )
     }
 
     func setRingLayerState(opacity: Float, transform: CATransform3D) {

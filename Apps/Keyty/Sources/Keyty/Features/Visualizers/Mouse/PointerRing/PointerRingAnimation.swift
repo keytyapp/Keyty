@@ -9,6 +9,7 @@
 import AppKit
 
 enum PointerRingAnimation {
+    /// Classifies a single incoming mouse event.
     enum EventPhase {
         case press
         case drag

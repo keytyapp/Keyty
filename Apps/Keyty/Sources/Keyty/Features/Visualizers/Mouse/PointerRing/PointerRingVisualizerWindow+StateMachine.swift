@@ -33,6 +33,7 @@ extension PointerRingVisualizerWindow {
 }
 
 extension PointerRingVisualizerWindow.StateMachine {
+    /// Represents the pointer ring's lifecycle between mouse events.
     enum State: Equatable {
         case idle
         case pressed

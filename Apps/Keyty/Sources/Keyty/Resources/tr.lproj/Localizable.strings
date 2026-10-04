@@ -3,6 +3,7 @@
 "main_menu.close_window" = "Pencereyi Kapat";
 "main_menu.file" = "Dosya";
 "main_menu.settings" = "Ayarlar…";
+"main_menu.visualizers" = "Görselleştiriciler";
 "main_menu.quit" = "%@’den Çık";
 
 /* About window */

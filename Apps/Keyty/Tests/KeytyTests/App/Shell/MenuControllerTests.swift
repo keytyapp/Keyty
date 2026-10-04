@@ -11,6 +11,29 @@ import XCTest
 @testable import Keyty
 
 final class MenuControllerTests: XCTestCase {
+    func testStatusMenuVisualizersReflectCurrentSettings() throws {
+        let settings = AppSettingsContainer(store: InMemoryKeyValueStore())
+        let controller = MenuController()
+
+        let menu = controller.makeStatusMenu(
+            shortcutItem: controller.makeStatusShortcutMenuItem(),
+            settings: settings
+        )
+        menu.delegate?.menuNeedsUpdate?(menu)
+
+        let visualizersMenu = try XCTUnwrap(menu.items[1].submenu)
+        XCTAssertEqual(visualizersMenu.items.map(\.title), ["Keyboard", "Ring", "Ripples", "Icon"])
+        XCTAssertEqual(visualizersMenu.items.map(\.state), [.on, .off, .off, .off])
+
+        settings.keyboardVisualizerSettings.isEnabled = false
+        settings.pointerRingSettings.isEnabled = false
+        settings.pointerRipplesSettings.isEnabled = false
+        settings.pointerIconSettings.isEnabled = true
+        menu.delegate?.menuNeedsUpdate?(menu)
+
+        XCTAssertEqual(visualizersMenu.items.map(\.state), [.off, .off, .off, .on])
+    }
+
     func testMainMenuIncludesOnlyRequiredCommandQAndCommandWShortcuts() throws {
         let controller = MenuController()
 

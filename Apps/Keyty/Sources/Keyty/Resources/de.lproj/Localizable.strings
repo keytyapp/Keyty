@@ -3,6 +3,7 @@
 "main_menu.close_window" = "Fenster schließen";
 "main_menu.file" = "Ablage";
 "main_menu.settings" = "Einstellungen…";
+"main_menu.visualizers" = "Visualisierungen";
 "main_menu.quit" = "%@ beenden";
 
 /* About window */

@@ -3,6 +3,7 @@
 "main_menu.close_window" = "关闭窗口";
 "main_menu.file" = "文件";
 "main_menu.settings" = "设置…";
+"main_menu.visualizers" = "可视化器";
 "main_menu.quit" = "退出 %@";
 
 /* About window */

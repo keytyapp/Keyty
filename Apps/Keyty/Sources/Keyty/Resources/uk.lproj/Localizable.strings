@@ -3,6 +3,7 @@
 "main_menu.close_window" = "Закрити вікно";
 "main_menu.file" = "Файл";
 "main_menu.settings" = "Параметри…";
+"main_menu.visualizers" = "Візуалізатори";
 "main_menu.quit" = "Завершити роботу %@";
 
 /* About window */

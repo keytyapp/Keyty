@@ -3,6 +3,7 @@
 "main_menu.close_window" = "Fechar Janela";
 "main_menu.file" = "Arquivo";
 "main_menu.settings" = "Ajustes…";
+"main_menu.visualizers" = "Visualizadores";
 "main_menu.quit" = "Sair de %@";
 
 /* About window */

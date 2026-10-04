@@ -24,13 +24,16 @@ final class AppController: NSObject {
         self.updateService = UpdateServiceFactory.make()
         self.menuController = MenuController()
         let statusShortcutItem = self.menuController.makeStatusShortcutMenuItem()
-        self.statusItemController = StatusItemController(
-            menu: self.menuController.makeStatusMenu(shortcutItem: statusShortcutItem),
-            shortcutItem: statusShortcutItem
-        )
         self.dependencies = AppDependencies(
             statusShortcutItem: statusShortcutItem,
             updateService: self.updateService
+        )
+        self.statusItemController = StatusItemController(
+            menu: self.menuController.makeStatusMenu(
+                shortcutItem: statusShortcutItem,
+                settings: self.dependencies.settings
+            ),
+            shortcutItem: statusShortcutItem
         )
         super.init()
         self.menuController.setAppController(self)
@@ -133,6 +136,26 @@ extension AppController {
     @objc
     func toggleCapturing(_ sender: Any?) {
         self.dependencies.captureController.toggleCapturing()
+    }
+
+    @objc
+    func toggleKeyboardVisualizer(_ sender: Any?) {
+        self.dependencies.settings.keyboardVisualizerSettings.isEnabled.toggle()
+    }
+
+    @objc
+    func togglePointerRingVisualizer(_ sender: Any?) {
+        self.dependencies.settings.pointerRingSettings.isEnabled.toggle()
+    }
+
+    @objc
+    func togglePointerRipplesVisualizer(_ sender: Any?) {
+        self.dependencies.settings.pointerRipplesSettings.isEnabled.toggle()
+    }
+
+    @objc
+    func togglePointerIconVisualizer(_ sender: Any?) {
+        self.dependencies.settings.pointerIconSettings.isEnabled.toggle()
     }
 
     @objc

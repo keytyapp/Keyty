@@ -70,42 +70,13 @@ public final class PointerRingVisualizerWindow: NSWindow {
 
         switch PointerRingAnimation.eventPhase(for: mouseEvent.type) {
         case .press:
-            self.cancelScheduledFadeOut()
-            self.interactionState.press()
-            self.positionAroundPointer()
-            self.capturePresentationState()
-            self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.clickAnimationKey)
-            let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-            scaleAnimation.duration = PointerRingAnimation.pressAnimationDuration
-            scaleAnimation.fromValue = self.ringLayer?.transform.m11 ?? 1.0
-            scaleAnimation.toValue = PointerRingAnimation.VisualState.pressed.scale
-            self.ringLayer?.add(scaleAnimation, forKey: PointerRingAnimation.scaleAnimationKey)
-            self.setRingLayerState(
-                opacity: Float(PointerRingAnimation.VisualState.pressed.opacity),
-                transform: CATransform3DMakeScale(
-                    PointerRingAnimation.VisualState.pressed.scale,
-                    PointerRingAnimation.VisualState.pressed.scale,
-                    1.0
-                )
-            )
+            self.handlePress()
 
         case .drag:
             self.positionAroundPointer()
 
         case .release:
-            self.positionAroundPointer()
-            self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.scaleAnimationKey)
-            if self.settings.alwaysVisible {
-                self.cancelScheduledFadeOut()
-                self.interactionState.release(alwaysVisible: true)
-                self.setRingLayerState(
-                    opacity: Float(PointerRingAnimation.visibleOpacity),
-                    transform: CATransform3DIdentity
-                )
-            } else {
-                self.interactionState.release(alwaysVisible: false)
-                self.scheduleFadeOut()
-            }
+            self.handleRelease()
 
         case .ignored:
             break
@@ -115,6 +86,43 @@ public final class PointerRingVisualizerWindow: NSWindow {
     public func updatePointerPosition() {
         self.addRingLayerIfNeeded()
         self.positionAroundPointer()
+    }
+
+    private func handlePress() {
+        self.cancelScheduledFadeOut()
+        self.interactionState.press()
+        self.positionAroundPointer()
+        self.capturePresentationState()
+        self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.clickAnimationKey)
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnimation.duration = PointerRingAnimation.pressAnimationDuration
+        scaleAnimation.fromValue = self.ringLayer?.transform.m11 ?? 1.0
+        scaleAnimation.toValue = PointerRingAnimation.VisualState.pressed.scale
+        self.ringLayer?.add(scaleAnimation, forKey: PointerRingAnimation.scaleAnimationKey)
+        self.setRingLayerState(
+            opacity: Float(PointerRingAnimation.VisualState.pressed.opacity),
+            transform: CATransform3DMakeScale(
+                PointerRingAnimation.VisualState.pressed.scale,
+                PointerRingAnimation.VisualState.pressed.scale,
+                1.0
+            )
+        )
+    }
+
+    private func handleRelease() {
+        self.positionAroundPointer()
+        self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.scaleAnimationKey)
+        if self.settings.alwaysVisible {
+            self.cancelScheduledFadeOut()
+            self.interactionState.release(alwaysVisible: true)
+            self.setRingLayerState(
+                opacity: Float(PointerRingAnimation.visibleOpacity),
+                transform: CATransform3DIdentity
+            )
+        } else {
+            self.interactionState.release(alwaysVisible: false)
+            self.scheduleFadeOut()
+        }
     }
 
     private func addRingLayerIfNeeded() {

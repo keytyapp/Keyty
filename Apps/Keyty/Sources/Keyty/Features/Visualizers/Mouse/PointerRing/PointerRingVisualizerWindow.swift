@@ -94,10 +94,9 @@ public final class PointerRingVisualizerWindow: NSWindow {
         self.positionAroundPointer()
         self.capturePresentationState()
         self.ringLayer?.removeAnimation(forKey: PointerRingAnimation.clickAnimationKey)
-        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnimation.duration = PointerRingAnimation.pressAnimationDuration
-        scaleAnimation.fromValue = self.ringLayer?.transform.m11 ?? 1.0
-        scaleAnimation.toValue = PointerRingAnimation.VisualState.pressed.scale
+        let scaleAnimation = PointerRingAnimation.press(
+            fromScale: self.ringLayer?.transform.m11 ?? 1.0
+        )
         self.ringLayer?.add(scaleAnimation, forKey: PointerRingAnimation.scaleAnimationKey)
         self.setRingLayerState(
             opacity: Float(PointerRingAnimation.VisualState.pressed.opacity),
@@ -128,7 +127,7 @@ public final class PointerRingVisualizerWindow: NSWindow {
     private func addRingLayerIfNeeded() {
         guard self.ringLayer == nil else { return }
 
-        self.ringLayer = self.makeRingLayer()
+        self.ringLayer = PointerRingLayer.make(settings: self.settings)
         if self.contentView?.layer == nil {
             self.contentView?.wantsLayer = true
         }
@@ -159,18 +158,7 @@ public final class PointerRingVisualizerWindow: NSWindow {
             return
         }
 
-        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
-        opacityAnimation.fromValue = PointerRingAnimation.visibleOpacity
-        opacityAnimation.toValue = PointerRingAnimation.hiddenOpacity
-
-        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
-        scaleAnimation.fromValue = PointerRingAnimation.VisualState.pressed.scale
-        scaleAnimation.toValue = 1.0
-
-        let animationGroup = CAAnimationGroup()
-        animationGroup.duration = duration
-        animationGroup.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        animationGroup.animations = [opacityAnimation, scaleAnimation]
+        let animationGroup = PointerRingAnimation.fadeOut(duration: duration)
         self.ringLayer?.add(animationGroup, forKey: PointerRingAnimation.clickAnimationKey)
         self.setRingLayerState(
             opacity: Float(PointerRingAnimation.hiddenOpacity),
@@ -223,90 +211,4 @@ public final class PointerRingVisualizerWindow: NSWindow {
         self.setFrameOrigin(origin)
     }
 
-    private func makeRingLayer() -> CAShapeLayer {
-        let ringLayer = CAShapeLayer()
-        let diameter = self.settings.size
-        ringLayer.frame = CGRect(origin: .zero, size: NSSize(width: diameter, height: diameter))
-        let lineWidth = min(self.settings.thickness, diameter / 2)
-        let inset = lineWidth / 2
-        var rect = NSRect(
-            x: inset,
-            y: inset,
-            width: diameter - lineWidth,
-            height: diameter - lineWidth
-        )
-        if self.settings.shape == .rhomb {
-            let extraInsetX = rect.width * (1 - PointerRingAnimation.rhombFitScale) / 2
-            let extraInsetY = rect.height * (1 - PointerRingAnimation.rhombFitScale) / 2
-            rect = rect.insetBy(dx: extraInsetX, dy: extraInsetY)
-        }
-
-        let path = Self.makeVisualizerPath(shape: self.settings.shape, rect: rect)
-        ringLayer.path = path.cgPath
-
-        ringLayer.strokeColor = self.settings.color.cgColor
-        ringLayer.fillColor = NSColor.clear.cgColor
-        ringLayer.lineWidth = lineWidth
-        ringLayer.lineJoin = .round
-        ringLayer.opacity = 0.0
-
-        return ringLayer
-    }
-}
-
-// MARK: - Shapes Helpers
-extension PointerRingVisualizerWindow {
-    static func makeVisualizerPath(shape: PointerRingShape, rect: NSRect) -> NSBezierPath {
-        switch shape {
-        case .circle:
-            return NSBezierPath(ovalIn: rect)
-        case .rhomb:
-            return self.rhombPath(in: rect)
-        case .squircle:
-            return self.squirclePath(in: rect)
-        }
-    }
-    
-    private static func rhombPath(in rect: NSRect) -> NSBezierPath {
-        let path = squirclePath(in: rect)
-        let transform = NSAffineTransform()
-        transform.translateX(by: rect.midX, yBy: rect.midY)
-        transform.rotate(byDegrees: 45)
-        transform.translateX(by: -rect.midX, yBy: -rect.midY)
-        path.transform(using: transform as AffineTransform)
-        return path
-    }
-
-    private static func squirclePath(in rect: NSRect) -> NSBezierPath {
-        let path = NSBezierPath()
-        let center = NSPoint(x: rect.midX, y: rect.midY)
-        let radiusX = rect.width / 2
-        let radiusY = rect.height / 2
-        guard radiusX > 0, radiusY > 0 else { return path }
-
-        let exponent: CGFloat = 4.0
-        let samplesPerQuadrant = 16
-        let totalSamples = samplesPerQuadrant * 4
-
-        func point(at angle: CGFloat) -> NSPoint {
-            let cosValue = cos(angle)
-            let sinValue = sin(angle)
-            let x = radiusX * cosValue.signedSuperellipseComponent(exponent: exponent)
-            let y = radiusY * sinValue.signedSuperellipseComponent(exponent: exponent)
-            return NSPoint(x: center.x + x, y: center.y + y)
-        }
-
-        for index in 0...totalSamples {
-            let angle = (CGFloat(index) / CGFloat(totalSamples)) * .pi * 2
-            let point = point(at: angle)
-            if index == 0 {
-                path.move(to: point)
-            } else {
-                path.line(to: point)
-            }
-        }
-
-        path.close()
-        return path
-    }
 }

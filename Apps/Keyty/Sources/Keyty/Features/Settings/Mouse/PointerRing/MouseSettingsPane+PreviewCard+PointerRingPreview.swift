@@ -14,7 +14,7 @@ extension MouseSettingsPane.PreviewCard {
         let shape: PointerRingShape
 
         func path(in rect: CGRect) -> Path {
-            let path = PointerRingVisualizerWindow.makeVisualizerPath(
+            let path = PointerRingLayer.makePath(
                 shape: self.shape,
                 rect: NSRect(origin: .zero, size: rect.size)
             )

@@ -103,7 +103,7 @@ final class PointerRipplesWindow: NSWindow {
             rect = rect.insetBy(dx: extraInsetX, dy: extraInsetY)
         }
 
-        ringLayer.path = PointerRingVisualizerWindow.makeVisualizerPath(shape: style.shape, rect: rect).cgPath
+        ringLayer.path = PointerRingLayer.makePath(shape: style.shape, rect: rect).cgPath
         ringLayer.strokeColor = style.color.cgColor
         ringLayer.fillColor = NSColor.clear.cgColor
         ringLayer.lineWidth = lineWidth

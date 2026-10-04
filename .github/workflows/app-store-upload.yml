@@ -1,0 +1,120 @@
+name: Upload App Store Build
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_number:
+        description: Unique App Store build number to upload
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-store-upload
+  cancel-in-progress: false
+
+jobs:
+  upload:
+    name: Archive and upload
+    runs-on: macos-latest
+    environment: app-store
+    env:
+      APP_STORE_CONNECT_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_KEY_BASE64 }}
+      APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_TEAM_ID: ${{ vars.APP_STORE_TEAM_ID || 'NEVA4MAZBL' }}
+      BUILD_NUMBER: ${{ inputs.build_number }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Tuist
+        run: brew install tuist
+
+      - name: Validate upload configuration
+        run: |
+          set -euo pipefail
+          [[ "$BUILD_NUMBER" =~ ^[0-9]+$ ]] || { echo "build_number must be a positive integer" >&2; exit 1; }
+          test "$BUILD_NUMBER" -gt 0 || { echo "build_number must be greater than zero" >&2; exit 1; }
+          test -n "$APP_STORE_CONNECT_API_KEY_BASE64" || { echo "Missing APP_STORE_CONNECT_API_KEY_BASE64 secret" >&2; exit 1; }
+          test -n "$APP_STORE_CONNECT_API_KEY_ID" || { echo "Missing APP_STORE_CONNECT_API_KEY_ID secret" >&2; exit 1; }
+          test -n "$APP_STORE_CONNECT_ISSUER_ID" || { echo "Missing APP_STORE_CONNECT_ISSUER_ID secret" >&2; exit 1; }
+
+      - name: Prepare App Store Connect API key
+        run: |
+          set -euo pipefail
+          key_directory="$RUNNER_TEMP/app-store-connect"
+          mkdir -p "$key_directory"
+          key_path="$key_directory/AuthKey_${APP_STORE_CONNECT_API_KEY_ID}.p8"
+          printf '%s' "$APP_STORE_CONNECT_API_KEY_BASE64" | base64 -D > "$key_path"
+          test -s "$key_path" || { echo "Decoded App Store Connect API key is empty" >&2; exit 1; }
+          echo "APP_STORE_CONNECT_API_KEY_PATH=$key_path" >> "$GITHUB_ENV"
+
+      - name: Generate project
+        working-directory: Apps/Keyty
+        run: tuist generate
+
+      - name: Archive App Store build
+        working-directory: Apps/Keyty
+        run: |
+          set -euo pipefail
+          xcodebuild archive \
+            -project Keyty.xcodeproj \
+            -scheme 'Keyty AppStore' \
+            -configuration AppStore \
+            -destination 'generic/platform=macOS' \
+            -archivePath "$RUNNER_TEMP/KeytyAppStore.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$APP_STORE_CONNECT_API_KEY_PATH" \
+            -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID" \
+            CURRENT_PROJECT_VERSION="$BUILD_NUMBER" \
+            CODE_SIGN_STYLE=Automatic \
+            CODE_SIGN_IDENTITY='Apple Distribution' \
+            DEVELOPMENT_TEAM="$APP_STORE_TEAM_ID" \
+            clean archive
+
+      - name: Upload to App Store Connect
+        working-directory: Apps/Keyty
+        run: |
+          set -euo pipefail
+          export_options="$RUNNER_TEMP/AppStoreExportOptions.plist"
+          cat > "$export_options" <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>destination</key>
+            <string>upload</string>
+            <key>manageAppVersionAndBuildNumber</key>
+            <false/>
+            <key>method</key>
+            <string>app-store-connect</string>
+            <key>signingStyle</key>
+            <string>automatic</string>
+            <key>teamID</key>
+            <string>NEVA4MAZBL</string>
+            <key>uploadSymbols</key>
+            <true/>
+          </dict>
+          </plist>
+          PLIST
+          /usr/libexec/PlistBuddy -c "Set :teamID $APP_STORE_TEAM_ID" "$export_options"
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/KeytyAppStore.xcarchive" \
+            -exportOptionsPlist "$export_options" \
+            -exportPath "$RUNNER_TEMP/app-store-export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$APP_STORE_CONNECT_API_KEY_PATH" \
+            -authenticationKeyID "$APP_STORE_CONNECT_API_KEY_ID" \
+            -authenticationKeyIssuerID "$APP_STORE_CONNECT_ISSUER_ID"
+
+      - name: Upload archive
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: KeytyAppStore-${{ inputs.build_number }}.xcarchive
+          path: ${{ runner.temp }}/KeytyAppStore.xcarchive
+          if-no-files-found: warn

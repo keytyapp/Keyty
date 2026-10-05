@@ -134,6 +134,24 @@ final class PointerRingVisualizerTests: XCTestCase {
         XCTAssertEqual(self.settings.fadeDuration, PointerRingSettingsKeys.fadeDurationRange.lowerBound)
     }
 
+    func testInteractionStateMachineRestartsFromFadeForRepeatedClicks() {
+        var stateMachine = PointerRingVisualizerWindow.StateMachine()
+
+        stateMachine.press()
+        stateMachine.release(alwaysVisible: false)
+        XCTAssertTrue(stateMachine.beginFade())
+        XCTAssertEqual(stateMachine.state, .fading)
+
+        stateMachine.press()
+        XCTAssertEqual(stateMachine.state, .pressed)
+        XCTAssertFalse(stateMachine.beginFade())
+
+        stateMachine.release(alwaysVisible: false)
+        XCTAssertEqual(stateMachine.state, .lingering)
+        XCTAssertTrue(stateMachine.beginFade())
+        XCTAssertEqual(stateMachine.state, .fading)
+    }
+
     func testIsEnabledPersists() {
         self.visualizer.isEnabled = true
 
@@ -199,7 +217,7 @@ final class PointerRingVisualizerTests: XCTestCase {
 
     func testRingPathCircleUsesOval() {
         let rect = NSRect(x: 4, y: 6, width: 20, height: 20)
-        let path = PointerRingVisualizerWindow.makeVisualizerPath(shape: .circle, rect: rect)
+        let path = PointerRingLayer.makePath(shape: .circle, rect: rect)
 
         XCTAssertEqual(path.cgPath.pathElements.map(\.type.rawValue), [
             CGPathElementType.moveToPoint.rawValue,
@@ -216,8 +234,8 @@ final class PointerRingVisualizerTests: XCTestCase {
 
     func testRingPathRhombUsesFourCorners() {
         let rect = NSRect(x: 4, y: 6, width: 20, height: 20)
-        let rhomb = PointerRingVisualizerWindow.makeVisualizerPath(shape: .rhomb, rect: rect)
-        let squircle = PointerRingVisualizerWindow.makeVisualizerPath(shape: .squircle, rect: rect)
+        let rhomb = PointerRingLayer.makePath(shape: .rhomb, rect: rect)
+        let squircle = PointerRingLayer.makePath(shape: .squircle, rect: rect)
         let rotatedSquircle = squircle.rotated(byDegrees: 45, around: NSPoint(x: rect.midX, y: rect.midY))
 
         XCTAssertEqual(rhomb.cgPath.pathElements.map(\.type), rotatedSquircle.cgPath.pathElements.map(\.type))
@@ -236,7 +254,7 @@ final class PointerRingVisualizerTests: XCTestCase {
 
     func testRingPathSquircleStaysWithinBounds() {
         let rect = NSRect(x: 4, y: 6, width: 20, height: 20)
-        let path = PointerRingVisualizerWindow.makeVisualizerPath(shape: .squircle, rect: rect)
+        let path = PointerRingLayer.makePath(shape: .squircle, rect: rect)
 
         XCTAssertGreaterThan(path.elementCount, 10)
         XCTAssertEqual(path.bounds.minX, rect.minX, accuracy: 0.001)

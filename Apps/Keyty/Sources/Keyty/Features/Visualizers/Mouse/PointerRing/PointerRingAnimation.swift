@@ -7,8 +7,10 @@
 //
 
 import AppKit
+import QuartzCore
 
 enum PointerRingAnimation {
+    /// Classifies a single incoming mouse event.
     enum EventPhase {
         case press
         case drag
@@ -65,5 +67,29 @@ enum PointerRingAnimation {
         default:
             return .ignored
         }
+    }
+
+    static func press(fromScale: CGFloat) -> CABasicAnimation {
+        let animation = CABasicAnimation(keyPath: "transform.scale")
+        animation.duration = self.pressAnimationDuration
+        animation.fromValue = fromScale
+        animation.toValue = self.VisualState.pressed.scale
+        return animation
+    }
+
+    static func fadeOut(duration: TimeInterval) -> CAAnimationGroup {
+        let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+        opacityAnimation.fromValue = self.visibleOpacity
+        opacityAnimation.toValue = self.hiddenOpacity
+
+        let scaleAnimation = CABasicAnimation(keyPath: "transform.scale")
+        scaleAnimation.fromValue = self.VisualState.pressed.scale
+        scaleAnimation.toValue = 1.0
+
+        let animation = CAAnimationGroup()
+        animation.duration = duration
+        animation.timingFunction = CAMediaTimingFunction(name: .easeOut)
+        animation.animations = [opacityAnimation, scaleAnimation]
+        return animation
     }
 }

@@ -17,6 +17,7 @@ concurrency:
 jobs:
   release:
     if: ${{ !endsWith(github.ref_name, '-test') }}
+    environment: app-store
     runs-on: macos-latest
 
     env:

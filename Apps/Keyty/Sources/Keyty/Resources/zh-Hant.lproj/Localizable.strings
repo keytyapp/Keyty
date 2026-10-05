@@ -1,0 +1,294 @@
+/* Main menu */
+"main_menu.about" = "關於 %@";
+"main_menu.close_window" = "關閉視窗";
+"main_menu.file" = "檔案";
+"main_menu.settings" = "設定…";
+"main_menu.visualizers" = "視覺化工具";
+"main_menu.quit" = "結束 %@";
+
+/* About window */
+"about.version" = "版本 %@（%@）";
+"about.tab.license" = "許可證";
+"about.tab.contributors" = "貢獻者";
+"about.tab.credits" = "致謝";
+"about.license.keyty_title" = "Keyty";
+"about.license.keyty_subtitle" = "BSD 3-Clause 許可證";
+"about.contributors.title" = "貢獻者";
+"about.contributors.subtitle" = "幫助改進 Keyty 的貢獻者。";
+"about.credits.sparkle_subtitle" = "MIT 許可證";
+"about.credits.app_mover_subtitle" = "MIT 許可證";
+"about.credits.shortcut_recorder_subtitle" = "Creative Commons Attribution 4.0 International";
+"about.credits.license_missing" = "無法載入許可證文字。";
+
+/* Settings pane tab labels */
+"settings.sidebar_subtitle" = "設定";
+"settings.sidebar_version" = "版本 %@（%@）";
+"settings.pane.general" = "通用";
+"settings.pane.keyboard" = "鍵盤";
+"settings.pane.mouse" = "滑鼠";
+"settings.pane.displays" = "顯示器";
+"settings.pane.permissions" = "權限";
+"settings.pane.update" = "更新";
+"settings.pane.info" = "信息";
+
+/* Anchor labels */
+"anchor.left" = "左側";
+"anchor.center" = "置中";
+"anchor.right" = "右側";
+"anchor.top" = "頂部";
+"anchor.vertical_center" = "中間";
+"anchor.bottom" = "底部";
+
+/* Displays settings pane */
+"displays.display_label" = "顯示器";
+"displays.display_subtitle" = "用於顯示鍵盤覆蓋層的顯示器";
+"displays.placement.custom" = "自訂";
+"displays.anchor_label" = "錨點";
+"displays.anchor_subtitle" = "覆蓋層的對齊方式和展開基點。";
+"displays.margin_label" = "螢幕边距";
+"displays.margin_subtitle" = "覆蓋層與所選螢幕邊緣之間的距離。";
+"displays.custom_position.label" = "位置";
+"displays.custom_position.set_subtitle" = "選擇覆蓋層在所選顯示器上的顯示位置。";
+"displays.custom_position.start_setting_button" = "調整...";
+"displays.custom_position.stop_setting_button" = "套用";
+"displays.custom_horizontal_alignment_label" = "水平對齊";
+"displays.custom_horizontal_alignment_subtitle" = "選擇覆蓋層如何從自訂位置向水平方向展開。";
+"displays.custom_vertical_alignment_label" = "垂直對齊";
+"displays.custom_vertical_alignment_subtitle" = "選擇覆蓋層如何從自訂位置向垂直方向展開。";
+"displays.horizontal_alignment_left_to_right" = "從左到右";
+"displays.horizontal_alignment_center_out" = "從中間向外";
+"displays.horizontal_alignment_right_to_left" = "從右到左";
+"displays.vertical_alignment_top_down" = "從上到下";
+"displays.vertical_alignment_middle_out" = "從中間向外";
+"displays.vertical_alignment_bottom_up" = "從下到上";
+
+/* General settings pane */
+"general.appearance_section_title" = "應用程式";
+"general.capture_input" = "顯示輸入視覺化內容";
+"general.capture_input_subtitle" = "顯示或隱藏所有輸入視覺化內容。";
+"general.shortcut_section_title" = "快速鍵";
+"general.toggle_capturing_label" = "切換輸入顯示";
+"general.toggle_capturing_subtitle" = "用於在任意位置開始或停止輸入顯示的全域快速鍵。";
+"general.shortcut_validation_fallback" = "無法使用此快速鍵。";
+"general.start_capturing" = "啟用";
+"general.stop_capturing" = "停用";
+"general.show_settings_at_launch" = "啟動時顯示設定";
+"general.show_settings_at_launch_subtitle" = "Keyty 啟動時自動重新打開設定視窗。";
+"general.settings_section_title" = "設定";
+"general.reset_all_settings_title" = "重設所有設定";
+"general.reset_all_settings_subtitle" = "將鍵盤、滑鼠、顯示、應用程式和快速鍵設定還原為預設值。";
+"general.reset_all_settings_button" = "重設";
+"general.reset_all_settings_confirmation_title" = "要重設所有設定嗎？";
+"general.reset_all_settings_confirmation_message" = "這將把鍵盤、滑鼠、顯示、應用程式和快速鍵設定還原為預設值。";
+"general.reset_all_settings_confirmation_button" = "重設設定";
+"general.reset_all_settings_cancel_button" = "取消";
+
+/* Event capture */
+"event_tap.creation_failed" = "無法開始監測輸入。需要“輔助功能”權限。";
+
+/* Info settings pane */
+"info.github_label" = "GitHub";
+"info.website_label" = "網站";
+"info.email_label" = "電子郵件";
+
+/* Keyboard visualizer settings pane */
+"keyboard_visualizer.live_overlay_section_title" = "即時預覽";
+"keyboard_visualizer.live_overlay_section_subtitle" = "此預覽使用目前的鍵盤視覺化設定進行實際渲染。";
+"keyboard_visualizer.general_section_title" = "通用";
+"keyboard_visualizer.general_section_subtitle" = "控制鍵盤覆蓋層的可見性和外觀。";
+"keyboard_visualizer.theme_section_title" = "主題";
+"keyboard_visualizer.theme_section_subtitle" = "為每種按鍵類型設定專屬的調色盤。";
+"keyboard_visualizer.history_section_title" = "歷史記錄";
+"keyboard_visualizer.history_section_subtitle" = "設定可見按鍵的數量以及連續按鍵組的堆疊方式。";
+"keyboard_visualizer.timing_section_title" = "時間";
+"keyboard_visualizer.timing_section_subtitle" = "設定按鍵保持可見的時間和淡出的速度。";
+"keyboard_visualizer.filter_section_title" = "篩選";
+"keyboard_visualizer.filter_section_subtitle" = "選擇要在覆蓋層中顯示的鍵盤事件。";
+"keyboard_visualizer.enabled_label" = "已啟用";
+"keyboard_visualizer.enabled_subtitle" = "鍵盤覆蓋層可見性。";
+"keyboard_visualizer.axis_label" = "方向";
+"keyboard_visualizer.axis_subtitle" = "連續按鍵組的堆疊方向。";
+"keyboard_visualizer.anchor_label" = "位置";
+"keyboard_visualizer.anchor_subtitle" = "覆蓋層固定到的螢幕邊緣。";
+"keyboard_visualizer.axis.vertical" = "垂直";
+"keyboard_visualizer.axis.horizontal" = "水平";
+"keyboard_visualizer.max_count_label" = "最大數量";
+"keyboard_visualizer.max_count_subtitle" = "堆疊中可見按鍵的最大數量。";
+"keyboard_visualizer.size_label" = "大小";
+"keyboard_visualizer.size_subtitle" = "所渲染按鍵的整體縮放比例。";
+"keyboard_visualizer.style_label" = "樣式";
+"keyboard_visualizer.style_subtitle" = "按鍵的整體結構和表面效果。";
+"keyboard_visualizer.style.apple" = "Apple Magic Keyboard";
+"keyboard_visualizer.style.pbt" = "PBT";
+"keyboard_visualizer.style.minimal" = "極簡";
+"keyboard_visualizer.style.retro" = "復古";
+"keyboard_visualizer.style.m0116" = "Apple Standard Keyboard";
+"keyboard_visualizer.linger_time_label" = "顯示時間";
+"keyboard_visualizer.linger_time_subtitle" = "按鍵在淡出前保持完全可見的時間。";
+"keyboard_visualizer.linger_time.short" = "短";
+"keyboard_visualizer.linger_time.long" = "長";
+"keyboard_visualizer.fade_duration_label" = "淡出持續時間";
+"keyboard_visualizer.fade_duration_subtitle" = "按鍵開始淡出後的消失速度。";
+"keyboard_visualizer.fade_duration.fast" = "快";
+"keyboard_visualizer.fade_duration.slow" = "慢";
+"keyboard_visualizer.only_show_modified_keystrokes_label" = "僅顯示組合鍵";
+"keyboard_visualizer.only_show_modified_keystrokes_subtitle" = "僅顯示與 Command、Control、Option 或 Shift 同時按下的按鍵。";
+"keyboard_visualizer.collapse_repeated_groups_label" = "合併連續重複分組";
+"keyboard_visualizer.collapse_repeated_groups_subtitle" = "當同一按鍵或組合鍵連續重複按下時，顯示計數徽標。";
+"keyboard_visualizer.reverse_order_label" = "反轉順序";
+"keyboard_visualizer.reverse_order_subtitle" = "將新分組新增到堆疊末尾，而不是開頭。";
+"keyboard_visualizer.show_special_keys_label" = "特殊按鍵";
+"keyboard_visualizer.show_special_keys_subtitle" = "Tab、Return、箭頭、fn、功能鍵及類似按鍵。";
+"keyboard_visualizer.show_media_key_buttons_label" = "媒體按鍵";
+"keyboard_visualizer.show_media_key_buttons_subtitle" = "播放、音量、亮度及類似的媒體按鍵。";
+"keyboard_visualizer.show_mouse_events_label" = "滑鼠事件";
+"keyboard_visualizer.show_mouse_events_subtitle" = "滑鼠點擊和滾輪事件。";
+
+/* Keyboard visualizer theme settings */
+"keyboard_visualizer.theme_label" = "主題";
+"keyboard_visualizer.theme_subtitle" = "套用於所選按鍵樣式的調色盤。";
+"keyboard_visualizer.legend_color_label" = "標示顏色";
+"keyboard_visualizer.legend_color_subtitle" = "按鍵上的文字、符號和滑鼠圖示所使用的顏色。";
+"keyboard_visualizer.choose_color" = "選擇顏色…";
+"keyboard_visualizer.theme_custom" = "自訂…";
+"keyboard_visualizer.regular_theme_label" = "一般按鍵";
+"keyboard_visualizer.regular_theme_subtitle" = "字母、數字和其他文字按鍵的主題。";
+"keyboard_visualizer.modifier_theme_label" = "修飾鍵";
+"keyboard_visualizer.modifier_theme_subtitle" = "Command、Shift、Option、Control 和 fn 的主題。";
+"keyboard_visualizer.special_theme_label" = "特殊按鍵";
+"keyboard_visualizer.special_theme_subtitle" = "Tab、Return、箭頭、功能鍵及其他非文字按鍵的主題。";
+"keyboard_visualizer.media_theme_label" = "媒體按鍵";
+"keyboard_visualizer.media_theme_subtitle" = "播放和亮度控制按鍵的主題。";
+"keyboard_visualizer.mouse_theme_label" = "滑鼠事件";
+"keyboard_visualizer.mouse_theme_subtitle" = "滑鼠點擊和滾輪事件的主題。";
+"keyboard_visualizer.group_background_theme_label" = "按鍵組背景";
+"keyboard_visualizer.group_background_theme_subtitle" = "每組按鍵背後面板的主題。";
+"keyboard_visualizer.theme.citrus" = "柑橘";
+"keyboard_visualizer.theme.blue" = "藍色";
+"keyboard_visualizer.theme.green" = "綠色";
+"keyboard_visualizer.theme.white" = "白色";
+"keyboard_visualizer.theme.dark" = "深色";
+"keyboard_visualizer.theme.red" = "紅色";
+"keyboard_visualizer.theme.indigo" = "靛藍色";
+"keyboard_visualizer.theme.rose" = "玫瑰色";
+"keyboard_visualizer.theme.purple" = "紫色";
+"keyboard_visualizer.theme.yellow" = "黃色";
+"keyboard_visualizer.theme.orange" = "橙色";
+"keyboard_visualizer.theme.pink" = "粉紅色";
+"keyboard_visualizer.color.automatic" = "自動";
+"keyboard_visualizer.color.red" = "紅色";
+"keyboard_visualizer.color.orange" = "橙色";
+"keyboard_visualizer.color.yellow" = "黃色";
+"keyboard_visualizer.color.green" = "綠色";
+"keyboard_visualizer.color.blue" = "藍色";
+"keyboard_visualizer.color.purple" = "紫色";
+"keyboard_visualizer.color.pink" = "粉紅色";
+"keyboard_visualizer.color.white" = "白色";
+"keyboard_visualizer.color.black" = "黑色";
+
+/* Mouse settings pane */
+"mouse.tab_ring" = "圓環";
+"mouse.tab_ripples" = "點擊圓環";
+"mouse.tab_icon" = "圖示";
+"mouse.pointer_ring_label" = "指標圓環";
+"mouse.enabled" = "啟用";
+"mouse.enabled_subtitle" = "指標圓環的可見狀態。";
+"mouse.ripples_enabled_subtitle" = "動畫點擊圓環的可見狀態。";
+"mouse.always_visible_label" = "始終顯示";
+"mouse.always_visible_subtitle" = "指標閒置時圓環仍保持可見。";
+"mouse.ring_color_label" = "顏色";
+"mouse.ring_color_subtitle" = "指標圓環的預設或自訂顏色。";
+"mouse.ripples_color_subtitle" = "點擊圓環的預設或自訂顏色。";
+"mouse.ring_size_label" = "大小";
+"mouse.ring_size_subtitle" = "指標圓環的直徑。";
+"mouse.ripples_size_subtitle" = "每個產生的點擊圓環的直徑。";
+"mouse.ring_thickness_label" = "粗細";
+"mouse.ring_thickness_subtitle" = "指標圓環的線條粗細。";
+"mouse.ripples_thickness_subtitle" = "每个產生的點擊圓環的線條粗細。";
+"mouse.ring_shape_label" = "形狀";
+"mouse.ring_shape_subtitle" = "指標圓環的輪廓形狀。";
+"mouse.ripples_shape_subtitle" = "每个產生的點擊圓環的輪廓形狀。";
+"mouse.pointer_icon_label" = "指標圖示";
+"mouse.pointer_icon_enabled" = "啟用";
+"mouse.pointer_icon_enabled_subtitle" = "指標圖示覆蓋層的可見狀態。";
+"mouse.pointer_icon_always_visible_label" = "始終顯示";
+"mouse.pointer_icon_always_visible_subtitle" = "未按下滑鼠按鈕時圖示仍保持可見。";
+"mouse.pointer_icon_anchor_label" = "錨點";
+"mouse.pointer_icon_anchor_subtitle" = "用作圖示錨點的指標邊緣。";
+"mouse.pointer_icon_offset_label" = "偏移";
+"mouse.pointer_icon_offset_subtitle" = "指標與圖示覆蓋層之間的距離。";
+"mouse.icon_size_label" = "圖示大小";
+"mouse.icon_size_subtitle" = "指標圖示覆蓋層的縮放比例。";
+"mouse.icon_background_label" = "背景顏色";
+"mouse.icon_background_subtitle" = "指標圖示背後的填色。";
+"mouse.icon_tint_label" = "圖示顏色";
+"mouse.icon_tint_subtitle" = "指標圖示的前景顏色。";
+"mouse.choose_color" = "選擇顏色…";
+"mouse.color.automatic" = "自動";
+"mouse.color.red" = "紅色";
+"mouse.color.orange" = "橙色";
+"mouse.color.yellow" = "黃色";
+"mouse.color.green" = "綠色";
+"mouse.color.blue" = "藍色";
+"mouse.color.purple" = "紫色";
+"mouse.color.pink" = "粉紅色";
+"mouse.color.graphite" = "石墨色";
+"mouse.color.white" = "白色";
+"mouse.color.black" = "黑色";
+"mouse.shape.circle" = "圓形";
+"mouse.shape.rhomb" = "菱形";
+"mouse.shape.squircle" = "圓角方形";
+
+
+"mouse.pointer_ripples_label" = "漣漪";
+"mouse.timing_section_title" = "時間";
+"mouse.timing_section_subtitle" = "控制圓環在點擊後保持可見的時間，以及淡出的速度。";
+"mouse.display_duration_label" = "顯示持續時間";
+"mouse.display_duration_subtitle" = "圓環在點擊後保持完全可見的時間。";
+"mouse.fade_duration_label" = "淡出持續時間";
+"mouse.fade_duration_subtitle" = "開始淡出後圓環消失的速度。";
+"mouse.ripples_timing_section_subtitle" = "控制每個漣漪擴展及淡出的速度。";
+"mouse.ripples_duration_label" = "漣漪持續時間";
+"mouse.ripples_duration_subtitle" = "每個漣漪擴展及淡出所需的時間。";
+"mouse.pointer_icon_timing_section_subtitle" = "控制點擊和捲動圖示保持可見的時間。";
+"mouse.click_display_duration_label" = "點擊顯示持續時間";
+"mouse.click_display_duration_subtitle" = "滑鼠按鍵放開後，點擊圖示保持可見的時間。";
+"mouse.scroll_display_duration_label" = "捲動顯示持續時間";
+"mouse.scroll_display_duration_subtitle" = "最後一次捲動事件後，捲動圖示保持可見的時間。";
+
+/* Permissions settings pane */
+"permissions.input_monitoring_label" = "輸入監控";
+"permissions.accessibility_section_subtitle" = "Keyty 需要「輔助使用」權限才能監測並顯示輸入事件。";
+"permissions.input_monitoring_section_subtitle" = "Keyty 需要「輸入監控」權限才能監測並顯示輸入事件。";
+
+/* Permissions onboarding */
+"permissions_onboarding.input_monitoring.title" = "輸入監控";
+"permissions_onboarding.input_monitoring.subtitle" = "若要啟用鍵盤和滑鼠視覺化，\n請授予 macOS「輸入監控」權限。";
+"permissions_onboarding.input_monitoring.detail" = "建議用於顯示鍵盤和滑鼠輸入的權限。";
+"permissions_onboarding.input_monitoring.grant_button" = "授權…";
+"permissions_onboarding.accessibility.subtitle" = "若要啟用鍵盤和滑鼠視覺化，\n請授予 macOS「輔助使用」權限。";
+"permissions.accessibility_label" = "輔助功能";
+"permissions.section_subtitle" = "Keyty 需要“輔助功能”權限才能監測並顯示輸入事件。";
+"permissions.status.granted" = "已授權";
+"permissions.status.not_granted" = "未授權";
+"permissions.grant_access_button" = "授權…";
+
+/* Permissions onboarding */
+"permissions_onboarding.title" = "設定 Keyty";
+"permissions_onboarding.subtitle" = "要啟用鍵盤和滑鼠視覺化，\n請授予 macOS“輔助功能”權限。";
+"permissions_onboarding.accessibility.title" = "輔助功能";
+"permissions_onboarding.accessibility.detail" = "用於顯示鍵盤和滑鼠輸入。";
+"permissions_onboarding.accessibility.grant_button" = "授權…";
+"permissions_onboarding.privacy" = "所有輸入都在本機 Mac 上處理，不會上傳或儲存任何內容。";
+"permissions_onboarding.learn_more" = "瞭解更多";
+"permissions_onboarding.continue" = "繼續";
+"permissions_onboarding.continue_hint" = "授予“輔助功能”權限後繼續。";
+
+/* Update settings pane */
+"update.check_at_startup" = "啟動時檢查更新";
+"update.check_at_startup_subtitle" = "Sparkle 將定期檢查新版本。";
+"update.include_system_profile" = "包含匿名系統概況";
+"update.include_system_profile_subtitle" = "檢查更新時傳送基本的硬體概況。";
+"update.last_checked_label" = "上次檢查";
+"update.never" = "永不";
+"update.check_now_button" = "檢查更新";

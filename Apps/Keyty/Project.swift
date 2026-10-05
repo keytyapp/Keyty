@@ -202,7 +202,7 @@ let project = Project(
     organizationName: "Keyty",
     options: .options(
         automaticSchemesOptions: .disabled,
-        defaultKnownRegions: ["de", "en", "es", "fr", "it", "ja", "ko", "nl", "pl", "pt-BR", "tr", "uk", "zh-Hans"],
+        defaultKnownRegions: ["de", "en", "es", "fr", "it", "ja", "ko", "nl", "pl", "pt-BR", "tr", "uk", "zh-Hans", "zh-Hant"],
         developmentRegion: "en"
     ),
     packages: [

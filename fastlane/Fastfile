@@ -302,7 +302,7 @@ end
 
 def notarize(path)
   output = sh("xcrun notarytool submit #{notary_credentials.shelljoin} " \
-              "--wait --output-format json #{path.shellescape}", log: false)
+              "--wait --output-format json #{path.shellescape}")
   result = JSON.parse(output)
   status = result["status"]
   return if status == "Accepted"

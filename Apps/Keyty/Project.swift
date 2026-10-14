@@ -32,6 +32,7 @@ let appSettings: SettingsDictionary = [
     "PRODUCT_BUNDLE_IDENTIFIER": "app.keyty.Keyty",
     "PRODUCT_NAME": "Keyty",
     "PROVISIONING_PROFILE_SPECIFIER": "",
+    "SWIFT_STRICT_CONCURRENCY": "complete",
     "SWIFT_VERSION": "5.0",
     "WRAPPER_EXTENSION": "app",
 ]
@@ -113,6 +114,7 @@ let testSettings: SettingsDictionary = [
     "MTL_FAST_MATH": "YES",
     "PRODUCT_BUNDLE_IDENTIFIER": "app.keyty.KeytyTests",
     "PRODUCT_NAME": "KeytyTests",
+    "SWIFT_STRICT_CONCURRENCY": "complete",
     "SWIFT_VERSION": "5.0",
     "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/Keyty.app/Contents/MacOS/Keyty",
 ]

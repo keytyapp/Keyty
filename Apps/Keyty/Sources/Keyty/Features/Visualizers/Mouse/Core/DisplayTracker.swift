@@ -18,8 +18,8 @@ final class DisplayTracker {
     }
 
     func start() {
-        CVDisplayLinkCreateWithActiveCGDisplays(&cvLink)
-        guard let link = cvLink else { return }
+        CVDisplayLinkCreateWithActiveCGDisplays(&self.cvLink)
+        guard let link = self.cvLink else { return }
         CVDisplayLinkSetOutputHandler(link) { [weak self] _, _, _, _, _ in
             DispatchQueue.main.async { self?.tick() }
             return kCVReturnSuccess
@@ -28,8 +28,8 @@ final class DisplayTracker {
     }
 
     func stop() {
-        guard let link = cvLink else { return }
+        guard let link = self.cvLink else { return }
         CVDisplayLinkStop(link)
-        cvLink = nil
+        self.cvLink = nil
     }
 }

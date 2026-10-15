@@ -16,8 +16,8 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
     var maxCount: Int { get set }
     var isReversed: Bool { get set }
     
-    var fadeDelay: CGFloat { get set }
-    var fadeDuration: CGFloat { get set }
+    var fadeDelay: TimeInterval { get set }
+    var fadeDuration: TimeInterval { get set }
     
     var theme: KeyboardVisualizerTheme { get set }
     var legendColorMode: KeyboardLegendColorMode { get set }
@@ -177,18 +177,18 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         }
     }
 
-    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.fadeDelay, default: 2.0))
-    private var storedFadeDelay: CGFloat
+    @Stored(.timeInterval(KeyboardVisualizerSettingsKeys.fadeDelay, default: 2.0))
+    private var storedFadeDelay: TimeInterval
 
-    var fadeDelay: CGFloat {
+    var fadeDelay: TimeInterval {
         get { self.storedFadeDelay > 0 ? self.storedFadeDelay : 2.0 }
         set { self.storedFadeDelay = newValue }
     }
 
-    @Stored(.cgFloat(KeyboardVisualizerSettingsKeys.fadeDuration, default: 0.2))
-    private var storedFadeDuration: CGFloat
+    @Stored(.timeInterval(KeyboardVisualizerSettingsKeys.fadeDuration, default: 0.2))
+    private var storedFadeDuration: TimeInterval
 
-    var fadeDuration: CGFloat {
+    var fadeDuration: TimeInterval {
         get { self.storedFadeDuration >= 0 ? self.storedFadeDuration : 0.2 }
         set { self.storedFadeDuration = newValue }
     }

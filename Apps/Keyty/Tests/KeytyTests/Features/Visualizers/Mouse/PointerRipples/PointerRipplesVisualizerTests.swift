@@ -52,7 +52,7 @@ final class PointerRipplesVisualizerTests: XCTestCase {
 
     func testRegistersDefaultDuration() {
         XCTAssertEqual(
-            CGFloat(self.store.double(forKey: PointerRipplesSettingsKeys.duration)),
+            self.store.double(forKey: PointerRipplesSettingsKeys.duration),
             PointerRipplesSettingsKeys.defaultDuration
         )
     }

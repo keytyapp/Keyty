@@ -67,18 +67,18 @@ extension MouseSettingsPaneViewModel {
             }
         }
 
-        var clickDisplayDuration: Double {
+        var clickDisplayDuration: TimeInterval {
             didSet {
                 let clamped = min(max(self.clickDisplayDuration, MouseSettingsPaneViewModel.iconClickDisplayDurationRange.lowerBound), MouseSettingsPaneViewModel.iconClickDisplayDurationRange.upperBound)
-                self.settings.clickDisplayDuration = CGFloat(clamped)
+                self.settings.clickDisplayDuration = clamped
                 self.onChange?()
             }
         }
 
-        var scrollDisplayDuration: Double {
+        var scrollDisplayDuration: TimeInterval {
             didSet {
                 let clamped = min(max(self.scrollDisplayDuration, MouseSettingsPaneViewModel.iconScrollDisplayDurationRange.lowerBound), MouseSettingsPaneViewModel.iconScrollDisplayDurationRange.upperBound)
-                self.settings.scrollDisplayDuration = CGFloat(clamped)
+                self.settings.scrollDisplayDuration = clamped
                 self.onChange?()
             }
         }
@@ -92,8 +92,8 @@ extension MouseSettingsPaneViewModel {
             self.sizeIndex = Double(settings.sizeIndex)
             self.backgroundColor = settings.backgroundColor
             self.tintColor = settings.tintColor
-            self.clickDisplayDuration = Double(settings.clickDisplayDuration)
-            self.scrollDisplayDuration = Double(settings.scrollDisplayDuration)
+            self.clickDisplayDuration = settings.clickDisplayDuration
+            self.scrollDisplayDuration = settings.scrollDisplayDuration
         }
 
         var backgroundColorSelectionID: String {

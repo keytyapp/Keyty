@@ -22,10 +22,10 @@ enum PointerRipplesSettingsKeys {
     static let defaultSize = CGFloat(75)
     static let defaultThickness = CGFloat(5)
     static let defaultShape = PointerRingShape.circle
-    static let defaultDuration = CGFloat(1)
+    static let defaultDuration: TimeInterval = 1
     static let sizeRange: ClosedRange<CGFloat> = 24...96
     static let thicknessRange: ClosedRange<CGFloat> = 1...12
-    static let durationRange: ClosedRange<CGFloat> = 0.5...2
+    static let durationRange: ClosedRange<TimeInterval> = 0.5...2
 
     static var automaticVisualizerColor: NSColor {
         .controlAccentColor

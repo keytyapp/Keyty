@@ -60,18 +60,18 @@ extension MouseSettingsPaneViewModel {
             }
         }
 
-        var displayDuration: Double {
+        var displayDuration: TimeInterval {
             didSet {
                 let clamped = min(max(self.displayDuration, MouseSettingsPaneViewModel.ringDisplayDurationRange.lowerBound), MouseSettingsPaneViewModel.ringDisplayDurationRange.upperBound)
-                self.settings.displayDuration = CGFloat(clamped)
+                self.settings.displayDuration = clamped
                 self.onChange?()
             }
         }
 
-        var fadeDuration: Double {
+        var fadeDuration: TimeInterval {
             didSet {
                 let clamped = min(max(self.fadeDuration, MouseSettingsPaneViewModel.ringFadeDurationRange.lowerBound), MouseSettingsPaneViewModel.ringFadeDurationRange.upperBound)
-                self.settings.fadeDuration = CGFloat(clamped)
+                self.settings.fadeDuration = clamped
                 self.onChange?()
             }
         }
@@ -88,8 +88,8 @@ extension MouseSettingsPaneViewModel {
             self.size = Double(settings.size)
             self.thickness = Double(settings.thickness)
             self.shape = settings.shape
-            self.displayDuration = Double(settings.displayDuration)
-            self.fadeDuration = Double(settings.fadeDuration)
+            self.displayDuration = settings.displayDuration
+            self.fadeDuration = settings.fadeDuration
         }
 
         var colorTitle: String {

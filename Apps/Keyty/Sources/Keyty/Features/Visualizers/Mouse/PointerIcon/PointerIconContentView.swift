@@ -96,7 +96,7 @@ final class PointerIconContentView: NSView {
         self.resetWorkItem = nil
 
         if Self.isMouseRelease(mouseEvent.type) {
-            self.scheduleReset(after: TimeInterval(self.settings.clickDisplayDuration))
+            self.scheduleReset(after: self.settings.clickDisplayDuration)
             return
         }
 
@@ -105,7 +105,7 @@ final class PointerIconContentView: NSView {
         self.setTransientlyVisible(visualState.isTransientlyVisible)
 
         if mouseEvent.type == .scrollWheel, MouseEventDisplayRenderer.scrollIcon(for: mouseEvent.kind) != nil {
-            self.scheduleReset(after: TimeInterval(self.settings.scrollDisplayDuration))
+            self.scheduleReset(after: self.settings.scrollDisplayDuration)
         }
     }
 

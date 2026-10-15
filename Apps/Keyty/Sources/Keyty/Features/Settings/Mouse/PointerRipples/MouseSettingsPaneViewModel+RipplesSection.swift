@@ -53,10 +53,10 @@ extension MouseSettingsPaneViewModel {
             }
         }
 
-        var duration: Double {
+        var duration: TimeInterval {
             didSet {
                 let clamped = min(max(self.duration, MouseSettingsPaneViewModel.ripplesDurationRange.lowerBound), MouseSettingsPaneViewModel.ripplesDurationRange.upperBound)
-                self.settings.duration = CGFloat(clamped)
+                self.settings.duration = clamped
                 self.onChange?()
             }
         }
@@ -72,7 +72,7 @@ extension MouseSettingsPaneViewModel {
             self.size = Double(settings.size)
             self.thickness = Double(settings.thickness)
             self.shape = settings.shape
-            self.duration = Double(settings.duration)
+            self.duration = settings.duration
         }
 
         var colorSelectionID: String {

@@ -52,8 +52,8 @@ extension KeyboardVisualizerGroupView {
 
     func scheduleFadeOut(onCompletion completion: @escaping () -> Void) {
         self.fadeWorkItem?.cancel()
-        let delay = max(0.1, TimeInterval(self.settings.fadeDelay))
-        let duration = max(0, TimeInterval(self.settings.fadeDuration))
+        let delay = max(0.1, self.settings.fadeDelay)
+        let duration = max(0, self.settings.fadeDuration)
         let workItem = DispatchWorkItem { [weak self] in
             guard let self else { return }
             NSAnimationContext.runAnimationGroup { context in

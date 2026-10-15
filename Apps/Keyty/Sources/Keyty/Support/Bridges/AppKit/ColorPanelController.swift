@@ -1,5 +1,5 @@
 //
-//  ColorPanel.swift
+//  ColorPanelController.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
@@ -8,8 +8,9 @@
 
 import AppKit
 
+/// Bridges the shared `NSColorPanel` target-action callbacks to closure-based color-change handling.
 @MainActor
-final class ColorPanel: NSObject {
+final class ColorPanelController: NSObject {
     var onColorChange: ((NSColor) -> Void)?
 
     func present(initialColor: NSColor) {

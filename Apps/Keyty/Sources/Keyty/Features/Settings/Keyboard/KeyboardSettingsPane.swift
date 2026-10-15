@@ -11,7 +11,7 @@ import SwiftUI
 
 struct KeyboardSettingsPane: View {
     @StateObject private var model: KeyboardSettingsPaneViewModel
-    @State private var legendColorPanel = ColorPanel()
+    @State private var legendColorPanel = ColorPanelController()
 
     init(settings: KeyboardVisualizerSettings) {
         self._model = StateObject(wrappedValue: KeyboardSettingsPaneViewModel(settings: settings))

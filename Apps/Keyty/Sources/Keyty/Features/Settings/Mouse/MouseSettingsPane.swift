@@ -11,9 +11,9 @@ import SwiftUI
 
 struct MouseSettingsPane: View {
     @StateObject var model: MouseSettingsPaneViewModel
-    @State var ringColorPanel = ColorPanel()
-    @State var iconBackgroundColorPanel = ColorPanel()
-    @State var iconTintColorPanel = ColorPanel()
+    @State var ringColorPanel = ColorPanelController()
+    @State var iconBackgroundColorPanel = ColorPanelController()
+    @State var iconTintColorPanel = ColorPanelController()
 
     init(
         pointerRingVisualizer: PointerRingVisualizer,

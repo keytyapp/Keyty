@@ -18,8 +18,8 @@ protocol PointerIconSettingsProtocol: AnyObject {
     var tintColor: NSColor { get set }
     var sizeIndex: Int { get set }
     var iconSize: NSSize { get }
-    var clickDisplayDuration: CGFloat { get set }
-    var scrollDisplayDuration: CGFloat { get set }
+    var clickDisplayDuration: TimeInterval { get set }
+    var scrollDisplayDuration: TimeInterval { get set }
 
     func registerDefaults()
     func resetToDefaults()
@@ -68,19 +68,19 @@ final class PointerIconSettings: PointerIconSettingsProtocol, ReactiveSettings, 
     @Stored(.int(PointerIconSettingsKeys.size, default: PointerIconSettingsKeys.defaultSizeIndex))
     private var storedSizeIndex: Int
 
-    @Stored(.cgFloat(
+    @Stored(.timeInterval(
         PointerIconSettingsKeys.clickDisplayDuration,
         default: PointerIconSettingsKeys.defaultClickDisplayDuration,
         clamp: PointerIconSettingsKeys.clickDisplayDurationRange
     ))
-    var clickDisplayDuration: CGFloat
+    var clickDisplayDuration: TimeInterval
 
-    @Stored(.cgFloat(
+    @Stored(.timeInterval(
         PointerIconSettingsKeys.scrollDisplayDuration,
         default: PointerIconSettingsKeys.defaultScrollDisplayDuration,
         clamp: PointerIconSettingsKeys.scrollDisplayDurationRange
     ))
-    var scrollDisplayDuration: CGFloat
+    var scrollDisplayDuration: TimeInterval
 
     var sizeIndex: Int {
         get {

@@ -149,7 +149,7 @@ public final class PointerRingVisualizerWindow: NSWindow {
     private func fadeOut() {
         guard self.interactionState.beginFade() else { return }
 
-        let duration = TimeInterval(self.settings.fadeDuration)
+        let duration = self.settings.fadeDuration
         guard duration > 0 else {
             self.setRingLayerState(
                 opacity: Float(PointerRingAnimation.hiddenOpacity),
@@ -178,7 +178,7 @@ public final class PointerRingVisualizerWindow: NSWindow {
         }
         self.fadeOutWorkItem = fadeOutWorkItem
         DispatchQueue.main.asyncAfter(
-            deadline: .now() + TimeInterval(self.settings.displayDuration),
+            deadline: .now() + self.settings.displayDuration,
             execute: fadeOutWorkItem
         )
     }

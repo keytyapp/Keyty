@@ -41,12 +41,12 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         didSet { self.settings.isReversed = self.isReversed }
     }
 
-    @Published var fadeDelay: Double {
-        didSet { self.settings.fadeDelay = CGFloat(self.fadeDelay) }
+    @Published var fadeDelay: TimeInterval {
+        didSet { self.settings.fadeDelay = self.fadeDelay }
     }
 
-    @Published var fadeDuration: Double {
-        didSet { self.settings.fadeDuration = CGFloat(self.fadeDuration) }
+    @Published var fadeDuration: TimeInterval {
+        didSet { self.settings.fadeDuration = self.fadeDuration }
     }
 
     @Published var theme: KeyboardVisualizerTheme {
@@ -144,8 +144,8 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         self.anchor = settings.anchor
         self.maxCount = settings.maxCount
         self.isReversed = settings.isReversed
-        self.fadeDelay = Double(settings.fadeDelay)
-        self.fadeDuration = Double(settings.fadeDuration)
+        self.fadeDelay = settings.fadeDelay
+        self.fadeDuration = settings.fadeDuration
         self.theme = settings.theme
         self.legendColorMode = settings.legendColorMode
         self.customLegendColor = settings.customLegendColor
@@ -212,8 +212,8 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         settings.anchor = self.anchor
         settings.maxCount = self.maxCount
         settings.isReversed = self.isReversed
-        settings.fadeDelay = CGFloat(self.fadeDelay)
-        settings.fadeDuration = CGFloat(self.fadeDuration)
+        settings.fadeDelay = self.fadeDelay
+        settings.fadeDuration = self.fadeDuration
         settings.scale = Self.previewScale
         settings.windowPadding = self.settings.windowPadding
         settings.onlyShowModifiedKeystrokes = self.onlyShowModifiedKeystrokes

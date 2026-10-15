@@ -111,11 +111,11 @@ final class PointerRingVisualizerTests: XCTestCase {
 
     func testRegistersDefaultTiming() {
         XCTAssertEqual(
-            CGFloat(self.store.double(forKey: PointerRingSettingsKeys.displayDuration)),
+            self.store.double(forKey: PointerRingSettingsKeys.displayDuration),
             PointerRingSettingsKeys.defaultDisplayDuration
         )
         XCTAssertEqual(
-            CGFloat(self.store.double(forKey: PointerRingSettingsKeys.fadeDuration)),
+            self.store.double(forKey: PointerRingSettingsKeys.fadeDuration),
             PointerRingSettingsKeys.defaultFadeDuration
         )
     }

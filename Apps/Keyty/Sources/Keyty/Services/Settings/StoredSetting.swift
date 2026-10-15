@@ -186,6 +186,29 @@ extension StoredDescriptor where Value == CGFloat {
     }
 }
 
+extension StoredDescriptor where Value == TimeInterval {
+    static func timeInterval(
+        _ key: String,
+        default defaultValue: TimeInterval,
+        clamp range: ClosedRange<TimeInterval>? = nil
+    ) -> Self {
+        Self(
+            key: key,
+            defaultValue: defaultValue,
+            registrationValue: defaultValue,
+            read: { store, key, defaultValue in
+                let value = store.double(forKey: key)
+                guard let range else { return value }
+                return min(max(value, range.lowerBound), range.upperBound)
+            },
+            write: { store, key, value in
+                let sanitizedValue = range.map { min(max(value, $0.lowerBound), $0.upperBound) } ?? value
+                store.set(sanitizedValue, forKey: key)
+            }
+        )
+    }
+}
+
 extension StoredDescriptor where Value == Data? {
     static func data(_ key: String, default defaultValue: Data? = nil) -> Self {
         Self(

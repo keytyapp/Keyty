@@ -67,7 +67,7 @@ private extension PointerRipplesVisualizer {
                 size: self.settings.size,
                 thickness: self.settings.thickness,
                 shape: self.settings.shape,
-                duration: TimeInterval(self.settings.duration)
+                duration: self.settings.duration
             ),
             center: screenLocation
         ) { [weak self] identifier in

@@ -64,11 +64,11 @@ final class PointerIconVisualizerTests: XCTestCase {
 
     func testRegistersDefaultDisplayDurations() {
         XCTAssertEqual(
-            CGFloat(store.double(forKey: PointerIconSettingsKeys.clickDisplayDuration)),
+            store.double(forKey: PointerIconSettingsKeys.clickDisplayDuration),
             PointerIconSettingsKeys.defaultClickDisplayDuration
         )
         XCTAssertEqual(
-            CGFloat(store.double(forKey: PointerIconSettingsKeys.scrollDisplayDuration)),
+            store.double(forKey: PointerIconSettingsKeys.scrollDisplayDuration),
             PointerIconSettingsKeys.defaultScrollDisplayDuration
         )
     }

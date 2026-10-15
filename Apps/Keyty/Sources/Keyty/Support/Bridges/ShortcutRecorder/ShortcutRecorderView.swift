@@ -15,11 +15,11 @@ struct ShortcutRecorderView: NSViewRepresentable {
     func makeNSView(context: Context) -> RecorderControl {
         let recorder = RecorderControl(frame: .zero)
         recorder.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        shortcutManager.configureToggleShortcutRecorder(recorder)
+        self.shortcutManager.configureToggleShortcutRecorder(recorder)
         return recorder
     }
 
     func updateNSView(_ nsView: RecorderControl, context: Context) {
-        nsView.objectValue = shortcutManager.toggleCapturingShortcut
+        nsView.objectValue = self.shortcutManager.toggleCapturingShortcut
     }
 }

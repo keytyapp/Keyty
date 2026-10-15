@@ -8,7 +8,7 @@
 
 import AppKit
 
-public struct StandardKeyEvent {
+public struct StandardKeyEvent: Sendable {
     public let type: NSEvent.EventType
     public let modifierFlags: NSEvent.ModifierFlags
     public let keyCode: UInt16

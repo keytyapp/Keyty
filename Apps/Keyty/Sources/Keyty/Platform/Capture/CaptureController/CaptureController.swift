@@ -9,6 +9,7 @@
 import Cocoa
 import Combine
 
+@MainActor
 final class CaptureController {
     var isCapturing: Bool { self.state == .capturing }
     var onCapturingChanged: ((Bool) -> Void)?

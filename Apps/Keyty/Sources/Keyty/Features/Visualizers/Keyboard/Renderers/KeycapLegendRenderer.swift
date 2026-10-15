@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 struct KeycapLegendRenderer {
     func draw(
         item: KeycapItem,

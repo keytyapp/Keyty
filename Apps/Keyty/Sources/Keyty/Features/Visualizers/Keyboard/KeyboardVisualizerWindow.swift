@@ -24,7 +24,7 @@ final class KeyboardVisualizerWindow: NSWindow {
 
     init(
         settings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
-        screensService: any ScreenServiceProvider = ScreensService.shared
+        screensService: any ScreenServiceProvider
     ) {
         self.settings = settings
         self.screensService = screensService
@@ -55,6 +55,12 @@ final class KeyboardVisualizerWindow: NSWindow {
             }
             .store(in: &self.cancellables)
         self.repositionToAnchor()
+    }
+    
+    convenience init(
+        settings: KeyboardVisualizerSettings
+    ) {
+        self.init(settings: settings, screensService: ScreensService.shared)
     }
 
     @discardableResult

@@ -10,6 +10,7 @@ import AppKit
 import SwiftUI
 
 extension MouseSettingsPane.PreviewCard {
+    @MainActor
     enum PreviewIconEvent: CaseIterable {
         case leftClick
         case rightClick

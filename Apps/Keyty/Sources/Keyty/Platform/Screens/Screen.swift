@@ -8,7 +8,7 @@
 
 import AppKit
 
-struct Screen: Identifiable, Equatable {
+struct Screen: Identifiable, Equatable, Sendable {
     let id: CGDirectDisplayID
     let displayName: String
     let wallpaperImageURL: URL?

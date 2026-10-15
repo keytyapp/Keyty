@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 final class StatusItemController {
     private let menu: NSMenu
     private let shortcutItem: NSMenuItem

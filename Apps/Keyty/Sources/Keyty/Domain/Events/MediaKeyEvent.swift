@@ -10,10 +10,10 @@ import AppKit
 
 /// A media / multimedia key press
 /// (volume, playback, brightness, keyboard, illumination, eject).
-public struct MediaKeyEvent {
+public struct MediaKeyEvent: Sendable {
     /// The specific media key, decoded from the
     /// `NX_KEYTYPE_*` constants packed into the high word of `data1`.
-    public enum Kind: Hashable {
+    public enum Kind: Hashable, Sendable {
         case soundUp, soundDown, mute
         case brightnessUp, brightnessDown
         case illuminationUp, illuminationDown, illuminationToggle

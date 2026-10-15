@@ -10,6 +10,7 @@ import AppKit
 import Carbon
 import Combine
 
+@MainActor
 final class KeyboardVisualizer {
     private static let trackedModifierFlags: NSEvent.ModifierFlags = [.command, .shift, .option, .control, .function]
 

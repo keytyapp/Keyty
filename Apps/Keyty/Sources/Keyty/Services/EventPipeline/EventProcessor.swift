@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 public final class EventProcessor {
     var onItemProduced: ((DisplayEvent) -> Void)?
     private lazy var scrollEventProcessor = ScrollEventProcessor { [weak self] item in

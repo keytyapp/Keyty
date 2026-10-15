@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 struct RetroKeycapRenderer: KeycapRendering {
     private let legendRenderer = KeycapLegendRenderer()
 

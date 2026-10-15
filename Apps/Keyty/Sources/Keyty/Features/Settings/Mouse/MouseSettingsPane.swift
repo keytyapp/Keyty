@@ -9,6 +9,7 @@
 import AppKit
 import SwiftUI
 
+@MainActor
 struct MouseSettingsPane: View {
     @StateObject var model: MouseSettingsPaneViewModel
     @State var ringColorPanel = ColorPanel()
@@ -88,7 +89,10 @@ struct MouseSettingsPane: View {
 }
 
 extension MouseSettingsPane {
-    func binding<Value>(get: @escaping () -> Value, set: @escaping (Value) -> Void) -> Binding<Value> {
+    func binding<Value>(
+        get: @escaping @MainActor @Sendable () -> Value,
+        set: @escaping @MainActor @Sendable (Value) -> Void
+    ) -> Binding<Value> {
         Binding(get: get, set: set)
     }
 

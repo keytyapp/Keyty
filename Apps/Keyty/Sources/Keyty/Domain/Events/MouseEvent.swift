@@ -8,7 +8,7 @@
 
 import AppKit
 
-public struct MouseEvent {
+public struct MouseEvent: Sendable {
     public let type: NSEvent.EventType
     public let modifierFlags: NSEvent.ModifierFlags
     public let screenLocation: NSPoint
@@ -50,7 +50,7 @@ public struct MouseEvent {
 }
 
 extension MouseEvent {
-    public enum Kind: Hashable {
+    public enum Kind: Hashable, Sendable {
         case leftButton
         case rightButton
         case middleButton

@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 final class ScrollEventProcessor {
     private enum State {
         case idle
@@ -54,7 +55,9 @@ final class ScrollEventProcessor {
             let debounce: TimeInterval = isWheel ? 0.4 : 0.15
             self.debounceTimer?.invalidate()
             self.debounceTimer = Timer.scheduledTimer(withTimeInterval: debounce, repeats: false) { [weak self] _ in
-                self?.finishScrollEvent()
+                MainActor.assumeIsolated {
+                    self?.finishScrollEvent()
+                }
             }
         }
     }

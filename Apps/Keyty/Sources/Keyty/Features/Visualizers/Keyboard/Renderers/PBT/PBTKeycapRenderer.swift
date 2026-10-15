@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 struct PBTKeycapRenderer: KeycapRendering {
     private let legendRenderer = KeycapLegendRenderer()
 

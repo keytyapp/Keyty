@@ -9,10 +9,6 @@
 import Carbon
 import Foundation
 
-private let selectedKeyboardInputSourceChangedRawName = kTISNotifySelectedKeyboardInputSourceChanged!
-private let selectedKeyboardInputSourceChangedNotificationName =
-    CFNotificationName(selectedKeyboardInputSourceChangedRawName)
-
 private func selectedKeyboardInputSourceChanged(
     center: CFNotificationCenter?,
     observer: UnsafeMutableRawPointer?,
@@ -29,6 +25,8 @@ private func selectedKeyboardInputSourceChanged(
 }
 
 final class KeyboardInputSourceObserver {
+    private let notificationRawName = kTISNotifySelectedKeyboardInputSourceChanged!
+
     var inputSourceChanged: ((TISInputSource) -> Void)?
 
     init() {
@@ -36,7 +34,7 @@ final class KeyboardInputSourceObserver {
             CFNotificationCenterGetDistributedCenter(),
             Unmanaged.passUnretained(self).toOpaque(),
             selectedKeyboardInputSourceChanged,
-            selectedKeyboardInputSourceChangedRawName,
+            self.notificationRawName,
             nil,
             .deliverImmediately
         )
@@ -46,13 +44,13 @@ final class KeyboardInputSourceObserver {
         CFNotificationCenterRemoveObserver(
             CFNotificationCenterGetDistributedCenter(),
             Unmanaged.passUnretained(self).toOpaque(),
-            selectedKeyboardInputSourceChangedNotificationName,
+            CFNotificationName(self.notificationRawName),
             nil
         )
     }
 
     func handleChange() {
         let currentInputSource = TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
-        inputSourceChanged?(currentInputSource)
+        self.inputSourceChanged?(currentInputSource)
     }
 }

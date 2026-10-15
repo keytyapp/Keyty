@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 final class KeyboardVisualizerGroupView: NSView {
     private var items: [KeycapItem]
     private var settings: KeyboardVisualizerSettings

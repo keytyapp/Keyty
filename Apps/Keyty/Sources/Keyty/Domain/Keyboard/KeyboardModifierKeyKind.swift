@@ -10,7 +10,7 @@ import AppKit
 
 extension KeyboardModifierKey {
     /// The semantic modifier represented by a physical modifier key.
-    public enum Kind: CaseIterable, Hashable {
+    public enum Kind: CaseIterable, Hashable, Sendable {
         case command
         case shift
         case option

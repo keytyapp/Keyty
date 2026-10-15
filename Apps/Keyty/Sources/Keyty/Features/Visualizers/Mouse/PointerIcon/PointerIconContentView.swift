@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 final class PointerIconContentView: NSView {
     private let settings: any PointerIconSettingsProtocol
     private var resetWorkItem: DispatchWorkItem?
@@ -229,6 +230,7 @@ final class PointerIconContentView: NSView {
 
 // MARK: - Visual State
 extension PointerIconContentView {
+    @MainActor
     struct VisualState {
         let icon: NSImage
         let displayedKind: MouseEvent.Kind

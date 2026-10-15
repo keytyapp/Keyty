@@ -9,6 +9,7 @@
 import AppKit
 import Combine
 
+@MainActor
 protocol ScreenServiceProvider: AnyObject {
     var screens: [Screen] { get }
     var screensDidChange: AnyPublisher<[Screen], Never> { get }
@@ -19,6 +20,7 @@ protocol ScreenServiceProvider: AnyObject {
     func mainVisibleFrame() -> CGRect?
 }
 
+@MainActor
 final class ScreensService {
     static let shared = ScreensService()
 
@@ -41,7 +43,9 @@ final class ScreensService {
             object: nil,
             queue: .main
         ) { [weak self] _ in
-            self?.refresh()
+            MainActor.assumeIsolated {
+                self?.refresh()
+            }
         }
     }
 

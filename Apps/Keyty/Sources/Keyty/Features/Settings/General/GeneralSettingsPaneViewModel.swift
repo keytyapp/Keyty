@@ -9,6 +9,7 @@
 import Combine
 import SwiftUI
 
+@MainActor
 final class GeneralSettingsPaneViewModel: ObservableObject {
     let shortcutManager: ShortcutManager
 

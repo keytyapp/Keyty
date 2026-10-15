@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 enum MinimalKeycapMetrics {
     static let height: CGFloat = 48
     static let minWidth: CGFloat = 28

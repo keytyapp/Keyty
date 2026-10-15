@@ -11,6 +11,7 @@ import AppKit
 /// Draws a sculpted Apple Standard Keyboard (M0116) keycap: a near-black well, a body lit
 /// from the left, an inset top face, and the lit front skirt below it. Text legends sit on a
 /// shared baseline in the lower-left corner, the way the originals were printed.
+@MainActor
 struct M0116KeycapRenderer: KeycapRendering {
     private let legendRenderer = KeycapLegendRenderer()
 

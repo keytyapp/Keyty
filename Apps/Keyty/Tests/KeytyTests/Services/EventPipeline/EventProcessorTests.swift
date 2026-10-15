@@ -9,6 +9,7 @@
 import XCTest
 @testable import Keyty
 
+@MainActor
 final class EventProcessorTests: XCTestCase {
     func testMouseUpEmitsContentAndGroupBreakWhenModifierIsHeld() {
         let processor = EventProcessor()

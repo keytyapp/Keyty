@@ -10,6 +10,7 @@ import AppKit
 import XCTest
 @testable import Keyty
 
+@MainActor
 final class MenuControllerTests: XCTestCase {
     func testStatusMenuVisualizersReflectCurrentSettings() throws {
         let settings = AppSettingsContainer(store: InMemoryKeyValueStore())

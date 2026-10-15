@@ -21,11 +21,18 @@ final class KeyboardVisualizerPlacementWindowController: NSWindowController, Key
 
     init(
         settings: KeyboardVisualizerSettings,
-        screensService: any ScreenServiceProvider = ScreensService.shared
+        screensService: any ScreenServiceProvider
     ) {
         self.settings = settings
         self.screensService = screensService
         super.init(window: nil)
+    }
+    
+    convenience init(settings: KeyboardVisualizerSettings) {
+        self.init(
+            settings: settings,
+            screensService: ScreensService.shared
+        )
     }
 
     @available(*, unavailable)

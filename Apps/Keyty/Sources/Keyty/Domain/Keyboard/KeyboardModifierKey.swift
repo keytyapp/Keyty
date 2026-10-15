@@ -9,7 +9,7 @@
 import AppKit
 
 /// A physical left or right key for a paired keyboard modifier.
-public struct KeyboardModifierKey: Hashable {
+public struct KeyboardModifierKey: Hashable, Sendable {
     let kind: Kind
     let location: Location
 
@@ -21,7 +21,7 @@ public struct KeyboardModifierKey: Hashable {
 
 extension KeyboardModifierKey {
     /// The physical side of a paired keyboard modifier key.
-    enum Location: CaseIterable, Hashable {
+    enum Location: CaseIterable, Hashable, Sendable {
         case left
         case right
 

@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 enum CommonKeycapMetrics {
     static let horizontalPadding: CGFloat = 10
     static let symbolFont = NSFont.systemFont(ofSize: 22, weight: .medium)

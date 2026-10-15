@@ -98,7 +98,7 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
     }
 
     init(
-        screensService: any ScreenServiceProvider = ScreensService.shared,
+        screensService: any ScreenServiceProvider,
         keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
         placementCoordinator: any KeyboardVisualizerPlacementCoordinating
     ) {
@@ -143,6 +143,17 @@ final class DisplaysSettingsPaneViewModel: ObservableObject {
                 self.customVerticalAlignment = keyboardVisualizerSettings.customVerticalAlignment
             }
             .store(in: &self.cancellables)
+    }
+
+    convenience init(
+        keyboardVisualizerSettings: KeyboardVisualizerSettings = KeyboardVisualizerSettings(),
+        placementCoordinator: any KeyboardVisualizerPlacementCoordinating
+    ) {
+        self.init(
+            screensService: ScreensService.shared,
+            keyboardVisualizerSettings: keyboardVisualizerSettings,
+            placementCoordinator: placementCoordinator
+        )
     }
 
     func toggleCustomPositionSetting() {

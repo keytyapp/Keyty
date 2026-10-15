@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 enum KeycapRendererFactory {
     static func makeRenderer(for item: KeycapItem, settings: KeyboardVisualizerSettings) -> any KeycapRendering {
         switch settings.style {

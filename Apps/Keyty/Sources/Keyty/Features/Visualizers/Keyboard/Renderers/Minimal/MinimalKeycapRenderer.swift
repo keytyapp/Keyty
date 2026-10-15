@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 struct MinimalKeycapRenderer: KeycapRendering {
     func size(for context: KeycapContext) -> CGSize {
         let width = minimalContentWidth(for: context.item) + 2 * MinimalKeycapMetrics.horizontalPadding

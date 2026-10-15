@@ -8,11 +8,13 @@
 
 import AppKit
 
+@MainActor
 protocol KeycapRendering {
     func size(for context: KeycapContext) -> CGSize
     func draw(context: KeycapContext, in rect: NSRect)
 }
 
+@MainActor
 func keycapWidth(for item: KeycapItem) -> CGFloat {
     if let fixedWidth = item.fixedWidth {
         return fixedWidth

@@ -8,7 +8,7 @@
 
 import AppKit
 
-public enum InputEvent {
+public enum InputEvent: Sendable {
     case keystroke(StandardKeyEvent)
     case mouse(MouseEvent)
     case mediaKey(MediaKeyEvent)

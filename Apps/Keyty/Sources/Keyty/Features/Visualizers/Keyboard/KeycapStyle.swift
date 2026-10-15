@@ -5,7 +5,8 @@
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov
 //  SPDX-License-Identifier: BSD-3-Clause
 //
-enum KeycapStyle: Int, CaseIterable {
+
+enum KeycapStyle: Int, CaseIterable, Sendable {
     case apple = 0
     case pbt = 1
     case minimal = 2

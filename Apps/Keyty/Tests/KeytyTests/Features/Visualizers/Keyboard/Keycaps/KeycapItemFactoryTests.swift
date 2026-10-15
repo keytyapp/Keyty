@@ -11,6 +11,7 @@ import Carbon
 import XCTest
 @testable import Keyty
 
+@MainActor
 final class KeycapItemFactoryTests: XCTestCase {
     func testKeyboardModifierKeysDecodeLocationSpecificFlags() {
         let flags = NSEvent.ModifierFlags.command.addingRawMasks(

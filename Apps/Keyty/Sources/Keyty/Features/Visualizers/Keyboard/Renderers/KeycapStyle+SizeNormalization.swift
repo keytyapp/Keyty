@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 extension KeycapStyle {
     /// Base (unscaled) group-box height for the style: the keycap height plus the
     /// top and bottom of its group padding.

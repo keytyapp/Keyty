@@ -27,14 +27,6 @@ protocol AnyStoredSetting {
     func reset(in store: KeyValueStore)
 }
 
-private protocol AnyOptional {
-    var isNil: Bool { get }
-}
-
-extension Optional: AnyOptional {
-    var isNil: Bool { self == nil }
-}
-
 struct StoredDescriptor<Value> {
     let key: String
     let defaultValue: Value

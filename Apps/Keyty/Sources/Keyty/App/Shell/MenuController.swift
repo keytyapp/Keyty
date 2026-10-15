@@ -1,5 +1,5 @@
 //
-//  MainMenu.swift
+//  MenuController.swift
 //  Keyty
 //
 //  SPDX-FileCopyrightText: 2026 Serhii Bykov

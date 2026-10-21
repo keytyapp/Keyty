@@ -9,6 +9,7 @@
 import Carbon
 import Foundation
 
+@MainActor
 final class KeyboardInputSourceManager {
     static let shared = KeyboardInputSourceManager()
 
@@ -16,8 +17,8 @@ final class KeyboardInputSourceManager {
     private(set) var currentInputSource: TISInputSource
 
     init(
-        inputSourceObserver: KeyboardInputSourceObserver = KeyboardInputSourceObserver(),
-        currentInputSource: TISInputSource = TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
+        inputSourceObserver: KeyboardInputSourceObserver,
+        currentInputSource: TISInputSource
     ) {
         self.inputSourceObserver = inputSourceObserver
         self.currentInputSource = currentInputSource
@@ -25,6 +26,13 @@ final class KeyboardInputSourceManager {
         inputSourceObserver.inputSourceChanged = { [weak self] inputSource in
             self?.refreshCurrentInputSource(inputSource)
         }
+    }
+
+    convenience init() {
+        self.init(
+            inputSourceObserver: KeyboardInputSourceObserver(),
+            currentInputSource: TISCopyCurrentKeyboardLayoutInputSource().takeRetainedValue()
+        )
     }
 
     private func refreshCurrentInputSource(_ inputSource: TISInputSource) {

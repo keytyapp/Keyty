@@ -8,6 +8,7 @@
 
 import Foundation
 
+@MainActor
 protocol PermissionsService: AnyObject {
     func status(for permission: Permission) -> Permission.Status
     func request(_ permission: Permission)

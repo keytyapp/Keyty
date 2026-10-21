@@ -8,6 +8,7 @@
 
 import AppKit
 
+@MainActor
 protocol PermissionsProvider {
     func isGranted(_ permission: Permission) -> Bool
     func request(_ permission: Permission)
@@ -23,14 +24,33 @@ private struct LivePermissionsProvider: PermissionsProvider {
     }
 }
 
+@MainActor
 final class SystemPermissionsService {
-    private let provider: any PermissionsProvider
-    private var observers: [UUID: () -> Void] = [:]
-    private var lastStatuses: [Permission: Permission.Status] = [:]
-    private var pollTimer: Timer?
+    private final class Observation {
+        weak var token: PermissionObservationToken?
+        let handler: () -> Void
 
-    init(provider: any PermissionsProvider = LivePermissionsProvider()) {
+        init(token: PermissionObservationToken, handler: @escaping () -> Void) {
+            self.token = token
+            self.handler = handler
+        }
+    }
+
+    private let provider: any PermissionsProvider
+    private var observers: [UUID: Observation] = [:]
+    private var lastStatuses: [Permission: Permission.Status] = [:]
+    private var pollTask: Task<Void, Never>?
+
+    init(provider: any PermissionsProvider) {
         self.provider = provider
+    }
+
+    convenience init() {
+        self.init(provider: LivePermissionsProvider())
+    }
+
+    deinit {
+        self.pollTask?.cancel()
     }
 }
 
@@ -46,13 +66,18 @@ extension SystemPermissionsService: PermissionsService {
     }
 
     func observeChanges(handler: @escaping () -> Void) -> PermissionObservationToken {
+        self.observers = self.observers.filter { $0.value.token != nil }
+        if self.observers.isEmpty { self.stopPolling() }
+
         let id = UUID()
-        self.observers[id] = handler
-        self.startPollingIfNeeded()
-        return PermissionObservationToken { [weak self] in
-            self?.observers.removeValue(forKey: id)
-            if self?.observers.isEmpty == true { self?.stopPolling() }
+        let token = PermissionObservationToken { [weak self] in
+            Task { @MainActor [weak self] in
+                self?.removeObserver(id: id)
+            }
         }
+        self.observers[id] = Observation(token: token, handler: handler)
+        self.startPollingIfNeeded()
+        return token
     }
 }
 
@@ -63,7 +88,14 @@ private extension SystemPermissionsService {
             return
         }
         self.lastStatuses = currentStatuses
-        self.observers.values.forEach { $0() }
+        self.observers.values.forEach { observer in
+            if observer.token != nil { observer.handler() }
+        }
+    }
+
+    private func removeObserver(id: UUID) {
+        self.observers.removeValue(forKey: id)
+        if self.observers.isEmpty { self.stopPolling() }
     }
 
     private func currentStatuses() -> [Permission: Permission.Status] {
@@ -76,15 +108,23 @@ private extension SystemPermissionsService {
 // MARK: - Polling
 private extension SystemPermissionsService {
     func startPollingIfNeeded() {
-        guard self.pollTimer == nil else { return }
+        guard self.pollTask == nil else { return }
         lastStatuses = self.currentStatuses()
-        self.pollTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
-            self?.checkForChanges()
+        self.pollTask = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                } catch {
+                    return
+                }
+                guard let self else { return }
+                self.checkForChanges()
+            }
         }
     }
 
     func stopPolling() {
-        self.pollTimer?.invalidate()
-        self.pollTimer = nil
+        self.pollTask?.cancel()
+        self.pollTask = nil
     }
 }

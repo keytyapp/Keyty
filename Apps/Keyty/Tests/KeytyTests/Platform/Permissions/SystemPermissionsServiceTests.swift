@@ -9,6 +9,7 @@
 import XCTest
 @testable import Keyty
 
+@MainActor
 final class SystemPermissionsServiceTests: XCTestCase {
     func testStatusIsNotGrantedWhenSystemDeniesPermission() {
         let provider = TestPermissionsProvider()

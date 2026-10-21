@@ -21,13 +21,16 @@ private func selectedKeyboardInputSourceChanged(
     }
 
     let inputSourceObserver = Unmanaged<KeyboardInputSourceObserver>.fromOpaque(observer).takeUnretainedValue()
-    inputSourceObserver.handleChange()
+    Task { @MainActor [weak inputSourceObserver] in
+        inputSourceObserver?.handleChange()
+    }
 }
 
+@MainActor
 final class KeyboardInputSourceObserver {
     private let notificationRawName = kTISNotifySelectedKeyboardInputSourceChanged!
 
-    var inputSourceChanged: ((TISInputSource) -> Void)?
+    var inputSourceChanged: (@MainActor (TISInputSource) -> Void)?
 
     init() {
         CFNotificationCenterAddObserver(

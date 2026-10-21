@@ -9,6 +9,7 @@
 import Foundation
 
 /// Abstraction to mock `EventTap`
+@MainActor
 protocol EventTapping: AnyObject {
     /// Receives every captured event.
     var onEvent: ((EventTap.Event) -> Void)? { get set }

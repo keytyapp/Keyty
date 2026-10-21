@@ -34,7 +34,7 @@ final class CaptureController {
         pointerVisualizersManager: PointerVisualizersManager,
         keyboardVisualizer: KeyboardVisualizer,
         permissionsService: any PermissionsService,
-        eventTap: any EventTapping = EventTap()
+        eventTap: any EventTapping
     ) {
         self.pointerVisualizersManager = pointerVisualizersManager
         self.keyboardVisualizer = keyboardVisualizer
@@ -49,6 +49,19 @@ final class CaptureController {
         self.eventProcessor.onItemProduced = { [keyboardVisualizer] item in
             keyboardVisualizer.display(item)
         }
+    }
+
+    convenience init(
+        pointerVisualizersManager: PointerVisualizersManager,
+        keyboardVisualizer: KeyboardVisualizer,
+        permissionsService: any PermissionsService
+    ) {
+        self.init(
+            pointerVisualizersManager: pointerVisualizersManager,
+            keyboardVisualizer: keyboardVisualizer,
+            permissionsService: permissionsService,
+            eventTap: EventTap()
+        )
     }
 }
 
@@ -132,10 +145,8 @@ private extension CaptureController {
 private extension CaptureController {
     func applyCapturing(_ capturing: Bool) {
         let wasCapturing = self.isCapturing
-        Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager, keyboardVisualizer = self.keyboardVisualizer] in
-            pointerVisualizersManager.isPresentationActive = capturing
-            keyboardVisualizer.isPresentationActive = capturing
-        }
+        self.pointerVisualizersManager.isPresentationActive = capturing
+        self.keyboardVisualizer.isPresentationActive = capturing
         if wasCapturing != capturing {
             self.onCapturingChanged?(capturing)
             self.isCapturingSubject.send(capturing)
@@ -184,9 +195,7 @@ private extension CaptureController {
             self.eventProcessor.processMediaKey(mediaKey)
 
         case .mouse(let mouseEvent):
-            Task { @MainActor [pointerVisualizersManager = self.pointerVisualizersManager] in
-                pointerVisualizersManager.display(mouseEvent)
-            }
+            self.pointerVisualizersManager.display(mouseEvent)
             self.eventProcessor.processMouseEvent(mouseEvent)
         }
     }

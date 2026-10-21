@@ -9,6 +9,7 @@
 import Cocoa
 import IOKit.hidsystem
 
+@MainActor
 final class EventTap {
     /// Sends every captured event.
     var onEvent: ((Event) -> Void)?
@@ -26,13 +27,14 @@ final class EventTap {
     private var handle: Handle?
 
     deinit {
-        if self.handle != nil { self.remove() }
+        self.handle?.invalidate()
     }
 }
 
 // MARK: - Public API
 extension EventTap {
     func install() throws(EventTap.Error) {
+        assert(Thread.isMainThread, "The event tap must be installed on the main run loop")
         guard self.handle == nil else { return }
 
         do {
@@ -180,9 +182,12 @@ private func tapCallback(
     event: CGEvent,
     refcon: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
+    assert(Thread.isMainThread, "The event tap callback must run on the main run loop")
     if let refcon {
         let tap = Unmanaged<EventTap>.fromOpaque(refcon).takeUnretainedValue()
-        tap.handleTapCallback(type: type, event: event)
+        MainActor.assumeIsolated {
+            tap.handleTapCallback(type: type, event: event)
+        }
     }
     return .passUnretained(event)
 }

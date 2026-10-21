@@ -56,6 +56,15 @@ final class CaptureControllerTests: XCTestCase {
         XCTAssertTrue(self.controller.isCapturing)
     }
 
+    func testStartActivatesPresentationsBeforeReturning() {
+        self.permissionsService.currentStatus = .granted
+
+        self.controller.start()
+
+        XCTAssertTrue(self.pointerVisualizersManager.isPresentationActive)
+        XCTAssertTrue(self.keyboardVisualizer.isPresentationActive)
+    }
+
     func testStartInstallsTapWhenOnlyInputCapturePermissionIsGranted() {
         self.permissionsService.currentStatus = .notGranted
         self.permissionsService.statuses[.inputCapture] = .granted
@@ -121,6 +130,29 @@ final class CaptureControllerTests: XCTestCase {
 
         XCTAssertEqual(self.eventTap.removeCount, 1)
         XCTAssertFalse(self.controller.isCapturing)
+    }
+
+    func testStopDeactivatesPresentationsBeforeReturning() {
+        self.permissionsService.currentStatus = .granted
+        self.controller.start()
+
+        self.controller.stopCapturing()
+
+        XCTAssertFalse(self.pointerVisualizersManager.isPresentationActive)
+        XCTAssertFalse(self.keyboardVisualizer.isPresentationActive)
+    }
+
+    func testCapturedKeystrokeIsDisplayedBeforeCallbackReturns() {
+        self.permissionsService.currentStatus = .granted
+        self.controller.start()
+
+        self.eventTap.simulateEvent(.keystroke(.stub(
+            keyCode: .k,
+            characters: "k",
+            charactersIgnoringModifiers: "k"
+        )))
+
+        XCTAssertEqual(self.keyboardVisualizer.visibleGroupCount, 1)
     }
 
     // MARK: - Tap Recovery
@@ -199,6 +231,7 @@ final class CaptureControllerTests: XCTestCase {
 
 // MARK: - Test Doubles
 
+@MainActor
 private final class TestEventTap: EventTapping {
     var onEvent: ((EventTap.Event) -> Void)?
     var onStateChanged: ((EventTap.State) -> Void)?
@@ -245,6 +278,11 @@ private final class TestEventTap: EventTapping {
         self.isInstalled = false
         self.isDisabled = false
         self.onStateChanged?(.failed(.portCreationFailed))
+    }
+
+    func simulateEvent(_ event: EventTap.Event) {
+        guard self.isInstalled, !self.isDisabled else { return }
+        self.onEvent?(event)
     }
 }
 

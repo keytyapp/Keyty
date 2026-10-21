@@ -15,19 +15,25 @@ final class PointerIconVisualizerTests: XCTestCase {
     private var settings: PointerIconSettings!
     private var visualizer: PointerIconVisualizer!
 
-    override func setUp() {
-        super.setUp()
-        store = InMemoryKeyValueStore()
-        settings = PointerIconSettings(store: store)
-        settings.registerDefaults()
-        visualizer = PointerIconVisualizer(settings: settings)
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            testCase.settings = PointerIconSettings(store: testCase.store)
+            testCase.settings.registerDefaults()
+            testCase.visualizer = PointerIconVisualizer(settings: testCase.settings)
+        }
     }
 
-    override func tearDown() {
-        visualizer = nil
-        settings = nil
-        store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.visualizer = nil
+            testCase.settings = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     func testIsEnabledDefaultsToDisabled() {

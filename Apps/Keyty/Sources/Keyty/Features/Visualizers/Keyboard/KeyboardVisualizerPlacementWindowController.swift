@@ -168,8 +168,8 @@ private extension KeyboardVisualizerPlacementWindowController {
 
     func observePlacementChanges() {
         self.placementCancellable = self.settings.placementChanges
-            .sink { [weak self] _ in
-                MainActor.assumeIsolated {
+            .sink { @Sendable [weak self] _ in
+                Task { @MainActor [weak self] in
                     self?.republishAnchorOnAlignmentChange()
                 }
             }

@@ -15,19 +15,25 @@ final class KeyboardVisualizerTests: XCTestCase {
     private var settings: KeyboardVisualizerSettings!
     private var visualizer: KeyboardVisualizer!
 
-    override func setUp() {
-        super.setUp()
-        self.store = InMemoryKeyValueStore()
-        self.settings = KeyboardVisualizerSettings(store: self.store)
-        self.settings.registerDefaults()
-        self.visualizer = KeyboardVisualizer(settings: self.settings)
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            testCase.settings = KeyboardVisualizerSettings(store: testCase.store)
+            testCase.settings.registerDefaults()
+            testCase.visualizer = KeyboardVisualizer(settings: testCase.settings)
+        }
     }
 
-    override func tearDown() {
-        self.visualizer = nil
-        self.settings = nil
-        self.store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.visualizer = nil
+            testCase.settings = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     func testEnabledVisualizerWaitsForPresentationActivation() {

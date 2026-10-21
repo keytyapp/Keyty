@@ -14,17 +14,23 @@ final class KeyboardSettingsPreviewTests: XCTestCase {
     private var store: InMemoryKeyValueStore!
     private var settings: KeyboardVisualizerSettings!
 
-    override func setUp() {
-        super.setUp()
-        store = InMemoryKeyValueStore()
-        settings = KeyboardVisualizerSettings(store: store)
-        settings.registerDefaults()
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            testCase.settings = KeyboardVisualizerSettings(store: testCase.store)
+            testCase.settings.registerDefaults()
+        }
     }
 
-    override func tearDown() {
-        settings = nil
-        store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.settings = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     func testPreviewGroupsIncludeAllEnabledCategories() {

@@ -79,7 +79,8 @@ private extension EventTap {
     /// Tap's `CFMachPort` and `CFRunLoopSource`.
     /// 
     /// Owns them for their whole lifetime, so they are always created and invalidated as a unit.
-    struct Handle {
+    /// Core Foundation permits these immutable references to be invalidated from any thread.
+    struct Handle: @unchecked Sendable {
         let machPort: CFMachPort
         let runLoopSource: CFRunLoopSource
 
@@ -185,6 +186,7 @@ private func tapCallback(
     assert(Thread.isMainThread, "The event tap callback must run on the main run loop")
     if let refcon {
         let tap = Unmanaged<EventTap>.fromOpaque(refcon).takeUnretainedValue()
+        nonisolated(unsafe) let event = event
         MainActor.assumeIsolated {
             tap.handleTapCallback(type: type, event: event)
         }

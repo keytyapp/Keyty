@@ -66,6 +66,7 @@ final class ShortcutManager: NSObject {
         }
     }
 
+    @MainActor
     func configureToggleShortcutRecorder(_ recorder: RecorderControl) {
         recorder.delegate = self
         recorder.objectValue = self.toggleCapturingShortcut
@@ -146,8 +147,9 @@ private extension ShortcutManager {
 }
 
 // MARK: - SRRecorderControlDelegate
-extension ShortcutManager: RecorderControlDelegate {
+extension ShortcutManager: @MainActor RecorderControlDelegate {
     @objc(recorderControl:canRecordShortcut:)
+    @MainActor
     func recorderControl(_ control: RecorderControl, canRecord shortcut: Shortcut) -> Bool {
         if let validationMessage = self.shortcutValidator.validationMessage(for: shortcut) {
             self.shortcutValidationMessage = validationMessage
@@ -158,7 +160,7 @@ extension ShortcutManager: RecorderControlDelegate {
         return true
     }
 
-    @objc func recorderControlDidEndRecording(_ control: RecorderControl) {
+    @MainActor @objc func recorderControlDidEndRecording(_ control: RecorderControl) {
         guard let newShortcut = control.objectValue else {
             self.toggleCapturingShortcut = nil
             return

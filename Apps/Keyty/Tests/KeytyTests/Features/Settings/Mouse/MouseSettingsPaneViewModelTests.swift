@@ -19,37 +19,43 @@ final class MouseSettingsPaneViewModelTests: XCTestCase {
     private var iconSettings: PointerIconSettings!
     private var model: MouseSettingsPaneViewModel!
 
-    override func setUp() {
-        super.setUp()
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
 
-        self.ringSettings = PointerRingSettings(store: InMemoryKeyValueStore())
-        self.ringSettings.registerDefaults()
-        self.ringVisualizer = PointerRingVisualizer(settings: self.ringSettings)
-        self.ripplesSettings = PointerRipplesSettings(store: InMemoryKeyValueStore())
-        self.ripplesSettings.registerDefaults()
-        self.ripplesVisualizer = PointerRipplesVisualizer(settings: self.ripplesSettings)
+            testCase.ringSettings = PointerRingSettings(store: InMemoryKeyValueStore())
+            testCase.ringSettings.registerDefaults()
+            testCase.ringVisualizer = PointerRingVisualizer(settings: testCase.ringSettings)
+            testCase.ripplesSettings = PointerRipplesSettings(store: InMemoryKeyValueStore())
+            testCase.ripplesSettings.registerDefaults()
+            testCase.ripplesVisualizer = PointerRipplesVisualizer(settings: testCase.ripplesSettings)
 
-        self.iconSettings = PointerIconSettings(store: InMemoryKeyValueStore())
-        self.iconSettings.registerDefaults()
+            testCase.iconSettings = PointerIconSettings(store: InMemoryKeyValueStore())
+            testCase.iconSettings.registerDefaults()
 
-        self.model = MouseSettingsPaneViewModel(
-            ringVisualizer: self.ringVisualizer,
-            ringSettings: self.ringSettings,
-            ripplesVisualizer: self.ripplesVisualizer,
-            ripplesSettings: self.ripplesSettings,
-            iconSettings: self.iconSettings
-        )
+            testCase.model = MouseSettingsPaneViewModel(
+                ringVisualizer: testCase.ringVisualizer,
+                ringSettings: testCase.ringSettings,
+                ripplesVisualizer: testCase.ripplesVisualizer,
+                ripplesSettings: testCase.ripplesSettings,
+                iconSettings: testCase.iconSettings
+            )
+        }
     }
 
-    override func tearDown() {
-        self.model = nil
-        self.iconSettings = nil
-        self.ripplesVisualizer = nil
-        self.ripplesSettings = nil
-        self.ringVisualizer = nil
-        self.ringSettings = nil
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.model = nil
+            testCase.iconSettings = nil
+            testCase.ripplesVisualizer = nil
+            testCase.ripplesSettings = nil
+            testCase.ringVisualizer = nil
+            testCase.ringSettings = nil
+        }
 
-        super.tearDown()
+        try await super.tearDown()
     }
 
     func testRingSizeIsClampedToItsRangeBeforeReachingSettings() {

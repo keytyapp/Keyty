@@ -18,31 +18,37 @@ final class CaptureControllerTests: XCTestCase {
     private var eventTap: TestEventTap!
     private var controller: CaptureController!
 
-    override func setUp() {
-        super.setUp()
-        self.store = InMemoryKeyValueStore()
-        let settings = KeyboardVisualizerSettings(store: self.store)
-        settings.registerDefaults()
-        self.keyboardVisualizer = KeyboardVisualizer(settings: settings)
-        self.pointerVisualizersManager = PointerVisualizersManager()
-        self.permissionsService = TestPermissionsService()
-        self.eventTap = TestEventTap()
-        self.controller = CaptureController(
-            pointerVisualizersManager: self.pointerVisualizersManager,
-            keyboardVisualizer: self.keyboardVisualizer,
-            permissionsService: self.permissionsService,
-            eventTap: self.eventTap
-        )
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            let settings = KeyboardVisualizerSettings(store: testCase.store)
+            settings.registerDefaults()
+            testCase.keyboardVisualizer = KeyboardVisualizer(settings: settings)
+            testCase.pointerVisualizersManager = PointerVisualizersManager()
+            testCase.permissionsService = TestPermissionsService()
+            testCase.eventTap = TestEventTap()
+            testCase.controller = CaptureController(
+                pointerVisualizersManager: testCase.pointerVisualizersManager,
+                keyboardVisualizer: testCase.keyboardVisualizer,
+                permissionsService: testCase.permissionsService,
+                eventTap: testCase.eventTap
+            )
+        }
     }
 
-    override func tearDown() {
-        self.controller = nil
-        self.eventTap = nil
-        self.permissionsService = nil
-        self.pointerVisualizersManager = nil
-        self.keyboardVisualizer = nil
-        self.store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.controller = nil
+            testCase.eventTap = nil
+            testCase.permissionsService = nil
+            testCase.pointerVisualizersManager = nil
+            testCase.keyboardVisualizer = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     // MARK: - Permission Gating

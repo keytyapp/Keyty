@@ -33,7 +33,8 @@ final class ScreensService {
     }
 
     private let screensSubject: CurrentValueSubject<[Screen], Never>
-    private var observer: NSObjectProtocol?
+    // Written during main-actor initialization and only read during teardown.
+    nonisolated(unsafe) private var observer: NSObjectProtocol?
 
     init() {
         self.screensSubject = CurrentValueSubject(Self.currentScreens())

@@ -7,7 +7,7 @@
 //
 
 import AppKit
-import ApplicationServices
+@preconcurrency import ApplicationServices
 
 enum Permission: CaseIterable, Hashable {
     case accessibility

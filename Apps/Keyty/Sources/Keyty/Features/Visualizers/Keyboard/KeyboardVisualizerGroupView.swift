@@ -55,7 +55,7 @@ extension KeyboardVisualizerGroupView {
         self.items
     }
 
-    func scheduleFadeOut(onCompletion completion: @escaping () -> Void) {
+    func scheduleFadeOut(onCompletion completion: @escaping @MainActor @Sendable () -> Void) {
         self.cancelScheduledFadeOut()
         let delay = max(0.1, TimeInterval(self.settings.fadeDelay))
         let duration = max(0, TimeInterval(self.settings.fadeDuration))
@@ -71,7 +71,9 @@ extension KeyboardVisualizerGroupView {
                 context.duration = duration
                 self.animator().alphaValue = 0
             } completionHandler: {
-                completion()
+                Task { @MainActor in
+                    completion()
+                }
             }
         }
     }

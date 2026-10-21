@@ -28,7 +28,7 @@ private func selectedKeyboardInputSourceChanged(
 
 @MainActor
 final class KeyboardInputSourceObserver {
-    private let notificationRawName = kTISNotifySelectedKeyboardInputSourceChanged!
+    private let notificationName = kTISNotifySelectedKeyboardInputSourceChanged! as String
 
     var inputSourceChanged: (@MainActor (TISInputSource) -> Void)?
 
@@ -37,7 +37,7 @@ final class KeyboardInputSourceObserver {
             CFNotificationCenterGetDistributedCenter(),
             Unmanaged.passUnretained(self).toOpaque(),
             selectedKeyboardInputSourceChanged,
-            self.notificationRawName,
+            self.notificationName as CFString,
             nil,
             .deliverImmediately
         )
@@ -47,7 +47,7 @@ final class KeyboardInputSourceObserver {
         CFNotificationCenterRemoveObserver(
             CFNotificationCenterGetDistributedCenter(),
             Unmanaged.passUnretained(self).toOpaque(),
-            CFNotificationName(self.notificationRawName),
+            CFNotificationName(self.notificationName as CFString),
             nil
         )
     }

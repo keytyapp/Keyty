@@ -16,19 +16,25 @@ final class PointerRingVisualizerTests: XCTestCase {
     private var store: InMemoryKeyValueStore!
     private var settings: PointerRingSettings!
 
-    override func setUp() {
-        super.setUp()
-        self.store = InMemoryKeyValueStore()
-        self.settings = PointerRingSettings(store: self.store)
-        self.settings.registerDefaults()
-        self.visualizer = PointerRingVisualizer(settings: self.settings)
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            testCase.settings = PointerRingSettings(store: testCase.store)
+            testCase.settings.registerDefaults()
+            testCase.visualizer = PointerRingVisualizer(settings: testCase.settings)
+        }
     }
 
-    override func tearDown() {
-        self.visualizer = nil
-        self.settings = nil
-        self.store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.visualizer = nil
+            testCase.settings = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     func testIsEnabledDefaultsToDisabled() {

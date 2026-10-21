@@ -18,26 +18,32 @@ final class DisplaysSettingsPaneViewModelTests: XCTestCase {
     private var placementCoordinator: FakeKeyboardVisualizerPlacementCoordinator!
     private var model: DisplaysSettingsPaneViewModel!
 
-    override func setUp() {
-        super.setUp()
-        self.store = InMemoryKeyValueStore()
-        self.keyboardVisualizerSettings = KeyboardVisualizerSettings(store: self.store)
-        self.screensService = TestScreenService()
-        self.placementCoordinator = FakeKeyboardVisualizerPlacementCoordinator()
-        self.model = DisplaysSettingsPaneViewModel(
-            screensService: self.screensService,
-            keyboardVisualizerSettings: self.keyboardVisualizerSettings,
-            placementCoordinator: self.placementCoordinator
-        )
+    override func setUp() async throws {
+        try await super.setUp()
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.store = InMemoryKeyValueStore()
+            testCase.keyboardVisualizerSettings = KeyboardVisualizerSettings(store: testCase.store)
+            testCase.screensService = TestScreenService()
+            testCase.placementCoordinator = FakeKeyboardVisualizerPlacementCoordinator()
+            testCase.model = DisplaysSettingsPaneViewModel(
+                screensService: testCase.screensService,
+                keyboardVisualizerSettings: testCase.keyboardVisualizerSettings,
+                placementCoordinator: testCase.placementCoordinator
+            )
+        }
     }
 
-    override func tearDown() {
-        self.model = nil
-        self.placementCoordinator = nil
-        self.screensService = nil
-        self.keyboardVisualizerSettings = nil
-        self.store = nil
-        super.tearDown()
+    override func tearDown() async throws {
+        nonisolated(unsafe) let testCase = self
+        await MainActor.run {
+            testCase.model = nil
+            testCase.placementCoordinator = nil
+            testCase.screensService = nil
+            testCase.keyboardVisualizerSettings = nil
+            testCase.store = nil
+        }
+        try await super.tearDown()
     }
 
     func testToggleCustomPositionSettingFlipsLocalFlagOnly() {

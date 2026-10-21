@@ -56,12 +56,14 @@ final class KeyboardVisualizer {
             self?.clearFinalizedGroupIfNeeded(for: group)
         }
         settings.isEnabledChanges
-            .sink { [weak self] isEnabled in
-                guard let self else { return }
-                if !isEnabled {
-                    self.clearDisplayState()
+            .sink { @Sendable [weak self] isEnabled in
+                Task { @MainActor [weak self] in
+                    guard let self else { return }
+                    if !isEnabled {
+                        self.clearDisplayState()
+                    }
+                    self.updatePresentationState()
                 }
-                self.updatePresentationState()
             }
             .store(in: &self.cancellables)
     }

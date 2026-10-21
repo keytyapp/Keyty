@@ -176,6 +176,7 @@ final class ShortcutManagerTests: XCTestCase {
         XCTAssertEqual(self.globalShortcutMonitor.addedActions.first?.shortcut, ShortcutArchiver.defaultShortcut())
     }
 
+    @MainActor
     func testRecorderValidationRejectsInvalidShortcut() {
         let shortcut = Shortcut(
             code: .ansiA,

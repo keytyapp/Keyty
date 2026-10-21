@@ -12,7 +12,8 @@ import Foundation
 @MainActor
 final class DisplayTracker {
     private let tick: @MainActor () -> Void
-    private var cvLink: CVDisplayLink?
+    // Mutated on the main actor; Core Video permits stopping the link during teardown.
+    nonisolated(unsafe) private var cvLink: CVDisplayLink?
     private var generation: UInt64 = 0
 
     init(tick: @escaping @MainActor () -> Void) {

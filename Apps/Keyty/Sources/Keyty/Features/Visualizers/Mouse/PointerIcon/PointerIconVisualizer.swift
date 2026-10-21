@@ -40,8 +40,8 @@ final class PointerIconVisualizer {
             self?.syncPresentation()
         }
         self.settings.changes
-            .sink { [weak self] in
-                Task { @MainActor in
+            .sink { @Sendable [weak self] in
+                Task { @MainActor [weak self] in
                     self?.settingsDidChange()
                 }
             }

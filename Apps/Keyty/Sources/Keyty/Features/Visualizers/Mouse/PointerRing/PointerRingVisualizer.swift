@@ -38,8 +38,8 @@ public final class PointerRingVisualizer {
         self.settings = settings
         self.isEnabled = settings.isEnabled
         self.settings.changes
-            .sink { [weak self] in
-                Task { @MainActor in
+            .sink { @Sendable [weak self] in
+                Task { @MainActor [weak self] in
                     self?.settingsDidChange()
                 }
             }

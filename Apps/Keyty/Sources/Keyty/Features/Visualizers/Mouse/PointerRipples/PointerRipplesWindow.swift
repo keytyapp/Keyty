@@ -51,17 +51,22 @@ final class PointerRipplesWindow: NSWindow {
 
     func present() {
         self.orderFrontRegardless()
-        self.startCleanupTimer()
+        self.startCleanupTask()
     }
 
     func dismiss() {
         self.finishIfNeeded()
     }
 
-    private func startCleanupTimer() {
+    private func startCleanupTask() {
         self.cleanupTask?.cancel()
-        self.cleanupTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: self?.animationDuration.nanoseconds ?? 0)
+        let duration = self.animationDuration
+        self.cleanupTask = Task { @MainActor [weak self] in
+            do {
+                try await Task.sleep(nanoseconds: duration.nanoseconds)
+            } catch {
+                return
+            }
             self?.finishIfNeeded()
         }
     }

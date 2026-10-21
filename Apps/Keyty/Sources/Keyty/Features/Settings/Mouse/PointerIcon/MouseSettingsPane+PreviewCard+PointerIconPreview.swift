@@ -107,8 +107,12 @@ extension MouseSettingsPane.PreviewCard {
             self.previewTask?.cancel()
             self.visualState = .idle
             self.previewTask = Task { @MainActor in
-                try? await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
-                await self.runAnimationLoop()
+                do {
+                    try await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
+                    try await self.runAnimationLoop()
+                } catch {
+                    return
+                }
             }
         }
 
@@ -118,21 +122,20 @@ extension MouseSettingsPane.PreviewCard {
             self.visualState = .idle
         }
 
-        private func runAnimationLoop() async {
+        private func runAnimationLoop() async throws {
             while !Task.isCancelled {
                 for event in PreviewIconEvent.allCases {
                     guard !Task.isCancelled else { return }
                     self.visualState = event.visualState
 
-                    try? await Task.sleep(nanoseconds: self.duration(for: event).nanoseconds)
-                    guard !Task.isCancelled else { return }
+                    try await Task.sleep(nanoseconds: self.duration(for: event).nanoseconds)
 
                     self.visualState = .idle
-                    try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
+                    try await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
                 }
 
                 self.visualState = .idle
-                try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
+                try await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.idleDuration.nanoseconds)
             }
         }
 

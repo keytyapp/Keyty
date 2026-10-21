@@ -13,7 +13,7 @@ final class KeyboardVisualizerGroupView: NSView {
     private var items: [KeycapItem]
     private var settings: KeyboardVisualizerSettings
     private var repeatCount: Int
-    private var fadeWorkItem: DispatchWorkItem?
+    private var fadeTask: Task<Void, Never>?
 
     init(
         items: [KeycapItem],
@@ -34,6 +34,10 @@ final class KeyboardVisualizerGroupView: NSView {
     required init?(coder: NSCoder) {
         fatalError("Use init(items:) instead.")
     }
+
+    deinit {
+        self.fadeTask?.cancel()
+    }
 }
 
 extension KeyboardVisualizerGroupView {
@@ -52,11 +56,17 @@ extension KeyboardVisualizerGroupView {
     }
 
     func scheduleFadeOut(onCompletion completion: @escaping () -> Void) {
-        self.fadeWorkItem?.cancel()
+        self.cancelScheduledFadeOut()
         let delay = max(0.1, TimeInterval(self.settings.fadeDelay))
         let duration = max(0, TimeInterval(self.settings.fadeDuration))
-        let workItem = DispatchWorkItem { [weak self] in
+        self.fadeTask = Task { @MainActor [weak self] in
+            do {
+                try await Task.sleep(nanoseconds: delay.nanoseconds)
+            } catch {
+                return
+            }
             guard let self else { return }
+            self.fadeTask = nil
             NSAnimationContext.runAnimationGroup { context in
                 context.duration = duration
                 self.animator().alphaValue = 0
@@ -64,8 +74,11 @@ extension KeyboardVisualizerGroupView {
                 completion()
             }
         }
-        self.fadeWorkItem = workItem
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+    }
+
+    func cancelScheduledFadeOut() {
+        self.fadeTask?.cancel()
+        self.fadeTask = nil
     }
 }
 

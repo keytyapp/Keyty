@@ -11,7 +11,7 @@ import AppKit
 @MainActor
 final class PointerIconContentView: NSView {
     private let settings: any PointerIconSettingsProtocol
-    private var resetWorkItem: DispatchWorkItem?
+    private var resetTask: Task<Void, Never>?
     var visibilityDidChange: ((Bool) -> Void)?
     private(set) var isTransientlyVisible = false
     private(set) var displayedKind: MouseEvent.Kind = .generic
@@ -27,6 +27,10 @@ final class PointerIconContentView: NSView {
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("Use init(settings:) instead.")
+    }
+
+    deinit {
+        self.resetTask?.cancel()
     }
 
     static func windowSize(settings: any PointerIconSettingsProtocol) -> NSSize {
@@ -93,8 +97,8 @@ final class PointerIconContentView: NSView {
             return
         }
 
-        self.resetWorkItem?.cancel()
-        self.resetWorkItem = nil
+        self.resetTask?.cancel()
+        self.resetTask = nil
 
         if Self.isMouseRelease(mouseEvent.type) {
             self.scheduleReset(after: TimeInterval(self.settings.clickDisplayDuration))
@@ -150,12 +154,15 @@ final class PointerIconContentView: NSView {
             return
         }
 
-        let item = DispatchWorkItem { [weak self] in
+        self.resetTask = Task { @MainActor [weak self] in
+            do {
+                try await Task.sleep(nanoseconds: duration.nanoseconds)
+            } catch {
+                return
+            }
+            self?.resetTask = nil
             self?.resetToIdle()
-            self?.resetWorkItem = nil
         }
-        self.resetWorkItem = item
-        DispatchQueue.main.asyncAfter(deadline: .now() + duration, execute: item)
     }
 
     private func resetToIdle() {

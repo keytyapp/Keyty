@@ -86,8 +86,12 @@ extension MouseSettingsPane.PreviewCard {
             self.previewTask?.cancel()
             self.animationState = .idle(alwaysVisible: self.model.ring.alwaysVisible)
             self.previewTask = Task { @MainActor in
-                try? await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
-                await self.runAnimationLoop()
+                do {
+                    try await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
+                    try await self.runAnimationLoop()
+                } catch {
+                    return
+                }
             }
         }
 
@@ -97,20 +101,19 @@ extension MouseSettingsPane.PreviewCard {
             self.animationState = .idle(alwaysVisible: self.model.ring.alwaysVisible)
         }
 
-        private func runAnimationLoop() async {
+        private func runAnimationLoop() async throws {
             while !Task.isCancelled {
                 withAnimation(.easeOut(duration: PointerRingAnimation.pressAnimationDuration)) {
                     self.animationState = .pressed
                 }
 
-                try? await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.holdDuration.nanoseconds)
-                guard !Task.isCancelled else { return }
+                try await Task.sleep(nanoseconds: MouseSettingsPane.PreviewCard.holdDuration.nanoseconds)
 
                 withAnimation(.easeOut(duration: self.model.ring.fadeDuration)) {
                     self.animationState = .released(alwaysVisible: self.model.ring.alwaysVisible)
                 }
 
-                try? await Task.sleep(
+                try await Task.sleep(
                     nanoseconds: (self.model.ring.fadeDuration + MouseSettingsPane.PreviewCard.idleDuration).nanoseconds
                 )
             }

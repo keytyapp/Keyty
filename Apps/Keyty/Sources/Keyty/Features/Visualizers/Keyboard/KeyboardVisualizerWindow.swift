@@ -95,6 +95,7 @@ final class KeyboardVisualizerWindow: NSWindow {
     func removeGroup(_ groupView: KeyboardVisualizerGroupView) {
         guard self.groupViews.contains(where: { $0 === groupView }) else { return }
         self.groupViews.removeAll { $0 === groupView }
+        groupView.cancelScheduledFadeOut()
         groupView.removeFromSuperview()
         self.onGroupRemoved?(groupView)
         self.layoutGroups()
@@ -104,6 +105,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         let removedGroups = self.groupViews
         self.groupViews.removeAll()
         removedGroups.forEach { groupView in
+            groupView.cancelScheduledFadeOut()
             groupView.removeFromSuperview()
             self.onGroupRemoved?(groupView)
         }
@@ -126,6 +128,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         var removedGroups = false
         while self.groupViews.count > maxCount {
             let view = self.groupViews.removeFirst()
+            view.cancelScheduledFadeOut()
             view.removeFromSuperview()
             self.onGroupRemoved?(view)
             removedGroups = true

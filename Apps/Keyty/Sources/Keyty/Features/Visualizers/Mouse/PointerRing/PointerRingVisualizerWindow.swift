@@ -15,9 +15,13 @@ public final class PointerRingVisualizerWindow: NSWindow {
 
     private var ringLayer: CAShapeLayer?
     private var cancellables = Set<AnyCancellable>()
-    private var fadeOutWorkItem: DispatchWorkItem?
+    private var fadeOutTask: Task<Void, Never>?
     private var fadeOutGeneration = 0
     private var interactionState = StateMachine()
+
+    deinit {
+        self.fadeOutTask?.cancel()
+    }
 
     init(
         settings: any PointerRingSettingsProtocol & ReactiveSettings,
@@ -171,21 +175,22 @@ public final class PointerRingVisualizerWindow: NSWindow {
 
         let generation = self.fadeOutGeneration
 
-        let fadeOutWorkItem = DispatchWorkItem { [weak self] in
+        let delay = TimeInterval(self.settings.displayDuration)
+        self.fadeOutTask = Task { @MainActor [weak self] in
+            do {
+                try await Task.sleep(nanoseconds: delay.nanoseconds)
+            } catch {
+                return
+            }
             guard let self, self.fadeOutGeneration == generation else { return }
-            self.fadeOutWorkItem = nil
+            self.fadeOutTask = nil
             self.fadeOut()
         }
-        self.fadeOutWorkItem = fadeOutWorkItem
-        DispatchQueue.main.asyncAfter(
-            deadline: .now() + TimeInterval(self.settings.displayDuration),
-            execute: fadeOutWorkItem
-        )
     }
 
     private func cancelScheduledFadeOut() {
-        self.fadeOutWorkItem?.cancel()
-        self.fadeOutWorkItem = nil
+        self.fadeOutTask?.cancel()
+        self.fadeOutTask = nil
         self.fadeOutGeneration += 1
     }
 

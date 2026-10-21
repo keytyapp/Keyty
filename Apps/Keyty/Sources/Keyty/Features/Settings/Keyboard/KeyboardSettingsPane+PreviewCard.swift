@@ -6,7 +6,6 @@
 //  SPDX-License-Identifier: BSD-3-Clause
 //
 
-import Combine
 import SwiftUI
 
 extension KeyboardSettingsPane {
@@ -17,6 +16,7 @@ extension KeyboardSettingsPane {
         let identity: String
 
         @State private var activeIndex = 0
+        @State private var rotationTask: Task<Void, Never>?
 
         var body: some View {
             let groups = KeyboardSettingsPane.PreviewGroup.previewGroups(settings: self.settings)
@@ -56,17 +56,38 @@ extension KeyboardSettingsPane {
             )
             .id(self.identity)
             .animation(.easeInOut(duration: 0.2), value: activeGroup.id)
-            .onReceive(Timer.publish(every: Self.rotationInterval, on: .main, in: .common).autoconnect()) { _ in
-                self.activeIndex = KeyboardSettingsPane.PreviewGroup.nextIndex(
-                    after: self.activeIndex,
-                    groupCount: groups.count
-                )
+            .onAppear {
+                self.startRotation(groupCount: groups.count)
+            }
+            .onDisappear {
+                self.rotationTask?.cancel()
+                self.rotationTask = nil
             }
             .onChange(of: groups.map(\.id)) { groupIDs in
                 self.activeIndex = KeyboardSettingsPane.PreviewGroup.clampedIndex(
                     self.activeIndex,
                     groupCount: groupIDs.count
                 )
+                if self.rotationTask != nil {
+                    self.startRotation(groupCount: groupIDs.count)
+                }
+            }
+        }
+
+        private func startRotation(groupCount: Int) {
+            self.rotationTask?.cancel()
+            self.rotationTask = Task { @MainActor in
+                while !Task.isCancelled {
+                    do {
+                        try await Task.sleep(nanoseconds: Self.rotationInterval.nanoseconds)
+                    } catch {
+                        return
+                    }
+                    self.activeIndex = KeyboardSettingsPane.PreviewGroup.nextIndex(
+                        after: self.activeIndex,
+                        groupCount: groupCount
+                    )
+                }
             }
         }
     }

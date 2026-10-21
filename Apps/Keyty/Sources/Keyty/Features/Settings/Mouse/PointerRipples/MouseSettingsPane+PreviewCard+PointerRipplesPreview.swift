@@ -45,6 +45,7 @@ extension MouseSettingsPane.PreviewCard {
     struct PointerRipplesPreview: View {
         @ObservedObject var model: MouseSettingsPaneViewModel
         @State private var previewTask: Task<Void, Never>?
+        @State private var rippleCleanupTasks: [UUID: Task<Void, Never>] = [:]
         @State private var ripples: [RipplesPreviewRipple] = []
         @State private var cursorOffset: CGSize = .zero
 
@@ -103,32 +104,40 @@ extension MouseSettingsPane.PreviewCard {
 
         private func startAnimation() {
             self.previewTask?.cancel()
+            self.rippleCleanupTasks.values.forEach { $0.cancel() }
+            self.rippleCleanupTasks.removeAll()
             self.ripples = []
             self.cursorOffset = self.ripplesPreviewOffsets.first ?? .zero
             self.previewTask = Task { @MainActor in
-                try? await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
-                await self.runAnimationLoop()
+                do {
+                    try await Task.sleep(nanoseconds: (MouseSettingsPane.PreviewCard.idleDuration / 2).nanoseconds)
+                    try await self.runAnimationLoop()
+                } catch {
+                    return
+                }
             }
         }
 
         private func stopAnimation() {
             self.previewTask?.cancel()
             self.previewTask = nil
+            self.rippleCleanupTasks.values.forEach { $0.cancel() }
+            self.rippleCleanupTasks.removeAll()
             self.ripples = []
             self.cursorOffset = .zero
         }
 
-        private func runAnimationLoop() async {
+        private func runAnimationLoop() async throws {
             while !Task.isCancelled {
                 guard let firstOffset = self.ripplesPreviewOffsets.first else { return }
 
                 self.cursorOffset = firstOffset
                 self.spawnRipple(at: firstOffset)
-                try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.initialClickHoldDuration.nanoseconds)
+                try await Task.sleep(nanoseconds: PreviewRipplesAnimation.initialClickHoldDuration.nanoseconds)
 
                 for offset in self.ripplesPreviewOffsets.dropFirst() {
                     guard !Task.isCancelled else { return }
-                    await self.animateCursorMove(to: offset)
+                    try await self.animateCursorMove(to: offset)
                     guard !Task.isCancelled else { return }
                     self.spawnRipple(at: offset)
                 }
@@ -138,10 +147,9 @@ extension MouseSettingsPane.PreviewCard {
                     self.cursorOffset = firstOffset
                 }
 
-                try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorReturnDuration.nanoseconds)
-                guard !Task.isCancelled else { return }
+                try await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorReturnDuration.nanoseconds)
 
-                try? await Task.sleep(
+                try await Task.sleep(
                     nanoseconds: (self.model.ripples.duration + MouseSettingsPane.PreviewCard.idleDuration).nanoseconds
                 )
             }
@@ -155,8 +163,14 @@ extension MouseSettingsPane.PreviewCard {
                 self.updateRipple(id: ripple.id, visualState: .expanded)
             }
 
-            Task { @MainActor in
-                try? await Task.sleep(nanoseconds: self.model.ripples.duration.nanoseconds)
+            let duration = self.model.ripples.duration
+            self.rippleCleanupTasks[ripple.id] = Task { @MainActor in
+                do {
+                    try await Task.sleep(nanoseconds: duration.nanoseconds)
+                } catch {
+                    return
+                }
+                self.rippleCleanupTasks[ripple.id] = nil
                 self.ripples.removeAll { $0.id == ripple.id }
             }
         }
@@ -166,11 +180,11 @@ extension MouseSettingsPane.PreviewCard {
             self.ripples[index].visualState = visualState
         }
 
-        private func animateCursorMove(to offset: CGSize) async {
+        private func animateCursorMove(to offset: CGSize) async throws {
             withAnimation(.linear(duration: PreviewRipplesAnimation.cursorTravelDuration)) {
                 self.cursorOffset = offset
             }
-            try? await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorTravelDuration.nanoseconds)
+            try await Task.sleep(nanoseconds: PreviewRipplesAnimation.cursorTravelDuration.nanoseconds)
         }
     }
 }

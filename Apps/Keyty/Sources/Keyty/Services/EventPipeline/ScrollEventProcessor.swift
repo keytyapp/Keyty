@@ -18,7 +18,7 @@ final class ScrollEventProcessor {
     private let onItemProduced: (DisplayEvent) -> Void
 
     private var state = State.idle
-    private var debounceTimer: Timer?
+    private var debounceTask: Task<Void, Never>?
 
     init(onItemProduced: @escaping (DisplayEvent) -> Void) {
         self.onItemProduced = onItemProduced
@@ -33,6 +33,8 @@ final class ScrollEventProcessor {
         }
 
         if phase == .began {
+            self.debounceTask?.cancel()
+            self.debounceTask = nil
             self.state = .active(displayed: false)
             return
         }
@@ -53,11 +55,14 @@ final class ScrollEventProcessor {
             // Wheel events can be 100–200 ms apart; use a longer debounce so the
             // timer does not fire between clicks and cause flicker.
             let debounce: TimeInterval = isWheel ? 0.4 : 0.15
-            self.debounceTimer?.invalidate()
-            self.debounceTimer = Timer.scheduledTimer(withTimeInterval: debounce, repeats: false) { [weak self] _ in
-                MainActor.assumeIsolated {
-                    self?.finishScrollEvent()
+            self.debounceTask?.cancel()
+            self.debounceTask = Task { @MainActor [weak self] in
+                do {
+                    try await Task.sleep(nanoseconds: debounce.nanoseconds)
+                } catch {
+                    return
                 }
+                self?.finishScrollEvent()
             }
         }
     }
@@ -72,8 +77,8 @@ final class ScrollEventProcessor {
     }
 
     private func finishScrollEvent() {
-        self.debounceTimer?.invalidate()
-        self.debounceTimer = nil
+        self.debounceTask?.cancel()
+        self.debounceTask = nil
         self.state = .idle
         self.onItemProduced(.groupBreak)
     }

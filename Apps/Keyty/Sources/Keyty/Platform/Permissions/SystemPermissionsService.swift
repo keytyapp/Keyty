@@ -37,12 +37,14 @@ final class SystemPermissionsService {
     }
 
     private let provider: any PermissionsProvider
+    private let pollInterval: TimeInterval
     private var observers: [UUID: Observation] = [:]
     private var lastStatuses: [Permission: Permission.Status] = [:]
     private var pollTask: Task<Void, Never>?
 
-    init(provider: any PermissionsProvider) {
+    init(provider: any PermissionsProvider, pollInterval: TimeInterval = 1) {
         self.provider = provider
+        self.pollInterval = pollInterval
     }
 
     convenience init() {
@@ -110,10 +112,11 @@ private extension SystemPermissionsService {
     func startPollingIfNeeded() {
         guard self.pollTask == nil else { return }
         lastStatuses = self.currentStatuses()
+        let pollInterval = self.pollInterval
         self.pollTask = Task { @MainActor [weak self] in
             while !Task.isCancelled {
                 do {
-                    try await Task.sleep(nanoseconds: 1_000_000_000)
+                    try await Task.sleep(nanoseconds: pollInterval.nanoseconds)
                 } catch {
                     return
                 }

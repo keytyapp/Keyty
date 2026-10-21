@@ -11,6 +11,8 @@ import XCTest
 
 @MainActor
 final class SystemPermissionsServiceTests: XCTestCase {
+    private let testPollInterval: TimeInterval = 0.01
+
     func testStatusIsNotGrantedWhenSystemDeniesPermission() {
         let provider = TestPermissionsProvider()
         let service = SystemPermissionsService(provider: provider)
@@ -83,20 +85,20 @@ final class SystemPermissionsServiceTests: XCTestCase {
 
     func testObserverIsNotifiedWhenSystemStatusChanges() {
         let provider = TestPermissionsProvider()
-        let service = SystemPermissionsService(provider: provider)
+        let service = SystemPermissionsService(provider: provider, pollInterval: self.testPollInterval)
 
         let notified = expectation(description: "observer notified")
         let token = service.observeChanges { notified.fulfill() }
 
         provider.grantedPermissions = [.accessibility]
 
-        wait(for: [notified], timeout: 5)
+        wait(for: [notified], timeout: 1)
         XCTAssertNotNil(token)
     }
 
     func testObserverIsNotNotifiedAfterTokenIsReleased() {
         let provider = TestPermissionsProvider()
-        let service = SystemPermissionsService(provider: provider)
+        let service = SystemPermissionsService(provider: provider, pollInterval: self.testPollInterval)
 
         var callCount = 0
         var token: PermissionObservationToken? = service.observeChanges { callCount += 1 }
@@ -105,9 +107,9 @@ final class SystemPermissionsServiceTests: XCTestCase {
 
         provider.grantedPermissions = [.accessibility]
 
-        let settled = expectation(description: "polling window elapsed")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) { settled.fulfill() }
-        wait(for: [settled], timeout: 5)
+        let unexpectedNotification = expectation(description: "observer is not notified")
+        unexpectedNotification.isInverted = true
+        wait(for: [unexpectedNotification], timeout: self.testPollInterval * 3)
 
         XCTAssertEqual(callCount, 0)
     }

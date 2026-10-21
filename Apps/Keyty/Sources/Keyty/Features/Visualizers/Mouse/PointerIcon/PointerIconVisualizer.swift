@@ -48,10 +48,6 @@ final class PointerIconVisualizer {
             .store(in: &self.cancellables)
         self.presentationStateDidChange()
     }
-
-    deinit {
-        self.tracker?.stop()
-    }
 }
 
 extension PointerIconVisualizer {

@@ -46,12 +46,6 @@ public final class PointerRingVisualizer {
             .store(in: &self.cancellables)
         self.presentationStateDidChange()
     }
-
-    deinit {
-        self.tracker?.stop()
-        self.tracker = nil
-        self.visualizerWindow = nil
-    }
 }
 
 // MARK: - PointerVisualizer

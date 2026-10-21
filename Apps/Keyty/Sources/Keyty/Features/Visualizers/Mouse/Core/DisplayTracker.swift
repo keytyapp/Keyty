@@ -9,27 +9,47 @@
 import CoreVideo
 import Foundation
 
+@MainActor
 final class DisplayTracker {
-    private let tick: () -> Void
+    private let tick: @MainActor () -> Void
     private var cvLink: CVDisplayLink?
+    private var generation: UInt64 = 0
 
-    init(tick: @escaping () -> Void) {
+    init(tick: @escaping @MainActor () -> Void) {
         self.tick = tick
     }
 
     func start() {
-        CVDisplayLinkCreateWithActiveCGDisplays(&cvLink)
-        guard let link = cvLink else { return }
+        guard self.cvLink == nil else { return }
+
+        var link: CVDisplayLink?
+        CVDisplayLinkCreateWithActiveCGDisplays(&link)
+        guard let link else { return }
+
+        self.generation &+= 1
+        let generation = self.generation
         CVDisplayLinkSetOutputHandler(link) { [weak self] _, _, _, _, _ in
-            DispatchQueue.main.async { self?.tick() }
+            Task { @MainActor [weak self] in
+                guard let self, self.generation == generation else { return }
+                self.tick()
+            }
             return kCVReturnSuccess
         }
+        self.cvLink = link
         CVDisplayLinkStart(link)
     }
 
     func stop() {
-        guard let link = cvLink else { return }
-        CVDisplayLinkStop(link)
-        cvLink = nil
+        self.generation &+= 1
+        if let link = self.cvLink {
+            CVDisplayLinkStop(link)
+            self.cvLink = nil
+        }
+    }
+
+    deinit {
+        if let link = self.cvLink {
+            CVDisplayLinkStop(link)
+        }
     }
 }

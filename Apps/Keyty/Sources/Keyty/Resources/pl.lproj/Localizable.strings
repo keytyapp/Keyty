@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Maksymalna liczba widocznych klawiszy w stosie.";
 "keyboard_visualizer.size_label" = "Rozmiar";
 "keyboard_visualizer.size_subtitle" = "Ogólna skala renderowanych klawiszy.";
+"keyboard_visualizer.opacity_label" = "Krycie";
+"keyboard_visualizer.opacity_subtitle" = "Poziom przezroczystości nakładki klawiatury.";
 "keyboard_visualizer.style_label" = "Styl";
 "keyboard_visualizer.style_subtitle" = "Ogólna konstrukcja i wykończenie powierzchni klawiszy.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

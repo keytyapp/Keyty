@@ -44,6 +44,8 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
 
     var screenID: CGDirectDisplayID { get set }
     var scale: CGFloat { get set }
+    /// Overall opacity of the keyboard overlay, clamped to `minOpacity...maxOpacity`.
+    var opacity: CGFloat { get set }
     var windowPadding: CGFloat { get set }
     var style: KeycapStyle { get set }
     var onlyShowModifiedKeystrokes: Bool { get set }
@@ -60,10 +62,13 @@ protocol KeyboardVisualizerSettingsProtocol: AnyObject {
 final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasSettingsStore, PlacementReactiveSettings {
     static let minWindowPadding: CGFloat = Spacing.none
     static let maxWindowPadding: CGFloat = Spacing.grid(40)
+    static let minOpacity: CGFloat = 0.1
+    static let maxOpacity: CGFloat = 1.0
 
     let store: KeyValueStore
     private let isEnabledChangesSubject = PassthroughSubject<Bool, Never>()
     private let placementChangesSubject = PassthroughSubject<Void, Never>()
+    private let opacityChangesSubject = PassthroughSubject<CGFloat, Never>()
 
     var isEnabledChanges: AnyPublisher<Bool, Never> {
         self.isEnabledChangesSubject.eraseToAnyPublisher()
@@ -71,6 +76,11 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
 
     var placementChanges: AnyPublisher<Void, Never> {
         self.placementChangesSubject.eraseToAnyPublisher()
+    }
+
+    /// Emits the effective overlay opacity whenever it changes.
+    var opacityChanges: AnyPublisher<CGFloat, Never> {
+        self.opacityChangesSubject.eraseToAnyPublisher()
     }
 
     init(store: KeyValueStore = UserDefaultsStore()) {
@@ -85,6 +95,7 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         self.resetStoredSettingsToDefaults()
         self.isEnabledChangesSubject.send(self.isEnabled)
         self.placementChangesSubject.send(())
+        self.opacityChangesSubject.send(self.opacity)
     }
 
     func applyCustomPlacement(screenID: CGDirectDisplayID, normalizedX: CGFloat, normalizedY: CGFloat) {
@@ -330,6 +341,25 @@ final class KeyboardVisualizerSettings: KeyboardVisualizerSettingsProtocol, HasS
         set {
             self.storedScale = min(max(newValue, 0.5), 2.0)
             self.placementChangesSubject.send(())
+        }
+    }
+
+    /// Overall opacity of the keyboard overlay, clamped to `minOpacity...maxOpacity` (1.0 == 100%).
+    @Stored(.cgFloat(
+        KeyboardVisualizerSettingsKeys.opacity,
+        default: KeyboardVisualizerSettings.maxOpacity,
+        clamp: KeyboardVisualizerSettings.minOpacity...KeyboardVisualizerSettings.maxOpacity,
+        fallback: { value, defaultValue in value > 0 ? value : defaultValue }
+    ))
+    private var storedOpacity: CGFloat
+
+    var opacity: CGFloat {
+        get { self.storedOpacity }
+        set {
+            let oldValue = self.storedOpacity
+            self.storedOpacity = newValue
+            guard self.storedOpacity != oldValue else { return }
+            self.opacityChangesSubject.send(self.storedOpacity)
         }
     }
 

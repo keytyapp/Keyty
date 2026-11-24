@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Nombre maximal de touches visibles dans la pile.";
 "keyboard_visualizer.size_label" = "Taille";
 "keyboard_visualizer.size_subtitle" = "Échelle générale des touches affichées.";
+"keyboard_visualizer.opacity_label" = "Opacité";
+"keyboard_visualizer.opacity_subtitle" = "Niveau de transparence de la superposition du clavier.";
 "keyboard_visualizer.style_label" = "Style";
 "keyboard_visualizer.style_subtitle" = "Forme générale et traitement de surface des touches.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

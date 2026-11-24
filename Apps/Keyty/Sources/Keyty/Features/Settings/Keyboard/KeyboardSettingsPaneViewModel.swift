@@ -20,6 +20,8 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
     let maxCountRange: ClosedRange<Int> = 1...12
     let scaleRange: ClosedRange<Double> = 0.5...2.0
     let scaleStep: Double = 0.1
+    let opacityRange: ClosedRange<Double> = Double(KeyboardVisualizerSettings.minOpacity)...Double(KeyboardVisualizerSettings.maxOpacity)
+    let opacityStep: Double = 0.05
 
     @Published var isEnabled: Bool {
         didSet { self.settings.isEnabled = self.isEnabled }
@@ -117,6 +119,10 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         didSet { self.settings.scale = CGFloat(self.scale) }
     }
 
+    @Published var opacity: Double {
+        didSet { self.settings.opacity = CGFloat(self.opacity) }
+    }
+
     @Published var onlyShowModifiedKeystrokes: Bool {
         didSet { self.settings.onlyShowModifiedKeystrokes = self.onlyShowModifiedKeystrokes }
     }
@@ -157,6 +163,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         self.groupBackgroundTheme = settings.groupBackgroundTheme
         self.style = settings.style
         self.scale = Double(settings.scale)
+        self.opacity = Double(settings.opacity)
         self.onlyShowModifiedKeystrokes = settings.onlyShowModifiedKeystrokes
         self.collapseRepeatedGroups = settings.collapseRepeatedGroups
         self.showSpecialKeys = settings.showSpecialKeys
@@ -215,6 +222,7 @@ final class KeyboardSettingsPaneViewModel: ObservableObject {
         settings.fadeDelay = self.fadeDelay
         settings.fadeDuration = self.fadeDuration
         settings.scale = Self.previewScale
+        settings.opacity = CGFloat(self.opacity)
         settings.windowPadding = self.settings.windowPadding
         settings.onlyShowModifiedKeystrokes = self.onlyShowModifiedKeystrokes
         settings.collapseRepeatedGroups = self.collapseRepeatedGroups

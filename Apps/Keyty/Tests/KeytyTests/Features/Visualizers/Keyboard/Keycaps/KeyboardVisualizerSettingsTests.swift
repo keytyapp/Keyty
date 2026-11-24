@@ -38,6 +38,7 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         XCTAssertEqual(self.store.bool(forKey: KeyboardVisualizerSettingsKeys.usesCustomThemePalette), false)
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.style), KeycapStyle.apple.rawValue)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.scale), 1.0, accuracy: 0.0001)
+        XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.opacity), 1.0, accuracy: 0.0001)
         XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.placementMode), KeyboardVisualizerSettings.PlacementMode.anchored.rawValue)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedX), 0.5, accuracy: 0.0001)
         XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.customPositionNormalizedY), 0.5, accuracy: 0.0001)
@@ -114,6 +115,38 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
         // Unset (zero) falls back to the 100% default.
         self.store.set(0.0, forKey: KeyboardVisualizerSettingsKeys.scale)
         XCTAssertEqual(self.settings.scale, 1.0, accuracy: 0.0001)
+    }
+
+    func testPersistsOpacity() {
+        self.settings.opacity = 0.6
+
+        XCTAssertEqual(self.settings.opacity, 0.6, accuracy: 0.0001)
+        XCTAssertEqual(self.store.double(forKey: KeyboardVisualizerSettingsKeys.opacity), 0.6, accuracy: 0.0001)
+    }
+
+    func testOpacityClampsAndFallsBack() {
+        self.settings.opacity = 1.5
+        XCTAssertEqual(self.settings.opacity, KeyboardVisualizerSettings.maxOpacity, accuracy: 0.0001)
+
+        self.settings.opacity = 0
+        XCTAssertEqual(self.settings.opacity, KeyboardVisualizerSettings.minOpacity, accuracy: 0.0001)
+
+        // Unset (zero) falls back to the 100% default.
+        self.store.set(0.0, forKey: KeyboardVisualizerSettingsKeys.opacity)
+        XCTAssertEqual(self.settings.opacity, 1.0, accuracy: 0.0001)
+    }
+
+    func testOpacityChangesPublishOnlyDistinctValues() {
+        self.settings.registerDefaults()
+        var received: [CGFloat] = []
+        let cancellable = self.settings.opacityChanges.sink { received.append($0) }
+
+        self.settings.opacity = 0.5
+        self.settings.opacity = 0.5
+        self.settings.resetToDefaults()
+
+        XCTAssertEqual(received, [0.5, 1.0])
+        cancellable.cancel()
     }
 
     func testPersistsWindowPadding() {

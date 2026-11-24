@@ -41,6 +41,7 @@ extension KeyboardSettingsPane {
                             width: preferredSize.width,
                             height: preferredSize.height
                         )
+                        .opacity(Double(self.settings.opacity))
                         .id(activeGroup.id)
                     Spacer(minLength: 0)
                 }

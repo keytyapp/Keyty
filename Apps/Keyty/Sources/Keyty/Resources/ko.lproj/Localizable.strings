@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "스택에 표시할 키캡의 최대 개수입니다.";
 "keyboard_visualizer.size_label" = "크기";
 "keyboard_visualizer.size_subtitle" = "렌더링되는 키캡의 전체 크기 비율입니다.";
+"keyboard_visualizer.opacity_label" = "불투명도";
+"keyboard_visualizer.opacity_subtitle" = "키보드 오버레이의 투명도입니다.";
 "keyboard_visualizer.style_label" = "스타일";
 "keyboard_visualizer.style_subtitle" = "키캡의 전반적인 구성과 표면 표현입니다.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

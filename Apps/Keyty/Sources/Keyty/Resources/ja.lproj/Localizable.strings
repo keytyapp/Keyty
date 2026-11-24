@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "同時に表示するキーの最大数です。";
 "keyboard_visualizer.size_label" = "サイズ";
 "keyboard_visualizer.size_subtitle" = "表示するキー全体の大きさです。";
+"keyboard_visualizer.opacity_label" = "不透明度";
+"keyboard_visualizer.opacity_subtitle" = "キーボードオーバーレイの透明度です。";
 "keyboard_visualizer.style_label" = "スタイル";
 "keyboard_visualizer.style_subtitle" = "キーの全体的な形状と表面の仕上げです。";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

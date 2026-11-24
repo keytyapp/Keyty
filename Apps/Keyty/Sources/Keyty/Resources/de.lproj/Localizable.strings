@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Maximale Anzahl sichtbarer Tastenkappen im Stapel.";
 "keyboard_visualizer.size_label" = "Größe";
 "keyboard_visualizer.size_subtitle" = "Gesamtskalierung der dargestellten Tastenkappen.";
+"keyboard_visualizer.opacity_label" = "Deckkraft";
+"keyboard_visualizer.opacity_subtitle" = "Wie transparent die Tastatur-Einblendung erscheint.";
 "keyboard_visualizer.style_label" = "Stil";
 "keyboard_visualizer.style_subtitle" = "Allgemeine Form und Oberflächenbehandlung der Tastenkappen.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

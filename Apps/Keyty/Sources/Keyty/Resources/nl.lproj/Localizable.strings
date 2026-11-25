@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Maximaal aantal zichtbare toetsen in de stapel.";
 "keyboard_visualizer.size_label" = "Grootte";
 "keyboard_visualizer.size_subtitle" = "Algemene schaal van de weergegeven toetsen.";
+"keyboard_visualizer.opacity_label" = "Dekking";
+"keyboard_visualizer.opacity_subtitle" = "Hoe transparant de toetsenbordoverlay wordt weergegeven.";
 "keyboard_visualizer.style_label" = "Stijl";
 "keyboard_visualizer.style_subtitle" = "Algemene toetsconstructie en oppervlaktebehandeling.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

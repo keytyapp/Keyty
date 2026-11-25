@@ -37,6 +37,7 @@ enum KeyboardVisualizerSettingsKeys {
     static let customVerticalAlignment = "keyboard_visualizer.customVerticalAlignment"
     static let screenID     = "keyboard_visualizer.screenID"
     static let scale        = "keyboard_visualizer.scale"
+    static let opacity      = "keyboard_visualizer.opacity"
     static let windowPadding = "keyboard_visualizer.windowPadding"
     static let style        = "keyboard_visualizer.style"
     static let onlyShowModifiedKeystrokes = "keyboard_visualizer.onlyShowModifiedKeystrokes"

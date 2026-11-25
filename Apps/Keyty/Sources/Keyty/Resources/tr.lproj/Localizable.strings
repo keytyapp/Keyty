@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Yığındaki görünür tuş başlıklarının en fazla sayısı.";
 "keyboard_visualizer.size_label" = "Boyut";
 "keyboard_visualizer.size_subtitle" = "Oluşturulan tuş başlıklarının genel ölçeği.";
+"keyboard_visualizer.opacity_label" = "Opaklık";
+"keyboard_visualizer.opacity_subtitle" = "Klavye katmanının ne kadar saydam görüneceği.";
 "keyboard_visualizer.style_label" = "Stil";
 "keyboard_visualizer.style_subtitle" = "Tuş başlıklarının genel yapısı ve yüzey işlemesi.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Numero massimo di tasti visibili nella pila.";
 "keyboard_visualizer.size_label" = "Dimensione";
 "keyboard_visualizer.size_subtitle" = "Scala complessiva dei tasti renderizzati.";
+"keyboard_visualizer.opacity_label" = "Opacità";
+"keyboard_visualizer.opacity_subtitle" = "Livello di trasparenza della sovrapposizione della tastiera.";
 "keyboard_visualizer.style_label" = "Stile";
 "keyboard_visualizer.style_subtitle" = "Costruzione e trattamento della superficie dei tasti.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

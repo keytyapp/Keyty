@@ -57,6 +57,18 @@ struct KeyboardSettingsPane: View {
                     )
                 }
                 .disabled(!self.model.isEnabled)
+
+                Divider()
+
+                SettingsControlRow(title: L10n.KeyboardVisualizer.opacityLabel, subtitle: L10n.KeyboardVisualizer.opacitySubtitle) {
+                    SettingsSliderControl(
+                        value: self.$model.opacity,
+                        range: self.model.opacityRange,
+                        step: self.model.opacityStep,
+                        accessibilityLabel: L10n.KeyboardVisualizer.opacityLabel
+                    )
+                }
+                .disabled(!self.model.isEnabled)
             }
 
             if self.model.usesCustomThemePalette {

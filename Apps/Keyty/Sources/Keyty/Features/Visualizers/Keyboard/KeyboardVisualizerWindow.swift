@@ -34,7 +34,7 @@ final class KeyboardVisualizerWindow: NSWindow {
         self.level = .screenSaver
         self.isOpaque = false
         self.backgroundColor = .clear
-        self.alphaValue = 1
+        self.alphaValue = settings.opacity
         self.ignoresMouseEvents = true
         self.collectionBehavior = .canJoinAllSpaces
         self.contentView = self.rootView
@@ -46,6 +46,12 @@ final class KeyboardVisualizerWindow: NSWindow {
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in
                 self?.repositionToAnchor()
+            }
+            .store(in: &self.cancellables)
+        self.settings.opacityChanges
+            .receive(on: RunLoop.main)
+            .sink { [weak self] opacity in
+                self?.alphaValue = opacity
             }
             .store(in: &self.cancellables)
         self.screensService.screensDidChange

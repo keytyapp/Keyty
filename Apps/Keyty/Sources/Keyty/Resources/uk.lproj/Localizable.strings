@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "Максимальна кількість видимих клавіш у стосі.";
 "keyboard_visualizer.size_label" = "Розмір";
 "keyboard_visualizer.size_subtitle" = "Загальний масштаб відображуваних клавіш.";
+"keyboard_visualizer.opacity_label" = "Непрозорість";
+"keyboard_visualizer.opacity_subtitle" = "Наскільки прозорим буде накладання клавіатури.";
 "keyboard_visualizer.style_label" = "Стиль";
 "keyboard_visualizer.style_subtitle" = "Загальний вигляд і оздоблення клавіш.";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

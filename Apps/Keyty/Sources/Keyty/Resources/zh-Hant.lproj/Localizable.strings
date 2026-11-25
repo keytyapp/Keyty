@@ -116,6 +116,8 @@
 "keyboard_visualizer.max_count_subtitle" = "堆疊中可見按鍵的最大數量。";
 "keyboard_visualizer.size_label" = "大小";
 "keyboard_visualizer.size_subtitle" = "所渲染按鍵的整體縮放比例。";
+"keyboard_visualizer.opacity_label" = "不透明度";
+"keyboard_visualizer.opacity_subtitle" = "鍵盤疊加層的透明程度。";
 "keyboard_visualizer.style_label" = "樣式";
 "keyboard_visualizer.style_subtitle" = "按鍵的整體結構和表面效果。";
 "keyboard_visualizer.style.apple" = "Apple Magic Keyboard";

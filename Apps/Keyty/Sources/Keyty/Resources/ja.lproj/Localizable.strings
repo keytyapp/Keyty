@@ -169,7 +169,8 @@
 "keyboard_visualizer.theme.blue" = "ブルー";
 "keyboard_visualizer.theme.green" = "グリーン";
 "keyboard_visualizer.theme.white" = "ホワイト";
-"keyboard_visualizer.theme.dark" = "ダーク";
+"keyboard_visualizer.theme.black" = "ブラック";
+"keyboard_visualizer.theme.gray" = "グレー";
 "keyboard_visualizer.theme.red" = "レッド";
 "keyboard_visualizer.theme.indigo" = "インディゴ";
 "keyboard_visualizer.theme.rose" = "ローズ";

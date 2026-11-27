@@ -305,11 +305,11 @@ final class KeyboardVisualizerSettingsTests: XCTestCase {
     }
 
     func testPersistsTheme() {
-        self.settings.theme = .rose
+        self.settings.theme = .gray
 
-        XCTAssertEqual(self.settings.theme, .rose)
-        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.theme), KeyboardVisualizerTheme.rose.rawValue)
-        XCTAssertEqual(self.settings.themeTokens.textColor, KeyboardVisualizerTheme.rose.tokens.textColor)
+        XCTAssertEqual(self.settings.theme, .gray)
+        XCTAssertEqual(self.store.integer(forKey: KeyboardVisualizerSettingsKeys.theme), 12)
+        XCTAssertEqual(self.settings.themeTokens.textColor, KeyboardVisualizerTheme.gray.tokens.textColor)
     }
 
     func testPersistsShowMediaKeyButtons() {

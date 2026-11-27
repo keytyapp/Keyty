@@ -169,7 +169,8 @@
 "keyboard_visualizer.theme.blue" = "Blauw";
 "keyboard_visualizer.theme.green" = "Groen";
 "keyboard_visualizer.theme.white" = "Wit";
-"keyboard_visualizer.theme.dark" = "Donker";
+"keyboard_visualizer.theme.black" = "Zwart";
+"keyboard_visualizer.theme.gray" = "Grijs";
 "keyboard_visualizer.theme.red" = "Rood";
 "keyboard_visualizer.theme.indigo" = "Indigo";
 "keyboard_visualizer.theme.rose" = "Roos";

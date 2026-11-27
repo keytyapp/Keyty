@@ -169,7 +169,8 @@
 "keyboard_visualizer.theme.blue" = "Mavi";
 "keyboard_visualizer.theme.green" = "Yeşil";
 "keyboard_visualizer.theme.white" = "Beyaz";
-"keyboard_visualizer.theme.dark" = "Koyu";
+"keyboard_visualizer.theme.black" = "Siyah";
+"keyboard_visualizer.theme.gray" = "Gri";
 "keyboard_visualizer.theme.red" = "Kırmızı";
 "keyboard_visualizer.theme.indigo" = "İndigo";
 "keyboard_visualizer.theme.rose" = "Gül";

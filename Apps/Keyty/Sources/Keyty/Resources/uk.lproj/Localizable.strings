@@ -170,6 +170,7 @@
 "keyboard_visualizer.theme.green" = "Зелена";
 "keyboard_visualizer.theme.white" = "Біла";
 "keyboard_visualizer.theme.dark" = "Темна";
+"keyboard_visualizer.theme.gray" = "Сіра";
 "keyboard_visualizer.theme.red" = "Червона";
 "keyboard_visualizer.theme.indigo" = "Індиго";
 "keyboard_visualizer.theme.rose" = "Трояндова";

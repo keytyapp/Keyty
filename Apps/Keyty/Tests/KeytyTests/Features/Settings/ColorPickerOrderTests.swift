@@ -19,6 +19,10 @@ final class ColorPickerOrderTests: XCTestCase {
         )
     }
 
+    func testNeutralThemesIncludeGray() {
+        XCTAssertEqual(KeyboardVisualizerTheme.pickerSections.first, [.black, .gray, .white])
+    }
+
     func testM0116ThemePickerOnlyShowsWhite() {
         XCTAssertEqual(
             KeyboardVisualizerTheme.pickerSections(for: KeycapStyle.m0116.allowedThemes),

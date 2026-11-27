@@ -170,6 +170,7 @@
 "keyboard_visualizer.theme.green" = "Vert";
 "keyboard_visualizer.theme.white" = "Blanc";
 "keyboard_visualizer.theme.dark" = "Sombre";
+"keyboard_visualizer.theme.gray" = "Gris";
 "keyboard_visualizer.theme.red" = "Rouge";
 "keyboard_visualizer.theme.indigo" = "Indigo";
 "keyboard_visualizer.theme.rose" = "Rose";

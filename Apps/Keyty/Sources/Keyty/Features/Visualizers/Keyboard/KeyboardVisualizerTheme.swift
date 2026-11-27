@@ -23,6 +23,7 @@ enum KeyboardVisualizerTheme: Int, CaseIterable {
     case blue = 9
     case purple = 10
     case pink = 11
+    case gray = 12
 }
 
 // MARK: - Titles
@@ -40,6 +41,7 @@ extension KeyboardVisualizerTheme {
         switch self {
         case .black: L10n.KeyboardVisualizer.Theme.dark
         case .white: L10n.KeyboardVisualizer.Theme.white
+        case .gray: L10n.KeyboardVisualizer.Theme.gray
         case .citrus: L10n.KeyboardVisualizer.Theme.citrus
         case .green: L10n.KeyboardVisualizer.Theme.green
         case .blue: L10n.KeyboardVisualizer.Theme.blue
@@ -93,6 +95,28 @@ extension KeyboardVisualizerTheme {
                 surfaceShadowColor: NSColor(white: 0.88, alpha: 1),
                 surfaceBorderColor: NSColor(white: 0.78, alpha: 1),
                 recessColor: NSColor(white: 0.86, alpha: 1),
+                undersideEdgeColor: nil,
+                undersideCenterColor: nil
+            )
+        case .gray:
+            let textColor = NSColor(white: 0.12, alpha: 1)
+            let groupBackgroundColor = NSColor(white: 0.38, alpha: 0.94)
+            let swatchColor = NSColor(white: 0.66, alpha: 1)
+            let badge = Self.badgeTokens(swatchColor: swatchColor, textColor: textColor)
+            return KeycapThemeTokens(
+                swatchColor: swatchColor,
+                textColor: textColor,
+                groupBackgroundColor: groupBackgroundColor,
+                groupStrokeColor: NSColor(white: 0.55, alpha: 0.7),
+                badgeFillColor: badge.fill,
+                badgeStrokeColor: badge.stroke,
+                badgeHighlightColor: badge.highlight,
+                badgeTextColor: badge.text,
+                surfaceHighlightColor: NSColor(white: 0.75, alpha: 1),
+                surfaceBaseColor: NSColor(white: 0.66, alpha: 1),
+                surfaceShadowColor: NSColor(white: 0.56, alpha: 1),
+                surfaceBorderColor: NSColor(white: 0.45, alpha: 1),
+                recessColor: NSColor(white: 0.48, alpha: 1),
                 undersideEdgeColor: nil,
                 undersideCenterColor: nil
             )
@@ -400,7 +424,7 @@ extension KeyboardVisualizerTheme {
 // MARK: - Picker Sections
 extension KeyboardVisualizerTheme {
     static let pickerSections: [[KeyboardVisualizerTheme]] = [
-        [.black, .white],
+        [.black, .gray, .white],
         [.citrus, .indigo, .rose],
         [.red, .orange, .yellow, .green, .blue, .purple, .pink],
     ]

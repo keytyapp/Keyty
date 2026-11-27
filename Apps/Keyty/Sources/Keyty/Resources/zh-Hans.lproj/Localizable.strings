@@ -170,6 +170,7 @@
 "keyboard_visualizer.theme.green" = "绿色";
 "keyboard_visualizer.theme.white" = "白色";
 "keyboard_visualizer.theme.dark" = "深色";
+"keyboard_visualizer.theme.gray" = "灰色";
 "keyboard_visualizer.theme.red" = "红色";
 "keyboard_visualizer.theme.indigo" = "靛蓝色";
 "keyboard_visualizer.theme.rose" = "玫瑰色";

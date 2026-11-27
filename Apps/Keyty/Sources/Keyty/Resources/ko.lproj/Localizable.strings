@@ -169,7 +169,7 @@
 "keyboard_visualizer.theme.blue" = "파랑";
 "keyboard_visualizer.theme.green" = "초록";
 "keyboard_visualizer.theme.white" = "흰색";
-"keyboard_visualizer.theme.dark" = "어두움";
+"keyboard_visualizer.theme.black" = "검정";
 "keyboard_visualizer.theme.gray" = "회색";
 "keyboard_visualizer.theme.red" = "빨강";
 "keyboard_visualizer.theme.indigo" = "인디고";

@@ -39,7 +39,7 @@ extension KeyboardVisualizerTheme {
 
     var title: String {
         switch self {
-        case .black: L10n.KeyboardVisualizer.Theme.dark
+        case .black: L10n.KeyboardVisualizer.Theme.black
         case .white: L10n.KeyboardVisualizer.Theme.white
         case .gray: L10n.KeyboardVisualizer.Theme.gray
         case .citrus: L10n.KeyboardVisualizer.Theme.citrus
